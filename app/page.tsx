@@ -3,11 +3,109 @@
 import React from 'react'
 import Image from 'next/image'
 import Calendar from '@/app/_components/Calendar'
+// import TherapistProfileCard, { TherapistProfile } from '@/app/_components/About'
+import TherapistProfileCard from '@/app/_components/About'
+import { Appointment } from '@/app/_components/Calendar/Calendar'
 // import Header from '@/app/_components/Header'
+import * as Helper from '@/app/_components/Calendar/index.helper'
+import CalendarSlider from '@/app/_components/Calendar/Slider'
+import { GoogleMapComponent } from '@/app/_components/Maps'
+import {
+  ADRESS_LOCATION,
+  ADRESS_NAME,
+  EMAIL,
+  NAME,
+  OPENING_HOURS_WEEKENDS,
+  OPENING_HOURS_WORKDAYS,
+  PHONE,
+} from '@/config'
+
+const locationCenter = {
+  lat: 48.85092799722892,
+  lng: 17.127008930962827,
+}
+
+// var mapOptions = {
+//   center: latLng,
+//   zoom: 17,
+//   scrollwheel: false
+// };
+
+const API_KEY = 'AIzaSyCyonggnXGI9qLlJQuVVvovBh6i-K6-NnU'
 
 export default function Page() {
+  // Fixní datum pro demo - 29.3.2025
+  const fixedDate = new Date(2025, 2, 29)
+
+  const [selectedAppointment, setSelectedAppointment] = React.useState<Appointment | null>(null)
+  const [selectedMassage, setSelectedMassage] = React.useState<string | null>(null)
+
+  // Vytvoříme termíny pro 14 dní
+  const appointments: Appointment[] = []
+
+  for (let i = 0; i < 14; i++) {
+    const date = new Date(2025, 2, 29)
+    date.setDate(date.getDate() + i)
+
+    // Víkendy mají více termínů
+    const isWeekend = date.getDay() === 0 || date.getDay() === 6
+    const startHour = isWeekend ? 9 : 12
+    const endHour = isWeekend ? 18 : 19
+
+    // Vytvoříme termíny pro daný den
+    for (let hour = startHour; hour < endHour; hour++) {
+      for (let minute of [0, 30]) {
+        // Náhodně označíme některé termíny jako nedostupné (častěji v blízké budoucnosti)
+        const daysFuture = i + 1
+        const chanceOfAvailability = Math.min(0.3 + daysFuture * 0.05, 0.8)
+        const isAvailable = Math.random() < chanceOfAvailability
+
+        appointments.push({
+          value: new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, minute),
+          status: isAvailable ? 'available' : 'unavailable',
+        })
+      }
+    }
+  }
+
+  // Funkce pro výběr termínu
+  const handleAppointmentSelect = (appointment: Appointment) => {
+    setSelectedAppointment(appointment)
+    // Automaticky scrollujeme dolů k přehledu
+    setTimeout(() => {
+      document.getElementById('booking-summary')?.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
+  }
+
+  // Funkce pro výběr typu masáže
+  const handleMassageSelect = (massageId: string) => {
+    setSelectedMassage(massageId)
+    // Pokud ještě není vybrán termín, scrollujeme ke kalendáři
+    if (!selectedAppointment) {
+      setTimeout(() => {
+        document.getElementById('calendar-section')?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
+    }
+  }
+
+  // Získáme vybraný typ masáže
+  // const selectedMassageObj = therapist.massageTypes.find((m) => m.id === selectedMassage)
+
+  // Funkce pro dokončení rezervace
+  const handleBooking = () => {
+    if (!selectedAppointment || !selectedMassage) return
+
+    // alert(
+    //   `Rezervace byla úspěšně vytvořena!\n\nTermín: ${Helper.formatDate(
+    //     selectedAppointment.value
+    //   )} v ${Helper.formatTime(selectedAppointment.value)}\nTyp masáže: ${selectedMassageObj?.name}\nCena: ${
+    //     selectedMassageObj?.price
+    //   } Kč`
+    // )
+  }
+
   return (
-    <>
+    <div className='bg-gray-50 min-h-screen'>
       <Navigation />
 
       <section
@@ -66,10 +164,100 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
-        <Calendar />
+      <section className='container mx-auto py-8 px-4'>
+        <div className='lg:grid lg:grid-cols-5 gap-8'>
+          {/* Levý sloupec - Kalendář a rezervace */}
+          <div className='lg:col-span-3' id='calendar-section'>
+            <CalendarSlider
+              appointments={appointments}
+              currentDate={fixedDate}
+              visibleDays={3}
+              totalDaysToLoad={14}
+              onSelect={handleAppointmentSelect}
+            />
+          </div>
+
+          {/* Pravý sloupec - Informace o masérovi/masérce */}
+          <div className='lg:col-span-2 mb-8 lg:mb-0'>
+            <TherapistProfileCard />
+            <div className='max-w-2xl mx-auto p-4'>
+              <h2 className='text-xl font-semibold mb-4 text-center'>Kde nás najdete</h2>
+
+              <div className='rounded-lg overflow-hidden shadow-lg border border-gray-200'>
+                <GoogleMapComponent
+                  apiKey={API_KEY}
+                  markerTitle={NAME}
+                  center={locationCenter}
+                  zoom={17}
+                />
+
+                <div className='p-4 bg-white'>
+                  <div className='flex items-start space-x-3'>
+                    <div className='text-pink-600'>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        className='h-5 w-5'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke='currentColor'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth={2}
+                          d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'
+                        />
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth={2}
+                          d='M15 11a3 3 0 11-6 0 3 3 0 016 0z'
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className='text-gray-800 font-medium'>{ADRESS_NAME}</h3>
+                      <p className='text-gray-600 text-sm'>{ADRESS_LOCATION}</p>
+                      <p className='text-gray-500 text-xs mt-1'>
+                        {OPENING_HOURS_WORKDAYS}, {OPENING_HOURS_WEEKENDS}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
-    </>
+
+      <footer className='bg-gray-800 text-white py-8 mt-12'>
+        <div className='container mx-auto px-4'>
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+            <div>
+              <h3 className='text-lg font-semibold mb-4'>{NAME}</h3>
+              <p>Poskytujeme profesionální masážní služby pro vaše zdraví a pohodu.</p>
+            </div>
+
+            <div>
+              <h3 className='text-lg font-semibold mb-4'>Kontakt</h3>
+              <p>{ADRESS_LOCATION}</p>
+              <p>Tel: {PHONE}</p>
+              <p>Email: {EMAIL}</p>
+            </div>
+
+            <div>
+              <h3 className='text-lg font-semibold mb-4'>Otevírací doba</h3>
+              <p>{OPENING_HOURS_WORKDAYS}</p>
+              <p>{OPENING_HOURS_WEEKENDS}</p>
+            </div>
+          </div>
+
+          <div className='mt-8 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm'>
+            &copy; {new Date().getFullYear()} {NAME}. Všechna práva vyhrazena.
+          </div>
+        </div>
+      </footer>
+    </div>
   )
 }
 
