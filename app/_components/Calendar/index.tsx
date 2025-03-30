@@ -46,7 +46,7 @@ export default function Calendar() {
   }
 
   return (
-    <div id={SECTIONS[1].id} className='p-6 bg-white rounded-lg shadow-lg'>
+    <section id={SECTIONS[1].id} className='bg-white rounded-lg shadow-lg max-w-5xl mx-auto p-5'>
       <TitleSection>{SECTIONS[1].header}</TitleSection>
 
       <CalendarSlider
@@ -56,6 +56,6 @@ export default function Calendar() {
         totalDaysToLoad={14}
         onSelect={handleAppointmentSelect}
       />
-    </div>
+    </section>
   )
 }

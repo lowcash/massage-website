@@ -5,7 +5,7 @@ import { SECTIONS } from '@/config'
 
 export default function Services() {
   return (
-    <section id={SECTIONS[0].id} className='py-16 bg-gray-50'>
+    <section id={SECTIONS[0].id} className='bg-gray-50'>
       <div className='mx-auto px-4'>
         <TitleSection>{SECTIONS[0].header}</TitleSection>
 

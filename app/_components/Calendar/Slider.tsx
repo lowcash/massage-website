@@ -76,7 +76,7 @@ export default function CalendarSlider({
   }
 
   return (
-    <div className='relative max-w-5xl mx-auto'>
+    <div className='relative'>
       {/* Šipka doleva */}
       <button
         onClick={prevPage}

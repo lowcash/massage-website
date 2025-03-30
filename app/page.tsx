@@ -10,16 +10,18 @@ import Footer from '@/app/_components/Footer'
 
 export default function Page() {
   return (
-    <div className='bg-gray-50 min-h-screen'>
+    <>
       <Nav />
 
-      <Hero />
-      <Services />
-      <Calendar />
-      <About />
-      <Contact />
+      <main className='bg-gray-50 min-h-screen gap-24 flex flex-col'>
+        <Hero />
+        <Services />
+        <Calendar />
+        <About />
+        <Contact />
 
-      <Footer />
-    </div>
+        <Footer />
+      </main>
+    </>
   )
 }

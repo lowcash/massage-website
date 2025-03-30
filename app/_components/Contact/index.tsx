@@ -14,7 +14,7 @@ import {
 
 export default function Contact() {
   return (
-    <div className='mx-auto p-4'>
+    <section id={SECTIONS[3].id} className='max-w-5xl mx-auto w-full'>
       <TitleSection>{SECTIONS[3].header}</TitleSection>
 
       <div className='rounded-lg overflow-hidden shadow-lg border border-gray-200'>
@@ -54,6 +54,6 @@ export default function Contact() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

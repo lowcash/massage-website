@@ -6,7 +6,7 @@ import { EMAIL, PHONE, SECTIONS } from '@/config'
 
 export default function About() {
   return (
-    <div className='p-6 bg-white rounded-lg shadow-lg'>
+    <section id={SECTIONS[2].id} className='bg-white rounded-lg shadow-lg max-w-5xl mx-auto p-5'>
       <TitleSection>{SECTIONS[2].header}</TitleSection>
 
       <div className='flex'>
@@ -51,7 +51,7 @@ export default function About() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

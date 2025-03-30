@@ -59,7 +59,7 @@ export default function Calendar({
           {days.map((day, dayIndex) => (
             <div key={dayIndex} className='text-center'>
               {/* Hlavička dne */}
-              <div className={`font-medium mb-3 ${day.dayName === 'Dnes' ? 'text-pink-500' : 'text-gray-700'}`}>
+              <div className={`font-medium mb-3 ${day.dayName === 'Dnes' ? 'text-[var(--pink)]' : 'text-gray-700'}`}>
                 {day.dayName} <br />
                 <span className='text-sm text-gray-500'>{day.dateLabel}</span>
               </div>
