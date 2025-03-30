@@ -53,9 +53,7 @@ export default function Calendar({
     .slice(0, daysToShow)
 
   return (
-    <div className='max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg'>
-      <h2 className='text-2xl font-semibold text-center mb-6'>Kalendář termínů</h2>
-
+    <>
       {days.length > 0 ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4'>
           {days.map((day, dayIndex) => (
@@ -94,6 +92,6 @@ export default function Calendar({
       ) : (
         <div className='text-center text-gray-500 py-8'>Žádné termíny k dispozici</div>
       )}
-    </div>
+    </>
   )
 }

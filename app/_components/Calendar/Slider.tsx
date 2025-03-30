@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import * as Helper from '@/app/_components/Calendar/index.helper'
 
@@ -74,7 +76,7 @@ export default function CalendarSlider({
   }
 
   return (
-    <div className='relative'>
+    <div className='relative max-w-5xl mx-auto'>
       {/* Šipka doleva */}
       <button
         onClick={prevPage}

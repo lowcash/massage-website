@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from '@vis.gl/react-google-maps'
 
@@ -14,7 +16,7 @@ interface GoogleMapComponentProps {
 }
 
 // Google Maps komponenta
-export function GoogleMapComponent({
+export default function GoogleMap({
   center,
   zoom = 15,
   markerTitle = 'Moje pozice',

@@ -1,34 +1,37 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import './globals.css'
+import type { Metadata } from 'next'
+import { Cormorant_Garamond, Dancing_Script, Montserrat } from 'next/font/google'
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import { NAME } from '@/config'
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+export const cormorantGaramond = Cormorant_Garamond({
+  variable: '--font-cormorant-garamond',
+  weight: ['400', '500', '600'],
+})
+
+export const dancingScript = Dancing_Script({
+  variable: '--font-dancing-script',
+})
+
+export const montserrat = Montserrat({
+  variable: '--font-montserrat',
+})
 
 export const metadata: Metadata = {
-  title: "Pohlazení po těle a duši",
+  title: NAME,
   icons: [{ rel: 'icon', url: './favicon.jpg' }],
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang='cs'>
+      <body className={`${cormorantGaramond.variable} ${dancingScript.variable} ${montserrat.variable} antialiased`}>
         {children}
       </body>
     </html>
-  );
+  )
 }

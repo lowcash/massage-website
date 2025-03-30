@@ -1,5 +1,18 @@
 export const NAME = 'Pohlazení po těle a duši'
 
+export const SECTIONS = [
+  { id: 'services', label: 'Služby', header: 'Vyberte si z mé nabídky služeb' },
+  { id: 'calendary', label: 'Kalendář', header: 'Kalendář dostupných termínů' },
+  { id: 'about', label: 'O mně', header: 'Něco málo o mně' },
+  { id: 'contact', label: 'Kontakt', header: 'Kde mě najdete?' },
+]
+
+export const MAPS_API_KEY = 'AIzaSyCyonggnXGI9qLlJQuVVvovBh6i-K6-NnU'
+export const MAPS_CENTER = {
+  lat: 48.85092799722892,
+  lng: 17.127008930962827,
+}
+
 export const EMAIL = 'sebestovar@seznam.cz'
 export const PHONE = '(+420) 605 579 643'
 
