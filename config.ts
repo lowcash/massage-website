@@ -7,6 +7,8 @@ export const SECTIONS = [
   { id: 'contact', label: 'Kontakt', header: 'Kde mě najdete?' },
 ]
 
+export const HERO_SECTION_AUTOPLAY_SPEED = 5000
+
 export const MAPS_API_KEY = 'AIzaSyCyonggnXGI9qLlJQuVVvovBh6i-K6-NnU'
 export const MAPS_CENTER = {
   lat: 48.85092799722892,
