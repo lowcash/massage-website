@@ -6,13 +6,13 @@ import { EMAIL, PHONE, SECTIONS } from '@/config'
 
 export default function About() {
   return (
-    <section id={SECTIONS[2].id} className='bg-white rounded-lg shadow-lg max-w-5xl mx-auto p-5'>
+    <section id={SECTIONS[2].id} className='mx-auto max-w-5xl rounded-lg bg-white p-5 shadow-lg'>
       <TitleSection>{SECTIONS[2].header}</TitleSection>
 
       <div className='flex'>
         <div className='relative'>
           <h1
-            className='text-2xl text-gray-800 tracking-wide'
+            className='text-2xl tracking-wide text-gray-800'
             style={{
               fontFamily: "'Montserrat', sans-serif",
               textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
@@ -33,18 +33,18 @@ export default function About() {
             {THERAPIST.title}
           </p>
 
-          <p className='text-gray-600 font-light'>{THERAPIST.bio}</p>
+          <p className='font-light text-gray-600'>{THERAPIST.bio}</p>
 
-          <div className='h-64 relative overflow-hidden'>
+          <div className='relative h-64 overflow-hidden'>
             <img src={THERAPIST.photo} alt={THERAPIST.name} />
           </div>
         </div>
 
         <div className='p-6'>
-          <div className='space-y-2 mb-6'>
+          <div className='mb-6 space-y-2'>
             {THERAPIST.qualities.map((quality, index) => (
               <div key={index} className='flex items-center'>
-                <div className='w-1.5 h-1.5 rounded-full bg-blue-400 mr-3'></div>
+                <div className='mr-3 h-1.5 w-1.5 rounded-full bg-blue-400'></div>
                 <span className='text-gray-700' dangerouslySetInnerHTML={{ __html: quality }} />
               </div>
             ))}
