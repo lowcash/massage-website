@@ -11,7 +11,7 @@
   "dependencies": {
     "@vis.gl/react-google-maps": "^1.5.2",
     "babel-plugin-react-compiler": "^19.0.0-beta-aeaed83-20250323",
-    "next": "15.2.2",
+    "next": "^15.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -20,6 +20,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
