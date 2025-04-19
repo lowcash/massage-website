@@ -21,8 +21,11 @@ export default function Calendar() {
 
     // Víkendy mají více termínů
     const isWeekend = date.getDay() === 0 || date.getDay() === 6
-    const startHour = isWeekend ? 9 : 12
-    const endHour = isWeekend ? 18 : 19
+    // const startHour = isWeekend ? 9 : 12
+    // const endHour = isWeekend ? 18 : 19
+
+    const startHour = 14
+    const endHour = 18
 
     // Vytvoříme termíny pro daný den
     for (let hour = startHour; hour < endHour; hour++) {
@@ -46,7 +49,7 @@ export default function Calendar() {
   }
 
   return (
-    <section id={SECTIONS[1].id} className='bg-white rounded-lg shadow-lg max-w-5xl mx-auto p-5'>
+    <section id={SECTIONS[1].id} className='mx-auto w-full max-w-5xl rounded-lg bg-white p-5 shadow-lg'>
       <TitleSection>{SECTIONS[1].header}</TitleSection>
 
       <CalendarSlider
