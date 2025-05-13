@@ -19,7 +19,6 @@ export const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: NAME,
-  icons: [{ rel: 'icon', url: './favicon.jpg' }],
 }
 
 export default function RootLayout({
