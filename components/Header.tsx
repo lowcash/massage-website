@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react'
 import { X, Menu } from 'lucide-react'
 
+import { NAME, SECTION, SECTIONS_NAV } from '@/const'
+
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState('hero')
+  const [activeSection, setActiveSection] = useState(SECTION.HERO.id)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
@@ -16,7 +18,7 @@ export default function Header() {
       const sections = ['sluzby', 'kalendar', 'o-mne', 'kontakt']
       const scrollPosition = window.scrollY + 100
 
-      let currentSection = 'hero'
+      let currentSection = SECTION.HERO.id
 
       sections.forEach((section) => {
         const element = document.getElementById(section)
@@ -36,6 +38,7 @@ export default function Header() {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
+      document.body.style.overflow = ''
       setIsMobileMenuOpen(false)
     }
   }
@@ -58,45 +61,23 @@ export default function Header() {
         <div className='container mx-auto flex items-center justify-between px-4'>
           <h1
             className='font-dancing text-bc6290 cursor-pointer text-2xl md:text-3xl'
-            onClick={() => scrollToSection('hero')}
+            onClick={() => scrollToSection(SECTION.HERO.id)}
           >
-            Pohlazení po těle a duši
+            {NAME}
           </h1>
 
           <nav className='hidden md:block'>
             <ul className='flex gap-10'>
-              <li>
-                <button
-                  onClick={() => scrollToSection('sluzby')}
-                  className={`text-xs font-light tracking-widest uppercase ${activeSection === 'sluzby' ? 'nav-link-active' : 'nav-link'}`}
-                >
-                  Služby
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => scrollToSection('kalendar')}
-                  className={`text-xs font-light tracking-widest uppercase ${activeSection === 'kalendar' ? 'nav-link-active' : 'nav-link'}`}
-                >
-                  Kalendář
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => scrollToSection('o-mne')}
-                  className={`text-xs font-light tracking-widest uppercase ${activeSection === 'o-mne' ? 'nav-link-active' : 'nav-link'}`}
-                >
-                  O mně
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => scrollToSection('kontakt')}
-                  className={`text-xs font-light tracking-widest uppercase ${activeSection === 'kontakt' ? 'nav-link-active' : 'nav-link'}`}
-                >
-                  Kontakt
-                </button>
-              </li>
+              {SECTIONS_NAV.map((x, idx) => (
+                <li key={idx}>
+                  <button
+                    onClick={() => scrollToSection(x.id)}
+                    className={`text-xs font-light tracking-widest uppercase ${activeSection === x.id ? 'nav-link-active' : 'nav-link'}`}
+                  >
+                    {x.text}
+                  </button>
+                </li>
+              ))}
             </ul>
           </nav>
 
@@ -121,31 +102,13 @@ export default function Header() {
       <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`} aria-hidden={!isMobileMenuOpen}>
         <nav className='text-center'>
           <ul className='space-y-6'>
-            <li>
-              <button onClick={() => scrollToSection('hero')} className='mobile-menu-link'>
-                Domů
-              </button>
-            </li>
-            <li>
-              <button onClick={() => scrollToSection('sluzby')} className='mobile-menu-link'>
-                Služby
-              </button>
-            </li>
-            <li>
-              <button onClick={() => scrollToSection('kalendar')} className='mobile-menu-link'>
-                Kalendář
-              </button>
-            </li>
-            <li>
-              <button onClick={() => scrollToSection('o-mne')} className='mobile-menu-link'>
-                O mně
-              </button>
-            </li>
-            <li>
-              <button onClick={() => scrollToSection('kontakt')} className='mobile-menu-link'>
-                Kontakt
-              </button>
-            </li>
+            {[SECTION.HERO, ...SECTIONS_NAV].map((x, idx) => (
+              <li key={idx}>
+                <button onClick={() => scrollToSection(x.id)} className='mobile-menu-link'>
+                  {x.text}
+                </button>
+              </li>
+            ))}
           </ul>
         </nav>
         <button onClick={toggleMobileMenu} className='absolute top-4 right-4 z-50 text-white' aria-label='Zavřít menu'>
