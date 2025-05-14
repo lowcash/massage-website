@@ -19,6 +19,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='cs'>
+      <head>
+        <script async src='https://www.googletagmanager.com/gtag/js?id=G-BJWHB0F4BE'></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-BJWHB0F4BE');
+            `,
+          }}
+        />
+      </head>
       <body className={`${dancingScript.variable} antialiased`}>{children}</body>
     </html>
   )
