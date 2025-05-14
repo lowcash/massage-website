@@ -1,11 +1,13 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { Dancing_Script } from 'next/font/google'
 
 import { DESCRIPTION, TITLE } from '@/const'
 
-export const dancingScript = Dancing_Script({
+const dancingScript = Dancing_Script({
   variable: '--font-dancing-script',
+  subsets: ['latin'],
 })
 
 export const metadata: Metadata = {
@@ -20,21 +22,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='cs'>
-      <head>
-        <script async src='https://www.googletagmanager.com/gtag/js?id=G-BJWHB0F4BE'></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
+      <body className={`${dancingScript.variable} antialiased`}>
+        {children}
 
-              gtag('config', 'G-BJWHB0F4BE');
-            `,
-          }}
-        />
-      </head>
-      <body className={`${dancingScript.variable} antialiased`}>{children}</body>
+        <Script src='https://www.googletagmanager.com/gtag/js?id=G-BJWHB0F4BE' strategy='afterInteractive' />
+        <Script id='gtag-init' strategy='afterInteractive'>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-BJWHB0F4BE');
+          `}
+        </Script>
+      </body>
     </html>
   )
 }
