@@ -1,5 +1,7 @@
+import Image from 'next/image'
 import { Check } from 'lucide-react'
 
+import PROFILE_IMG from '@/app/assets/profile.jpeg'
 import { SECTION } from '@/const'
 
 export default function About() {
@@ -26,9 +28,11 @@ export default function About() {
 
           <div className='order-first flex w-full justify-center md:order-last md:w-2/5 md:justify-end'>
             <div className='relative h-[30rem] w-80 md:w-[22rem]'>
-              <img
-                src='https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=400'
-                alt='Jana Nováková'
+              <Image
+                src={PROFILE_IMG.src}
+                alt={ABOUT.name}
+                width={640}
+                height={640}
                 className='h-full w-full object-cover transition-all duration-300 hover:shadow-md'
                 style={{
                   borderRadius: '45% / 30%',
