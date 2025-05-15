@@ -1,0 +1,24 @@
+[
+  {
+    "date": "po 10. 6.",
+    "times": [
+      {
+        "time": "9:00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "date": "út 11. 6.",
+    "times": [
+      {
+        "time": "9:00",
+        "available": true
+      },
+      {
+        "time": "10:00",
+        "available": true
+      }
+    ]
+  }
+]

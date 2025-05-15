@@ -1,3 +1,5 @@
+// import calendarData from '@/data/calendar.json'
+
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import Services from '@/components/Services'
@@ -12,7 +14,7 @@ export default async function Page() {
       <Header />
       <Hero />
       <Services />
-      {/* <Calendar /> */}
+      {/* <Calendar data={calendarData} /> */}
       <About />
       <Contact />
       <Footer />

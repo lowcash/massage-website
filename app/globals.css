@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 @theme {
   --color-foreground: 222.2 84% 4.9%;
@@ -50,7 +53,7 @@ body {
   .nav-link::after {
     @apply content-[''] absolute w-0 h-0.5 bg-bc6290 left-1/2 -translate-x-1/2 bottom-0 transition-all duration-300 ease-out opacity-0;
   }
-  
+
   .nav-link:hover::after {
     @apply w-full opacity-100;
   }
@@ -58,7 +61,7 @@ body {
   .nav-link-active {
     @apply text-bc6290 font-medium relative;
   }
-  
+
   .nav-link-active::after {
     @apply content-[''] absolute w-full h-0.5 bg-bc6290 left-0 bottom-0 transition-all duration-300;
   }
@@ -330,8 +333,6 @@ body {
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -361,6 +362,8 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
 }
 
 .dark {

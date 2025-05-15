@@ -1,66 +1,67 @@
+import { Check } from 'lucide-react'
+
 import { SECTION } from '@/const'
 
 export default function About() {
   return (
-    <section id={SECTION.ABOUT.id} className='px-4 py-20'>
+    <section id={SECTION.ABOUT.id} className='bg-[#fef9fb] px-5 py-24'>
       <div className='container mx-auto'>
-        <div className='mb-6 text-center'>
-          <h2 className='section-title'>Něco málo o mně</h2>
+        <div className='mb-16 text-center'>
+          <h2 className='section-title text-4xl md:text-5xl'>Něco málo o mně</h2>
         </div>
 
-        <div className='mx-auto flex max-w-5xl flex-col gap-12 md:flex-row'>
-          <div className='flex flex-col md:w-1/2'>
-            <h3 className='text-studio-dark-green mb-2 text-3xl font-medium'>{ABOUT.name}</h3>
-            <p className='text-studio-gold mb-6 text-lg'>{ABOUT.title}</p>
-            <p className='mb-6 font-serif leading-relaxed text-gray-700'>{ABOUT.bio}</p>
+        <div className='mx-auto mb-24 flex max-w-6xl flex-col items-start gap-16 md:flex-row'>
+          <div className='flex w-full flex-col md:w-3/5'>
+            <h3 className='text-studio-dark-green mb-4 font-sans text-3xl font-medium md:text-4xl'>{ABOUT.name}</h3>
+            <p className='text-studio-pink mb-8 font-sans text-xl font-light tracking-wide'>{ABOUT.title}</p>
+            <div className='mb-10 space-y-8 text-lg leading-relaxed text-gray-700'>
+              <p className='leading-relaxed'>{ABOUT.bio}</p>
+              {/* <p className='text-xl leading-relaxed font-bold text-gray-700 italic'>
+                Každý klient je pro mě jedinečný, a proto přizpůsobuji masáže individuálním potřebám.
+              </p> */}
+            </div>
 
-            <div className='mt-auto'>
-              <div className='group relative mx-auto h-48 w-48 md:mx-0'>
-                <div className='absolute inset-0 z-10 rounded-full bg-white/10 opacity-0 backdrop-blur-[1px] transition-opacity duration-300 group-hover:opacity-100'></div>
-                <div className='relative h-full w-full overflow-hidden rounded-full'>
-                  <div className='pointer-events-none absolute inset-0 z-10 rounded-full bg-gradient-to-b from-transparent to-white/10'></div>
-                  <div
-                    className='absolute inset-0 rounded-full'
-                    style={{
-                      boxShadow: 'inset 0 0 20px 8px rgba(255,255,255,0.5)',
-                      filter: 'feather(10px)',
-                    }}
-                  ></div>
-                  <img
-                    src={ABOUT.photo}
-                    alt={ABOUT.name}
-                    className='h-full w-full rounded-full object-cover'
-                    style={{
-                      filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.8))',
-                    }}
-                  />
-                </div>
-              </div>
+            <div className='text-studio-pink font-dancing mt-6 mb-12 text-xl italic'>{ABOUT.append}</div>
+          </div>
+
+          <div className='order-first flex w-full justify-center md:order-last md:w-2/5 md:justify-end'>
+            <div className='relative h-[30rem] w-80 md:w-[22rem]'>
+              <img
+                src='https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=400'
+                alt='Jana Nováková'
+                className='h-full w-full object-cover transition-all duration-300 hover:shadow-md'
+                style={{
+                  borderRadius: '45% / 30%',
+                  filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.04))',
+                }}
+              />
+              <div
+                className='absolute inset-0'
+                style={{
+                  borderRadius: '45% / 30%',
+                  boxShadow: 'inset 0 0 25px 20px rgba(255,255,255,0.3)',
+                }}
+              ></div>
             </div>
           </div>
+        </div>
 
-          <div className='md:w-1/2'>
-            {/* <h3 className='text-studio-dark-green mb-6 text-2xl font-medium'>Něco málo o mně</h3> */}
-            <ul className='space-y-4 font-serif'>
-              {ABOUT.qualities.map((x, idx) => (
-                <li key={idx} className='flex items-start'>
-                  <svg
-                    className='text-studio-gold mt-1 mr-3 h-5 w-5 flex-shrink-0'
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-gray-700' dangerouslySetInnerHTML={{ __html: x }} />
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className='mx-auto max-w-5xl'>
+          <h3 className='text-studio-dark-green mb-12 font-sans text-3xl font-medium md:text-4xl'>
+            Vzdělání & zkušenosti
+          </h3>
+          <ul className='space-y-10 font-sans text-lg'>
+            {ABOUT.qualities.map((x, idx) => (
+              <li key={idx} className='flex items-start'>
+                <div className='mt-1.5 mr-5 flex-shrink-0 rounded-full bg-[#fddce4] p-1.5'>
+                  <Check className='text-studio-pink h-5 w-5 stroke-[1.5]' />
+                </div>
+                <span className='leading-relaxed text-gray-700'>
+                  <span className='font-bold' dangerouslySetInnerHTML={{ __html: x }} />
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
@@ -72,14 +73,13 @@ const ABOUT = {
   title: 'Terapeutka a masérka',
   photo: 'https://pohlazenipoteleadusi.cz/img/photo.png',
   bio: 'Jsem mladá žena s chutí žít život naplno. Cítím, že mým posláním je vykouzlit druhým na tváři úsměv. Ráda bych, abyste se mnou zapomněli na každodenní starosti a užili si chvíli určenou jen a jen vám. Ke každému člověku se snažím přistupovat jako k jedinečné bytosti.',
+  append: '"Těším se na Vaší návštěvu"',
   qualities: [
     'Dlouholetý <strong>masér pro zdravotnictví a terapeut</strong>',
     'Úspěšně ukončené <strong>magisterské studium</strong> ošetřovatelství na <strong>VŠZaSP sv. Alžbety v Bratislavě</strong>',
     '<strong>Léta zkušeností</strong> se zařízeními sociální a zdravotní péče',
     '<strong>Učitelka</strong> zdravotnických předmětů',
     'Lektor v <strong>sociální sféře</strong>',
-    // "Specializace v oboru <b>geriatrie</b>",
+    'Specializace v oboru <strong>geriatrie</strong>',
   ],
 }
-
-// Těším se na Vaší návštěvu. // TODO missing

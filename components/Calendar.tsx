@@ -1,205 +1,106 @@
-"use client";
+'use client'
 
-import React, { useState, useRef, useEffect } from "react";
+import { useState } from 'react'
+import { useScrollToElement } from '@/hooks/useScrollToElement'
 
-// Helper function to get date string
-const getDateString = (addDays = 0) => {
-  const date = new Date();
-  date.setDate(date.getDate() + addDays);
-  return date.toLocaleDateString("cs-CZ", {
-    weekday: "short",
-    day: "numeric",
-    month: "numeric",
-  });
-};
+import { SECTION } from '@/const'
 
-// Helper to check if date is today
-const isToday = (dateString: string) => {
-  const today = new Date().toLocaleDateString("cs-CZ", {
-    weekday: "short",
-    day: "numeric",
-    month: "numeric",
-  });
-  return dateString === today;
-};
+const calendarData = [
+  {
+    date: 'po 10. 6.',
+    times: [
+      { time: '9:00', available: true },
+      // { time: '10:00', available: false },
+      // { time: '14:00', available: true },
+    ],
+  },
+  {
+    date: 'út 11. 6.',
+    times: [
+      { time: '9:00', available: true },
+      { time: '10:00', available: true },
+    ],
+  },
+]
 
-// Mock available times with some unavailable slots
-const generateMockTimes = () => {
-  const times = [];
-  const totalSlots = Math.floor(Math.random() * 5) + 2; // 2-6 slots
-  const startHour = 9;
+interface Props {
+  data: Array<{ date: string; times: Array<{ time: string; available: boolean }> }>
+}
 
-  for (let i = 0; i < totalSlots; i++) {
-    const hour = startHour + Math.floor(Math.random() * 8); // 9am to 5pm
-    const isAvailable = Math.random() > 0.3; // 30% chance of being unavailable
-    times.push({ time: `${hour}:00`, available: isAvailable });
-    if (Math.random() > 0.5) {
-      const isHalfAvailable = Math.random() > 0.3; // 30% chance of being unavailable
-      times.push({ time: `${hour}:30`, available: isHalfAvailable });
+export default function Calendar(p: Props) {
+  const [activePage, setActivePage] = useState(0)
+
+  const scrollToContact = useScrollToElement()
+
+  const visibleDaysData = p.data?.slice(activePage, activePage + VISIBLE_DAYS)
+  const totalPages = Math.ceil((p.data?.length ?? 0) / VISIBLE_DAYS)
+
+  const handleNavigation = (direction: 'prev' | 'next') => {
+    switch (direction) {
+      case 'prev':
+        setActivePage(activePage - 1)
+        break
+      case 'next':
+        setActivePage(activePage + 1)
+        break
     }
   }
-
-  return times.sort((a, b) => a.time.localeCompare(b.time));
-};
-
-// Generate mock data for entire month
-const generateMonthData = () => {
-  const monthData = [];
-  for (let i = 0; i < 30; i++) {
-    monthData.push({
-      date: getDateString(i),
-      times: generateMockTimes(),
-    });
-  }
-  return monthData;
-};
-
-const monthData = generateMonthData();
-
-const Calendar = () => {
-  const [displayStartIndex, setDisplayStartIndex] = useState(0);
-  const [activePage, setActivePage] = useState(0);
-  const [maxHeight, setMaxHeight] = useState(0);
-  const visibleDays = 5; // Show 5 days at once
-  const totalPages = Math.ceil(monthData.length / visibleDays);
-  const timeBlocksRefs = useRef<(HTMLDivElement | null)[][]>([]);
-
-  const scrollToContact = () => {
-    const element = document.getElementById("o-mne");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleNavigation = (direction: "prev" | "next") => {
-    if (direction === "prev" && displayStartIndex >= visibleDays) {
-      setDisplayStartIndex(displayStartIndex - visibleDays);
-      setActivePage(activePage - 1);
-    } else if (
-      direction === "next" &&
-      displayStartIndex + visibleDays < monthData.length
-    ) {
-      setDisplayStartIndex(displayStartIndex + visibleDays);
-      setActivePage(activePage + 1);
-    }
-  };
-
-  const visibleDaysData = monthData.slice(
-    displayStartIndex,
-    displayStartIndex + visibleDays
-  );
-
-  // Calculate the height of the tallest day column
-  useEffect(() => {
-    // Reset references array for the current visible days
-    timeBlocksRefs.current = visibleDaysData.map(() => []);
-
-    // Wait for render to complete
-    setTimeout(() => {
-      const heights = visibleDaysData.map((_, dayIndex) => {
-        const dayHeight =
-          timeBlocksRefs.current[dayIndex]?.reduce((height, ref) => {
-            if (!ref) return height;
-            return height + ref.offsetHeight + 8; // 8px for gap
-          }, 0) || 0;
-
-        return dayHeight;
-      });
-
-      const maxColumnHeight = Math.max(...heights, 200); // Minimum height of 200px
-
-      // Add some padding
-      setMaxHeight(maxColumnHeight > 0 ? maxColumnHeight + 24 : 200);
-    }, 100);
-  }, [visibleDaysData]);
 
   return (
-    <section id="kalendar" className="py-20 px-4 bg-studio-beige">
-      <div className="container mx-auto">
-        <div className="text-center mb-8">
-          <h2 className="section-title">Kalendář</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto font-sans">
+    <section id={SECTION.CALENDAR.id} className='bg-studio-beige px-4 py-20'>
+      <div className='container mx-auto'>
+        <div className='mb-8 text-center'>
+          <h2 className='section-title'>Kalendář</h2>
+          <p className='mx-auto max-w-2xl font-sans text-gray-600'>
             Vyberte si volný termín pro vaši relaxační proceduru.
           </p>
         </div>
 
-        <div className="relative max-w-4xl mx-auto calendar-container">
+        <div className='calendar-container relative mx-auto max-w-4xl'>
           <button
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-8 bg-white rounded-full p-2 shadow-md z-10 text-bc6290 hover:text-studio-gold disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={() => handleNavigation("prev")}
-            disabled={displayStartIndex === 0}
-            aria-label="Předchozí týden"
+            className='text-bc6290 hover:text-studio-gold absolute top-1/2 left-0 z-10 -translate-x-4 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:-translate-x-8'
+            onClick={() => handleNavigation('prev')}
+            disabled={activePage === 0}
+            aria-label='Předchozí týden'
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-5 h-5"
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+              className='h-5 w-5'
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
+              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' />
             </svg>
           </button>
 
-          <div className="calendar-scroll-area">
-            <div className="flex gap-4 py-4 justify-center">
-              {visibleDaysData.map((day, dayIndex) => (
-                <div key={dayIndex} className="flex-shrink-0 w-40">
+          <div className='calendar-scroll-area'>
+            <div className='flex justify-center gap-4 py-4'>
+              {visibleDaysData?.map((day, dayIndex) => (
+                <div key={dayIndex} className='w-40 flex-shrink-0'>
                   <div
-                    className={`bg-white rounded-2xl shadow-sm p-4 h-full transition-all ${
-                      isToday(day.date) ? "current-day" : ""
-                    }`}
+                    className={`h-full rounded-2xl bg-white p-4 shadow-sm transition-all ${isToday(day.date) ? 'current-day' : ''}`}
                   >
                     <div
-                      className={`text-center border-b pb-2 mb-3 ${
-                        isToday(day.date) ? "border-bc6290" : "border-gray-100"
-                      }`}
+                      className={`mb-3 border-b pb-2 text-center ${isToday(day.date) ? 'border-bc6290' : 'border-gray-100'}`}
                     >
-                      <p
-                        className={`font-medium ${
-                          isToday(day.date) ? "text-bc6290" : "text-gray-700"
-                        }`}
-                      >
-                        {day.date}
-                      </p>
+                      <p className={`font-medium ${isToday(day.date) ? 'text-bc6290' : 'text-gray-700'}`}>{day.date}</p>
                     </div>
 
                     {day.times.length > 0 ? (
-                      <div
-                        className="flex flex-col items-center space-y-2"
-                        style={{ minHeight: `${maxHeight}px` }}
-                      >
+                      <div className='flex flex-col items-center space-y-2' style={{ minHeight: `${500}px` }}>
                         {day.times.map((timeObj, timeIndex) => (
                           <div
                             key={timeIndex}
-                            ref={(el) => {
-                              if (!timeBlocksRefs.current[dayIndex]) {
-                                timeBlocksRefs.current[dayIndex] = [];
-                              }
-                              timeBlocksRefs.current[dayIndex][timeIndex] = el;
-                            }}
-                            className={`time-block w-full flex justify-center ${
-                              timeObj.available
-                                ? "time-block-available"
-                                : "time-block-unavailable"
-                            }`}
-                            onClick={
-                              timeObj.available ? scrollToContact : undefined
-                            }
+                            className={`time-block flex w-full justify-center ${timeObj.available ? 'time-block-available' : 'time-block-unavailable'}`}
+                            onClick={timeObj.available ? () => scrollToContact(SECTION.CONTACT.id) : undefined}
                           >
                             <span>{timeObj.time}</span>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <div className="py-4 text-center text-gray-400 text-sm font-sans">
-                        Žádné volné termíny
-                      </div>
+                      <div className='py-4 text-center font-sans text-sm text-gray-400'>Žádné volné termíny</div>
                     )}
                   </div>
                 </div>
@@ -208,46 +109,57 @@ const Calendar = () => {
           </div>
 
           <button
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-8 bg-white rounded-full p-2 shadow-md z-10 text-bc6290 hover:text-studio-gold disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={() => handleNavigation("next")}
-            disabled={displayStartIndex + visibleDays >= monthData.length}
-            aria-label="Další týden"
+            className='text-bc6290 hover:text-studio-gold absolute top-1/2 right-0 z-10 translate-x-4 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:translate-x-8'
+            onClick={() => handleNavigation('next')}
+            disabled={activePage == totalPages - 1}
+            aria-label='Další týden'
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-5 h-5"
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+              className='h-5 w-5'
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
+              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
             </svg>
           </button>
         </div>
 
         {/* Page indicator dots */}
-        <div className="flex justify-center mt-6">
+        <div className='mt-6 flex justify-center'>
           {Array.from({ length: totalPages }).map((_, index) => (
             <div
               key={index}
-              className={`calendar-indicator ${
-                activePage === index ? "calendar-indicator-active" : ""
-              }`}
-              onClick={() => {
-                setDisplayStartIndex(index * visibleDays);
-                setActivePage(index);
-              }}
+              className={`calendar-indicator ${activePage === index ? 'calendar-indicator-active' : ''}`}
+              onClick={() => setActivePage(index)}
             />
           ))}
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Calendar;
+const VISIBLE_DAYS = 5
+
+// Helper function to get date string
+function getDateString(addDays = 0) {
+  const date = new Date()
+  date.setDate(date.getDate() + addDays)
+  return date.toLocaleDateString('cs-CZ', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'numeric',
+  })
+}
+
+// Helper to check if date is today
+function isToday(dateString: string) {
+  const today = new Date().toLocaleDateString('cs-CZ', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'numeric',
+  })
+  return dateString === today
+}

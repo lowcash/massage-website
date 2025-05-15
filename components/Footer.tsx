@@ -6,7 +6,7 @@ import {
   EMAIL,
   PHONE,
   NAME,
-  HERO_TITLE,
+  TITLE,
   FACEBOOK,
   INSTAGRAM,
 } from '@/const'
@@ -18,7 +18,7 @@ export default function Footer() {
         <div className='flex flex-col items-center justify-between gap-4 md:flex-row'>
           <div className='mb-4 md:mb-0'>
             <h3 className='font-dancing text-bc6290 mb-2 text-2xl font-bold'>{NAME}</h3>
-            <p className='text-sm text-white/90'>{HERO_TITLE}</p>
+            <p className='text-sm text-white/90'>{TITLE}</p>
           </div>
 
           <div className='flex flex-col gap-2 text-sm text-white/90 sm:gap-4 md:flex-row'>
