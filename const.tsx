@@ -47,3 +47,17 @@ export const ADDRESS = `Malá základna a konzultace
 export const OPENING_HOURS_WORKDAYS = '15:00 - 21:00'
 export const OPENING_HOURS_SATURDAY = '9:00 - 14:00'
 export const OPENING_HOURS_SUNDAY = 'Zavřeno'
+
+export const ROUTE = {
+  HOME: '/',
+  ADMIN: '/admin',
+}
+
+export const AUTH_BASIC_KEY = 'Authorization'
+export const AUTH_JWT_KEY = '_auth_token'
+export const AUTH_RESET_KEY = '_auth_reset'
+export const AUTH_JWT_EXPIRE_HOURS = 5
+
+export const ERROR_CAUSE = {
+  UNAUTHORIZED: 'Unauthorized',
+}
