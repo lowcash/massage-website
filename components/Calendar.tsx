@@ -2,39 +2,88 @@
 
 import { useState } from 'react'
 import { useScrollToElement } from '@/hooks/useScrollToElement'
-
 import { SECTION } from '@/const'
 
-const calendarData = [
-  {
-    date: 'po 10. 6.',
-    times: [
-      { time: '9:00', available: true },
-      // { time: '10:00', available: false },
-      // { time: '14:00', available: true },
-    ],
-  },
-  {
-    date: 'út 11. 6.',
-    times: [
-      { time: '9:00', available: true },
-      { time: '10:00', available: true },
-    ],
-  },
-]
+const VISIBLE_DAYS = 5
+
+// Nový typ slotu
+export interface CalendarSlot {
+  date: Date
+  available: boolean
+}
 
 interface Props {
-  data: Array<{ date: string; times: Array<{ time: string; available: boolean }> }>
+  data: CalendarSlot[]
+}
+
+// Pomocná funkce pro zobrazení pouze dne (pro záhlaví sloupce)
+function formatDay(date: Date) {
+  return isToday(date) ? 'Dnes' : isTommorrow(date) ? 'Zítra' : date.toLocaleDateString('cs-CZ', { weekday: 'long' })
+}
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('cs-CZ', {
+    day: 'numeric',
+    month: 'long',
+  })
+}
+
+// Pomocná funkce pro zobrazení pouze času
+function formatTime(date: Date) {
+  return date.toLocaleTimeString('cs-CZ', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  })
+}
+
+// Vrací true, pokud je slot v dnešním dni
+function isToday(date: Date) {
+  const today = new Date()
+  return (
+    date.getDate() === today.getDate() &&
+    date.getMonth() === today.getMonth() &&
+    date.getFullYear() === today.getFullYear()
+  )
+}
+
+function isTommorrow(date: Date) {
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  return (
+    date.getDate() === tomorrow.getDate() &&
+    date.getMonth() === tomorrow.getMonth() &&
+    date.getFullYear() === tomorrow.getFullYear()
+  )
+}
+
+// Skupina slotů podle dne (ignoruje čas)
+function groupSlotsByDay(slots: CalendarSlot[]) {
+  const map = new Map<string, CalendarSlot[]>()
+  slots.forEach((slot) => {
+    const yyyy = slot.date.getFullYear()
+    const mm = String(slot.date.getMonth() + 1).padStart(2, '0')
+    const dd = String(slot.date.getDate()).padStart(2, '0')
+    const dayKey = `${yyyy}-${mm}-${dd}`
+
+    if (!map.has(dayKey)) map.set(dayKey, [])
+    map.get(dayKey)!.push(slot)
+  })
+  return Array.from(map.entries()).map(([dayKey, slots]) => ({
+    day: slots[0].date,
+    slots,
+  }))
 }
 
 export default function Calendar(p: Props) {
   const [activePage, setActivePage] = useState(0)
-
   const scrollToContact = useScrollToElement()
 
-  const visibleDaysData = p.data?.slice(activePage, activePage + VISIBLE_DAYS)
-  const totalPages = Math.ceil((p.data?.length ?? 0) / VISIBLE_DAYS)
-
+  // Skupiny slotů podle dne
+  const groupedDays = groupSlotsByDay(p.data)
+  const totalPages = Math.ceil(groupedDays.length / VISIBLE_DAYS)
+  const visibleDaysData = groupedDays.slice(activePage, activePage + VISIBLE_DAYS)
+  console.log(visibleDaysData)
   const handleNavigation = (direction: 'prev' | 'next') => {
     switch (direction) {
       case 'prev':
@@ -76,26 +125,30 @@ export default function Calendar(p: Props) {
 
           <div className='calendar-scroll-area'>
             <div className='flex justify-center gap-4 py-4'>
-              {visibleDaysData?.map((day, dayIndex) => (
+              {visibleDaysData.map((dayGroup, dayIndex) => (
                 <div key={dayIndex} className='w-40 flex-shrink-0'>
                   <div
-                    className={`h-full rounded-2xl bg-white p-4 shadow-sm transition-all ${isToday(day.date) ? 'current-day' : ''}`}
+                    className={`h-full rounded-2xl bg-white p-4 shadow-sm transition-all ${isToday(dayGroup.day) ? 'current-day' : ''}`}
                   >
                     <div
-                      className={`mb-3 border-b pb-2 text-center ${isToday(day.date) ? 'border-bc6290' : 'border-gray-100'}`}
+                      className={`mb-3 border-b pb-2 text-center ${isToday(dayGroup.day) ? 'border-bc6290' : 'border-gray-100'}`}
                     >
-                      <p className={`font-medium ${isToday(day.date) ? 'text-bc6290' : 'text-gray-700'}`}>{day.date}</p>
+                      <p className={`font-medium ${isToday(dayGroup.day) ? 'text-bc6290' : 'text-gray-700'}`}>
+                        {formatDay(dayGroup.day)}
+                        <br />
+                        {formatDate(dayGroup.day)}
+                      </p>
                     </div>
 
-                    {day.times.length > 0 ? (
+                    {dayGroup.slots.length > 0 ? (
                       <div className='flex flex-col items-center space-y-2' style={{ minHeight: `${500}px` }}>
-                        {day.times.map((timeObj, timeIndex) => (
+                        {dayGroup.slots.map((slot, slotIndex) => (
                           <div
-                            key={timeIndex}
-                            className={`time-block flex w-full justify-center ${timeObj.available ? 'time-block-available' : 'time-block-unavailable'}`}
-                            onClick={timeObj.available ? () => scrollToContact(SECTION.CONTACT.id) : undefined}
+                            key={slotIndex}
+                            className={`time-block flex w-full justify-center ${slot.available ? 'time-block-available' : 'time-block-unavailable'}`}
+                            onClick={slot.available ? () => scrollToContact(SECTION.CONTACT.id) : undefined}
                           >
-                            <span>{timeObj.time}</span>
+                            <span>{formatTime(slot.date)}</span>
                           </div>
                         ))}
                       </div>
@@ -111,7 +164,7 @@ export default function Calendar(p: Props) {
           <button
             className='text-bc6290 hover:text-studio-gold absolute top-1/2 right-0 z-10 translate-x-4 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:translate-x-8'
             onClick={() => handleNavigation('next')}
-            disabled={activePage == totalPages - 1}
+            disabled={activePage === totalPages - 1}
             aria-label='Další týden'
           >
             <svg
@@ -139,27 +192,4 @@ export default function Calendar(p: Props) {
       </div>
     </section>
   )
-}
-
-const VISIBLE_DAYS = 5
-
-// Helper function to get date string
-function getDateString(addDays = 0) {
-  const date = new Date()
-  date.setDate(date.getDate() + addDays)
-  return date.toLocaleDateString('cs-CZ', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'numeric',
-  })
-}
-
-// Helper to check if date is today
-function isToday(dateString: string) {
-  const today = new Date().toLocaleDateString('cs-CZ', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'numeric',
-  })
-  return dateString === today
 }

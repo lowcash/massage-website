@@ -1,24 +1,26 @@
 [
   {
-    "date": "po 10. 6.",
-    "times": [
-      {
-        "time": "9:00",
-        "available": true
-      }
-    ]
+    "date": "2025-05-18T23:03:00.000Z",
+    "available": true
   },
   {
-    "date": "út 11. 6.",
-    "times": [
-      {
-        "time": "9:00",
-        "available": true
-      },
-      {
-        "time": "10:00",
-        "available": true
-      }
-    ]
+    "date": "2025-05-19T22:00:00.000Z",
+    "available": true
+  },
+  {
+    "date": "2025-05-19T22:03:00.000Z",
+    "available": false
+  },
+  {
+    "date": "2025-05-26T22:35:00.000Z",
+    "available": false
+  },
+  {
+    "date": "2025-05-28T00:45:00.000Z",
+    "available": false
+  },
+  {
+    "date": "2025-05-28T23:10:00.000Z",
+    "available": true
   }
 ]

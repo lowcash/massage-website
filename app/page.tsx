@@ -1,20 +1,22 @@
-// import calendarData from '@/data/calendar.json'
+import { getCalendar } from '@/app/actions/calendar'
 
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import Services from '@/components/Services'
-// import Calendar from '@/components/Calendar'
+import Calendar from '@/components/Calendar'
 import About from '@/components/About'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
 
 export default async function Page() {
+  const calendarData = (await getCalendar())?.data
+
   return (
     <>
       <Header />
       <Hero />
       <Services />
-      {/* <Calendar data={calendarData} /> */}
+      {calendarData && <Calendar data={calendarData} />}
       <About />
       <Contact />
       <Footer />
