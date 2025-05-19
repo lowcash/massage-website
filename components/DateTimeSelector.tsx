@@ -111,7 +111,7 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
     )
   }
 
-  const minDate = getDefaultDate()
+  // const minDate = getDefaultDate()
 
   const selected = combineDateTime(selectedDate, selectedTime)
   const isValid = isDateTimeInFuture(selected)
@@ -126,7 +126,7 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
             type='date'
             value={selectedDate}
             onChange={handleChangeDate}
-            min={minDate}
+            // min={minDate}
             className='rounded border px-2 py-1'
           />
         </label>
