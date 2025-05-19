@@ -6,52 +6,11 @@ import { updateCalendar } from '@/app/actions/calendar'
 import { PlusCircle, Trash2 } from 'lucide-react'
 import { CalendarUpdateItem } from '@/app/actions/calendar.schema'
 
-function formatDateTime(dateObj: Date | null) {
-  if (!dateObj) return ''
-  return `${dateObj.getDate()}. ${dateObj.getMonth() + 1}. ${dateObj.getFullYear()} ${String(dateObj.getHours()).padStart(2, '0')}:${String(dateObj.getMinutes()).padStart(2, '0')}`
-}
-
-function combineDateTime(dateStr: string, timeStr: string): Date | null {
-  if (!dateStr || !timeStr) return null
-  const result = new Date(`${dateStr}T${timeStr}`)
-  return isNaN(result.getTime()) ? null : result
-}
-
-function isDateTimeInFuture(dateObj: Date | null): boolean {
-  if (!dateObj) return false
-  return dateObj.getTime() > Date.now()
-}
-
-function dateToInput(date: Date) {
-  const yyyy = date.getFullYear()
-  const mm = String(date.getMonth() + 1).padStart(2, '0')
-  const dd = String(date.getDate()).padStart(2, '0')
-  return `${yyyy}-${mm}-${dd}`
-}
-function timeToInput(date: Date) {
-  // HH:MM
-  return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
-}
-
 interface DateTimeSelectorProps {
   data: CalendarUpdateItem[]
 }
 
 export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
-  const now = new Date()
-  const getDefaultDate = () => dateToInput(now)
-  const getDefaultTime = () => {
-    const n = new Date()
-    n.setSeconds(0, 0)
-    let min = Math.round(n.getMinutes() / 5) * 5
-    if (min === 60) {
-      n.setHours(n.getHours() + 1)
-      min = 0
-    }
-    n.setMinutes(min)
-    return n.toTimeString().slice(0, 5)
-  }
-
   const [list, setList] = useState<CalendarUpdateItem[]>(data)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
@@ -153,20 +112,7 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
   }
 
   const minDate = getDefaultDate()
-  const isToday = selectedDate === minDate
-  const nowForTime = new Date()
-  const minTime = isToday
-    ? (() => {
-        let mins = Math.round(nowForTime.getMinutes() / 5) * 5
-        let hours = nowForTime.getHours()
-        if (mins === 60) {
-          hours += 1
-          mins = 0
-        }
-        const pad = (n: number) => (n < 10 ? `0${n}` : n)
-        return `${pad(hours)}:${pad(mins)}`
-      })()
-    : '00:00'
+
   const selected = combineDateTime(selectedDate, selectedTime)
   const isValid = isDateTimeInFuture(selected)
   const isSelected = selectedIndex != null
@@ -190,7 +136,6 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
             type='time'
             value={selectedTime}
             onChange={handleChangeTime}
-            min={minTime}
             className='rounded border px-2 py-1'
             step={300}
           />
@@ -248,4 +193,47 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
       </div>
     </div>
   )
+}
+
+function getDefaultDate() {
+  const now = new Date()
+  return dateToInput(now)
+}
+function getDefaultTime() {
+  const n = new Date()
+  n.setSeconds(0, 0)
+  let min = Math.round(n.getMinutes() / 5) * 5
+  if (min === 60) {
+    n.setHours(n.getHours() + 1)
+    min = 0
+  }
+  n.setMinutes(min)
+  return n.toTimeString().slice(0, 5)
+}
+
+function formatDateTime(dateObj: Date | null) {
+  if (!dateObj) return ''
+  return `${dateObj.getDate()}. ${dateObj.getMonth() + 1}. ${dateObj.getFullYear()} ${String(dateObj.getHours()).padStart(2, '0')}:${String(dateObj.getMinutes()).padStart(2, '0')}`
+}
+
+function combineDateTime(dateStr: string, timeStr: string): Date | null {
+  if (!dateStr || !timeStr) return null
+  const result = new Date(`${dateStr}T${timeStr}`)
+  return isNaN(result.getTime()) ? null : result
+}
+
+function isDateTimeInFuture(dateObj: Date | null): boolean {
+  if (!dateObj) return false
+  return dateObj.getTime() > Date.now()
+}
+
+function dateToInput(date: Date) {
+  const yyyy = date.getFullYear()
+  const mm = String(date.getMonth() + 1).padStart(2, '0')
+  const dd = String(date.getDate()).padStart(2, '0')
+  return `${yyyy}-${mm}-${dd}`
+}
+function timeToInput(date: Date) {
+  // HH:MM
+  return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
 }

@@ -2,7 +2,7 @@
 
 import { createClient } from 'redis'
 import { actionClient, authActionClient } from '@/lib/safe-action'
-import { calendarUpdateInputSchema } from '@/app/actions/calendar.schema'
+import { calendarUpdateInputSchema, type CalendarUpdateItem } from '@/app/actions/calendar.schema'
 
 const CALENDAR_KV_KEY = 'calendar'
 
@@ -23,7 +23,7 @@ export const getCalendar = actionClient.action(async () => {
       ...slot,
       date: new Date(slot.date),
     }))
-    .filter((slot) => slot.date >= today)
+    .filter((slot) => slot.date >= today) as CalendarUpdateItem[]
 })
 
 export const updateCalendar = authActionClient.schema(calendarUpdateInputSchema).action(async ({ parsedInput }) => {
