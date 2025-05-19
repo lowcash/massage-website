@@ -4,6 +4,7 @@ import { useScrollToElement } from '@/hooks/useScrollToElement'
 
 import { Flower, Heart, Droplet, Leaf, Sun, Sparkles } from 'lucide-react'
 import { Description, H2 } from '@/style/typo'
+import { SectionHeaderContainer } from '@/style/common'
 
 import { SECTION } from '@/const'
 
@@ -12,14 +13,14 @@ export default function Services() {
 
   return (
     <section id={SECTION.SERVICES.id} className='bg-studio-beige/30 px-4 py-24'>
-      <div className='mx-auto max-w-[65rem]'>
-        <div className='mb-12 text-center'>
+      <div className='mx-auto md:max-w-[45rem] lg:max-w-[62rem]'>
+        <SectionHeaderContainer>
           <H2>Jak Vám můžu pomoci?</H2>
           <Description>
             Nabízím širokou škálu masáží a terapií přizpůsobených vašim individuálním potřebám pro dosažení harmonie
             těla i mysli.
           </Description>
-        </div>
+        </SectionHeaderContainer>
 
         <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
           {SERVICES.map((service, index) => (
@@ -29,10 +30,12 @@ export default function Services() {
               onClick={() => scrollToCalendar(SECTION.CONTACT.id)}
               aria-label={`Vybrat masáž ${service.name}`}
             >
-              <div className='flex h-full flex-col items-center p-4'>
+              <div className='flex h-full flex-col items-center p-10 md:p-12 lg:p-10'>
                 <div className='mb-6 transition-transform duration-300 group-hover:rotate-3'>{service.icon}</div>
-                <h3 className='service-title mb-3 text-3xl'>{service.name}</h3>
-                <p className='service-description'>{service.description}</p>
+                <h3 className='text-studio-dark-green mb-3 font-serif text-3xl font-medium transition-colors md:text-2xl'>
+                  {service.name}
+                </h3>
+                <p className='text-studio-dark-gray mb-4 font-serif text-lg md:text-sm font-light'>{service.description}</p>
                 <div className='mt-auto flex flex-col pt-6'>
                   <span className='block font-serif text-gray-500'>{service.duration}</span>
                   <span className='text-studio-gold font-serif text-xl font-medium'>{service.price}</span>

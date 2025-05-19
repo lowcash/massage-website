@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { Check } from 'lucide-react'
 import { H2 } from '@/style/typo'
+import { SectionHeaderContainer } from '@/style/common'
 
 import PROFILE_IMG from '@/app/assets/profile.jpeg'
 import { SECTION } from '@/const'
@@ -9,11 +10,11 @@ export default function About() {
   return (
     <section id={SECTION.ABOUT.id} className='bg-[#fef9fb] px-5 py-24'>
       <div className='container mx-auto'>
-        <div className='mb-12 text-center'>
+        <SectionHeaderContainer>
           <H2>Něco málo o mně</H2>
-        </div>
+        </SectionHeaderContainer>
 
-        <div className='mx-auto mb-24 flex max-w-6xl flex-col items-start gap-16 md:flex-row'>
+        <div className='mx-auto mb-20 flex max-w-6xl flex-col items-start gap-16 md:flex-row'>
           <div className='flex w-full flex-col md:w-3/5'>
             <h3 className='text-studio-dark-green mb-4 font-sans text-3xl font-medium md:text-4xl'>{ABOUT.name}</h3>
             <p className='text-studio-pink mb-8 font-sans text-xl font-light tracking-wide'>{ABOUT.title}</p>
@@ -50,7 +51,7 @@ export default function About() {
         </div>
 
         <div className='mx-auto max-w-5xl'>
-          <h3 className='text-studio-dark-green mb-12 font-sans text-3xl font-medium md:text-4xl'>
+          <h3 className='text-studio-dark-green mb-10 font-sans text-3xl font-medium md:text-4xl'>
             Vzdělání & zkušenosti
           </h3>
           <ul className='space-y-10 font-sans text-lg'>
@@ -76,7 +77,7 @@ const ABOUT = {
   title: 'Terapeutka a masérka',
   photo: 'https://pohlazenipoteleadusi.cz/img/photo.png',
   bio: 'Jsem mladá žena s chutí žít život naplno. Cítím, že mým posláním je vykouzlit druhým na tváři úsměv. Ráda bych, abyste se mnou zapomněli na každodenní starosti a užili si chvíli určenou jen a jen vám. Ke každému člověku se snažím přistupovat jako k jedinečné bytosti.',
-  append: '"Těším se na Vaší návštěvu"',
+  append: 'Těším se na Vaší návštěvu',
   qualities: [
     'Dlouholetý <strong>masér pro zdravotnictví a terapeut</strong>',
     'Úspěšně ukončené <strong>magisterské studium</strong> ošetřovatelství na <strong>VŠZaSP sv. Alžbety v Bratislavě</strong>',

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useScrollToElement } from '@/hooks/useScrollToElement'
 
-import { CAROUSEL_AUTOPLAY_SPEED_MS, SECTION, HERO_SUBTITLE, HERO_TITLE } from '@/const'
+import { CAROUSEL_AUTOPLAY_SPEED_MS, SECTION } from '@/const'
 import IMAGE1 from '@/app/assets/carousel_1.jpeg'
 import IMAGE2 from '@/app/assets/carousel_2.jpeg'
 import IMAGE3 from '@/app/assets/carousel_3.jpeg'
@@ -36,7 +36,7 @@ export default function Hero() {
   }
 
   return (
-    <section id='hero' className='relative h-[85vh] overflow-hidden md:h-screen'>
+    <section id='hero' className='relative h-[100vh] overflow-hidden md:h-screen'>
       {/* Carousel background images with blend effect */}
       <div className='absolute inset-0 z-0'>
         <div className='carousel-container relative h-full w-full'>
@@ -57,13 +57,13 @@ export default function Hero() {
       </div>
       {/* Carousel controls */}
       <button
-        className='absolute top-1/2 left-4 z-20 -translate-y-1/2 text-white/70 transition-colors hover:text-white'
+        className='absolute top-1/2 left-4 z-20 hidden -translate-y-1/2 text-white/70 transition-colors hover:text-white md:block'
         onClick={goToPrevSlide}
       >
         <ChevronLeft className='h-8 w-8 stroke-[1.5]' />
       </button>
       <button
-        className='absolute top-1/2 right-4 z-20 -translate-y-1/2 text-white/70 transition-colors hover:text-white'
+        className='absolute top-1/2 right-4 z-20 hidden -translate-y-1/2 text-white/70 transition-colors hover:text-white md:block'
         onClick={goToNextSlide}
       >
         <ChevronRight className='h-8 w-8 stroke-[1.5]' />
@@ -72,23 +72,23 @@ export default function Hero() {
       <div className='hero-content flex h-full flex-col items-center justify-center px-4'>
         <div className='z-10 max-w-3xl text-center'>
           <h2
-            className='font-dancing animate-fade-in mb-6 text-3xl text-[rgb(239,219,229)] drop-shadow-sm md:text-5xl lg:text-6xl'
+            className='font-dancing animate-fade-in mb-6 text-4xl whitespace-normal text-[rgb(239,219,229)] drop-shadow-sm sm:whitespace-nowrap md:text-5xl lg:text-6xl'
             style={{ textShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
           >
-            {HERO_TITLE}
+            Relaxační masáže pro&nbsp;vaše&nbsp;tělo&nbsp;i&nbsp;duši
           </h2>
           <p
             className='animate-slide-up mb-8 font-sans text-lg text-white/90 md:text-xl'
             style={{ animationDelay: '0.3s' }}
           >
-            {HERO_SUBTITLE}
+            Objevte harmonii a klid prostřednictvím našich profesionálních služeb.
           </p>
           <button
             onClick={() => scrollToCalendar(SECTION.SERVICES.id)}
             className='cta-button animate-slide-up rounded-full border border-white px-8 py-3 text-sm font-light tracking-wider text-white uppercase transition-all duration-500'
             style={{ animationDelay: '0.6s' }}
           >
-            Rezervovat
+            Vyberte si masáž
           </button>
         </div>
       </div>

@@ -60,7 +60,7 @@ export default function Header() {
       >
         <div className='container mx-auto flex items-center justify-between px-4'>
           <h1
-            className='font-dancing text-bc6290 cursor-pointer text-2xl md:text-3xl'
+            className='font-dancing text-bc6290 cursor-pointer pl-1 text-2xl md:text-3xl'
             onClick={() => scrollToSection(SECTION.HERO.id)}
           >
             {NAME}
@@ -111,7 +111,7 @@ export default function Header() {
             ))}
           </ul>
         </nav>
-        <button onClick={toggleMobileMenu} className='absolute top-4 right-4 z-50 text-white' aria-label='Zavřít menu'>
+        <button onClick={toggleMobileMenu} className='absolute top-5 right-5 z-50 text-white' aria-label='Zavřít menu'>
           <X className='h-6 w-6' />
         </button>
       </div>

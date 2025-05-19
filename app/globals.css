@@ -94,19 +94,7 @@ body {
   }
 
   .service-card {
-    @apply flex cursor-pointer flex-col items-center rounded-2xl bg-white p-6 text-center shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-md;
-  }
-
-  .service-title {
-    @apply text-studio-dark-green mb-2 font-serif text-2xl font-medium transition-colors md:text-2xl;
-  }
-
-  .service-description {
-    @apply text-studio-dark-gray mb-4 font-serif text-sm font-light;
-  }
-
-  .service-details {
-    @apply text-studio-gold mt-auto font-serif text-lg font-medium tracking-wide md:text-xl;
+    @apply flex cursor-pointer flex-col items-center rounded-2xl bg-white text-center shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-md;
   }
 
   .time-block {
