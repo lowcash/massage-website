@@ -33,16 +33,14 @@ export default function About() {
                 alt={ABOUT.name}
                 width={640}
                 height={640}
-                className='h-full w-full object-cover transition-all duration-300 hover:shadow-md'
+                className='h-full w-full object-cover transition-all duration-300 hover:shadow-md fade-rect-mask'
                 style={{
-                  borderRadius: '45% / 30%',
                   filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.04))',
                 }}
               />
               <div
                 className='absolute inset-0'
                 style={{
-                  borderRadius: '45% / 30%',
                   boxShadow: 'inset 0 0 25px 20px rgba(255,255,255,0.3)',
                 }}
               ></div>

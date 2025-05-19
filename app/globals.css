@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -14,9 +14,9 @@
   --color-studio-pink: rgb(222 57 126);
   --color-border: hsl(214.3 31.8% 91.4%);
   --color-opacity-10: rgb(222 57 126 / 0.1);
-  --color-opacity-20: rgb(222 57 126 / .2);
+  --color-opacity-20: rgb(222 57 126 / 0.2);
 
-  --font-dancing: "Dancing Script", cursive;
+  --font-dancing: 'Dancing Script', cursive;
 }
 
 * {
@@ -24,10 +24,10 @@
 }
 
 body {
-    @apply bg-studio-light-beige text-foreground font-sans;
-    scrollbar-width: thin;
-    scrollbar-color: #bc6290 #333333;
-  }
+  @apply bg-studio-light-beige text-foreground font-sans;
+  scrollbar-width: thin;
+  scrollbar-color: #bc6290 #333333;
+}
 
 /* Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {
@@ -47,11 +47,11 @@ body {
 
 @layer components {
   .nav-link {
-    @apply text-bc6290 hover:text-studio-gold transition-colors duration-300 relative font-medium;
+    @apply text-bc6290 hover:text-studio-gold relative font-medium transition-colors duration-300;
   }
 
   .nav-link::after {
-    @apply content-[''] absolute w-0 h-0.5 bg-bc6290 left-1/2 -translate-x-1/2 bottom-0 transition-all duration-300 ease-out opacity-0;
+    @apply bg-bc6290 absolute bottom-0 left-1/2 h-0.5 w-0 -translate-x-1/2 opacity-0 transition-all duration-300 ease-out content-[''];
   }
 
   .nav-link:hover::after {
@@ -59,11 +59,11 @@ body {
   }
 
   .nav-link-active {
-    @apply text-bc6290 font-medium relative;
+    @apply text-bc6290 relative font-medium;
   }
 
   .nav-link-active::after {
-    @apply content-[''] absolute w-full h-0.5 bg-bc6290 left-0 bottom-0 transition-all duration-300;
+    @apply bg-bc6290 absolute bottom-0 left-0 h-0.5 w-full transition-all duration-300 content-[''];
   }
 
   .section-title {
@@ -291,6 +291,18 @@ body {
 /* Current day highlight in calendar */
 .current-day {
   @apply border-0 bg-[#ffdee2]/25;
+}
+
+.fade-rect-mask {
+  -webkit-mask-image:
+    linear-gradient(to top, transparent 0%, black 2% 98%, transparent 100%),
+    linear-gradient(to right, transparent 0%, black 3% 97%, transparent 100%);
+  -webkit-mask-composite: intersect;
+  mask-composite: intersect;
+
+  mask-image:
+    linear-gradient(to top, transparent 0%, black 2% 98%, transparent 100%),
+    linear-gradient(to right, transparent 0%, black 3% 97%, transparent 100%);
 }
 
 @theme inline {
