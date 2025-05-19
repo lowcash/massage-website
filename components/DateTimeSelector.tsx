@@ -177,7 +177,7 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
                 className='flex-1 cursor-pointer'
                 onClick={() => setSelectedIndex(selectedIndex === idx ? null : idx)}
               >
-                {/* {formatDateTime(item.date)} */}
+                {formatDateTime(item.date)}
               </span>
               {/* Checkbox dostupnosti – mimo klikací oblast, větší, bez textu */}
               <label className='ml-6 flex items-center' onClick={(e) => e.stopPropagation()} tabIndex={-1}>
