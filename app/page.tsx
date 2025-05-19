@@ -18,9 +18,13 @@ export default async function Page() {
   
   return (
     <>
-      {today.getTime()}
+      {today.toUTCString()}&nbsp;
+      {today.toISOString()}&nbsp;
+      {today.getTimezoneOffset()}
       <br />
-      {calendarData?.[0].date.getTime()}
+      {calendarData?.[0]?.date.toUTCString()}&nbsp;
+      {calendarData?.[0]?.date.toISOString()}&nbsp;
+      {calendarData?.[0]?.date.getTimezoneOffset()}&nbsp;
       <Header />
       <Hero />
       <Services />
