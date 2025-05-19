@@ -183,17 +183,13 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
             <li
               key={idx}
               className={[
-                'group flex flex-row items-center justify-between p-3',
+                'group flex cursor-pointer flex-row items-center justify-between p-3',
                 selectedIndex === idx ? 'bg-blue-100 font-bold' : 'hover:bg-gray-200',
               ].join(' ')}
+              onClick={() => setSelectedIndex(selectedIndex === idx ? null : idx)}
             >
               {/* Klikací oblast pro výběr záznamu */}
-              <span
-                className='flex-1 cursor-pointer'
-                onClick={() => setSelectedIndex(selectedIndex === idx ? null : idx)}
-              >
-                {item.dateFormated}
-              </span>
+              <span className='flex-1'>{formatDateTime(item.date)}</span>
               {/* Checkbox dostupnosti – mimo klikací oblast, větší, bez textu */}
               <label className='ml-6 flex items-center' onClick={(e) => e.stopPropagation()} tabIndex={-1}>
                 <input
