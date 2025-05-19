@@ -1,15 +1,19 @@
 'use server'
 
-import fs from 'fs/promises'
-import path from 'path'
+import { createClient } from 'redis'
 import { actionClient, authActionClient } from '@/lib/safe-action'
 import { calendarUpdateInputSchema } from '@/app/actions/calendar.schema'
 
-const calendarFilePath = path.join(process.cwd(), 'data/calendar.json')
+const CALENDAR_KV_KEY = 'calendar'
+
+const redis = await createClient({ url: process.env.REDIS_URL }).connect()
 
 export const getCalendar = actionClient.action(async () => {
-  const fileContent = await fs.readFile(calendarFilePath, 'utf-8')
-  const parsedContent = JSON.parse(fileContent) as any[]
+  const fileContent = await redis.get(CALENDAR_KV_KEY)
+  if (!fileContent) {
+    return []
+  }
+  const parsedContent = JSON.parse(fileContent as string) as any[]
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -23,5 +27,5 @@ export const getCalendar = actionClient.action(async () => {
 })
 
 export const updateCalendar = authActionClient.schema(calendarUpdateInputSchema).action(async ({ parsedInput }) => {
-  await fs.writeFile(calendarFilePath, JSON.stringify(parsedInput, null, 2), 'utf-8')
+  await redis.set(CALENDAR_KV_KEY, JSON.stringify(parsedInput, null, 2))
 })

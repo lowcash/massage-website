@@ -169,6 +169,7 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
     : '00:00'
   const selected = combineDateTime(selectedDate, selectedTime)
   const isValid = isDateTimeInFuture(selected)
+  const isSelected = selectedIndex != null
 
   return (
     <div className='flex w-full max-w-lg flex-col gap-6 rounded border bg-white p-4 shadow'>
@@ -198,8 +199,8 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
       <div className='flex w-full flex-row gap-3'>
         <button
           onClick={handleAdd}
-          disabled={!isValid}
-          className={`flex flex-1 items-center justify-center rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700 ${!isValid ? 'cursor-not-allowed opacity-50' : ''}`}
+          disabled={!isValid || isSelected}
+          className={`flex flex-1 items-center justify-center rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700 ${!isValid || isSelected ? 'cursor-not-allowed opacity-50' : ''}`}
           title={!isValid ? 'Lze přidat pouze termín v budoucnosti' : undefined}
         >
           <PlusCircle className='mr-2 h-5 w-5' />
