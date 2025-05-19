@@ -15,18 +15,8 @@ export const dynamic = 'force-dynamic'
 export default async function Page() {
   const calendarData = (await getCalendar())?.data
 
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  
   return (
     <>
-      {today.toUTCString()}&nbsp;
-      {today.toISOString()}&nbsp;
-      {today.getTimezoneOffset()}
-      <br />
-      {calendarData?.[0]?.date.toUTCString()}&nbsp;
-      {calendarData?.[0]?.date.toISOString()}&nbsp;
-      {calendarData?.[0]?.date.getTimezoneOffset()}&nbsp;
       <Header />
       <Hero />
       <Services />

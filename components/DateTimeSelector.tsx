@@ -142,7 +142,7 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
             type='date'
             value={selectedDate}
             onChange={handleChangeDate}
-            min={getDefaultDateString(p.defaultDateTime)}
+            // min={getDefaultDateString(p.defaultDateTime)}
             className='rounded border px-2 py-1'
           />
         </label>
@@ -214,6 +214,7 @@ function combineDateTime(dateStr: string, timeStr: string): Date | null {
 }
 
 function isDateTimeInFuture(dateObj: Date | null): boolean {
-  if (!dateObj) return false
-  return dateObj.getTime() > Date.now()
+  return true
+  // if (!dateObj) return false
+  // return dateObj.getTime() > Date.now()
 }

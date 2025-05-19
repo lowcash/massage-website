@@ -27,8 +27,13 @@ export default function Calendar(p: Props) {
   const scrollToContact = useScrollToElement()
   const visibleDays = useVisibleDays()
 
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  const data = p.data.filter(x => x.date > today)
+
   // Skupiny slotů podle dne
-  const groupedDays = groupSlotsByDay(p.data)
+  const groupedDays = groupSlotsByDay(data)
   const totalPages = Math.ceil(groupedDays.length / visibleDays)
   const visibleDaysData = groupedDays.slice(activePage, activePage + visibleDays)
 
