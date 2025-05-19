@@ -114,6 +114,10 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
     )
   }
 
+  const selected = combineDateTime(selectedDate, selectedTime)
+  const isValid = isDateTimeInFuture(selected)
+  const isSelected = selectedIndex != null
+
   return (
     <div className='flex w-full max-w-lg flex-col gap-6 rounded border bg-white p-4 shadow'>
       <div className='flex w-full flex-row items-end gap-3'>
@@ -123,7 +127,7 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
             type='date'
             value={selectedDate}
             onChange={handleChangeDate}
-            // min={minDate}
+            min={p.defaultDateString}
             className='rounded border px-2 py-1'
           />
         </label>
@@ -141,7 +145,7 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
       <div className='flex w-full flex-row gap-3'>
         <button
           onClick={handleAdd}
-          // disabled={!isValid || isSelected}
+          disabled={!isValid || isSelected}
           // className={`flex flex-1 items-center justify-center rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700 ${!isValid || isSelected ? 'cursor-not-allowed opacity-50' : ''}`}
           // title={!isValid ? 'Lze přidat pouze termín v budoucnosti' : undefined}
         >
