@@ -6,35 +6,26 @@ import { dateToInput, formatDateTime, timeToInput } from '@/lib/utils'
 import { type CalendarItem } from '@/app/types/calendar'
 
 import { PlusCircle, Trash2 } from 'lucide-react'
+import { useIsClient } from '@/hooks/use-is-cllient'
 
 interface DateTimeSelectorProps {
   data: CalendarItem[]
-  defaultDateTime: Date
-  // defaultDateString: string
-  // defaultTimeString: string
 }
 
-function getDefaultDateString(date: Date) {
-  return dateToInput(date)
-}
-function getDefaultTimeString(date: Date) {
-  date.setSeconds(0, 0)
-  let min = Math.round(date.getMinutes() / 5) * 5
-  if (min === 60) {
-    date.setHours(date.getHours() + 1)
-    min = 0
-  }
-  date.setMinutes(min)
-  return date.toTimeString().slice(0, 5)
-}
-
-export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) {
+export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
   const [list, setList] = useState<CalendarItem[]>(data)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
   // Inputy pro datum a čas
-  const [selectedDate, setSelectedDate] = useState(getDefaultDateString(p.defaultDateTime))
-  const [selectedTime, setSelectedTime] = useState(getDefaultTimeString(p.defaultDateTime))
+  const [selectedDate, setSelectedDate] = useState('')
+  const [selectedTime, setSelectedTime] = useState('')
+
+  const isClient = useIsClient()
+
+  useEffect(() => {
+    setSelectedDate(getDefaultDateString(new Date()))
+    setSelectedTime(getDefaultTimeString(new Date()))
+  }, [])
 
   // Když vyberu item, nastav inputy podle něj
   useEffect(() => {
@@ -49,8 +40,8 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
   // Pokud není vybrán žádný item, inputy jsou defaultní
   useEffect(() => {
     if (selectedIndex === null) {
-      setSelectedDate(getDefaultDateString(p.defaultDateTime))
-      setSelectedTime(getDefaultTimeString(p.defaultDateTime))
+      setSelectedDate(getDefaultDateString(new Date()))
+      setSelectedTime(getDefaultTimeString(new Date()))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIndex])
@@ -65,7 +56,7 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
     const selected = combineDateTime(selectedDate, selectedTime)
     if (!selected || !isDateTimeInFuture(selected)) return
     if (!list.some((dt) => dt.date.getTime() === selected.getTime())) {
-      const newList = sortList([...list, { date: selected, dateFormated: formatDateTime(selected), available: true }])
+      const newList = sortList([...list, { date: selected, available: true }])
       setList(newList)
       onChangeAndLog(newList)
     }
@@ -189,7 +180,7 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
               onClick={() => setSelectedIndex(selectedIndex === idx ? null : idx)}
             >
               {/* Klikací oblast pro výběr záznamu */}
-              <span className='flex-1'>{formatDateTime(item.date)}</span>
+              <span className='flex-1'>{isClient && formatDateTime(item.date)}</span>
               {/* Checkbox dostupnosti – mimo klikací oblast, větší, bez textu */}
               <label className='ml-6 flex items-center' onClick={(e) => e.stopPropagation()} tabIndex={-1}>
                 <input
@@ -214,7 +205,20 @@ function combineDateTime(dateStr: string, timeStr: string): Date | null {
 }
 
 function isDateTimeInFuture(dateObj: Date | null): boolean {
-  return true
-  // if (!dateObj) return false
-  // return dateObj.getTime() > Date.now()
+  if (!dateObj) return false
+  return dateObj.getTime() > Date.now()
+}
+
+function getDefaultDateString(date: Date) {
+  return dateToInput(date)
+}
+function getDefaultTimeString(date: Date) {
+  date.setSeconds(0, 0)
+  let min = Math.round(date.getMinutes() / 5) * 5
+  if (min === 60) {
+    date.setHours(date.getHours() + 1)
+    min = 0
+  }
+  date.setMinutes(min)
+  return date.toTimeString().slice(0, 5)
 }

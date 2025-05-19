@@ -3,8 +3,6 @@
 import { createClient } from 'redis'
 import { actionClient, authActionClient } from '@/lib/safe-action'
 import { calendarUpdateInputSchema } from '@/app/actions/calendar.schema'
-import { formatDateTime } from '@/lib/utils'
-import { type CalendarItem } from '@/app/types/calendar'
 
 const CALENDAR_KV_KEY = 'calendar'
 
@@ -17,20 +15,10 @@ export const getCalendar = actionClient.action(async () => {
   }
   const parsedContent = JSON.parse(fileContent as string) as any[]
 
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-
-  return parsedContent
-    .map((slot) => {
-      const date = new Date(slot.date)
-
-      return {
-        ...slot,
-        date,
-        dateFormated: formatDateTime(date),
-      }
-    })
-    // .filter((slot) => slot.date >= today) as CalendarItem[]
+  return parsedContent.map((slot) => ({
+    ...slot,
+    date: new Date(slot.date),
+  }))
 })
 
 export const updateCalendar = authActionClient.schema(calendarUpdateInputSchema).action(async ({ parsedInput }) => {

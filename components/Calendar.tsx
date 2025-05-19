@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { useScrollToElement } from '@/hooks/useScrollToElement'
+import { useScrollToElement } from '@/hooks/use-scroll-to-element'
 
 import { Description, H2 } from '@/style/typo'
 import { SectionHeaderContainer } from '@/style/common'

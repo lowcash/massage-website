@@ -1,6 +1,6 @@
 'use client'
 
-import { useScrollToElement } from '@/hooks/useScrollToElement'
+import { useScrollToElement } from '@/hooks/use-scroll-to-element'
 
 import { SECTION } from '@/const'
 
