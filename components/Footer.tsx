@@ -16,12 +16,12 @@ export default function Footer() {
     <footer className='bg-[#1a1a1a] py-8'>
       <div className='container mx-auto px-4'>
         <div className='flex flex-col items-center justify-between gap-4 md:flex-row'>
-          <div className='mb-4 md:mb-0'>
+          <div className='mr-auto mb-4 md:mb-0'>
             <h3 className='font-dancing text-bc6290 mb-2 text-2xl font-bold'>{NAME}</h3>
             <p className='text-sm text-white/90'>{TITLE}</p>
           </div>
 
-          <div className='flex flex-col gap-2 text-sm text-white/90 sm:gap-4 md:flex-row'>
+          <div className='flex w-full gap-4 text-sm text-white/90 md:w-fit'>
             <div>
               <h4 className='mb-2 font-medium text-white'>Otevírací doba</h4>
               <ul>
@@ -38,10 +38,15 @@ export default function Footer() {
                 <br />
                 {PHONE}
               </address>
+
+              <div className='mt-2 sm:hidden'>
+                <h4 className='mb-2 hidden font-medium text-white md:block'>&nbsp;</h4>
+                <address className='not-italic' dangerouslySetInnerHTML={{ __html: ADDRESS }} />
+              </div>
             </div>
 
-            <div>
-              <h4 className='md:block mb-2 hidden font-medium text-white'>&nbsp;</h4>
+            <div className='hidden sm:block'>
+              <h4 className='mb-2 hidden font-medium text-white md:block'>&nbsp;</h4>
               <address className='not-italic' dangerouslySetInnerHTML={{ __html: ADDRESS }} />
             </div>
           </div>
