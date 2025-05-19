@@ -1,5 +1,3 @@
-'use client'
-
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { MapPin, Phone, Mail } from 'lucide-react'
@@ -15,7 +13,8 @@ import {
   OPENING_HOURS_SUNDAY,
   OPENING_HOURS_WORKDAYS,
 } from '@/const'
-import { Button } from '@/components/ui/button'
+
+import ContactCTA from '@/components/ContactCTA'
 
 export default function Contact() {
   return (
@@ -97,12 +96,7 @@ export default function Contact() {
                   </div>
 
                   <div className='mt-2 flex justify-center md:hidden'>
-                    <Button
-                      className='bg-studio-pink hover:bg-studio-pink/90 rounded-md py-7 pr-12 pl-12 text-lg text-white shadow-md transition-all duration-300 hover:translate-y-[-2px] hover:shadow-lg'
-                      onClick={() => (window.location.href = `tel:${PHONE}`)}
-                    >
-                      <Phone className='mr-2 h-4 w-4' /> Zavolat / Rezervovat termín
-                    </Button>
+                    <ContactCTA />
                   </div>
                 </div>
               </div>

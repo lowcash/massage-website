@@ -1,16 +1,11 @@
-'use client'
-
-import { useScrollToElement } from '@/hooks/useScrollToElement'
-
 import { Flower, Heart, Droplet, Leaf, Sun, Sparkles } from 'lucide-react'
 import { Description, H2 } from '@/style/typo'
 import { SectionHeaderContainer } from '@/style/common'
+import ServiceItem from '@/components/ServiceItem'
 
 import { SECTION } from '@/const'
 
 export default function Services() {
-  const scrollToCalendar = useScrollToElement()
-
   return (
     <section id={SECTION.SERVICES.id} className='bg-studio-beige/30 px-4 py-24'>
       <div className='mx-auto md:max-w-[45rem] lg:max-w-[62rem]'>
@@ -24,27 +19,7 @@ export default function Services() {
 
         <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
           {SERVICES.map((service, index) => (
-            <div
-              key={index}
-              className='service-card group relative transform cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-1'
-              onClick={() => scrollToCalendar(SECTION.CONTACT.id)}
-              aria-label={`Vybrat masáž ${service.name}`}
-            >
-              <div className='flex h-full flex-col items-center p-10 md:p-12 lg:p-10'>
-                <div className='mb-6 transition-transform duration-300 group-hover:rotate-3'>{service.icon}</div>
-                <h3 className='text-studio-dark-green mb-3 font-serif text-3xl font-medium transition-colors md:text-2xl'>
-                  {service.name}
-                </h3>
-                <p className='text-studio-dark-gray mb-4 font-serif text-lg font-light md:text-sm'>
-                  {service.description}
-                </p>
-                <div className='mt-auto flex flex-col pt-6'>
-                  <span className='block font-serif text-2xl text-gray-500 md:text-xl'>{service.duration}</span>
-                  <span className='text-studio-gold font-serif text-2xl font-medium md:text-xl'>{service.price}</span>
-                </div>
-              </div>
-              <div className='absolute inset-0 bg-white/5 opacity-0 backdrop-blur-[1px] transition-opacity duration-300'></div>
-            </div>
+            <ServiceItem key={index} {...service} />
           ))}
         </div>
       </div>
@@ -59,7 +34,7 @@ const SUN = <Sun className='text-studio-gold h-12 w-12 transition-all duration-3
 const FLOWER = <Flower className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />
 const SPARKES = <Sparkles className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />
 
-const SERVICES = [
+const SERVICES: React.ComponentProps<typeof ServiceItem>[] = [
   {
     icon: LEAF,
     name: 'Thajská masáž nohou',

@@ -4,7 +4,7 @@ import { H2 } from '@/style/typo'
 import { SectionHeaderContainer } from '@/style/common'
 
 import PROFILE_IMG from '@/app/assets/profile.jpeg'
-import { SECTION } from '@/const'
+import { SECTION, THERAPIST_NAME } from '@/const'
 
 export default function About() {
   return (
@@ -16,29 +16,36 @@ export default function About() {
 
         <div className='mx-auto mb-20 flex max-w-6xl flex-col items-start gap-16 md:flex-row'>
           <div className='flex w-full flex-col md:w-3/5'>
-            <h3 className='text-studio-dark-green mb-4 font-sans text-3xl font-medium md:text-4xl'>{ABOUT.name}</h3>
-            <p className='text-studio-pink mb-8 font-sans text-xl font-light tracking-wide'>{ABOUT.title}</p>
+            <h3 className='text-studio-dark-green mb-4 font-sans text-3xl font-medium md:text-4xl'>{THERAPIST_NAME}</h3>
+            <p className='text-studio-pink mb-8 font-sans text-xl font-light tracking-wide'>Terapeutka a masérka</p>
             <div className='mb-10 space-y-8 text-lg leading-relaxed text-gray-700'>
-              <p className='leading-relaxed'>{ABOUT.bio}</p>
+              <p className='leading-relaxed'>
+                Jsem mladá žena s chutí žít život naplno. Cítím, že mým posláním je vykouzlit druhým na tváři úsměv.
+                Ráda bych, abyste se mnou zapomněli na každodenní starosti a užili si chvíli určenou jen a jen vám. Ke
+                každému člověku se snažím přistupovat jako k jedinečné bytosti.
+              </p>
               {/* <p className='text-xl leading-relaxed font-bold text-gray-700 italic'>
                 Každý klient je pro mě jedinečný, a proto přizpůsobuji masáže individuálním potřebám.
               </p> */}
             </div>
 
-            <div className='text-studio-pink font-dancing mt-6 mb-12 text-3xl md:text-2xl italic'>{ABOUT.append}</div>
+            <div className='text-studio-pink font-dancing mt-6 mb-12 text-3xl italic md:text-2xl'>
+              Těším se na Vaší návštěvu
+            </div>
           </div>
 
           <div className='order-first flex w-full justify-center md:order-last md:w-2/5 md:justify-end'>
             <div className='relative h-[30rem] w-80 md:w-[22rem]'>
               <Image
                 src={PROFILE_IMG.src}
-                alt={ABOUT.name}
+                alt={THERAPIST_NAME}
                 width={640}
                 height={640}
                 className='fade-rect-mask h-full w-full object-cover transition-all duration-300 hover:shadow-md'
                 style={{
                   filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.04))',
                 }}
+                priority
               />
               <div
                 className='absolute inset-0'
@@ -55,7 +62,7 @@ export default function About() {
             Vzdělání & zkušenosti
           </h3>
           <ul className='space-y-10 font-sans text-lg'>
-            {ABOUT.qualities.map((x, idx) => (
+            {QUALITIES.map((x, idx) => (
               <li key={idx} className='flex items-start'>
                 <div className='mt-1.5 mr-5 flex-shrink-0 rounded-full bg-[#fddce4] p-1.5'>
                   <Check className='text-studio-pink h-5 w-5 stroke-[1.5]' />
@@ -72,18 +79,11 @@ export default function About() {
   )
 }
 
-const ABOUT = {
-  name: 'Mgr. Radka Šebestová',
-  title: 'Terapeutka a masérka',
-  photo: 'https://pohlazenipoteleadusi.cz/img/photo.png',
-  bio: 'Jsem mladá žena s chutí žít život naplno. Cítím, že mým posláním je vykouzlit druhým na tváři úsměv. Ráda bych, abyste se mnou zapomněli na každodenní starosti a užili si chvíli určenou jen a jen vám. Ke každému člověku se snažím přistupovat jako k jedinečné bytosti.',
-  append: 'Těším se na Vaší návštěvu',
-  qualities: [
-    'Dlouholetý <strong>masér pro zdravotnictví a terapeut</strong>',
-    'Úspěšně ukončené <strong>magisterské studium</strong> ošetřovatelství na <strong>VŠZaSP sv. Alžbety v Bratislavě</strong>',
-    '<strong>Léta zkušeností</strong> se zařízeními sociální a zdravotní péče',
-    '<strong>Učitelka</strong> zdravotnických předmětů',
-    'Lektor v <strong>sociální sféře</strong>',
-    'Specializace v oboru <strong>geriatrie</strong>',
-  ],
-}
+const QUALITIES = [
+  'Dlouholetý <strong>masér pro zdravotnictví a terapeut</strong>',
+  'Úspěšně ukončené <strong>magisterské studium</strong> ošetřovatelství na <strong>VŠZaSP sv. Alžbety v Bratislavě</strong>',
+  '<strong>Léta zkušeností</strong> se zařízeními sociální a zdravotní péče',
+  '<strong>Učitelka</strong> zdravotnických předmětů',
+  'Lektor v <strong>sociální sféře</strong>',
+  'Specializace v oboru <strong>geriatrie</strong>',
+]

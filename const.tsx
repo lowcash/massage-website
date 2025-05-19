@@ -30,6 +30,8 @@ export const SECTIONS_NAV = [SECTION.SERVICES, SECTION.ABOUT, SECTION.CONTACT]
 
 export const CAROUSEL_AUTOPLAY_SPEED_MS = 10000
 
+export const THERAPIST_NAME = 'Mgr. Radka Šebestová'
+
 export const EMAIL = 'sebestovar@seznam.cz'
 export const PHONE = '(+420) 605 579 643'
 export const FACEBOOK = 'https://www.facebook.com/radka6575'
