@@ -9,7 +9,7 @@ import { SECTION } from '@/const'
 export default function About() {
   return (
     <section id={SECTION.ABOUT.id} className='bg-[#fef9fb] px-5 py-24'>
-      <div className='container mx-auto'>
+      <div className='container mx-auto md:max-w-[45rem] lg:max-w-[62rem]'>
         <SectionHeaderContainer>
           <H2>Něco málo o mně</H2>
         </SectionHeaderContainer>
@@ -25,7 +25,7 @@ export default function About() {
               </p> */}
             </div>
 
-            <div className='text-studio-pink font-dancing mt-6 mb-12 text-xl italic'>{ABOUT.append}</div>
+            <div className='text-studio-pink font-dancing mt-6 mb-12 text-3xl md:text-2xl italic'>{ABOUT.append}</div>
           </div>
 
           <div className='order-first flex w-full justify-center md:order-last md:w-2/5 md:justify-end'>
