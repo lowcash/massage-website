@@ -9,8 +9,23 @@ import { PlusCircle, Trash2 } from 'lucide-react'
 
 interface DateTimeSelectorProps {
   data: CalendarItem[]
-  defaultDateString: string
-  defaultTimeString: string
+  defaultDateTime: Date
+  // defaultDateString: string
+  // defaultTimeString: string
+}
+
+function getDefaultDateString(date: Date) {
+  return dateToInput(date)
+}
+function getDefaultTimeString(date: Date) {
+  date.setSeconds(0, 0)
+  let min = Math.round(date.getMinutes() / 5) * 5
+  if (min === 60) {
+    date.setHours(date.getHours() + 1)
+    min = 0
+  }
+  date.setMinutes(min)
+  return date.toTimeString().slice(0, 5)
 }
 
 export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) {
@@ -18,8 +33,8 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
   // Inputy pro datum a čas
-  const [selectedDate, setSelectedDate] = useState(p.defaultDateString)
-  const [selectedTime, setSelectedTime] = useState(p.defaultTimeString)
+  const [selectedDate, setSelectedDate] = useState(getDefaultDateString(p.defaultDateTime))
+  const [selectedTime, setSelectedTime] = useState(getDefaultTimeString(p.defaultDateTime))
 
   // Když vyberu item, nastav inputy podle něj
   useEffect(() => {
@@ -34,8 +49,8 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
   // Pokud není vybrán žádný item, inputy jsou defaultní
   useEffect(() => {
     if (selectedIndex === null) {
-      setSelectedDate(p.defaultDateString)
-      setSelectedTime(p.defaultTimeString)
+      setSelectedDate(getDefaultDateString(p.defaultDateTime))
+      setSelectedTime(getDefaultTimeString(p.defaultDateTime))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIndex])
@@ -127,7 +142,7 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
             type='date'
             value={selectedDate}
             onChange={handleChangeDate}
-            min={p.defaultDateString}
+            min={getDefaultDateString(p.defaultDateTime)}
             className='rounded border px-2 py-1'
           />
         </label>
