@@ -157,6 +157,37 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
           Odebrat
         </button>
       </div>
+      <div className='w-full flex-1'>
+        <ul className='divide-y rounded border bg-gray-50'>
+          {list.length === 0 && <li className='p-3 text-gray-400'>Žádný termín v seznamu</li>}
+          {list.map((item, idx) => (
+            <li
+              // key={item.date.getTime()}
+              className={[
+                'group flex flex-row items-center justify-between p-3',
+                selectedIndex === idx ? 'bg-blue-100 font-bold' : 'hover:bg-gray-200',
+              ].join(' ')}
+            >
+              {/* Klikací oblast pro výběr záznamu */}
+              <span
+                className='flex-1 cursor-pointer'
+                onClick={() => setSelectedIndex(selectedIndex === idx ? null : idx)}
+              >
+                {formatDateTime(item.date)}
+              </span>
+              {/* Checkbox dostupnosti – mimo klikací oblast, větší, bez textu */}
+              <label className='ml-6 flex items-center' onClick={(e) => e.stopPropagation()} tabIndex={-1}>
+                <input
+                  type='checkbox'
+                  checked={item.available}
+                  onChange={() => handleToggleAvailable(idx)}
+                  className='scale-150 cursor-pointer accent-green-600'
+                />
+              </label>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 
