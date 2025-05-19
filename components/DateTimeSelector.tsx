@@ -113,7 +113,32 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
     )
   }
 
-  return <></>
+  return (
+    <div className='flex w-full max-w-lg flex-col gap-6 rounded border bg-white p-4 shadow'>
+      <div className='flex w-full flex-row items-end gap-3'>
+        <label className='flex flex-col'>
+          <span className='mb-1 block'>Datum</span>
+          <input
+            type='date'
+            value={selectedDate}
+            onChange={handleChangeDate}
+            // min={minDate}
+            className='rounded border px-2 py-1'
+          />
+        </label>
+        <label className='flex flex-col'>
+          <span className='mb-1 block'>Čas</span>
+          <input
+            type='time'
+            value={selectedTime}
+            onChange={handleChangeTime}
+            className='rounded border px-2 py-1'
+            step={300}
+          />
+        </label>
+      </div>
+    </div>
+  )
 
   // const minDate = getDefaultDate()
 
