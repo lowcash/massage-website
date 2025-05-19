@@ -146,8 +146,8 @@ export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) 
         <button
           onClick={handleAdd}
           disabled={!isValid || isSelected}
-          // className={`flex flex-1 items-center justify-center rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700 ${!isValid || isSelected ? 'cursor-not-allowed opacity-50' : ''}`}
-          // title={!isValid ? 'Lze přidat pouze termín v budoucnosti' : undefined}
+          className={`flex flex-1 items-center justify-center rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700 ${!isValid || isSelected ? 'cursor-not-allowed opacity-50' : ''}`}
+          title={!isValid ? 'Lze přidat pouze termín v budoucnosti' : undefined}
         >
           <PlusCircle className='mr-2 h-5 w-5' />
           Přidat
