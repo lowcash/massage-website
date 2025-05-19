@@ -2,21 +2,24 @@
 
 import { useState, useEffect } from 'react'
 import { updateCalendar } from '@/app/actions/calendar'
+import { dateToInput, timeToInput } from '@/lib/utils'
 
 import { PlusCircle, Trash2 } from 'lucide-react'
 import { CalendarUpdateItem } from '@/app/actions/calendar.schema'
 
 interface DateTimeSelectorProps {
   data: CalendarUpdateItem[]
+  defaultDateString: string
+  defaultTimeString: string
 }
 
-export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
+export default function DateTimeSelector({ data, ...p }: DateTimeSelectorProps) {
   const [list, setList] = useState<CalendarUpdateItem[]>(data)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
   // Inputy pro datum a čas
-  const [selectedDate, setSelectedDate] = useState(getDefaultDate())
-  const [selectedTime, setSelectedTime] = useState(getDefaultTime())
+  const [selectedDate, setSelectedDate] = useState(p.defaultDateString)
+  const [selectedTime, setSelectedTime] = useState(p.defaultTimeString)
 
   // Když vyberu item, nastav inputy podle něj
   useEffect(() => {
@@ -31,8 +34,8 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
   // Pokud není vybrán žádný item, inputy jsou defaultní
   useEffect(() => {
     if (selectedIndex === null) {
-      setSelectedDate(getDefaultDate())
-      setSelectedTime(getDefaultTime())
+      setSelectedDate(p.defaultDateString)
+      setSelectedTime(p.defaultTimeString)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIndex])
@@ -135,6 +138,25 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
           />
         </label>
       </div>
+      <div className='flex w-full flex-row gap-3'>
+        <button
+          onClick={handleAdd}
+          // disabled={!isValid || isSelected}
+          // className={`flex flex-1 items-center justify-center rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700 ${!isValid || isSelected ? 'cursor-not-allowed opacity-50' : ''}`}
+          // title={!isValid ? 'Lze přidat pouze termín v budoucnosti' : undefined}
+        >
+          <PlusCircle className='mr-2 h-5 w-5' />
+          Přidat
+        </button>
+        <button
+          onClick={handleRemove}
+          className='flex flex-1 items-center justify-center rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700 disabled:bg-gray-300'
+          disabled={selectedIndex === null}
+        >
+          <Trash2 className='mr-2 h-5 w-5' />
+          Odebrat
+        </button>
+      </div>
     </div>
   )
 
@@ -222,22 +244,6 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
   // )
 }
 
-function getDefaultDate() {
-  const now = new Date()
-  return dateToInput(now)
-}
-function getDefaultTime() {
-  const n = new Date()
-  n.setSeconds(0, 0)
-  let min = Math.round(n.getMinutes() / 5) * 5
-  if (min === 60) {
-    n.setHours(n.getHours() + 1)
-    min = 0
-  }
-  n.setMinutes(min)
-  return n.toTimeString().slice(0, 5)
-}
-
 function formatDateTime(dateObj: Date | null) {
   if (!dateObj) return ''
   return `${dateObj.getDate()}. ${dateObj.getMonth() + 1}. ${dateObj.getFullYear()} ${String(dateObj.getHours()).padStart(2, '0')}:${String(dateObj.getMinutes()).padStart(2, '0')}`
@@ -252,15 +258,4 @@ function combineDateTime(dateStr: string, timeStr: string): Date | null {
 function isDateTimeInFuture(dateObj: Date | null): boolean {
   if (!dateObj) return false
   return dateObj.getTime() > Date.now()
-}
-
-function dateToInput(date: Date) {
-  const yyyy = date.getFullYear()
-  const mm = String(date.getMonth() + 1).padStart(2, '0')
-  const dd = String(date.getDate()).padStart(2, '0')
-  return `${yyyy}-${mm}-${dd}`
-}
-function timeToInput(date: Date) {
-  // HH:MM
-  return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
 }
