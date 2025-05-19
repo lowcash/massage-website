@@ -39,8 +39,8 @@ export default function Services() {
                   {service.description}
                 </p>
                 <div className='mt-auto flex flex-col pt-6'>
-                  <span className='block font-serif text-gray-500'>{service.duration}</span>
-                  <span className='text-studio-gold font-serif text-xl font-medium'>{service.price}</span>
+                  <span className='block font-serif text-2xl text-gray-500 md:text-xl'>{service.duration}</span>
+                  <span className='text-studio-gold font-serif text-2xl font-medium md:text-xl'>{service.price}</span>
                 </div>
               </div>
               <div className='absolute inset-0 bg-white/5 opacity-0 backdrop-blur-[1px] transition-opacity duration-300'></div>

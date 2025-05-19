@@ -1,13 +1,17 @@
 'use client'
 
 import { useState } from 'react'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { useScrollToElement } from '@/hooks/useScrollToElement'
+
 import { Description, H2 } from '@/style/typo'
 import { SectionHeaderContainer } from '@/style/common'
 
 import { PHONE, SECTION } from '@/const'
 
-const VISIBLE_DAYS = 5
+const VISIBLE_DESKTOP_DAYS = 4
+const VISIBLE_MOBILE_DAYS = 3
+
 export interface CalendarSlot {
   date: Date
   available: boolean
@@ -19,12 +23,14 @@ interface Props {
 
 export default function Calendar(p: Props) {
   const [activePage, setActivePage] = useState(0)
+
   const scrollToContact = useScrollToElement()
+  const visibleDays = useVisibleDays()
 
   // Skupiny slotů podle dne
   const groupedDays = groupSlotsByDay(p.data)
-  const totalPages = Math.ceil(groupedDays.length / VISIBLE_DAYS)
-  const visibleDaysData = groupedDays.slice(activePage, activePage + VISIBLE_DAYS)
+  const totalPages = Math.ceil(groupedDays.length / visibleDays)
+  const visibleDaysData = groupedDays.slice(activePage, activePage + visibleDays)
 
   const hasMorePages = totalPages > 1
 
@@ -52,7 +58,7 @@ export default function Calendar(p: Props) {
         <div className='calendar-container relative mx-auto max-w-4xl'>
           {hasMorePages && (
             <button
-              className='text-bc6290 hover:text-studio-gold absolute top-1/2 left-0 z-10 -translate-x-4 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:-translate-x-8'
+              className='text-bc6290 hover:text-studio-gold absolute top-1/2 left-0 z-10 translate-x-3 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:translate-x-3'
               onClick={() => handleNavigation('prev')}
               disabled={activePage === 0}
               aria-label='Předchozí týden'
@@ -72,14 +78,16 @@ export default function Calendar(p: Props) {
           <div className='calendar-scroll-area'>
             <div className='flex justify-center gap-4'>
               {visibleDaysData.map((dayGroup, dayIndex) => (
-                <div key={dayIndex} className='w-40 flex-shrink-0'>
+                <div key={dayIndex} className='max-w-40 flex-1'>
                   <div
                     className={`h-full rounded-2xl bg-white p-4 shadow-sm transition-all ${isToday(dayGroup.day) ? 'current-day' : ''}`}
                   >
                     <div
                       className={`mb-3 border-b pb-2 text-center ${isToday(dayGroup.day) ? 'border-bc6290' : 'border-gray-100'}`}
                     >
-                      <p className={`font-medium ${isToday(dayGroup.day) ? 'text-bc6290' : 'text-gray-700'}`}>
+                      <p
+                        className={`text-sm font-medium md:text-lg ${isToday(dayGroup.day) ? 'text-bc6290' : 'text-gray-700'}`}
+                      >
                         {formatDay(dayGroup.day)}
                         <br />
                         {formatDate(dayGroup.day)}
@@ -109,7 +117,7 @@ export default function Calendar(p: Props) {
 
           {hasMorePages && (
             <button
-              className='text-bc6290 hover:text-studio-gold absolute top-1/2 right-0 z-10 translate-x-4 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:translate-x-8'
+              className='text-bc6290 hover:text-studio-gold absolute top-1/2 right-0 z-10 -translate-x-3 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:-translate-x-3'
               onClick={() => handleNavigation('next')}
               disabled={activePage === totalPages - 1}
               aria-label='Další týden'
@@ -148,6 +156,12 @@ export default function Calendar(p: Props) {
       </div>
     </section>
   )
+}
+
+function useVisibleDays() {
+  const isMobile = useIsMobile()
+
+  return isMobile ? VISIBLE_MOBILE_DAYS : VISIBLE_DESKTOP_DAYS
 }
 
 // Pomocná funkce pro zobrazení pouze dne (pro záhlaví sloupce)
