@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { Check } from 'lucide-react'
+import { H2 } from '@/style/typo'
 
 import PROFILE_IMG from '@/app/assets/profile.jpeg'
 import { SECTION } from '@/const'
@@ -8,8 +9,8 @@ export default function About() {
   return (
     <section id={SECTION.ABOUT.id} className='bg-[#fef9fb] px-5 py-24'>
       <div className='container mx-auto'>
-        <div className='mb-16 text-center'>
-          <h2 className='section-title text-4xl md:text-5xl'>Něco málo o mně</h2>
+        <div className='mb-12 text-center'>
+          <H2>Něco málo o mně</H2>
         </div>
 
         <div className='mx-auto mb-24 flex max-w-6xl flex-col items-start gap-16 md:flex-row'>
@@ -33,7 +34,7 @@ export default function About() {
                 alt={ABOUT.name}
                 width={640}
                 height={640}
-                className='h-full w-full object-cover transition-all duration-300 hover:shadow-md fade-rect-mask'
+                className='fade-rect-mask h-full w-full object-cover transition-all duration-300 hover:shadow-md'
                 style={{
                   filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.04))',
                 }}

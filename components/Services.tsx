@@ -3,6 +3,7 @@
 import { useScrollToElement } from '@/hooks/useScrollToElement'
 
 import { Flower, Heart, Droplet, Leaf, Sun, Sparkles } from 'lucide-react'
+import { Description, H2 } from '@/style/typo'
 
 import { SECTION } from '@/const'
 
@@ -13,14 +14,14 @@ export default function Services() {
     <section id={SECTION.SERVICES.id} className='bg-studio-beige/30 px-4 py-24'>
       <div className='mx-auto max-w-[65rem]'>
         <div className='mb-12 text-center'>
-          <h2 className='section-title text-4xl md:text-5xl'>Jak Vám můžu pomoci?</h2>
-          <p className='mx-auto mt-4 max-w-3xl font-sans text-lg text-gray-600'>
+          <H2>Jak Vám můžu pomoci?</H2>
+          <Description>
             Nabízím širokou škálu masáží a terapií přizpůsobených vašim individuálním potřebám pro dosažení harmonie
             těla i mysli.
-          </p>
+          </Description>
         </div>
 
-        <div className='mb-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
           {SERVICES.map((service, index) => (
             <div
               key={index}
