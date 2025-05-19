@@ -24,7 +24,7 @@ export default function Hero() {
             className='animate-slide-up mb-8 font-sans text-lg text-white/90 md:text-xl'
             style={{ animationDelay: '0.3s' }}
           >
-            Objevte harmonii a klid prostřednictvím našich profesionálních služeb.
+            Objevte harmonii a&nbsp;klid prostřednictvím našich profesionálních služeb.
           </p>
           <HeroCTA />
         </div>

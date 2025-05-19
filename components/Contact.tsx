@@ -22,11 +22,13 @@ export default function Contact() {
       <div className='container mx-auto'>
         <SectionHeaderContainer>
           <H2>Kde mě najdete?</H2>
-          <Description>Ozvěte se mi pro rezervaci nebo s jakýmkoliv dotazem</Description>
+          <Description
+            dangerouslySetInnerHTML={{ __html: `Ozvěte se mi pro rezervaci nebo s&nbsp;jakýmkoliv dotazem` }}
+          />
         </SectionHeaderContainer>
 
         <div className='mx-auto flex max-w-5xl flex-col gap-8 lg:flex-row'>
-          <Card className='rounded-2xl border-0 bg-white p-6 shadow-sm lg:w-1/2'>
+          <Card className='rounded-2xl border-0 bg-white p-4 shadow-sm sm:p-6 lg:w-1/2'>
             <CardContent className='space-y-8 p-0'>
               <div>
                 <div className='mb-4 flex items-center gap-2'>
@@ -94,10 +96,9 @@ export default function Contact() {
                     <Mail className='text-studio-gold mr-2 h-5 w-5 flex-shrink-0' />
                     <span className='font-medium'>{EMAIL}</span>
                   </div>
-
-                  <div className='mt-2 flex justify-center md:hidden'>
-                    <ContactCTA />
-                  </div>
+                </div>
+                <div className='mt-2 flex justify-center md:hidden'>
+                  <ContactCTA />
                 </div>
               </div>
             </CardContent>

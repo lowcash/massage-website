@@ -50,9 +50,11 @@ export default function Calendar(p: Props) {
       <div className='container mx-auto'>
         <SectionHeaderContainer>
           <H2>Najděte si volný termín</H2>
-          <Description>
-            Termíny jsou pouze orientační. Pro rezervaci volejte: <strong>{PHONE}</strong>
-          </Description>
+          <Description
+            dangerouslySetInnerHTML={{
+              __html: `Termíny jsou pouze orientační. Pro&nbsp;rezervaci volejte: <strong className='whitespace-nowrap'>${PHONE}</strong>`,
+            }}
+          />
         </SectionHeaderContainer>
 
         <div className='calendar-container relative mx-auto max-w-4xl'>
@@ -147,11 +149,13 @@ export default function Calendar(p: Props) {
         </div>
 
         <div className='mx-auto mt-8 flex max-w-2xl flex-col gap-1 text-center'>
-          <p className='text-sm text-gray-600 italic'>
-            Kalendář slouží pouze pro informaci, rezervace je platná až po osobním potvrzení telefonem.
+          <p className='text-gray-600 italic'>
+            Kalendář slouží pouze pro informaci, rezervace je platná až&nbsp;po osobním potvrzení telefonem.
           </p>
 
-          <p className='text-sm text-gray-500'>Termíny aktualizuji manuálně – děkuji za pochopení a trpělivost!</p>
+          <p className='text-gray-500'>
+            Termíny aktualizuji manuálně&nbsp;– děkuji za&nbsp;pochopení a&nbsp;trpělivost!
+          </p>
         </div>
       </div>
     </section>

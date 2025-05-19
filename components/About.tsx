@@ -20,22 +20,23 @@ export default function About() {
             <p className='text-studio-pink mb-8 font-sans text-xl font-light tracking-wide'>Terapeutka a masérka</p>
             <div className='mb-10 space-y-8 text-lg leading-relaxed text-gray-700'>
               <p className='leading-relaxed'>
-                Jsem mladá žena s chutí žít život naplno. Cítím, že mým posláním je vykouzlit druhým na tváři úsměv.
-                Ráda bych, abyste se mnou zapomněli na každodenní starosti a užili si chvíli určenou jen a jen vám. Ke
-                každému člověku se snažím přistupovat jako k jedinečné bytosti.
+                Jsem mladá žena s&nbsp;chutí žít život naplno. Cítím, že mým posláním je vykouzlit druhým na&nbsp;tváři
+                úsměv.
+                <br />
+                Ráda bych, abyste se mnou zapomněli na&nbsp;každodenní starosti a&nbsp;užili si chvíli určenou jen
+                a&nbsp;jen vám.
+                <br />
+                Ke&nbsp;každému člověku se snažím přistupovat jako k&nbsp;jedinečné bytosti.
               </p>
-              {/* <p className='text-xl leading-relaxed font-bold text-gray-700 italic'>
-                Každý klient je pro mě jedinečný, a proto přizpůsobuji masáže individuálním potřebám.
-              </p> */}
             </div>
 
-            <div className='text-studio-pink font-dancing mt-6 mb-12 text-3xl italic md:text-2xl'>
+            <div className='text-studio-pink font-dancing mt-0 text-3xl italic md:text-2xl lg:mt-8'>
               Těším se na Vaší návštěvu
             </div>
           </div>
 
           <div className='order-first flex w-full justify-center md:order-last md:w-2/5 md:justify-end'>
-            <div className='relative h-[30rem] w-80 md:w-[22rem]'>
+            <div className='relative h-[24rem] w-80'>
               <Image
                 src={PROFILE_IMG.src}
                 alt={THERAPIST_NAME}
