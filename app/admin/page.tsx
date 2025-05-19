@@ -3,6 +3,8 @@ import { getCalendar } from '@/app/actions/calendar'
 import SignOut from '@/components/SignOut'
 import DateTimeSelector from '@/components/DateTimeSelector'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Admin() {
   const calendarData = (await getCalendar())?.data
 
