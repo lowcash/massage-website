@@ -15,10 +15,8 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
   // Inputy pro datum a čas
-  // const [selectedDate, setSelectedDate] = useState(getDefaultDate())
-  // const [selectedTime, setSelectedTime] = useState(getDefaultTime())
-  const [selectedDate, setSelectedDate] = useState('')
-  const [selectedTime, setSelectedTime] = useState('')
+  const [selectedDate, setSelectedDate] = useState(getDefaultDate())
+  const [selectedTime, setSelectedTime] = useState(getDefaultTime())
 
   // Když vyberu item, nastav inputy podle něj
   useEffect(() => {
