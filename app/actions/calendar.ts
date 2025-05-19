@@ -30,7 +30,7 @@ export const getCalendar = actionClient.action(async () => {
         dateFormated: formatDateTime(date),
       }
     })
-    .filter((slot) => slot.date >= today) as CalendarItem[]
+    .filter((slot) => slot.date.getTime() >= today.getTime()) as CalendarItem[]
 })
 
 export const updateCalendar = authActionClient.schema(calendarUpdateInputSchema).action(async ({ parsedInput }) => {
