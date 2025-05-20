@@ -28,16 +28,22 @@ export default function Calendar(p: Props) {
   const scrollToContact = useScrollToElement()
   const visibleDays = useVisibleDays()
 
-  const isClient = useIsClient()
+  // const isClient = useIsClient()
+
+  // const data = useMemo(() => {
+  //   if (!isClient) return []
+
+  //   const today = new Date()
+  //   today.setHours(0, 0, 0, 0)
+
+  //   return p.data.filter((x) => x.date > today)
+  // }, [isClient, p.data])
 
   const data = useMemo(() => {
-    if (!isClient) return []
-
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-
-    return p.data.filter((x) => x.date > today)
-  }, [isClient, p.data])
+    const now = new Date()
+    const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
+    return p.data.filter((x) => x.date > todayUTC)
+  }, [p.data])
 
   // Skupiny slotů podle dne
   const groupedDays = groupSlotsByDay(data)
