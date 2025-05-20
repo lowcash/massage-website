@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { useScrollToElement } from '@/hooks/use-scroll-to-element'
 
@@ -27,10 +27,12 @@ export default function Calendar(p: Props) {
   const scrollToContact = useScrollToElement()
   const visibleDays = useVisibleDays()
 
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  const data = useMemo(() => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
 
-  const data = p.data.filter(x => x.date > today)
+    return p.data.filter((x) => x.date > today)
+  }, [])
 
   // Skupiny slotů podle dne
   const groupedDays = groupSlotsByDay(data)
