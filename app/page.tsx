@@ -11,14 +11,14 @@ import Footer from '@/components/Footer'
 export const revalidate = 60
 
 export default async function Page() {
-  const calendarData = (await getCalendar())?.data
+  // const calendarData = (await getCalendar())?.data
 
   return (
     <>
       <Header />
       <Hero />
       <Services />
-      {calendarData && <Calendar data={calendarData} />}
+      {/* {calendarData && <Calendar data={calendarData} />} */}
       <About />
       <Contact />
       <Footer />
