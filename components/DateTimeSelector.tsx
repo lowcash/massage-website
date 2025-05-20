@@ -1,12 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useIsClient } from '@/hooks/use-is-cllient'
 import { updateCalendar } from '@/app/actions/calendar'
 import { dateToInput, formatDateTime, timeToInput } from '@/lib/utils'
 import { type CalendarItem } from '@/app/types/calendar'
 
 import { PlusCircle, Trash2 } from 'lucide-react'
-import { useIsClient } from '@/hooks/use-is-cllient'
 
 interface DateTimeSelectorProps {
   data: CalendarItem[]
