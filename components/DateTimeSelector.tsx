@@ -3,10 +3,11 @@
 import { useState, useEffect } from 'react'
 import { useIsClient } from '@/hooks/use-is-cllient'
 import { updateCalendar } from '@/app/actions/calendar'
+import { toast } from 'sonner'
 import { dateToInput, formatDateTime, timeToInput } from '@/lib/utils'
 import { type CalendarItem } from '@/app/types/calendar'
 
-import { PlusCircle, Trash2 } from 'lucide-react'
+import { PlusCircle, Trash2, Edit } from 'lucide-react'
 
 interface DateTimeSelectorProps {
   data: CalendarItem[]
@@ -54,28 +55,46 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
   }
 
   // Přidání nového termínu
-  function handleAdd() {
+  async function handleAdd() {
     const selected = combineDateTime(selectedDate, selectedTime)
     if (!selected || !isDateTimeInFuture(selected)) return
     if (!list.some((dt) => dt.date.getTime() === selected.getTime())) {
       const newList = sortList([...list, { date: selected, reserved: false }])
       setList(newList)
-      onChangeAndLog(newList)
+
+      try {
+        await onChangeAndLog(newList)
+        toast.success(`Termín ${formatDateTime(selected)} úspěšně přidán`, {
+          icon: <PlusCircle className='mr-2 h-5 w-5 text-green-600' />,
+        })
+      } catch (err) {
+        console.error(err)
+        toast.error(`Termín se nezdařilo přidat`)
+      }
     }
   }
 
   // Odebrání vybraného termínu
-  function handleRemove() {
+  async function handleRemove() {
     if (selectedIndex !== null && list[selectedIndex]) {
       const newList = list.filter((_, idx) => idx !== selectedIndex)
       setList(newList)
       setSelectedIndex(null)
-      onChangeAndLog(newList)
+
+      try {
+        await onChangeAndLog(newList)
+        toast.success(`Termín ${formatDateTime(list[selectedIndex].date)} odstraněn`, {
+          icon: <Trash2 className='mr-2 h-5 w-5 text-red-600' />,
+        })
+      } catch (err) {
+        console.error(err)
+        toast.error(`Termín se nezdařilo odstranit`)
+      }
     }
   }
 
   // Změna data inputu
-  function handleChangeDate(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleChangeDate(e: React.ChangeEvent<HTMLInputElement>) {
     const newDate = e.target.value
     setSelectedDate(newDate)
     // Pokud je vybrán item, změním jeho datum (a čas)
@@ -84,13 +103,22 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
       if (updatedDate && isDateTimeInFuture(updatedDate)) {
         const newList = list.map((item, idx) => (idx === selectedIndex ? { ...item, date: updatedDate } : item))
         setList(sortList(newList))
-        onChangeAndLog(sortList(newList))
+
+        try {
+          await onChangeAndLog(newList)
+          toast.success(`Datum termínu ${formatDateTime(updatedDate)} upraveno`, {
+            icon: <Edit className='mr-2 h-5 w-5 text-blue-600' />,
+          })
+        } catch (err) {
+          console.error(err)
+          toast.error(`Datum terminu se nezdařilo upravit`)
+        }
       }
     }
   }
 
   // Změna času inputu
-  function handleChangeTime(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleChangeTime(e: React.ChangeEvent<HTMLInputElement>) {
     const newTime = e.target.value
     setSelectedTime(newTime)
     // Pokud je vybrán item, změním jeho čas (a datum)
@@ -99,6 +127,16 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
       if (updatedDate && isDateTimeInFuture(updatedDate)) {
         const newList = list.map((item, idx) => (idx === selectedIndex ? { ...item, date: updatedDate } : item))
         setList(sortList(newList))
+
+        try {
+          await onChangeAndLog(newList)
+          toast.success(`Čas termínu ${formatDateTime(updatedDate)} upraven`, {
+            icon: <Edit className='mr-2 h-5 w-5 text-blue-600' />,
+          })
+        } catch (err) {
+          console.error(err)
+          toast.error(`Čas terminu se nezdařilo upravit`)
+        }
         onChangeAndLog(sortList(newList))
       }
     }
@@ -110,9 +148,8 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
     onChangeAndLog(newList)
   }
 
-  function onChangeAndLog(newList: CalendarItem[]) {
+  async function onChangeAndLog(newList: CalendarItem[]) {
     updateCalendar(newList)
-    // Log to console for debugging
     console.debug(
       'Aktuální seznam termínů:',
       newList.map((item) => ({
