@@ -64,7 +64,7 @@ export default function Calendar(p: Props) {
           <H2>Najděte si volný termín</H2>
           <Description
             dangerouslySetInnerHTML={{
-              __html: `Termíny jsou pouze orientační. Pro&nbsp;rezervaci volejte: <strong className='whitespace-nowrap'>${PHONE}</strong>`,
+              __html: `Termíny jsou pouze orientační. Pro&nbsp;rezervaci volejte nebo napište SMS: <strong class='whitespace-nowrap'>${PHONE}</strong>`,
             }}
           />
         </SectionHeaderContainer>
