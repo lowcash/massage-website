@@ -18,7 +18,7 @@ export default function ServiceItem(p: Props) {
   return (
     <div
       className='group relative flex transform cursor-pointer flex-col items-center overflow-hidden rounded-2xl bg-white text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-md'
-      onClick={() => scrollToCalendar(SECTION.CONTACT.id)}
+      onClick={() => scrollToCalendar(SECTION.CALENDAR.id)}
       aria-label={`Vybrat masáž ${p.name}`}
     >
       <div className='flex h-full flex-col items-center p-10 md:p-12 lg:p-10'>

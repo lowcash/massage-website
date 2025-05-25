@@ -15,7 +15,7 @@ const VISIBLE_MOBILE_DAYS = 3
 
 export interface CalendarSlot {
   date: Date
-  available: boolean
+  reserved: boolean
 }
 
 interface Props {
@@ -113,8 +113,12 @@ export default function Calendar(p: Props) {
                         {dayGroup.slots.map((slot, slotIndex) => (
                           <div
                             key={slotIndex}
-                            className={`time-block flex w-full justify-center ${slot.available ? 'time-block-available' : 'time-block-unavailable'}`}
-                            onClick={slot.available ? () => scrollToContact(SECTION.CONTACT.id) : undefined}
+                            className={`time-block flex w-full justify-center ${slot.reserved ? 'time-block-unavailable' : 'time-block-available'}`}
+                            onClick={() => {
+                              if (slot.reserved) return
+
+                              scrollToContact(SECTION.CONTACT.id)
+                            }}
                           >
                             <span>{formatTime(slot.date)}</span>
                           </div>

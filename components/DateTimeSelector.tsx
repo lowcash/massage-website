@@ -17,12 +17,14 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
   // Inputy pro datum a čas
+  const [defaultDate, setDefaultDate] = useState('')
   const [selectedDate, setSelectedDate] = useState('')
   const [selectedTime, setSelectedTime] = useState('')
 
   const isClient = useIsClient()
 
   useEffect(() => {
+    setDefaultDate(getDefaultDateString(new Date()))
     setSelectedDate(getDefaultDateString(new Date()))
     setSelectedTime(getDefaultTimeString(new Date()))
   }, [])
@@ -56,7 +58,7 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
     const selected = combineDateTime(selectedDate, selectedTime)
     if (!selected || !isDateTimeInFuture(selected)) return
     if (!list.some((dt) => dt.date.getTime() === selected.getTime())) {
-      const newList = sortList([...list, { date: selected, available: true }])
+      const newList = sortList([...list, { date: selected, reserved: false }])
       setList(newList)
       onChangeAndLog(newList)
     }
@@ -103,7 +105,7 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
   }
 
   function handleToggleAvailable(idx: number) {
-    const newList = list.map((item, i) => (i === idx ? { ...item, available: !item.available } : item))
+    const newList = list.map((item, i) => (i === idx ? { ...item, reserved: !item.reserved } : item))
     setList(newList)
     onChangeAndLog(newList)
   }
@@ -115,7 +117,7 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
       'Aktuální seznam termínů:',
       newList.map((item) => ({
         date: item.date,
-        available: item.available,
+        reserved: item.reserved,
       })),
     )
   }
@@ -133,7 +135,7 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
             type='date'
             value={selectedDate}
             onChange={handleChangeDate}
-            // min={getDefaultDateString(p.defaultDateTime)}
+            min={defaultDate}
             className='rounded border px-2 py-1'
           />
         </label>
@@ -185,7 +187,7 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
               <label className='ml-6 flex items-center' onClick={(e) => e.stopPropagation()} tabIndex={-1}>
                 <input
                   type='checkbox'
-                  checked={item.available}
+                  checked={item.reserved}
                   onChange={() => handleToggleAvailable(idx)}
                   className='scale-150 cursor-pointer accent-green-600'
                 />

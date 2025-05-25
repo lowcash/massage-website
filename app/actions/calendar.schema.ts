@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const calendarUpdateItemSchema = z.object({
   date: z.date(),
-  available: z.boolean(),
+  reserved: z.boolean(),
 })
 
 export type CalendarUpdateItem = z.infer<typeof calendarUpdateItemSchema>
