@@ -23,7 +23,7 @@ interface Props {
 }
 
 export default function Calendar(p: Props) {
-  const [activePage, setActivePage] = useState(0)
+  const [firstVisibleSlotId, setFirstVisibleSlotId] = useState(0)
 
   const scrollToContact = useScrollToElement()
   const visibleDays = useVisibleDays()
@@ -42,17 +42,17 @@ export default function Calendar(p: Props) {
   // Skupiny slotů podle dne
   const groupedDays = groupSlotsByDay(data)
   const totalPages = Math.ceil(groupedDays.length / visibleDays)
-  const visibleDaysData = groupedDays.slice(activePage, activePage + visibleDays)
+  const visibleDaysData = groupedDays.slice(firstVisibleSlotId, firstVisibleSlotId + visibleDays)
 
   const hasMorePages = totalPages > 1
 
   const handleNavigation = (direction: 'prev' | 'next') => {
     switch (direction) {
       case 'prev':
-        setActivePage(activePage - 1)
+        setFirstVisibleSlotId(Math.max(0, firstVisibleSlotId - visibleDays))
         break
       case 'next':
-        setActivePage(activePage + 1)
+        setFirstVisibleSlotId(Math.min(groupedDays.length, firstVisibleSlotId + visibleDays))
         break
     }
   }
@@ -74,7 +74,7 @@ export default function Calendar(p: Props) {
             <button
               className='text-bc6290 hover:text-studio-gold absolute top-1/2 left-0 z-10 translate-x-3 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:translate-x-3'
               onClick={() => handleNavigation('prev')}
-              disabled={activePage === 0}
+              disabled={firstVisibleSlotId === 0}
               aria-label='Předchozí týden'
             >
               <svg
@@ -137,7 +137,7 @@ export default function Calendar(p: Props) {
             <button
               className='text-bc6290 hover:text-studio-gold absolute top-1/2 right-0 z-10 -translate-x-3 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:-translate-x-3'
               onClick={() => handleNavigation('next')}
-              disabled={activePage === totalPages - 1}
+              disabled={firstVisibleSlotId >= groupedDays.length - visibleDays}
               aria-label='Další týden'
             >
               <svg
@@ -158,8 +158,8 @@ export default function Calendar(p: Props) {
           {Array.from({ length: totalPages }).map((_, index) => (
             <div
               key={index}
-              className={`calendar-indicator ${activePage === index ? 'calendar-indicator-active' : ''}`}
-              onClick={() => setActivePage(index)}
+              className={`calendar-indicator ${Math.floor(firstVisibleSlotId / visibleDays) === index ? 'calendar-indicator-active' : ''}`}
+              onClick={() => setFirstVisibleSlotId(index * visibleDays)}
             />
           ))}
         </div>
