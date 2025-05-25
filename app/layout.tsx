@@ -6,7 +6,7 @@ import { Dancing_Script } from 'next/font/google'
 import { DESCRIPTION, TITLE } from '@/const'
 
 const dancingScript = Dancing_Script({
-  variable: '--font-dancing-script',
+  variable: '--font-dancing',
   subsets: ['latin'],
 })
 

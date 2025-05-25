@@ -31,7 +31,7 @@ export default function About() {
             </div>
 
             <div className='text-studio-pink font-dancing mt-0 text-3xl italic md:text-2xl lg:mt-8'>
-              Těším se na Vaší návštěvu
+              Těším se na Vaši návštěvu
             </div>
           </div>
 
@@ -81,10 +81,10 @@ export default function About() {
 }
 
 const QUALITIES = [
-  'Dlouholetý <strong>masér pro zdravotnictví a terapeut</strong>',
-  'Úspěšně ukončené <strong>magisterské studium</strong> ošetřovatelství na <strong>VŠZaSP sv. Alžbety v Bratislavě</strong>',
-  '<strong>Léta zkušeností</strong> se zařízeními sociální a zdravotní péče',
+  'Úspěšně ukončené <strong>magisterské studium</strong> ošetřovatelství na&nbsp;<strong>VŠZaSP&nbsp;sv.&nbsp;Alžbety v&nbsp;Bratislavě</strong>',
+  'Specializace v&nbsp;oboru <strong>geriatrie</strong>',
+  'Dlouholetý <strong>masér pro zdravotnictví a&nbsp;terapeut</strong> i&nbsp;v&nbsp;oblasti geriatrické fyzioterapie',
+  '<strong>Léta zkušeností</strong> se&nbsp;zařízeními sociální a&nbsp;zdravotní péče',
   '<strong>Učitelka</strong> zdravotnických předmětů',
-  'Lektor v <strong>sociální sféře</strong>',
-  'Specializace v oboru <strong>geriatrie</strong>',
+  'Lektor v&nbsp;<strong>sociální sféře</strong>',
 ]

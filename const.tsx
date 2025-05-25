@@ -37,14 +37,13 @@ export const PHONE = '(+420) 605 579 643'
 export const FACEBOOK = 'https://www.facebook.com/radka6575'
 export const INSTAGRAM =
   'https://www.instagram.com/radka.sebestova.5?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=='
-export const ADDRESS = `Malá základna a konzultace
-   <br />
+export const ADDRESS = `
    Národní třída 383/15
    <br />
    Hodonín, 695 01`
 
 export const OPENING_HOURS_WORKDAYS = '15:00 - 21:00'
-export const OPENING_HOURS_SATURDAY = '9:00 - 14:00'
+export const OPENING_HOURS_SATURDAY = 'Zavřeno'
 export const OPENING_HOURS_SUNDAY = 'Zavřeno'
 
 export const ROUTE = {

@@ -42,6 +42,22 @@ export default function Services() {
 
 const SERVICES: React.ComponentProps<typeof ServiceItem>[] = [
   {
+    icon: <Target className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
+    name: 'Ošetření spoušťových bodů',
+    description:
+      'Terapeutická technika zaměřená na uvolnění svalových uzlů a&nbsp;zmírnění bolesti prostřednictvím tlaku na specifické body v&nbsp;těle.',
+    duration: '50 min',
+    price: 'od 750,-',
+  },
+  {
+    icon: <AlignCenter className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
+    name: 'Náprava a korekce metodou z MBS s prvky chiropraxe',
+    description:
+      'Terapeutická technika, která pomocí cílených manuálních zásahů obnovuje správné postavení těla a&nbsp;pohybový aparát.',
+    duration: '50 min',
+    price: 'od 750,-',
+  },
+  {
     icon: <Footprints className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
     name: 'Thajská masáž nohou',
     description:
@@ -64,22 +80,6 @@ const SERVICES: React.ComponentProps<typeof ServiceItem>[] = [
       'Hloubková masáž zaměřená na uvolnění chronického napětí ve svalech a&nbsp;pojivových tkáních pomocí pomalých, intenzivních tahů.',
     duration: '60 min',
     price: 'od 850,-',
-  },
-  {
-    icon: <Target className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Ošetření spoušťových bodů',
-    description:
-      'Terapeutická technika zaměřená na uvolnění svalových uzlů a&nbsp;zmírnění bolesti prostřednictvím tlaku na specifické body v&nbsp;těle.',
-    duration: '50 min',
-    price: 'od 750,-',
-  },
-  {
-    icon: <AlignCenter className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Náprava a korekce metodou z MBS s prvky chiropraxe',
-    description:
-      'Terapeutická technika, která pomocí cílených manuálních zásahů obnovuje správné postavení těla a&nbsp;pohybový aparát.',
-    duration: '50 min',
-    price: 'od 750,-',
   },
   {
     icon: <Brain className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,

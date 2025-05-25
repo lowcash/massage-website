@@ -18,7 +18,7 @@ export default function Hero() {
             className='font-dancing animate-fade-in mb-6 text-4xl whitespace-normal text-[rgb(239,219,229)] drop-shadow-sm sm:whitespace-nowrap md:text-5xl lg:text-6xl'
             style={{ textShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
           >
-            Relaxační masáže pro&nbsp;vaše&nbsp;tělo&nbsp;i&nbsp;duši
+            Masáže a&nbsp;terapie pro&nbsp;vaše&nbsp;tělo&nbsp;i &nbsp;duši
           </h2>
           <p
             className='animate-slide-up mb-8 font-sans text-lg text-white/90 md:text-xl'
