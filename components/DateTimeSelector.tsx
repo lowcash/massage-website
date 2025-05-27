@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useIsClient } from '@/hooks/use-is-cllient'
 import { updateCalendar } from '@/app/actions/calendar'
 import { toast } from 'sonner'
@@ -13,8 +13,8 @@ interface DateTimeSelectorProps {
   data: CalendarItem[]
 }
 
-export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
-  const [list, setList] = useState<CalendarItem[]>(data)
+export default function DateTimeSelector(p: DateTimeSelectorProps) {
+  const [list, setList] = useState<CalendarItem[]>([])
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
   // Inputy pro datum a čas
@@ -28,6 +28,11 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
     setDefaultDate(getDefaultDateString(new Date()))
     setSelectedDate(getDefaultDateString(new Date()))
     setSelectedTime(getDefaultTimeString(new Date()))
+
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    setList(p.data.filter((x) => x.date > today))
   }, [])
 
   // Když vyberu item, nastav inputy podle něj
