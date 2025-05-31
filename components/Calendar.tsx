@@ -28,7 +28,7 @@ export default function Calendar(p: Props) {
   const scrollToContact = useScrollToElement()
   const visibleDays = useVisibleDays()
 
-   const isClient = useIsClient()
+  const isClient = useIsClient()
 
   const data = useMemo(() => {
     if (!isClient) return []
@@ -62,11 +62,15 @@ export default function Calendar(p: Props) {
       <div className='container mx-auto'>
         <SectionHeaderContainer>
           <H2>Najděte si volný termín</H2>
-          <Description
-            dangerouslySetInnerHTML={{
-              __html: `Termíny jsou pouze orientační. Pro&nbsp;rezervaci volejte nebo napište SMS: <strong class='whitespace-nowrap'>${PHONE}</strong>`,
-            }}
-          />
+          <Description>
+            Termíny jsou pouze orientační. Pro&nbsp;rezervaci volejte nebo napište SMS:{' '}
+            <strong
+              className='cursor-pointer whitespace-nowrap'
+              onClick={() => (window.location.href = `tel:${PHONE}`)}
+            >
+              {PHONE}
+            </strong>
+          </Description>
         </SectionHeaderContainer>
 
         <div className='calendar-container relative mx-auto max-w-4xl'>
