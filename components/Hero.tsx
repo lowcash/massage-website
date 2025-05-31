@@ -9,7 +9,6 @@ import IMAGE3 from '@/app/assets/carousel/3.jpeg'
 import IMAGE4 from '@/app/assets/carousel/4.jpeg'
 import IMAGE5 from '@/app/assets/carousel/5.jpeg'
 import IMAGE6 from '@/app/assets/carousel/6.jpeg'
-// import IMAGE7 from '@/app/assets/carousel/7.jpeg'
 
 export default function Hero() {
   return (
