@@ -3,9 +3,10 @@
 import { useMemo, useState } from 'react'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { useScrollToElement } from '@/hooks/use-scroll-to-element'
+import { useIsClient } from '@/hooks/use-is-cllient'
 
-import { Description, H2 } from '@/style/typo'
-import { SectionHeaderContainer } from '@/style/common'
+import { Description, H2 } from '@/styles/typo'
+import { SectionHeaderContainer } from '@/styles/common'
 
 import { PHONE, SECTION } from '@/const'
 
@@ -27,12 +28,16 @@ export default function Calendar(p: Props) {
   const scrollToContact = useScrollToElement()
   const visibleDays = useVisibleDays()
 
+   const isClient = useIsClient()
+
   const data = useMemo(() => {
+    if (!isClient) return []
+
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
     return p.data.filter((x) => x.date > today)
-  }, [p.data])
+  }, [isClient, p.data])
 
   // Skupiny slotů podle dne
   const groupedDays = groupSlotsByDay(data)

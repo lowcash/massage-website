@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Check } from 'lucide-react'
-import { H2 } from '@/style/typo'
-import { SectionHeaderContainer } from '@/style/common'
+import { H2 } from '@/styles/typo'
+import { SectionHeaderContainer } from '@/styles/common'
 
 import PROFILE_IMG from '@/app/assets/profile.jpeg'
 import { SECTION, THERAPIST_NAME } from '@/const'

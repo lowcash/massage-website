@@ -1,8 +1,8 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { MapPin, Phone, Mail } from 'lucide-react'
-import { Description, H2 } from '@/style/typo'
-import { SectionHeaderContainer } from '@/style/common'
+import { Description, H2 } from '@/styles/typo'
+import { SectionHeaderContainer } from '@/styles/common'
 
 import {
   SECTION,

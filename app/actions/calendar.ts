@@ -2,7 +2,7 @@
 
 import { createClient } from 'redis'
 import { actionClient, authActionClient } from '@/lib/safe-action'
-import { calendarUpdateInputSchema } from '@/app/actions/calendar.schema'
+import { calendarUpdateInputSchema } from '@/lib/schemas/calendar'
 
 const CALENDAR_KV_KEY = 'calendar'
 
