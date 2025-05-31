@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { useIsClient } from '@/hooks/use-is-cllient'
 import { updateCalendar } from '@/app/actions/calendar'
 import { toast } from 'sonner'
 import { dateToInput, formatDateTime, timeToInput } from '@/lib/utils'
-import { type CalendarItem } from '@/app/types/calendar'
+import { type CalendarItem } from '@/types/calendar'
 
 import { PlusCircle, Trash2, Edit } from 'lucide-react'
 

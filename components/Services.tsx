@@ -11,8 +11,8 @@ import {
   Droplet,
   Heart,
 } from 'lucide-react'
-import { Description, H2 } from '@/style/typo'
-import { SectionHeaderContainer } from '@/style/common'
+import { Description, H2 } from '@/styles/typo'
+import { SectionHeaderContainer } from '@/styles/common'
 import ServiceItem from '@/components/ServiceItem'
 
 import { SECTION } from '@/const'
