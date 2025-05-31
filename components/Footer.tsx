@@ -34,9 +34,9 @@ export default function Footer() {
             <div>
               <h4 className='mb-2 font-medium text-white'>Kontakt</h4>
               <address className='not-italic'>
-                {EMAIL}
+                <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
                 <br />
-                {PHONE}
+                <a href={`tel:${PHONE}`}>{PHONE}</a>
               </address>
 
               <div className='mt-2 sm:hidden'>

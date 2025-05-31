@@ -14,8 +14,6 @@ import {
   OPENING_HOURS_WORKDAYS,
 } from '@/const'
 
-import ContactCTA from '@/components/ContactCTA'
-
 export default function Contact() {
   return (
     <section id={SECTION.CONTACT.id} className='bg-studio-beige px-4 py-24'>
@@ -89,16 +87,25 @@ export default function Contact() {
                 <div className='ml-8 flex flex-col space-y-4'>
                   <div className='flex items-center text-lg text-gray-700'>
                     <Phone className='text-studio-gold mr-2 h-5 w-5 flex-shrink-0' />
-                    <span className='font-medium'>{PHONE}</span>
+                    <a className='font-medium' href={`tel:${PHONE}`}>
+                      {PHONE}
+                    </a>
                   </div>
 
                   <div className='flex items-center text-lg text-gray-700'>
                     <Mail className='text-studio-gold mr-2 h-5 w-5 flex-shrink-0' />
-                    <span className='font-medium'>{EMAIL}</span>
+                    <a className='font-medium' href={`mailto:${EMAIL}`}>
+                      {EMAIL}
+                    </a>
                   </div>
                 </div>
                 <div className='mt-2 flex justify-center md:hidden'>
-                  <ContactCTA />
+                  <a
+                    href={`tel:${PHONE}`}
+                    className='bg-studio-pink hover:bg-studio-pink/90 flex items-center justify-center rounded-md px-5 py-3 text-lg text-white shadow-md transition-all duration-300 hover:translate-y-[-2px] hover:shadow-lg'
+                  >
+                    <Phone className='mr-2 h-4 w-4' /> Zavolat / Rezervovat termín
+                  </a>
                 </div>
               </div>
             </CardContent>

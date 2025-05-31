@@ -64,12 +64,9 @@ export default function Calendar(p: Props) {
           <H2>Najděte si volný termín</H2>
           <Description>
             Termíny jsou pouze orientační. Pro&nbsp;rezervaci volejte nebo napište SMS:{' '}
-            <strong
-              className='cursor-pointer whitespace-nowrap'
-              onClick={() => (window.location.href = `tel:${PHONE}`)}
-            >
+            <a href={`tel:${PHONE}`} className='cursor-pointer font-extrabold whitespace-nowrap'>
               {PHONE}
-            </strong>
+            </a>
           </Description>
         </SectionHeaderContainer>
 
