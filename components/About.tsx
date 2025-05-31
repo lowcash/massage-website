@@ -19,7 +19,7 @@ export default function About() {
             <h3 className='text-studio-dark-green mb-4 font-sans text-3xl font-medium md:text-4xl'>{THERAPIST_NAME}</h3>
             <p className='text-studio-pink mb-8 font-sans text-xl font-light tracking-wide'>Terapeutka a masérka</p>
             <div className='mb-10 space-y-8 text-lg leading-relaxed text-gray-700'>
-              <p className='leading-relaxed'>
+              <p>
                 Jsem mladá žena s&nbsp;chutí žít život naplno. Cítím, že mým posláním je vykouzlit druhým na&nbsp;tváři
                 úsměv.
                 <br />
