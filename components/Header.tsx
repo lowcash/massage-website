@@ -60,8 +60,9 @@ export default function Header() {
       >
         <div className='container mx-auto flex items-center justify-between px-4'>
           <h1
-            className='font-dancing text-bc6290 cursor-pointer pl-1 text-2xl md:text-3xl'
+            className='font-dancing text-bc6290 cursor-pointer pl-1 text-2xl font-medium md:text-3xl'
             onClick={() => scrollToSection(SECTION.HERO.id)}
+            style={{ textShadow: '0px 2px 8px rgba(0,0,0,0.2)' }}
           >
             {NAME}
           </h1>
@@ -72,7 +73,8 @@ export default function Header() {
                 <li key={idx}>
                   <button
                     onClick={() => scrollToSection(x.id)}
-                    className={`text-xs font-light tracking-widest uppercase ${activeSection === x.id ? 'nav-link-active' : 'nav-link'}`}
+                    className={`text-xs font-normal tracking-widest uppercase ${activeSection === x.id ? 'nav-link-active' : 'nav-link'}`}
+                    style={{ textShadow: '0px 2px 8px rgba(0,0,0,0.2)' }}
                   >
                     {x.text}
                   </button>

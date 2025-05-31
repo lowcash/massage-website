@@ -12,6 +12,7 @@ export default function HeroCTA() {
       <button
         onClick={() => scrollToCalendar(SECTION.SERVICES.id)}
         className='animate-slide-up relative z-10 overflow-hidden rounded-full border border-white px-8 py-3 text-sm font-medium tracking-wider text-white uppercase shadow-sm transition-all duration-300 hover:bg-gray-200/10'
+        style={{ textShadow: '0px 2px 8px rgba(0,0,0,0.2)' }}
       >
         Vyberte si masáž
       </button>

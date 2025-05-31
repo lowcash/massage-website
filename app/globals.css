@@ -47,7 +47,7 @@ body {
 
 @layer components {
   .nav-link {
-    @apply text-bc6290 hover:text-studio-gold relative font-medium transition-colors duration-300;
+    @apply text-bc6290 relative font-medium transition-colors duration-300 hover:text-[#9d0e57];
   }
 
   .nav-link::after {
@@ -59,7 +59,7 @@ body {
   }
 
   .nav-link-active {
-    @apply text-bc6290 relative font-medium;
+    @apply text-bc6290 relative font-bold;
   }
 
   .nav-link-active::after {
