@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { StaticImageData } from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
@@ -39,18 +39,21 @@ export default function HeroImageCarousel(p: Props) {
       <div className='absolute inset-0 z-0'>
         <div className='carousel-container relative h-full w-full'>
           {p.images.map((image, index) => (
-            <div
+            <Image
               key={index}
               className='carousel-item absolute inset-0 bg-cover bg-center bg-no-repeat mix-blend-soft-light transition-opacity duration-1500'
+              alt={`CarouselImage_${index}`}
+              src={image.src}
+              fill
+              priority={index === 0} // Load first image immediately
               style={{
-                backgroundImage: `url('${image.src}')`,
+                objectFit: 'cover',
                 opacity: index === activeSlide ? 1 : 0,
                 zIndex: index === activeSlide ? 2 : 1,
               }}
-            >
-              <div className='absolute inset-0 bg-gradient-to-b from-white/70 to-black/40'></div>
-            </div>
+            />
           ))}
+          <div className='absolute inset-0 bg-gradient-to-b from-white/70 to-black/40'></div>
         </div>
       </div>
       {/* Carousel controls */}
