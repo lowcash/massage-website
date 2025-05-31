@@ -36,7 +36,7 @@ export default function About() {
           </div>
 
           <div className='order-first flex w-full justify-center md:order-last md:w-2/5 md:justify-end'>
-            <div className='relative h-[24rem] w-80'>
+            <div className='relative h-auto w-full md:h-[24rem] md:w-80'>
               <Image
                 src={PROFILE_IMG.src}
                 alt={THERAPIST_NAME}
