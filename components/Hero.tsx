@@ -2,14 +2,19 @@ import HeroImageCarousel from '@/components/HeroImageCarousel'
 import HeroCTA from '@/components/HeroCTA'
 
 import { SECTION } from '@/const'
-import IMAGE1 from '@/app/assets/carousel_1.jpeg'
-import IMAGE2 from '@/app/assets/carousel_2.jpeg'
-import IMAGE3 from '@/app/assets/carousel_3.jpeg'
+
+import IMAGE1 from '@/app/assets/carousel/1.jpeg'
+import IMAGE2 from '@/app/assets/carousel/2.jpeg'
+import IMAGE3 from '@/app/assets/carousel/3.jpeg'
+import IMAGE4 from '@/app/assets/carousel/4.jpeg'
+import IMAGE5 from '@/app/assets/carousel/5.jpeg'
+import IMAGE6 from '@/app/assets/carousel/6.jpeg'
+// import IMAGE7 from '@/app/assets/carousel/7.jpeg'
 
 export default function Hero() {
   return (
     <section id={SECTION.HERO.id} className='relative h-screen overflow-hidden md:h-screen'>
-      <HeroImageCarousel images={[IMAGE1, IMAGE2, IMAGE3]} />
+      <HeroImageCarousel images={[IMAGE1, IMAGE2, IMAGE3, IMAGE4, IMAGE5, IMAGE6]} />
 
       {/* Content overlay - centered with consistent visibility */}
       <div className='hero-content flex h-full flex-col items-center justify-center px-4'>
