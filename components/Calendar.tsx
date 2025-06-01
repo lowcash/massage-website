@@ -70,7 +70,7 @@ export default function Calendar(p: Props) {
           </Description>
         </SectionHeaderContainer>
 
-        <div className='calendar-container relative mx-auto max-w-4xl'>
+        <div className='relative mx-auto min-h-[305px] max-w-4xl'>
           {hasMorePages && (
             <button
               className='text-bc6290 hover:text-studio-gold absolute top-1/2 left-0 z-10 translate-x-3 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:translate-x-3'
@@ -110,7 +110,7 @@ export default function Calendar(p: Props) {
                     </div>
 
                     {dayGroup.slots.length > 0 ? (
-                      <div className='flex flex-col items-center space-y-2' style={{ minHeight: `${500}px` }}>
+                      <div className='flex flex-col items-center space-y-2' style={{ minHeight: `${212}px` }}>
                         {dayGroup.slots.map((slot, slotIndex) => (
                           <div
                             key={slotIndex}

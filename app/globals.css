@@ -132,13 +132,6 @@ body {
   transition: opacity 1.5s ease-in-out;
 }
 
-/* Fixed height for calendar */
-.calendar-container {
-  height: auto;
-  min-height: 360px;
-  position: relative;
-}
-
 .calendar-scroll-area {
   overflow: visible;
   height: auto;
