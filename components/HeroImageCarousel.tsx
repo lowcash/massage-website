@@ -1,42 +1,40 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useRef } from 'react'
 import Image, { StaticImageData } from 'next/image'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 import { CAROUSEL_AUTOPLAY_SPEED_MS } from '@/const'
+import { useCarousel } from '@/hooks/use-carousel'
 
 interface Props {
   images: StaticImageData[]
+  carouselState?: ReturnType<typeof useCarousel>
 }
 
 export default function HeroImageCarousel(p: Props) {
-  const [activeSlide, setActiveSlide] = useState(0)
+  const carouselRef = useRef<HTMLDivElement>(null)
+  
+  const defaultCarousel = useCarousel({
+    imagesLength: p.images.length,
+    autoplaySpeed: CAROUSEL_AUTOPLAY_SPEED_MS,
+  })
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % p.images.length)
-    }, CAROUSEL_AUTOPLAY_SPEED_MS)
-    return () => clearInterval(interval)
-  }, [])
-
-  const goToSlide = (index: number) => {
-    setActiveSlide(index)
-  }
-
-  const goToPrevSlide = () => {
-    setActiveSlide((prev) => (prev === 0 ? p.images.length - 1 : prev - 1))
-  }
-
-  const goToNextSlide = () => {
-    setActiveSlide((prev) => (prev + 1) % p.images.length)
-  }
+  const carousel = p.carouselState || defaultCarousel
 
   return (
     <>
       {/* Carousel background images with blend effect */}
-      <div className='absolute inset-0 z-0'>
+      <div 
+        ref={carouselRef}
+        className='absolute inset-0 z-0 select-none'
+        onTouchStart={carousel.handleTouchStart}
+        onTouchMove={carousel.handleTouchMove}
+        onTouchEnd={carousel.handleTouchEnd}
+        onMouseEnter={carousel.handleMouseEnter}
+        onMouseLeave={carousel.handleMouseLeave}
+      >
         <div className='carousel-container relative h-full w-full'>
           {p.images.map((image, index) => (
             <Image
@@ -48,8 +46,8 @@ export default function HeroImageCarousel(p: Props) {
               priority={index === 0} // Load first image immediately
               style={{
                 objectFit: 'cover',
-                opacity: index === activeSlide ? 1 : 0,
-                zIndex: index === activeSlide ? 2 : 1,
+                opacity: index === carousel.activeSlide ? 1 : 0,
+                zIndex: index === carousel.activeSlide ? 2 : 1,
               }}
             />
           ))}
@@ -59,13 +57,15 @@ export default function HeroImageCarousel(p: Props) {
       {/* Carousel controls */}
       <button
         className='absolute top-1/2 left-4 z-20 hidden -translate-y-1/2 text-white/70 transition-colors hover:text-white md:block'
-        onClick={goToPrevSlide}
+        onClick={carousel.goToPrevSlide}
+        aria-label="Předchozí obrázek"
       >
         <ChevronLeft className='h-8 w-8 stroke-[1.5]' />
       </button>
       <button
         className='absolute top-1/2 right-4 z-20 hidden -translate-y-1/2 text-white/70 transition-colors hover:text-white md:block'
-        onClick={goToNextSlide}
+        onClick={carousel.goToNextSlide}
+        aria-label="Další obrázek"
       >
         <ChevronRight className='h-8 w-8 stroke-[1.5]' />
       </button>
@@ -74,8 +74,9 @@ export default function HeroImageCarousel(p: Props) {
         {Array.from({ length: p.images.length }).map((_, index) => (
           <button
             key={index}
-            onClick={() => goToSlide(index)}
-            className={`mx-1 h-2 w-2 rounded-full transition-all duration-300 ${index === activeSlide ? 'bg-bc6290 w-6' : 'bg-white/70'}`}
+            onClick={() => carousel.goToSlide(index)}
+            className={`mx-1 h-2 w-2 rounded-full transition-all duration-300 ${index === carousel.activeSlide ? 'bg-bc6290 w-6' : 'bg-white/70'}`}
+            aria-label={`Přejít na obrázek ${index + 1}`}
           />
         ))}
       </div>
