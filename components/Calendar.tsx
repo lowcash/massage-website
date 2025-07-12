@@ -27,6 +27,7 @@ export default function Calendar(p: Props) {
 
   const scrollToContact = useScrollToElement()
   const visibleDays = useVisibleDays()
+  const isMobile = useIsMobile()
 
   const isClient = useIsClient()
 
@@ -55,6 +56,25 @@ export default function Calendar(p: Props) {
         setFirstVisibleSlotId(Math.min(groupedDays.length, firstVisibleSlotId + visibleDays))
         break
     }
+  }
+
+  const formatDateForDevice = (date: Date) => {
+    const day = date.getDate()
+    
+    if (isMobile) {
+      // Vlastní zkrácené názvy měsíců pro českou lokalizaci
+      const shortMonths = [
+        'led', 'úno', 'bře', 'dub', 'kvě', 'čvn',
+        'čvc', 'srp', 'zář', 'říj', 'lis', 'pro'
+      ]
+      const month = shortMonths[date.getMonth()]
+      return `${day}. ${month}`
+    }
+    
+    return date.toLocaleDateString('cs-CZ', {
+      day: 'numeric',
+      month: 'long',
+    })
   }
 
   return (
@@ -105,7 +125,7 @@ export default function Calendar(p: Props) {
                       >
                         {formatDay(dayGroup.day)}
                         <br />
-                        {formatDate(dayGroup.day)}
+                        {formatDateForDevice(dayGroup.day)}
                       </p>
                     </div>
 
