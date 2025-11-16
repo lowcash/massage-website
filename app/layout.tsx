@@ -4,6 +4,7 @@ import Script from 'next/script'
 import { Dancing_Script } from 'next/font/google'
 
 import { DESCRIPTION, TITLE } from '@/const'
+import { BookingProvider } from '@/contexts/BookingContext'
 
 const dancingScript = Dancing_Script({
   variable: '--font-dancing',
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang='cs'>
       <body className={`${dancingScript.variable} antialiased`}>
-        {children}
+        <BookingProvider>
+          {children}
+        </BookingProvider>
 
         <Script src='https://www.googletagmanager.com/gtag/js?id=G-BJWHB0F4BE' strategy='afterInteractive' />
         <Script id='gtag-init' strategy='afterInteractive'>

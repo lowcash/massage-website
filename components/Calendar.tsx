@@ -1,17 +1,18 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { useScrollToElement } from '@/hooks/use-scroll-to-element'
 import { useIsClient } from '@/hooks/use-is-cllient'
+import { useBooking } from '@/contexts/BookingContext'
 
-import { Description, H2 } from '@/styles/typo'
 import { SectionHeaderContainer } from '@/styles/common'
 
-import { PHONE, SECTION } from '@/const'
+import { PHONE } from '@/const'
 
-const VISIBLE_DESKTOP_DAYS = 4
-const VISIBLE_MOBILE_DAYS = 3
+const VISIBLE_DESKTOP_DAYS = 3
+const VISIBLE_MOBILE_DAYS = 1
 
 export interface CalendarSlot {
   date: Date
@@ -23,13 +24,14 @@ interface Props {
 }
 
 export default function Calendar(p: Props) {
-  const [firstVisibleSlotId, setFirstVisibleSlotId] = useState(0)
+  const [currentPageDesktop, setCurrentPageDesktop] = useState(0)
+  const [currentPageMobile, setCurrentPageMobile] = useState(0)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
-  const scrollToContact = useScrollToElement()
-  const visibleDays = useVisibleDays()
   const isMobile = useIsMobile()
-
   const isClient = useIsClient()
+  const { selectedService } = useBooking()
 
   const data = useMemo(() => {
     if (!isClient) return []
@@ -42,156 +44,402 @@ export default function Calendar(p: Props) {
 
   // Skupiny slotů podle dne
   const groupedDays = groupSlotsByDay(data)
-  const totalPages = Math.ceil(groupedDays.length / visibleDays)
-  const visibleDaysData = groupedDays.slice(firstVisibleSlotId, firstVisibleSlotId + visibleDays)
+  const visibleDays = isMobile ? VISIBLE_MOBILE_DAYS : VISIBLE_DESKTOP_DAYS
+  const cardsPerPage = visibleDays
+  const totalPagesDesktop = Math.ceil(groupedDays.length / VISIBLE_DESKTOP_DAYS)
+  const totalPagesMobile = groupedDays.length
 
-  const hasMorePages = totalPages > 1
+  // Center on today's date on mount
+  useEffect(() => {
+    if (!isClient) return
+    
+    const todayIndex = groupedDays.findIndex(dayGroup => isToday(dayGroup.day))
+    if (todayIndex !== -1) {
+      setCurrentPageDesktop(Math.floor(todayIndex / VISIBLE_DESKTOP_DAYS))
+      setCurrentPageMobile(todayIndex)
+    }
+  }, [isClient, groupedDays])
 
-  const handleNavigation = (direction: 'prev' | 'next') => {
-    switch (direction) {
-      case 'prev':
-        setFirstVisibleSlotId(Math.max(0, firstVisibleSlotId - visibleDays))
-        break
-      case 'next':
-        setFirstVisibleSlotId(Math.min(groupedDays.length, firstVisibleSlotId + visibleDays))
-        break
+  const minSwipeDistance = 50
+
+  const handleSlotClick = (date: Date, slot: CalendarSlot) => {
+    if (slot.reserved) return
+    
+    const dateStr = formatDateForWhatsApp(date)
+    const timeStr = formatTime(date)
+    
+    let message = `Dobrý den, chtěl(a) bych si rezervovat masáž na ${dateStr} v čase ${timeStr}.`
+    
+    if (selectedService) {
+      message = `Dobrý den, mám zájem o: ${selectedService}\n\nRezervace na ${dateStr} v ${timeStr}`
+    }
+    
+    const phoneNumber = PHONE.replace(/[\s()+-]/g, '') // Remove formatting
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+    window.open(whatsappUrl, '_blank')
+  }
+
+  // Touch handlers - desktop
+  const onTouchStartDesktop = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const onTouchMoveDesktop = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const onTouchEndDesktop = () => {
+    if (!touchStart || !touchEnd) return
+    
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+    
+    if (isLeftSwipe && currentPageDesktop < totalPagesDesktop - 1) {
+      setCurrentPageDesktop(prev => prev + 1)
+    }
+    if (isRightSwipe && currentPageDesktop > 0) {
+      setCurrentPageDesktop(prev => prev - 1)
     }
   }
 
-  const formatDateForDevice = (date: Date) => {
-    const day = date.getDate()
+  // Touch handlers - mobile
+  const onTouchStartMobile = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const onTouchMoveMobile = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const onTouchEndMobile = () => {
+    if (!touchStart || !touchEnd) return
     
-    if (isMobile) {
-      // Vlastní zkrácené názvy měsíců pro českou lokalizaci
-      const shortMonths = [
-        'led', 'úno', 'bře', 'dub', 'kvě', 'čvn',
-        'čvc', 'srp', 'zář', 'říj', 'lis', 'pro'
-      ]
-      const month = shortMonths[date.getMonth()]
-      return `${day}. ${month}`
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+    
+    if (isLeftSwipe && currentPageMobile < totalPagesMobile - 1) {
+      setCurrentPageMobile(prev => prev + 1)
     }
-    
-    return date.toLocaleDateString('cs-CZ', {
-      day: 'numeric',
-      month: 'long',
-    })
+    if (isRightSwipe && currentPageMobile > 0) {
+      setCurrentPageMobile(prev => prev - 1)
+    }
   }
 
   return (
-    <section id={SECTION.CALENDAR.id} className='bg-studio-beige px-4 py-20'>
-      <div className='container mx-auto'>
+    <section id='kalendar' className='py-32 px-6 md:px-16 bg-gradient-to-b from-white to-[#fef8fb]'>
+      <div className='container mx-auto max-w-4xl'>
         <SectionHeaderContainer>
-          <H2>Najděte si volný termín</H2>
-          <Description>
-            Termíny jsou pouze orientační. Pro&nbsp;rezervaci volejte nebo napište SMS:{' '}
-            <a href={`tel:${PHONE}`} className='cursor-pointer font-extrabold whitespace-nowrap'>
-              {PHONE}
-            </a>
-          </Description>
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: 'easeInOut' }}
+            className='text-center text-[#de397e] mb-6 tracking-wider'
+            style={{ fontFamily: 'Dancing Script', fontSize: '2.2rem' }}
+          >
+            Volné termíny
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15, duration: 0.8, ease: 'easeInOut' }}
+            className='text-center text-[#666666] mb-16 max-w-2xl mx-auto leading-loose'
+          >
+            Vyberte si termín, který vám vyhovuje, a rezervujte si masáž přes WhatsApp
+          </motion.p>
         </SectionHeaderContainer>
 
-        <div className='relative mx-auto min-h-[305px] max-w-4xl'>
-          {hasMorePages && (
+        {/* Selected Service Badge */}
+        {selectedService && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className='flex justify-center mb-10'
+          >
+            <div className='inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-[#de397e] to-[#c4a75f] text-white rounded-full shadow-lg'>
+              <span className='font-dancing text-xl'>
+                Vybraná služba:
+              </span>
+              <span className='font-medium'>{selectedService}</span>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Carousel Container */}
+        <div className='relative'>
+          {/* Desktop Version */}
+          <div className='hidden md:block'>
             <button
-              className='text-bc6290 hover:text-studio-gold absolute top-1/2 left-0 z-10 translate-x-3 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:translate-x-3'
-              onClick={() => handleNavigation('prev')}
-              disabled={firstVisibleSlotId === 0}
-              aria-label='Předchozí týden'
+              onClick={() => setCurrentPageDesktop(prev => Math.max(0, prev - 1))}
+              disabled={currentPageDesktop === 0}
+              className={`hidden lg:block absolute left-8 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 ${
+                currentPageDesktop === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+              }`}
+              aria-label='Předchozí termíny'
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-                className='h-5 w-5'
-              >
-                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' />
-              </svg>
+              <ChevronLeft className={`w-6 h-6 ${currentPageDesktop === 0 ? 'text-gray-400' : 'text-[#de397e]'}`} />
             </button>
-          )}
 
-          <div className='calendar-scroll-area'>
-            <div className='flex justify-center gap-4'>
-              {visibleDaysData.map((dayGroup, dayIndex) => (
-                <div key={dayIndex} className='max-w-40 flex-1'>
-                  <div
-                    className={`h-full rounded-2xl bg-white p-4 shadow-sm transition-all ${isToday(dayGroup.day) ? 'current-day' : ''}`}
+            <div className='absolute left-0 top-0 bottom-0 w-64 bg-gradient-to-r from-white via-white/60 to-transparent z-10 pointer-events-none' />
+
+            <div className='overflow-hidden px-20 md:px-24'>
+              <motion.div
+                animate={{ 
+                  x: `${-currentPageDesktop * 100}%`
+                }}
+                transition={{ 
+                  type: 'spring', 
+                  stiffness: 200, 
+                  damping: 35,
+                  mass: 1.2
+                }}
+                className='flex'
+                onTouchStart={onTouchStartDesktop}
+                onTouchMove={onTouchMoveDesktop}
+                onTouchEnd={onTouchEndDesktop}
+              >
+                {Array.from({ length: totalPagesDesktop }).map((_, pageIndex) => (
+                  <div 
+                    key={pageIndex}
+                    className='w-full flex-shrink-0 flex gap-6'
                   >
-                    <div
-                      className={`mb-3 border-b pb-2 text-center ${isToday(dayGroup.day) ? 'border-bc6290' : 'border-gray-100'}`}
-                    >
-                      <p
-                        className={`text-sm font-medium md:text-lg ${isToday(dayGroup.day) ? 'text-bc6290' : 'text-gray-700'}`}
-                      >
-                        {formatDay(dayGroup.day)}
-                        <br />
-                        {formatDateForDevice(dayGroup.day)}
-                      </p>
-                    </div>
-
-                    {dayGroup.slots.length > 0 ? (
-                      <div className='flex flex-col items-center space-y-2' style={{ minHeight: `${212}px` }}>
-                        {dayGroup.slots.map((slot, slotIndex) => (
+                    {groupedDays
+                      .slice(pageIndex * VISIBLE_DESKTOP_DAYS, (pageIndex + 1) * VISIBLE_DESKTOP_DAYS)
+                      .map((dayGroup, cardIndex) => {
+                        const globalIndex = pageIndex * VISIBLE_DESKTOP_DAYS + cardIndex
+                        const isCurrentPage = pageIndex === currentPageDesktop
+                        return (
                           <div
-                            key={slotIndex}
-                            className={`time-block flex w-full justify-center ${slot.reserved ? 'time-block-unavailable' : 'time-block-available'}`}
-                            onClick={() => {
-                              if (slot.reserved) return
-
-                              scrollToContact(SECTION.CONTACT.id)
-                            }}
+                            key={globalIndex}
+                            className='flex-1'
                           >
-                            <span>{formatTime(slot.date)}</span>
+                            <div
+                              className={`rounded-3xl p-6 w-full transition-all duration-500 ${
+                                isToday(dayGroup.day)
+                                  ? 'bg-gradient-to-br from-[#fef8fb]/50 to-[#fef8fb]/30 border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10'
+                                  : 'bg-white/70 backdrop-blur-[16px] border border-white/50'
+                              } ${!isCurrentPage ? 'opacity-50' : ''}`}
+                            >
+                              <div className='text-center mb-6 pb-5 border-b border-[#de397e]/20'>
+                                <h3
+                                  className={`font-dancing text-3xl mb-2 ${isToday(dayGroup.day) ? 'text-[#de397e]' : 'text-[#2c2c2c]'}`}
+                                >
+                                  {formatDay(dayGroup.day)}
+                                </h3>
+                                <p className='text-gray-600 text-lg font-medium'>{formatDateShort(dayGroup.day)}</p>
+                              </div>
+
+                              <div className='space-y-3'>
+                                {dayGroup.slots.length > 0 ? (
+                                  dayGroup.slots.map((slot, slotIndex) => (
+                                    <button
+                                      key={slotIndex}
+                                      onClick={() => isCurrentPage && handleSlotClick(dayGroup.day, slot)}
+                                      disabled={slot.reserved || !isCurrentPage}
+                                      className={`w-full px-4 py-3 rounded-2xl text-center transition-all duration-300 ${
+                                        !slot.reserved && isCurrentPage
+                                          ? 'bg-white/60 backdrop-blur-sm text-[#2c2c2c] border border-white/50 hover:bg-[#de397e] hover:text-white hover:border-[#de397e] hover:scale-[1.02] hover:shadow-md cursor-pointer'
+                                          : 'bg-[#e8e8e8] text-[#999999] cursor-not-allowed line-through'
+                                      }`}
+                                    >
+                                      {formatTime(slot.date)}
+                                    </button>
+                                  ))
+                                ) : (
+                                  <div className='py-4 text-center text-sm text-gray-400'>Žádné volné termíny</div>
+                                )}
+                              </div>
+                            </div>
                           </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className='py-4 text-center font-sans text-sm text-gray-400'>Žádné volné termíny</div>
-                    )}
+                        )
+                      })}
                   </div>
-                </div>
+                ))}
+              </motion.div>
+            </div>
+
+            <div className='absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-white via-white/60 to-transparent z-10 pointer-events-none' />
+
+            <button
+              onClick={() => setCurrentPageDesktop(prev => Math.min(totalPagesDesktop - 1, prev + 1))}
+              disabled={currentPageDesktop >= totalPagesDesktop - 1}
+              className={`hidden lg:block absolute right-8 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 ${
+                currentPageDesktop >= totalPagesDesktop - 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+              }`}
+              aria-label='Další termíny'
+            >
+              <ChevronRight className={`w-6 h-6 ${currentPageDesktop >= totalPagesDesktop - 1 ? 'text-gray-400' : 'text-[#de397e]'}`} />
+            </button>
+
+            <div className='flex justify-center gap-3 mt-12'>
+              {Array.from({ length: totalPagesDesktop }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentPageDesktop(index)}
+                  className={`transition-all rounded-full cursor-pointer ${
+                    index === currentPageDesktop
+                      ? 'bg-[#de397e] w-8 h-3'
+                      : 'bg-[#de397e]/30 w-3 h-3 hover:bg-[#de397e]/60'
+                  }`}
+                  aria-label={`Přejít na týden ${index + 1}`}
+                />
               ))}
             </div>
           </div>
 
-          {hasMorePages && (
-            <button
-              className='text-bc6290 hover:text-studio-gold absolute top-1/2 right-0 z-10 -translate-x-3 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:-translate-x-3'
-              onClick={() => handleNavigation('next')}
-              disabled={firstVisibleSlotId >= groupedDays.length - visibleDays}
-              aria-label='Další týden'
-            >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-                className='h-5 w-5'
+          {/* Mobile Version */}
+          <div className='md:hidden'>
+            <div className='absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none' />
+
+            <div className='overflow-hidden px-4'>
+              <motion.div
+                animate={{ 
+                  x: `-${currentPageMobile * 100}%`
+                }}
+                transition={{ 
+                  type: 'spring', 
+                  stiffness: 200, 
+                  damping: 35,
+                  mass: 1.2
+                }}
+                className='flex'
+                onTouchStart={onTouchStartMobile}
+                onTouchMove={onTouchMoveMobile}
+                onTouchEnd={onTouchEndMobile}
               >
-                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
-              </svg>
-            </button>
-          )}
+                {groupedDays.map((dayGroup, index) => (
+                  <div
+                    key={index}
+                    className='flex-shrink-0 w-full flex justify-center px-10'
+                  >
+                    <div 
+                      className={`rounded-3xl p-6 w-full max-w-[280px] transition-all duration-500 ${
+                        isToday(dayGroup.day)
+                          ? 'bg-gradient-to-br from-[#fef8fb]/50 to-[#fef8fb]/30 border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10'
+                          : 'bg-white/70 backdrop-blur-[16px] border border-white/50'
+                      }`}
+                    >
+                      <div className='text-center mb-6 pb-5 border-b border-[#de397e]/20'>
+                        <h3
+                          className={`font-dancing text-3xl mb-2 ${isToday(dayGroup.day) ? 'text-[#de397e]' : 'text-[#2c2c2c]'}`}
+                        >
+                          {formatDay(dayGroup.day)}
+                        </h3>
+                        <p className='text-gray-600 text-lg font-medium'>{formatDateShort(dayGroup.day)}</p>
+                      </div>
+
+                      <div className='space-y-3'>
+                        {dayGroup.slots.length > 0 ? (
+                          dayGroup.slots.map((slot, slotIndex) => (
+                            <button
+                              key={slotIndex}
+                              onClick={() => index === currentPageMobile && handleSlotClick(dayGroup.day, slot)}
+                              disabled={slot.reserved || index !== currentPageMobile}
+                              className={`w-full px-4 py-3 rounded-2xl text-center transition-all duration-300 ${
+                                !slot.reserved && index === currentPageMobile
+                                  ? 'bg-[#f5f0ea] text-[#2c2c2c] hover:bg-[#de397e] hover:text-white hover:scale-[1.02] hover:shadow-md cursor-pointer'
+                                  : 'bg-[#e8e8e8] text-[#999999] cursor-not-allowed line-through'
+                              }`}
+                            >
+                              {formatTime(slot.date)}
+                            </button>
+                          ))
+                        ) : (
+                          <div className='py-4 text-center text-sm text-gray-400'>Žádné volné termíny</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            <div className='absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none' />
+
+            <div className='flex justify-center gap-3 mt-12'>
+              {Array.from({ length: 7 }).map((_, weekIndex) => {
+                const weekStartDay = weekIndex * 3
+                const weekEndDay = weekStartDay + 2
+                const isCurrentWeek = currentPageMobile >= weekStartDay && currentPageMobile <= weekEndDay
+                
+                return (
+                  <button
+                    key={weekIndex}
+                    onClick={() => setCurrentPageMobile(weekStartDay)}
+                    className={`transition-all rounded-full cursor-pointer ${
+                      isCurrentWeek
+                        ? 'bg-[#de397e] w-8 h-3'
+                        : 'bg-[#de397e]/30 w-3 h-3 hover:bg-[#de397e]/60'
+                    }`}
+                    aria-label={`Přejít na týden ${weekIndex + 1}`}
+                  />
+                )
+              })}
+            </div>
+          </div>
         </div>
 
-        {/* Page indicator dots */}
-        <div className='mt-6 flex justify-center'>
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <div
-              key={index}
-              className={`calendar-indicator ${Math.floor(firstVisibleSlotId / visibleDays) === index ? 'calendar-indicator-active' : ''}`}
-              onClick={() => setFirstVisibleSlotId(index * visibleDays)}
-            />
-          ))}
-        </div>
+        {/* WhatsApp CTA */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+          className='text-center mt-16'
+        >
+          {!selectedService ? (
+            <>
+              <p className='text-gray-600 mb-6'>
+                Pro rezervaci termínu nejprve vyberte službu výše
+              </p>
+              <motion.a
+                href='#services'
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className='inline-flex items-center gap-3 px-8 py-3 bg-[#de397e] text-white rounded-full transition-all duration-300 hover:bg-[#c4a75f] hover:shadow-xl cursor-pointer'
+              >
+                <span className='font-dancing text-xl'>
+                  Vybrat službu
+                </span>
+              </motion.a>
+            </>
+          ) : (
+            <>
+              <p className='text-gray-600 mb-6'>
+                Nenašli jste vhodný termín? Kontaktujte mě a domluvíme se.
+              </p>
+              <motion.a
+                href={`https://wa.me/${PHONE.replace(/[\s()+-]/g, '')}`}
+                target='_blank'
+                rel='noopener noreferrer'
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className='inline-flex items-center gap-3 px-8 py-3 bg-[#de397e] text-white rounded-full transition-all duration-300 hover:bg-[#c4a75f] hover:shadow-xl cursor-pointer'
+              >
+                <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 24 24'>
+                  <path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z'/>
+                </svg>
+                <span className='font-dancing text-xl'>
+                  Napište mi na WhatsApp
+                </span>
+              </motion.a>
+            </>
+          )}
+        </motion.div>
 
         <div className='mx-auto mt-8 flex max-w-2xl flex-col gap-1 text-center'>
-          <p className='text-gray-600 italic'>
-            Kalendář slouží pouze pro informaci, rezervace je platná až&nbsp;po osobním potvrzení telefonem.
+          <p className='text-gray-600 italic text-sm'>
+            Kalendář slouží pouze pro informaci, rezervace je platná až po osobním potvrzení telefonem.
           </p>
 
-          <p className='text-gray-500'>
-            Termíny aktualizuji manuálně&nbsp;– děkuji za&nbsp;pochopení a&nbsp;trpělivost!
+          <p className='text-gray-500 text-sm'>
+            Termíny aktualizuji manuálně – děkuji za pochopení a trpělivost!
           </p>
         </div>
       </div>
@@ -199,25 +447,28 @@ export default function Calendar(p: Props) {
   )
 }
 
-function useVisibleDays() {
-  const isMobile = useIsMobile()
-
-  return isMobile ? VISIBLE_MOBILE_DAYS : VISIBLE_DESKTOP_DAYS
-}
-
-// Pomocná funkce pro zobrazení pouze dne (pro záhlaví sloupce)
+// Pomocné funkce
 function formatDay(date: Date) {
-  return isToday(date) ? 'Dnes' : isTommorrow(date) ? 'Zítra' : date.toLocaleDateString('cs-CZ', { weekday: 'long' })
+  return isToday(date) ? 'Dnes' : isTomorrow(date) ? 'Zítra' : date.toLocaleDateString('cs-CZ', { weekday: 'long' })
 }
 
-function formatDate(date: Date) {
+function formatDateShort(date: Date) {
+  const day = date.getDate()
+  const shortMonths = [
+    'led', 'úno', 'bře', 'dub', 'kvě', 'čvn',
+    'čvc', 'srp', 'zář', 'říj', 'lis', 'pro'
+  ]
+  const month = shortMonths[date.getMonth()]
+  return `${day}. ${month}`
+}
+
+function formatDateForWhatsApp(date: Date) {
   return date.toLocaleDateString('cs-CZ', {
     day: 'numeric',
     month: 'long',
   })
 }
 
-// Pomocná funkce pro zobrazení pouze času
 function formatTime(date: Date) {
   return date.toLocaleTimeString('cs-CZ', {
     hour: '2-digit',
@@ -226,7 +477,6 @@ function formatTime(date: Date) {
   })
 }
 
-// Vrací true, pokud je slot v dnešním dni
 function isToday(date: Date) {
   const today = new Date()
   return (
@@ -236,7 +486,7 @@ function isToday(date: Date) {
   )
 }
 
-function isTommorrow(date: Date) {
+function isTomorrow(date: Date) {
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
   return (
@@ -246,7 +496,6 @@ function isTommorrow(date: Date) {
   )
 }
 
-// Skupina slotů podle dne (ignoruje čas)
 function groupSlotsByDay(slots: CalendarSlot[]) {
   const map = new Map<string, CalendarSlot[]>()
   slots.forEach((slot) => {

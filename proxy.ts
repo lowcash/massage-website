@@ -3,7 +3,7 @@ import { getSignedToken, getTokenPayload } from '@/lib/jwt'
 
 import { AUTH_JWT_EXPIRE_HOURS, AUTH_BASIC_KEY, AUTH_JWT_KEY, AUTH_RESET_KEY, ROUTE } from '@/const'
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   if (req.nextUrl.pathname !== ROUTE.ADMIN) return NextResponse.next()
 
   const httpBasicRes = new NextResponse('Unauthorized', {

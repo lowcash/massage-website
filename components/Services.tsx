@@ -1,131 +1,196 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import { useBooking } from '@/contexts/BookingContext'
 import {
-  Footprints,
-  BicepsFlexed,
   Target,
   AlignCenter,
-  Brain,
-  ChartNoAxesGantt,
-  Baby,
-  Move3D,
-  Scissors,
+  Footprints,
   Droplet,
+  Zap,
+  Brain,
+  Activity,
+  Baby,
+  HandMetal,
   Heart,
+  Scissors,
 } from 'lucide-react'
-import { Description, H2 } from '@/styles/typo'
-import { SectionHeaderContainer } from '@/styles/common'
-import ServiceItem from '@/components/ServiceItem'
 
-import { SECTION } from '@/const'
+const services = [
+  {
+    id: 1,
+    name: 'Ošetření spoušťových bodů',
+    description:
+      'Terapeutická technika zaměřená na uvolnění svalových uzlů a zmírnění bolesti prostřednictvím tlaku na specifické body v těle.',
+    duration: '50 min',
+    price: 'od 750,-',
+    icon: Target,
+  },
+  {
+    id: 2,
+    name: 'Náprava a korekce metodou z MBS s prvky chiropraxe',
+    description:
+      'Terapeutická technika, která pomocí cílených manuálních zásahů obnovuje správné postavení těla a pohybový aparát.',
+    duration: '50 min',
+    price: 'od 750,-',
+    icon: AlignCenter,
+  },
+  {
+    id: 3,
+    name: 'Thajská masáž nohou',
+    description:
+      'Tradiční technika, která kombinuje akupresuru, stimulaci reflexních bodů a protahování pro uvolnění napětí a podporu celkového zdraví.',
+    duration: '60 min',
+    price: 'od 850,-',
+    icon: Footprints,
+  },
+  {
+    id: 4,
+    name: 'Medová detoxikační masáž',
+    description:
+      'Relaxační technika, při které se pomocí teplého medu a speciálních hmatů odstraňují toxiny z těla a zlepšuje se prokrvení pokožky.',
+    duration: '60 min',
+    price: 'od 800,-',
+    icon: Droplet,
+  },
+  {
+    id: 5,
+    name: 'Deep tissue massage',
+    description:
+      'Hloubková masáž zaměřená na uvolnění chronického napětí ve svalech a pojivových tkáních pomocí pomalých, intenzivních tahů.',
+    duration: '60 min',
+    price: 'od 850,-',
+    icon: Zap,
+  },
+  {
+    id: 6,
+    name: 'Protimigrénová masáž',
+    description:
+      'Cílená relaxační technika zaměřená na uvolnění napětí v oblasti hlavy, krku a ramen s cílem zmírnit nebo předejít migrénám.',
+    duration: '50 min',
+    price: 'od 700,-',
+    icon: Brain,
+  },
+  {
+    id: 7,
+    name: 'Spinální masáž',
+    description:
+      'Terapeutická masáž zaměřená na oblast páteře, která uvolňuje svalové napětí, podporuje správné držení těla a zlepšuje funkci nervového systému.',
+    duration: '60 min',
+    price: 'od 800,-',
+    icon: Activity,
+  },
+  {
+    id: 8,
+    name: 'Baby masáže (3x)',
+    description:
+      'Jemné dotykové techniky určené pro miminka, které podporují jejich zdravý vývoj, zlepšují spánek a posilují vazbu mezi rodičem a dítětem.',
+    duration: '45 min',
+    price: '950,-',
+    icon: Baby,
+  },
+  {
+    id: 9,
+    name: 'Reflexní masáž zad a šíje',
+    description:
+      'Cílená masážní technika, která stimuluje nervové reflexní zóny k uvolnění napětí, zmírnění bolesti a podpoře regenerace v oblasti zad a šíje.',
+    duration: '30 min',
+    price: '500,-',
+    icon: HandMetal,
+  },
+  {
+    id: 10,
+    name: 'Těhotenská masáž',
+    description:
+      'Jemná masáž určená těhotným ženám, která pomáhá uvolnit napětí, zlepšit prokrvení a zmírnit bolesti spojené s těhotenstvím.',
+    duration: '60 min',
+    price: 'od 850,-',
+    icon: Heart,
+  },
+  {
+    id: 11,
+    name: 'Kineziotaping',
+    description:
+      'Terapeutická metoda, při které se na pokožku aplikují elastické pásky s cílem podpořit hojení, zmírnit bolest a zlepšit funkci svalů a kloubů.',
+    duration: '',
+    price: '100,- (+2,- cm)',
+    icon: Scissors,
+  },
+]
 
 export default function Services() {
-  return (
-    <section id={SECTION.SERVICES.id} className='bg-studio-beige/30 px-4 py-24'>
-      <div className='mx-auto md:max-w-[45rem] lg:max-w-[62rem]'>
-        <SectionHeaderContainer>
-          <H2>Jak Vám můžu pomoci?</H2>
-          <Description
-            dangerouslySetInnerHTML={{
-              __html: `Nabízím širokou škálu masáží a&nbsp;terapií přizpůsobených vašim individuálním potřebám pro dosažení harmonie těla i&nbsp;mysli.`,
-            }}
-          />
-        </SectionHeaderContainer>
+  const { setSelectedService } = useBooking()
 
-        <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
-          {SERVICES.map((service, index) => (
-            <ServiceItem key={index} {...service} />
-          ))}
+  const handleServiceClick = (serviceName: string) => {
+    setSelectedService(serviceName)
+    document.querySelector('#kalendar')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  return (
+    <section id='sluzby' className='py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white'>
+      <div className='container mx-auto max-w-5xl'>
+        <motion.h2
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: 'easeInOut' }}
+          className='text-center text-[#de397e] mb-6 tracking-wider'
+          style={{ fontFamily: 'Dancing Script', fontSize: '2.2rem' }}
+        >
+          Jak Vám můžu pomoci?
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.15, duration: 0.8, ease: 'easeInOut' }}
+          className='text-center text-[#666666] mb-20 max-w-3xl mx-auto text-lg leading-loose'
+        >
+          Nabízím širokou škálu masáží a terapií přizpůsobených vašim individuálním potřebám pro dosažení harmonie těla i mysli.
+        </motion.p>
+
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto'>
+          {services.map((service, index) => {
+            const Icon = service.icon
+            return (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.6, ease: 'easeOut' }}
+                className='bg-white/70 backdrop-blur-[16px] border border-white/50 rounded-3xl p-8 transition-all duration-300 hover:border-[#de397e]/25 cursor-pointer'
+                onClick={() => handleServiceClick(service.name)}
+              >
+                <div className='flex items-start gap-5 mb-5'>
+                  <motion.div
+                    className='flex-shrink-0 p-4 bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] rounded-2xl'
+                    whileHover={{ scale: 1.08, rotate: 5 }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                  >
+                    <Icon className='w-7 h-7 text-[#de397e]' />
+                  </motion.div>
+                  <div className='flex-1'>
+                    <h3 className='text-[#2c2c2c] mb-2' style={{ fontFamily: 'Dancing Script', fontSize: '1.5rem' }}>
+                      {service.name}
+                    </h3>
+                  </div>
+                </div>
+                <p className='text-[#666666] mb-4 leading-relaxed'>{service.description}</p>
+                <div className='flex items-center justify-between pt-4 border-t border-[#de397e]/10'>
+                  <span className='text-[#666666]' style={{ fontSize: '1.05rem', fontWeight: 500 }}>
+                    {service.duration}
+                  </span>
+                  <span className='text-[#c4a75f]' style={{ fontSize: '1.15rem', fontWeight: 600 }}>
+                    {service.price}
+                  </span>
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </section>
   )
 }
-
-const SERVICES: React.ComponentProps<typeof ServiceItem>[] = [
-  {
-    icon: <Target className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Ošetření spoušťových bodů',
-    description:
-      'Terapeutická technika zaměřená na uvolnění svalových uzlů a&nbsp;zmírnění bolesti prostřednictvím tlaku na specifické body v&nbsp;těle.',
-    duration: '50 min',
-    price: 'od 750,-',
-  },
-  {
-    icon: <AlignCenter className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Náprava a korekce metodou z MBS s prvky chiropraxe',
-    description:
-      'Terapeutická technika, která pomocí cílených manuálních zásahů obnovuje správné postavení těla a&nbsp;pohybový aparát.',
-    duration: '50 min',
-    price: 'od 750,-',
-  },
-  {
-    icon: <Footprints className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Thajská masáž nohou',
-    description:
-      'Tradiční technika, která kombinuje akupresuru, stimulaci reflexních bodů a&nbsp;protahování pro uvolnění napětí a&nbsp;podporu celkového zdraví.',
-    duration: '60 min',
-    price: 'od 850,-',
-  },
-  {
-    icon: <Droplet className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Medová detoxikační masáž',
-    description:
-      'Relaxační technika, při které se pomocí teplého medu a&nbsp;speciálních hmatů odstraňují toxiny z&nbsp;těla a&nbsp;zlepšuje se prokrvení pokožky.',
-    duration: '60 min',
-    price: 'od 800,-',
-  },
-  {
-    icon: <BicepsFlexed className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Deep tissue massage',
-    description:
-      'Hloubková masáž zaměřená na uvolnění chronického napětí ve svalech a&nbsp;pojivových tkáních pomocí pomalých, intenzivních tahů.',
-    duration: '60 min',
-    price: 'od 850,-',
-  },
-  {
-    icon: <Brain className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Protimigrénová masáž',
-    description:
-      'Cílená relaxační technika zaměřená na uvolnění napětí v&nbsp;oblasti hlavy, krku a&nbsp;ramen s&nbsp;cílem zmírnit nebo předejít migrénám',
-    duration: '50 min',
-    price: 'od 700,-',
-  },
-  {
-    icon: <ChartNoAxesGantt className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Spinální masáž',
-    description:
-      'Terapeutická masáž zaměřená na oblast páteře, která uvolňuje svalové napětí, podporuje správné držení těla a&nbsp;zlepšuje funkci nervového systému.',
-    duration: '60 min',
-    price: 'od 800,-',
-  },
-  {
-    icon: <Baby className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Baby masáže (3x)',
-    description:
-      'Jemné dotykové techniky určené pro miminka, které podporují jejich zdravý vývoj, zlepšují spánek a&nbsp;posilují vazbu mezi rodičem a&nbsp;dítětem.',
-    duration: '45 min',
-    price: '950,-',
-  },
-  {
-    icon: <Move3D className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Reflexní masáž zad a šíje',
-    description:
-      'Cílená masážní technika, která stimuluje nervové reflexní zóny k&nbsp;uvolnění napětí, zmírnění bolesti a&nbsp;podpoře regenerace v&nbsp;oblasti zad a&nbsp;šíje.',
-    duration: '30 min',
-    price: '500,-',
-  },
-  {
-    icon: <Heart className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Těhotenská masáž',
-    description:
-      'Jemná masáž určená těhotným ženám, která pomáhá uvolnit napětí, zlepšit prokrvení a&nbsp;zmírnit bolesti spojené s&nbsp;těhotenstvím.',
-    duration: '60 min',
-    price: 'od 850,-',
-  },
-  {
-    icon: <Scissors className='text-studio-gold h-12 w-12 transition-all duration-300 group-hover:scale-110' />,
-    name: 'Kineziotaping',
-    description:
-      'Terapeutická metoda, při které se na pokožku aplikují elastické pásky s&nbsp;cílem podpořit hojení, zmírnit bolest a&nbsp;zlepšit funkci svalů a&nbsp;kloubů.',
-    price: '100,- (+2,- cm)',
-  },
-]

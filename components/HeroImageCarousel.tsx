@@ -75,7 +75,7 @@ export default function HeroImageCarousel(p: Props) {
           <button
             key={index}
             onClick={() => carousel.goToSlide(index)}
-            className={`mx-1 h-2 w-2 rounded-full transition-all duration-300 ${index === carousel.activeSlide ? 'bg-bc6290 w-6' : 'bg-white/70'}`}
+            className={`mx-1 h-2 w-2 rounded-full transition-all duration-300 ${index === carousel.activeSlide ? 'bg-[#de397e] w-6' : 'bg-white/70'}`}
             aria-label={`Přejít na obrázek ${index + 1}`}
           />
         ))}
