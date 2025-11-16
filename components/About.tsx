@@ -6,7 +6,7 @@ import PROFILE_IMG from '@/app/assets/profile.jpeg'
 
 export default function About() {
   return (
-    <section id='o-mne' className='py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white overflow-hidden'>
+    <section id='about' className='py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white overflow-hidden'>
       <div className='container mx-auto max-w-5xl'>
         <motion.h2
           initial={{ opacity: 0 }}

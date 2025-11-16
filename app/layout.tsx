@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='cs'>
-      <body className={`${dancingScript.variable} antialiased`}>
+      <body className={`${dancingScript.variable} antialiased min-h-screen`}>
         <BookingProvider>
           {children}
         </BookingProvider>

@@ -63,7 +63,7 @@ export default function Hero() {
   }
 
   const scrollToServices = () => {
-    const element = document.getElementById('sluzby')
+    const element = document.querySelector('#services')
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }

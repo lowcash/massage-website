@@ -180,7 +180,7 @@ export default function Testimonials() {
 
   return (
     <section
-      id='recenze'
+      id='testimonials'
       className='py-32 px-6 md:px-16 bg-gradient-to-b from-[#fef8fb] to-white overflow-hidden'
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

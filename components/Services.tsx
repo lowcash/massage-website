@@ -123,11 +123,11 @@ export default function Services() {
 
   const handleServiceClick = (serviceName: string) => {
     setSelectedService(serviceName)
-    document.querySelector('#kalendar')?.scrollIntoView({ behavior: 'smooth' })
+    document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
-    <section id='sluzby' className='py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white'>
+    <section id='services' className='py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white'>
       <div className='container mx-auto max-w-5xl'>
         <motion.h2
           initial={{ opacity: 0 }}

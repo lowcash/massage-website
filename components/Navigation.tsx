@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 import { PHONE, EMAIL } from '@/const'
 
-export default function Header() {
+export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -31,15 +31,15 @@ export default function Header() {
   }, [])
 
   const menuItems = [
-    { label: 'Služby', href: 'sluzby' },
-    { label: 'O mně', href: 'o-mne' },
-    { label: 'Recenze', href: 'recenze' },
-    { label: 'Kalendář', href: 'kalendar' },
-    { label: 'Kontakt', href: 'kontakt' },
+    { label: 'Služby', href: '#services' },
+    { label: 'O mně', href: '#about' },
+    // { label: 'Recenze', href: '#testimonials' },
+    { label: 'Kalendář', href: '#booking' },
+    { label: 'Kontakt', href: '#contact' },
   ]
 
   const scrollToSection = (href: string) => {
-    const element = document.getElementById(href)
+    const element = document.querySelector(href)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
       setIsMobileMenuOpen(false)
@@ -62,7 +62,7 @@ export default function Header() {
           <div className='flex items-center justify-between'>
             {/* Logo - Simple elegant text */}
             <button
-              onClick={() => scrollToSection('hero')}
+              onClick={() => scrollToSection('#hero')}
               className='transition-all duration-300 hover:opacity-80 cursor-pointer'
             >
               <span className='text-[#de397e]' style={{ fontFamily: 'Dancing Script', fontSize: '1.75rem', lineHeight: '1' }}>
@@ -137,7 +137,7 @@ export default function Header() {
               <div className='px-8 pt-8 pb-4 border-b border-[#de397e]/10'>
                 <button
                   onClick={() => {
-                    scrollToSection('hero')
+                    scrollToSection('#hero')
                     setIsMobileMenuOpen(false)
                   }}
                   className='text-left w-full cursor-pointer hover:opacity-80 transition-opacity'
@@ -189,18 +189,18 @@ export default function Header() {
                   </p>
                   <div className='space-y-2'>
                     <a
-                      href={`tel:${PHONE.replace(/\s/g, '')}`}
+                      href="tel:+420605579643"
                       className='flex items-center gap-3 px-4 py-3 bg-white/40 hover:bg-white/70 text-[#2c2c2c] rounded-xl transition-all duration-300 cursor-pointer backdrop-blur-sm'
                     >
                       <Phone className='w-5 h-5 flex-shrink-0 text-[#de397e]' />
-                      <span className='text-sm overflow-hidden text-ellipsis whitespace-nowrap'>{PHONE}</span>
+                      <span className='text-sm overflow-hidden text-ellipsis whitespace-nowrap'>(+420) 605 579 643</span>
                     </a>
                     <a
-                      href={`mailto:${EMAIL}`}
+                      href={`mailto:sebestovar@seznam.cz`}
                       className='flex items-center gap-3 px-4 py-3 bg-white/40 hover:bg-white/70 text-[#2c2c2c] rounded-xl transition-all duration-300 cursor-pointer backdrop-blur-sm'
                     >
                       <Mail className='w-5 h-5 flex-shrink-0 text-[#de397e]' />
-                      <span className='text-sm overflow-hidden text-ellipsis whitespace-nowrap'>{EMAIL}</span>
+                      <span className='text-sm overflow-hidden text-ellipsis whitespace-nowrap'>sebestovar@seznam.cz</span>
                     </a>
                     <a
                       href='https://www.google.com/maps/search/?api=1&query=49.0661739,17.1213106'

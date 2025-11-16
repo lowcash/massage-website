@@ -12,8 +12,12 @@ export const SECTION = {
     id: 'services',
     text: 'Služby',
   },
-  CALENDAR: {
-    id: 'calendar',
+  TESTIMONIALS: {
+    id: 'testimonials',
+    text: 'Recenze',
+  },
+  BOOKING: {
+    id: 'booking',
     text: 'Kalendář',
   },
   ABOUT: {
@@ -26,7 +30,7 @@ export const SECTION = {
   },
 }
 
-export const SECTIONS_NAV = [SECTION.SERVICES, SECTION.CALENDAR, SECTION.ABOUT, SECTION.CONTACT]
+export const SECTIONS_NAV = [SECTION.SERVICES, SECTION.TESTIMONIALS, SECTION.BOOKING, SECTION.ABOUT, SECTION.CONTACT]
 
 export const CAROUSEL_AUTOPLAY_SPEED_MS = 10000
 

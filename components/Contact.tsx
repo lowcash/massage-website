@@ -14,7 +14,7 @@ import {
 
 export default function Contact() {
   return (
-    <section id='kontakt' className='py-32 px-6 md:px-16 bg-gradient-to-b from-white to-[#fef8fb]'>
+    <section id='contact' className='py-32 px-6 md:px-16 bg-gradient-to-b from-white to-[#fef8fb]'>
       <div className='container mx-auto max-w-5xl'>
         <motion.h2
           initial={{ opacity: 0 }}
