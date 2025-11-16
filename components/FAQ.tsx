@@ -8,7 +8,7 @@ const faqs = [
   {
     question: 'Jak dlouho trvá masáž?',
     answer:
-      'Délka masáže závisí na typu služby. <strong>Klasická masáž trvá 60-90 minut</strong>, <strong>sportovní masáž 45-60 minut</strong> a <strong>relaxační masáž 90 minut</strong>. Přesnou dobu naleznete u každé služby v ceníku.',
+      'Terapie trvá <strong>50-60 minut</strong>. Přesnou dobu naleznete u každé služby v ceníku.',
   },
   {
     question: 'Co si mám vzít s sebou?',
