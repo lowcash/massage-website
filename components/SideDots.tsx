@@ -5,16 +5,16 @@ import { motion } from 'framer-motion'
 
 const sections = [
   { id: 'hero', label: 'Úvod' },
-  { id: 'sluzby', label: 'Služby' },
-  { id: 'o-mne', label: 'O mně' },
-  { id: 'recenze', label: 'Recenze' },
-  { id: 'kalendar', label: 'Rezervace' },
+  { id: 'services', label: 'Služby' },
+  { id: 'about', label: 'O mně' },
+  // { id: 'testimonials', label: 'Recenze' },
+  { id: 'booking', label: 'Rezervace' },
   { id: 'faq', label: 'FAQ' },
-  { id: 'kontakt', label: 'Kontakt' },
+  { id: 'contact', label: 'Kontakt' },
 ]
 
 export default function SideDots() {
-  const [activeSection, setActiveSection] = useState('sluzby')
+  const [activeSection, setActiveSection] = useState('services')
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
