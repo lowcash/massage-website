@@ -5,7 +5,7 @@ import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import Services from '@/components/Services'
 import About from '@/components/About'
-import Testimonials from '@/components/Testimonials'
+// import Testimonials from '@/components/Testimonials'
 import Calendar from '@/components/Calendar'
 import FAQ from '@/components/FAQ'
 import Contact from '@/components/Contact'
@@ -21,12 +21,12 @@ export default async function Page() {
 
   return (
     <>
-      <ScrollProgress />
+            <ScrollProgress />
       <Header />
       <Hero />
       <Services />
       <About />
-      <Testimonials />
+      {/* <Testimonials /> */}
       {calendarData && <Calendar data={calendarData} />}
       <FAQ />
       <Contact />
