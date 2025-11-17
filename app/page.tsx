@@ -1,4 +1,5 @@
 import { getCalendar } from '@/app/actions/calendar'
+import type { CalendarSlot } from '@/src/components/Calendar'
 
 import ScrollProgress from '@/src/components/ScrollProgress'
 import Navigation from '@/src/components/Navigation'
@@ -19,7 +20,8 @@ import { Toaster } from '@/components/ui/sonner'
 export const revalidate = 60
 
 export default async function Page() {
-  const calendarData = (await getCalendar())?.data
+  const result = await getCalendar()
+  const calendarData: CalendarSlot[] | undefined = (result?.data ?? undefined) as CalendarSlot[] | undefined
 
   return (
     <>

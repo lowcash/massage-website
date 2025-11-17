@@ -22,19 +22,25 @@ export const getCalendar = actionClient.action(async () => {
   try {
     const redis = await getRedisClient()
     const fileContent = await redis.get(CALENDAR_KV_KEY)
+    
     if (!fileContent) {
-      return []
+      // Return empty array if no data in Redis
+      return { success: true, data: [] }
     }
+    
     const parsedContent = JSON.parse(fileContent as string) as any[]
 
-    return parsedContent.map((slot) => ({
-      ...slot,
-      date: new Date(slot.date),
+    // Map raw data to CalendarSlot format
+    const mappedData = parsedContent.map((slot) => ({
+      date: typeof slot.date === 'string' ? new Date(slot.date) : slot.date,
+      reserved: slot.reserved ?? false,
     }))
+
+    return { success: true, data: mappedData }
   } catch (error) {
     console.error('Redis connection error:', error)
     // Return empty array if Redis is not available
-    return []
+    return { success: false, data: [] }
   }
 })
 

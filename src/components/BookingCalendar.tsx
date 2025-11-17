@@ -11,65 +11,60 @@ import {
 import { motion } from "framer-motion";
 import { useBooking } from "@/src/contexts/BookingContext";
 import { useReducedMotion, getAnimationConfig, getAnimationConfigWithDelay } from '@/src/hooks/useReducedMotion';
+import type { CalendarSlot } from './Calendar';
 
-// Extended data for 21 days (3 weeks) = 7 "pages" desktop, 21 "pages" mobile
-const generateCalendarData = () => {
-  const days = [
-    "Pondělí",
-    "Úterý",
-    "Středa",
-    "Čtvrtek",
-    "Pátek",
-    "Sobota",
-    "Neděle",
-  ];
+/**
+ * Map API calendar data to display format
+ * API returns raw dates and reserved status
+ * Component needs: day name, formatted date, time slots, isToday flag
+ * 
+ * IMPORTANT: Pokud API není dostupné, vrací PRÁZDNÝ ARRAY (bez fallback)
+ * Kalendář se nezobrazí, když API není dostupné
+ */
+const mapApiDataToDisplay = (apiData?: CalendarSlot[]) => {
+  // Pokud API není dostupné nebo vrátí prázdná data → prázdný kalendář
+  if (!apiData || !Array.isArray(apiData) || apiData.length === 0) {
+    return [];  // ← Žádný fallback! Pouze API data nebo nic.
+  }
+
+  const days = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota", "Neděle"];
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Reset time for comparison
-  const startDate = new Date(); // Start from TODAY
-  startDate.setHours(0, 0, 0, 0);
-  const data = [];
+  today.setHours(0, 0, 0, 0);
 
-  for (let i = 0; i < 21; i++) {
-    const currentDate = new Date(startDate);
-    currentDate.setDate(startDate.getDate() + i);
+  return apiData.map((slot) => {
+    const slotDate = new Date(slot.date);
+    slotDate.setHours(0, 0, 0, 0);
+    
+    const dayName = days[slotDate.getDay() === 0 ? 6 : slotDate.getDay() - 1];
+    const dateStr = `${slotDate.getDate()}.${slotDate.getMonth() + 1}.`;
+    const isToday = slotDate.toDateString() === today.toDateString();
 
-    const dayName =
-      days[
-        currentDate.getDay() === 0
-          ? 6
-          : currentDate.getDay() - 1
-      ];
-    // Format: DD.MM.YYYY for clarity (e.g., 17.11.2025)
-    const dateStr = `${currentDate.getDate()}.${currentDate.getMonth() + 1}.${currentDate.getFullYear()}`;
-
-    // Check if this is today
-    const isToday =
-      currentDate.toDateString() === today.toDateString();
-
-    // Sample time slots - vary availability
+    // Generate time slots with availability based on reserved flag
     const slots = [
-      { time: "9:00", available: i % 3 !== 0 },
-      { time: "10:00", available: i % 4 !== 0 },
-      { time: "11:00", available: i % 2 !== 0 },
-      { time: "13:00", available: i % 5 !== 0 },
-      { time: "14:00", available: i % 3 !== 1 },
-      { time: "15:00", available: i % 4 !== 1 },
-      { time: "16:00", available: i % 2 !== 1 },
-      { time: "17:00", available: i % 5 !== 1 },
+      { time: "9:00", available: !slot.reserved },
+      { time: "10:00", available: !slot.reserved },
+      { time: "11:00", available: !slot.reserved },
+      { time: "13:00", available: !slot.reserved },
+      { time: "14:00", available: !slot.reserved },
+      { time: "15:00", available: !slot.reserved },
+      { time: "16:00", available: !slot.reserved },
+      { time: "17:00", available: !slot.reserved },
     ];
 
-    data.push({
+    return {
       day: dayName,
       date: dateStr,
       slots,
-      isToday, // Mark today's date
-    });
-  }
-
-  return data;
+      isToday,
+    };
+  });
 };
 
-export default function BookingCalendar() {
+interface BookingCalendarProps {
+  data?: CalendarSlot[];
+}
+
+export default function BookingCalendar({ data }: BookingCalendarProps) {
   const shouldReduceMotion = useReducedMotion();
   const [currentPageDesktop, setCurrentPageDesktop] =
     useState(0);
@@ -80,8 +75,8 @@ export default function BookingCalendar() {
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const { selectedService } = useBooking();
   const calendarData = useMemo(
-    () => generateCalendarData(),
-    [],
+    () => mapApiDataToDisplay(data),
+    [data],
   );
 
   // Minimum swipe distance (in px)
@@ -321,7 +316,7 @@ export default function BookingCalendar() {
               <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/60 to-transparent z-10 pointer-events-none" />
             )}
 
-            <div className="overflow-hidden px-20 md:px-24">
+            <div className="overflow-hidden px-20 md:px-24" style={{ touchAction: 'pan-y' }}>
               <motion.div
                 animate={{
                   x: `${-currentPageDesktop * 100}%`,
@@ -487,7 +482,7 @@ export default function BookingCalendar() {
               <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
 
-            <div className="overflow-hidden">
+            <div className="overflow-hidden" style={{ touchAction: 'pan-y' }}>
               <motion.div
                 animate={{
                   x: `calc(17.5% - ${currentPageMobile * 65}%)`, // Start with 17.5% offset to center first card, then shift by 65% per page

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { NAVIGATION_SECTIONS, SCROLL_THRESHOLD } from '../constants/navigation';
-import { scrollToSection, getActiveSection, isScrolledPastThreshold } from '../utils/navigation';
+import { NAVIGATION_SECTIONS, SCROLL_THRESHOLD } from '@/src/constants/navigation';
+import { scrollToSection, getActiveSection, isScrolledPastThreshold } from '@/src/utils/navigation';
 
 export default function SideDots() {
   const [activeSection, setActiveSection] = useState('hero');
@@ -33,12 +33,13 @@ export default function SideDots() {
   }, []);
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : 20 }}
-      transition={{ duration: 0.8, ease: 'easeInOut' }}
+    <div 
       className="hidden lg:block fixed right-8 top-1/2 -translate-y-1/2 z-30"
-      style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
+      style={{ 
+        pointerEvents: isVisible ? 'auto' : 'none',
+        opacity: isVisible ? 1 : 0,
+        transition: 'opacity 0.8s ease-in-out'
+      }}
     >
       <div className="flex flex-col gap-4">
         {NAVIGATION_SECTIONS.map((section) => (
@@ -62,6 +63,6 @@ export default function SideDots() {
           </button>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }

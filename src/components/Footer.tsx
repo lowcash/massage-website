@@ -1,5 +1,3 @@
-'use client'
-
 import { Sparkles, Facebook, Instagram } from 'lucide-react';
 
 export default function Footer() {

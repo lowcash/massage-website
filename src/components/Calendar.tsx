@@ -8,9 +8,9 @@ export interface CalendarSlot {
 }
 
 interface Props {
-  data: CalendarSlot[]
+  data?: CalendarSlot[]
 }
 
 export default function Calendar({ data }: Props) {
-  return <BookingCalendar />
+  return <BookingCalendar data={data} />
 }

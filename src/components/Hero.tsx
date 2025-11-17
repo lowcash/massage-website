@@ -43,22 +43,41 @@ export default function Hero() {
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    const target = e.target as HTMLElement;
+    // Ignore touch on button to allow proper click
+    if (target.closest('button')) {
+      return;
+    }
     setTouchStart(e.targetTouches[0].clientX);
+    setTouchEnd(0);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('button')) {
+      return;
+    }
     setTouchEnd(e.targetTouches[0].clientX);
   };
 
   const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 75) {
-      // Swipe left - next image
-      goToNext();
+    if (!touchStart || !touchEnd) return;
+    
+    const diff = touchStart - touchEnd;
+    
+    // Only trigger if horizontal swipe is significant
+    if (Math.abs(diff) > 75) {
+      if (diff > 0) {
+        // Swipe left - next image
+        goToNext();
+      } else {
+        // Swipe right - previous image
+        goToPrevious();
+      }
     }
-    if (touchStart - touchEnd < -75) {
-      // Swipe right - previous image
-      goToPrevious();
-    }
+    
+    setTouchStart(0);
+    setTouchEnd(0);
   };
 
   const scrollToBooking = () => {
@@ -107,10 +126,7 @@ export default function Hero() {
 
       {/* Content - Always visible with high z-index */}
       <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6 md:px-16">
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 1.2, ease: 'easeInOut' }}
+        <h1
           className="text-white mb-6"
           style={{ 
             fontFamily: 'Dancing Script', 
@@ -121,11 +137,8 @@ export default function Hero() {
           }}
         >
           Pohlazení po těle a duši
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 1.2, ease: 'easeInOut' }}
+        </h1>
+        <p
           className="text-white text-xl mb-10 max-w-2xl"
           style={{ 
             textShadow: '0 2px 12px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.8)',
@@ -134,12 +147,9 @@ export default function Hero() {
           }}
         >
           Dotek, který uleví - péče, která obnoví.
-        </motion.p>
-        {/* CTA Button - Fade-in with all texts together */}
+        </p>
+        {/* CTA Button - NO FADE */}
         <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 1.2, ease: 'easeInOut' }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
           onClick={scrollToBooking}

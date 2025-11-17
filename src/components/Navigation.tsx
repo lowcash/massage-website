@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MENU_ITEMS, SCROLL_THRESHOLD } from '../constants/navigation';
-import { scrollToSection, isScrolledPastThreshold } from '../utils/navigation';
+import { MENU_ITEMS, SCROLL_THRESHOLD } from '@/src/constants/navigation';
+import { scrollToSection, isScrolledPastThreshold } from '@/src/utils/navigation';
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);

@@ -114,11 +114,7 @@ export default function Services() {
   
   const handleServiceClick = (serviceName: string) => {
     setSelectedService(serviceName);
-    
-    // Smooth scroll to booking section after state update
-    setTimeout(() => {
-      document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+    document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (

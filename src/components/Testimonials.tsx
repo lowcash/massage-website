@@ -360,26 +360,21 @@ export default function Testimonials() {
       onMouseLeave={handleMouseLeave}
     >
       <div className="container mx-auto max-w-6xl">
-        <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: 'easeInOut' }}
+        <h2
           className="text-center text-[#de397e] mb-6 tracking-wider"
-          style={{ fontFamily: 'Dancing Script', fontSize: '2.2rem' }}
+          style={{
+            fontFamily: "Dancing Script",
+            fontSize: "2.2rem",
+          }}
         >
           Co říkají klienti
-        </motion.h2>
+        </h2>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.15, duration: 0.8, ease: 'easeInOut' }}
+        <p
           className="text-center text-[#666666] mb-16 max-w-2xl mx-auto leading-loose"
         >
-          Vaše zpětná vazba je pro mě neocenitelná
-        </motion.p>
+          Přečtěte si zkušenosti našich spokojených klientů
+        </p>
 
         {/* Carousel Container - stejná logika jako kalendář */}
         <div className="relative">
@@ -395,7 +390,7 @@ export default function Testimonials() {
           {/* Fade gradient on left edge - wider and smoother */}
           <div className="absolute left-0 top-0 bottom-0 w-64 bg-gradient-to-r from-[#fef8fb] via-[#fef8fb]/60 to-transparent z-10 pointer-events-none hidden md:block" />
 
-          <div className="overflow-hidden px-0 sm:px-20 lg:px-52 py-16" onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+          <div className="overflow-hidden px-0 sm:px-20 lg:px-52 py-16" style={{ touchAction: 'pan-y' }} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
             <motion.div
               animate={{ 
                 x: `calc(-${(currentIndex + cloneCount) * 100}%)`  // Posun započítává klony na začátku
