@@ -31,10 +31,35 @@ export const getCalendar = actionClient.action(async () => {
     const parsedContent = JSON.parse(fileContent as string) as any[]
 
     // Map raw data to CalendarSlot format
-    const mappedData = parsedContent.map((slot) => ({
-      date: typeof slot.date === 'string' ? new Date(slot.date) : slot.date,
-      reserved: slot.reserved ?? false,
-    }))
+    // IMPORTANT: Redis stores dates as ISO strings, must convert back to Date objects
+    const mappedData = parsedContent.map((slot) => {
+      const dateValue = slot.date
+      let dateObj: Date
+      
+      if (typeof dateValue === 'string') {
+        // ISO string from Redis
+        dateObj = new Date(dateValue)
+      } else if (dateValue instanceof Date) {
+        dateObj = dateValue
+      } else if (typeof dateValue === 'number') {
+        // Unix timestamp
+        dateObj = new Date(dateValue)
+      } else {
+        console.error('Invalid date format in Redis:', dateValue)
+        return null
+      }
+      
+      // Validate date is valid
+      if (isNaN(dateObj.getTime())) {
+        console.error('Invalid date after parsing:', dateValue)
+        return null
+      }
+      
+      return {
+        date: dateObj,
+        reserved: slot.reserved ?? false,
+      }
+    }).filter(Boolean) // Remove null entries
 
     return { success: true, data: mappedData }
   } catch (error) {

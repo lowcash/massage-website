@@ -18,12 +18,29 @@ import type { CalendarSlot } from './Calendar';
  * API returns raw dates and reserved status
  * Component needs: day name, formatted date, time slots, isToday flag
  * 
- * IMPORTANT: Pokud API není dostupné, vrací PRÁZDNÝ ARRAY (bez fallback)
- * Kalendář se nezobrazí, když API není dostupné
+ * IMPORTANT: Redis ukládá jednotlivé časové sloty (každý záznam = jeden konkrétní čas)
+ * Musíme je seskupit podle dne a extrahovat časy
  */
-const mapApiDataToDisplay = (apiData?: CalendarSlot[]) => {
+const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
+  // Handle case where server action returns { success, data } instead of just data
+  let slots: CalendarSlot[] = [];
+  
+  if (!apiData) {
+    return [];
+  }
+  
+  // If apiData is server action result { success, data }, extract data
+  if (typeof apiData === 'object' && 'data' in apiData && Array.isArray(apiData.data)) {
+    slots = apiData.data;
+  } else if (Array.isArray(apiData)) {
+    slots = apiData;
+  } else {
+    console.error('Invalid apiData format:', apiData);
+    return [];
+  }
+  
   // Pokud API není dostupné nebo vrátí prázdná data → prázdný kalendář
-  if (!apiData || !Array.isArray(apiData) || apiData.length === 0) {
+  if (slots.length === 0) {
     return [];  // ← Žádný fallback! Pouze API data nebo nic.
   }
 
@@ -31,33 +48,51 @@ const mapApiDataToDisplay = (apiData?: CalendarSlot[]) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  return apiData.map((slot) => {
+  // Seskupit sloty podle dne (YYYY-MM-DD)
+  const slotsByDay = new Map<string, CalendarSlot[]>();
+  
+  slots.forEach((slot) => {
     const slotDate = new Date(slot.date);
-    slotDate.setHours(0, 0, 0, 0);
+    const dayKey = `${slotDate.getFullYear()}-${String(slotDate.getMonth() + 1).padStart(2, '0')}-${String(slotDate.getDate()).padStart(2, '0')}`;
     
-    const dayName = days[slotDate.getDay() === 0 ? 6 : slotDate.getDay() - 1];
-    const dateStr = `${slotDate.getDate()}.${slotDate.getMonth() + 1}.`;
-    const isToday = slotDate.toDateString() === today.toDateString();
-
-    // Generate time slots with availability based on reserved flag
-    const slots = [
-      { time: "9:00", available: !slot.reserved },
-      { time: "10:00", available: !slot.reserved },
-      { time: "11:00", available: !slot.reserved },
-      { time: "13:00", available: !slot.reserved },
-      { time: "14:00", available: !slot.reserved },
-      { time: "15:00", available: !slot.reserved },
-      { time: "16:00", available: !slot.reserved },
-      { time: "17:00", available: !slot.reserved },
-    ];
-
-    return {
-      day: dayName,
-      date: dateStr,
-      slots,
-      isToday,
-    };
+    if (!slotsByDay.has(dayKey)) {
+      slotsByDay.set(dayKey, []);
+    }
+    slotsByDay.get(dayKey)!.push(slot);
   });
+
+  // Konvertovat na display format
+  const result = Array.from(slotsByDay.entries())
+    .sort((a, b) => a[0].localeCompare(b[0])) // Seřadit podle data
+    .map(([dayKey, daySlots]) => {
+      // Vezmi první slot pro získání data dne
+      const firstSlot = daySlots[0];
+      const slotDate = new Date(firstSlot.date);
+      slotDate.setHours(0, 0, 0, 0);
+      
+      const dayName = days[slotDate.getDay() === 0 ? 6 : slotDate.getDay() - 1];
+      const dateStr = `${slotDate.getDate()}.${slotDate.getMonth() + 1}.`;
+      const isToday = slotDate.toDateString() === today.toDateString();
+
+      // Vytvoř časové sloty z dat
+      const slots = daySlots.map(slot => {
+        const time = new Date(slot.date);
+        const timeStr = `${time.getHours()}:${String(time.getMinutes()).padStart(2, '0')}`;
+        return {
+          time: timeStr,
+          available: !slot.reserved,
+        };
+      }).sort((a, b) => a.time.localeCompare(b.time)); // Seřadit podle času
+
+      return {
+        day: dayName,
+        date: dateStr,
+        slots,
+        isToday,
+      };
+    });
+
+  return result;
 };
 
 interface BookingCalendarProps {
@@ -74,10 +109,39 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   );
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const { selectedService } = useBooking();
+  
   const calendarData = useMemo(
     () => mapApiDataToDisplay(data),
     [data],
   );
+
+  // Show empty state if no data
+  if (!calendarData || calendarData.length === 0) {
+    return (
+      <section
+        id="booking"
+        className="py-32 px-6 md:px-16 bg-gradient-to-b from-white to-[#fef8fb]"
+      >
+        <div className="container mx-auto max-w-4xl">
+          <motion.h2
+            {...getAnimationConfig(shouldReduceMotion)}
+            className="text-center text-[#de397e] mb-6 tracking-wider"
+            style={{
+              fontFamily: "Dancing Script",
+              fontSize: "2.2rem",
+            }}
+          >
+            Rezervace
+          </motion.h2>
+          
+          <div className="text-center text-[#666666] py-12">
+            <p className="text-lg mb-4">Kalendář není aktuálně dostupný.</p>
+            <p className="text-sm">Pro rezervaci mě prosím kontaktujte přímo.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;

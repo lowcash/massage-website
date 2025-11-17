@@ -21,7 +21,8 @@ export const revalidate = 60
 
 export default async function Page() {
   const result = await getCalendar()
-  const calendarData: CalendarSlot[] | undefined = (result?.data ?? undefined) as CalendarSlot[] | undefined
+  // Server action returns { success, data } - extract just the data array
+  const calendarData: CalendarSlot[] | undefined = result?.data as CalendarSlot[] | undefined
 
   return (
     <>
@@ -32,7 +33,7 @@ export default async function Page() {
       <Services />
       <About />
       {/* <Testimonials /> */}
-      {calendarData && <Calendar data={calendarData} />}
+      <Calendar data={calendarData} />
       <FAQ />
       <Contact />
       <Footer />
