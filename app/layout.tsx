@@ -4,7 +4,7 @@ import Script from 'next/script'
 import { Dancing_Script } from 'next/font/google'
 
 import { DESCRIPTION, TITLE } from '@/const'
-import { BookingProvider } from '@/contexts/BookingContext'
+import { BookingProvider } from '@/src/contexts/BookingContext'
 
 const dancingScript = Dancing_Script({
   variable: '--font-dancing',

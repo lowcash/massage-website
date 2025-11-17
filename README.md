@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Massage Website - Mgr. Radka Šebestová
 
-## Getting Started
+Profesionální web pro masérku s online rezervačním systémem. Vytvořeno s Next.js s design komponentami ze struktury kompatibilní s Vite.
 
-First, run the development server:
+## 🚀 Technologie
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 16** - React framework
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **Framer Motion** - Animations
+- **Redis** - Calendar reservation caching
+- **shadcn/ui** - UI components
+- **Sonner** - Toast notifications
+
+## 📁 Projekt Struktura
+
+Viz `ARCHITECTURE.md` pro podrobný popis. Krátký přehled:
+
+```
+/src              → Design komponenty (single source of truth)
+/components       → Next-specific komponenty (admin, utilities)
+/app              → Next.js app router (pages, layouts, actions)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏗️ Design Architecture
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Všechny **design komponenty** žijí v `/src/components` a jsou importovány jako:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```typescript
+import Hero from '@/src/components/Hero'
+import { useBooking } from '@/src/contexts/BookingContext'
+```
 
-## Learn More
+**Admin komponenty** a utilities zůstávají v `/components`:
 
-To learn more about Next.js, take a look at the following resources:
+```typescript
+import { Button } from '@/components/ui/button'
+import SignOut from '@/components/SignOut'
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Setup
 
-## Deploy on Vercel
+```bash
+# Install dependencies
+npm install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Set up environment variables
+cp .env.example .env.local
+# Edituj .env.local s tvým API klíčem, Redis URL, atd.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Run dev server
+npm run dev
+```
+
+Otevři [http://localhost:3000](http://localhost:3000).
+
+### Build
+
+```bash
+npm run build
+npm run start
+```
+
+## 📝 Klíčové Soubory
+
+- `app/page.tsx` - Hlavní stránka (importuje z `/src/components`)
+- `app/admin/page.tsx` - Admin panel (importuje z `/components`)
+- `app/layout.tsx` - Root layout s BookingProvider
+- `src/contexts/BookingContext.tsx` - State management
+- `app/actions/calendar.ts` - Server actions pro rezervace
+
+## 🔗 Import Convention
+
+**Design komponenty** (reusable, framework-agnostic):
+```typescript
+import from '@/src/components/...'
+import from '@/src/assets/...'
+import from '@/src/contexts/...'
+```
+
+**Next-specific** (admin, utilities):
+```typescript
+import from '@/components/ui/...'
+import from '@/components/SignOut'
+```
+
+## 📱 Stránky
+
+- `/` - Hlavní stránka s hero, služby, o mně, rezervace, FAQ, kontakt
+- `/admin` - Admin panel pro správu rezervací (frontend pro tvorbu slotů)
+- `/robots.txt`, `/sitemap.xml` - SEO
+
+## 🎨 Styling
+
+- Global styles v `app/globals.css`
+- Component styles inline s Tailwind
+- Font: Dancing Script (pro nadpisy), system font (text)
+
+## 🚀 Deployment
+
+Deploy na Vercel:
+
+```bash
+git push origin main
+```
+
+Vercel automaticky detekuje Next.js a deployuje.
+
+Nebo ručně:
+
+```bash
+npm run build
+npm start
+```
+
+## 📚 Další Info
+
+- ARCHITECTURE.md - Detailní popis struktury projektu
+- TypeScript config v `tsconfig.json`
+- Tailwind config v `tailwind.config.ts`
+- Next.js config v `next.config.ts`
+
+---
+
+**Autor**: Radka Šebestová  
+**Web**: https://masaze-hodonin.cz
