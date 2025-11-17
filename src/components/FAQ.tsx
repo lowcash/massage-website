@@ -23,16 +23,12 @@ const faqs = [
     answer: 'Ano, termín lze zrušit nebo přesunout <strong>nejpozději 24 hodin před plánovanou masáží</strong>. Prosím, informujte mě včas telefonicky nebo zprávou.',
   },
   {
-    question: 'Jsou masáže vhodné pro těhotné ženy?',
-    answer: 'Nabízím speciální masáže pro těhotné ženy <strong>od 2. trimestru</strong>. Před rezervací je důležité informovat mě o těhotenství, abych mohla připravit vhodnou techniku a polohování.',
-  },
-  {
     question: 'Jaká je platba za služby?',
     answer: 'Platba probíhá <strong>v hotovosti nebo převodem na účet</strong> po absolvování masáže. Ceny služeb najdete v sekci služeb nebo mi neváhejte zavolat.',
   },
   {
     question: 'Kde se masáže konají?',
-    answer: 'Masáže probíhají <strong>v mém klidném a soukromém prostoru v Praze</strong>. Přesnou adresu sdělím při potvrzení rezervace. Zajišťuji diskrétní a příjemné prostředí pro maximální relaxaci.',
+    answer: 'Masáže probíhají <strong>v mém klidném a soukromém prostoru v Hodoníně</strong>. Přesnou adresu sdělím při potvrzení rezervace. Zajišťuji diskrétní a příjemné prostředí pro maximální relaxaci.',
   },
 ];
 
