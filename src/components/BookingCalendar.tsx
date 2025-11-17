@@ -199,8 +199,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
 
   // Touch handlers for swipe - desktop
   const onTouchStartDesktop = (e: React.TouchEvent) => {
-    setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
+    setTouchEnd(null);
   };
 
   const onTouchMoveDesktop = (e: React.TouchEvent) => {
@@ -214,21 +214,21 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
 
-    if (
-      isLeftSwipe &&
-      currentPageDesktop < totalPagesDesktop - 1
-    ) {
+    if (isLeftSwipe && currentPageDesktop < totalPagesDesktop - 1) {
       goToNext();
     }
     if (isRightSwipe && currentPageDesktop > 0) {
       goToPrevious();
     }
+    
+    setTouchStart(null);
+    setTouchEnd(null);
   };
 
   // Touch handlers for swipe - mobile
   const onTouchStartMobile = (e: React.TouchEvent) => {
-    setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
+    setTouchEnd(null);
   };
 
   const onTouchMoveMobile = (e: React.TouchEvent) => {
@@ -242,15 +242,15 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
 
-    if (
-      isLeftSwipe &&
-      currentPageMobile < totalPagesMobile - 1
-    ) {
+    if (isLeftSwipe && currentPageMobile < totalPagesMobile - 1) {
       goToNextMobile();
     }
     if (isRightSwipe && currentPageMobile > 0) {
       goToPreviousMobile();
     }
+    
+    setTouchStart(null);
+    setTouchEnd(null);
   };
 
   const handleSlotClick = (
@@ -271,44 +271,6 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
   };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    setTouchEnd(e.changedTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    e.preventDefault(); // Prevent default touchmove behavior
-  };
-
-  const handleSwipe = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    if (distance > minSwipeDistance) {
-      // Swipe left
-      if (window.innerWidth > 768) {
-        goToNext();
-      } else {
-        goToNextMobile();
-      }
-    } else if (distance < -minSwipeDistance) {
-      // Swipe right
-      if (window.innerWidth > 768) {
-        goToPrevious();
-      } else {
-        goToPreviousMobile();
-      }
-    }
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
-
-  useEffect(() => {
-    handleSwipe();
-  }, [touchEnd]);
 
   return (
     <section
