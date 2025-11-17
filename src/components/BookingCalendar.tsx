@@ -53,7 +53,8 @@ const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
   
   slots.forEach((slot) => {
     const slotDate = new Date(slot.date);
-    const dayKey = `${slotDate.getFullYear()}-${String(slotDate.getMonth() + 1).padStart(2, '0')}-${String(slotDate.getDate()).padStart(2, '0')}`;
+    // Use UTC methods to avoid timezone conversion issues
+    const dayKey = `${slotDate.getUTCFullYear()}-${String(slotDate.getUTCMonth() + 1).padStart(2, '0')}-${String(slotDate.getUTCDate()).padStart(2, '0')}`;
     
     if (!slotsByDay.has(dayKey)) {
       slotsByDay.set(dayKey, []);
@@ -68,16 +69,21 @@ const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
       // Vezmi první slot pro získání data dne
       const firstSlot = daySlots[0];
       const slotDate = new Date(firstSlot.date);
-      slotDate.setHours(0, 0, 0, 0);
+      // Use UTC methods to avoid timezone issues
+      const utcDay = slotDate.getUTCDay();
       
-      const dayName = days[slotDate.getDay() === 0 ? 6 : slotDate.getDay() - 1];
-      const dateStr = `${slotDate.getDate()}.${slotDate.getMonth() + 1}.`;
-      const isToday = slotDate.toDateString() === today.toDateString();
+      const dayName = days[utcDay === 0 ? 6 : utcDay - 1];
+      const dateStr = `${slotDate.getUTCDate()}.${slotDate.getUTCMonth() + 1}.`;
+      
+      // Check if today using UTC
+      const todayUTC = `${today.getUTCFullYear()}-${String(today.getUTCMonth() + 1).padStart(2, '0')}-${String(today.getUTCDate()).padStart(2, '0')}`;
+      const slotDateUTC = `${slotDate.getUTCFullYear()}-${String(slotDate.getUTCMonth() + 1).padStart(2, '0')}-${String(slotDate.getUTCDate()).padStart(2, '0')}`;
+      const isToday = todayUTC === slotDateUTC;
 
-      // Vytvoř časové sloty z dat
+      // Vytvoč časové sloty z dat - použij UTC metody
       const slots = daySlots.map(slot => {
         const time = new Date(slot.date);
-        const timeStr = `${time.getHours()}:${String(time.getMinutes()).padStart(2, '0')}`;
+        const timeStr = `${time.getUTCHours()}:${String(time.getUTCMinutes()).padStart(2, '0')}`;
         return {
           time: timeStr,
           available: !slot.reserved,
@@ -520,22 +526,37 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               />
             </button>
 
-            {/* Progress Dots - Only 7 dots for 7 pages */}
+            {/* Progress Dots - Desktop: Intelligent grouping with max 10 dots */}
             <div className="flex justify-center gap-3 mt-12">
-              {Array.from({ length: totalPagesDesktop }).map(
-                (_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentPageDesktop(index)}
-                    className={`transition-all rounded-full cursor-pointer ${
-                      index === currentPageDesktop
-                        ? "bg-[#de397e] w-8 h-3"
-                        : "bg-[#de397e]/30 w-3 h-3 hover:bg-[#de397e]/60"
-                    }`}
-                    aria-label={`Přejít na týden ${index + 1}`}
-                  />
-                ),
-              )}
+              {(() => {
+                const MAX_DOTS = 10;
+                const totalPages = totalPagesDesktop;
+                
+                // Calculate pages per dot to fit within MAX_DOTS
+                const pagesPerDot = Math.ceil(totalPages / MAX_DOTS);
+                const actualDots = Math.ceil(totalPages / pagesPerDot);
+                
+                return Array.from({ length: actualDots }).map((_, dotIndex) => {
+                  const groupStartPage = dotIndex * pagesPerDot;
+                  const groupEndPage = Math.min(groupStartPage + pagesPerDot - 1, totalPages - 1);
+                  const isCurrentGroup =
+                    currentPageDesktop >= groupStartPage &&
+                    currentPageDesktop <= groupEndPage;
+
+                  return (
+                    <button
+                      key={dotIndex}
+                      onClick={() => setCurrentPageDesktop(groupStartPage)}
+                      className={`transition-all rounded-full cursor-pointer ${
+                        isCurrentGroup
+                          ? "bg-[#de397e] w-8 h-3"
+                          : "bg-[#de397e]/30 w-3 h-3 hover:bg-[#de397e]/60"
+                      }`}
+                      aria-label={`Přejít na skupinu ${dotIndex + 1}`}
+                    />
+                  );
+                });
+              })()}
             </div>
           </div>
 
@@ -642,31 +663,37 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
 
-            {/* Progress Dots - Mobile: Show weeks (3 days per dot) */}
+            {/* Progress Dots - Mobile: Intelligent grouping with max 10 dots */}
             <div className="flex justify-center gap-3 mt-12">
-              {Array.from({ length: Math.ceil(totalPagesMobile / 3) }).map((_, weekIndex) => {
-                // Each week = 3 days
-                const weekStartDay = weekIndex * 3;
-                const weekEndDay = Math.min(weekStartDay + 2, totalPagesMobile - 1);
-                const isCurrentWeek =
-                  currentPageMobile >= weekStartDay &&
-                  currentPageMobile <= weekEndDay;
+              {(() => {
+                const MAX_DOTS = 10;
+                const totalDays = totalPagesMobile;
+                
+                // Calculate days per dot to fit within MAX_DOTS
+                const daysPerDot = Math.ceil(totalDays / MAX_DOTS);
+                const actualDots = Math.ceil(totalDays / daysPerDot);
+                
+                return Array.from({ length: actualDots }).map((_, dotIndex) => {
+                  const groupStartDay = dotIndex * daysPerDot;
+                  const groupEndDay = Math.min(groupStartDay + daysPerDot - 1, totalDays - 1);
+                  const isCurrentGroup =
+                    currentPageMobile >= groupStartDay &&
+                    currentPageMobile <= groupEndDay;
 
-                return (
-                  <button
-                    key={weekIndex}
-                    onClick={() =>
-                      setCurrentPageMobile(weekStartDay)
-                    }
-                    className={`transition-all rounded-full cursor-pointer ${
-                      isCurrentWeek
-                        ? "bg-[#de397e] w-8 h-3"
-                        : "bg-[#de397e]/30 w-3 h-3 hover:bg-[#de397e]/60"
-                    }`}
-                    aria-label={`Přejít na týden ${weekIndex + 1}`}
-                  />
-                );
-              })}
+                  return (
+                    <button
+                      key={dotIndex}
+                      onClick={() => setCurrentPageMobile(groupStartDay)}
+                      className={`transition-all rounded-full cursor-pointer ${
+                        isCurrentGroup
+                          ? "bg-[#de397e] w-8 h-3"
+                          : "bg-[#de397e]/30 w-3 h-3 hover:bg-[#de397e]/60"
+                      }`}
+                      aria-label={`Přejít na skupinu ${dotIndex + 1}`}
+                    />
+                  );
+                });
+              })()}
             </div>
           </div>
         </div>
