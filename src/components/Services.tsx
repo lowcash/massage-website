@@ -112,7 +112,14 @@ export default function Services() {
   
   const handleServiceClick = (serviceName: string) => {
     setSelectedService(serviceName);
-    document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' });
+    
+    // Smooth scroll to booking/calendar section when service is clicked
+    setTimeout(() => {
+      const bookingSection = document.getElementById('booking');
+      if (bookingSection) {
+        bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   };
 
   return (

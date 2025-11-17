@@ -202,44 +202,6 @@ export default function BookingCalendar() {
     window.open(whatsappUrl, "_blank");
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    setTouchEnd(e.changedTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    e.preventDefault(); // Prevent default touchmove behavior
-  };
-
-  const handleSwipe = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    if (distance > minSwipeDistance) {
-      // Swipe left
-      if (window.innerWidth > 768) {
-        goToNext();
-      } else {
-        goToNextMobile();
-      }
-    } else if (distance < -minSwipeDistance) {
-      // Swipe right
-      if (window.innerWidth > 768) {
-        goToPrevious();
-      } else {
-        goToPreviousMobile();
-      }
-    }
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
-
-  useEffect(() => {
-    handleSwipe();
-  }, [touchEnd]);
-
   return (
     <section
       id="booking"
