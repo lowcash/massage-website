@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import { useReducedMotion, getAnimationConfig, getAnimationConfigWithDelay } from '@/src/hooks/useReducedMotion';
 
 const faqs = [
   {
@@ -37,6 +38,7 @@ const faqs = [
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -46,10 +48,7 @@ export default function FAQ() {
     <section id="faq" className="py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white">
       <div className="container mx-auto max-w-4xl">
         <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, ease: 'easeInOut' }}
+          {...getAnimationConfig(shouldReduceMotion)}
           className="text-center text-[#de397e] mb-6 tracking-wider"
           style={{ fontFamily: 'Dancing Script', fontSize: '2.2rem' }}
         >
@@ -57,10 +56,7 @@ export default function FAQ() {
         </motion.h2>
 
         <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 1.2, ease: 'easeInOut' }}
+          {...getAnimationConfigWithDelay(shouldReduceMotion, 0.2)}
           className="text-center text-[#666666] mb-16 max-w-2xl mx-auto leading-loose"
         >
           Vše, co potřebujete vědět před návštěvou
@@ -70,10 +66,7 @@ export default function FAQ() {
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.6, ease: 'easeOut' }}
+              {...getAnimationConfigWithDelay(shouldReduceMotion, index * 0.1)}
               className={`bg-white/70 backdrop-blur-[16px] border rounded-3xl overflow-hidden transition-all duration-300 ${
                 openIndex === index 
                   ? 'border-[#de397e]/40 shadow-md' 

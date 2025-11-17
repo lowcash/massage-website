@@ -2,38 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-
-const sections = [
-  { id: 'hero', label: 'Úvod' },
-  { id: 'services', label: 'Služby' },
-  { id: 'about', label: 'O mně' },
-  { id: 'booking', label: 'Rezervace' },
-  { id: 'faq', label: 'Otázky' },
-  { id: 'contact', label: 'Kontakt' },
-];
+import { NAVIGATION_SECTIONS, SCROLL_THRESHOLD } from '../constants/navigation';
+import { scrollToSection, getActiveSection, isScrolledPastThreshold } from '../utils/navigation';
 
 export default function SideDots() {
-  const [activeSection, setActiveSection] = useState('services');
+  const [activeSection, setActiveSection] = useState('hero');
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
-      
-      // Show side dots when navbar hides (scroll > 100px)
-      setIsVisible(window.scrollY > 100);
+      // Show side dots when navbar hides
+      setIsVisible(isScrolledPastThreshold(SCROLL_THRESHOLD));
 
       // Update active section
-      for (const section of sections) {
-        const element = document.getElementById(section.id);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section.id);
-            break;
-          }
-        }
-      }
+      const sectionIds = NAVIGATION_SECTIONS.map(s => s.id);
+      setActiveSection(getActiveSection(sectionIds));
     };
 
     // Run on mount and scroll
@@ -49,13 +32,6 @@ export default function SideDots() {
     };
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <motion.div 
       initial={{ opacity: 0, x: 20 }}
@@ -65,7 +41,7 @@ export default function SideDots() {
       style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
     >
       <div className="flex flex-col gap-4">
-        {sections.map((section) => (
+        {NAVIGATION_SECTIONS.map((section) => (
           <button
             key={section.id}
             onClick={() => scrollToSection(section.id)}

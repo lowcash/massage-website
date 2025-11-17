@@ -1,13 +1,16 @@
 'use client'
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
+  Calendar as CalendarIcon,
+  Clock,
   ChevronLeft,
   ChevronRight,
   MessageCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { useBooking } from "../contexts/BookingContext";
+import { useBooking } from "@/src/contexts/BookingContext";
+import { useReducedMotion, getAnimationConfig, getAnimationConfigWithDelay } from '@/src/hooks/useReducedMotion';
 
 // Extended data for 21 days (3 weeks) = 7 "pages" desktop, 21 "pages" mobile
 const generateCalendarData = () => {
@@ -36,7 +39,8 @@ const generateCalendarData = () => {
           ? 6
           : currentDate.getDay() - 1
       ];
-    const dateStr = `${currentDate.getDate()}.${currentDate.getMonth() + 1}.`;
+    // Format: DD.MM.YYYY for clarity (e.g., 17.11.2025)
+    const dateStr = `${currentDate.getDate()}.${currentDate.getMonth() + 1}.${currentDate.getFullYear()}`;
 
     // Check if this is today
     const isToday =
@@ -66,6 +70,7 @@ const generateCalendarData = () => {
 };
 
 export default function BookingCalendar() {
+  const shouldReduceMotion = useReducedMotion();
   const [currentPageDesktop, setCurrentPageDesktop] =
     useState(0);
   const [currentPageMobile, setCurrentPageMobile] = useState(0);
@@ -202,6 +207,44 @@ export default function BookingCalendar() {
     window.open(whatsappUrl, "_blank");
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    setTouchEnd(e.changedTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault(); // Prevent default touchmove behavior
+  };
+
+  const handleSwipe = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    if (distance > minSwipeDistance) {
+      // Swipe left
+      if (window.innerWidth > 768) {
+        goToNext();
+      } else {
+        goToNextMobile();
+      }
+    } else if (distance < -minSwipeDistance) {
+      // Swipe right
+      if (window.innerWidth > 768) {
+        goToPrevious();
+      } else {
+        goToPreviousMobile();
+      }
+    }
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  useEffect(() => {
+    handleSwipe();
+  }, [touchEnd]);
+
   return (
     <section
       id="booking"
@@ -209,10 +252,7 @@ export default function BookingCalendar() {
     >
       <div className="container mx-auto max-w-4xl">
         <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
+          {...getAnimationConfig(shouldReduceMotion)}
           className="text-center text-[#de397e] mb-6 tracking-wider"
           style={{
             fontFamily: "Dancing Script",
@@ -223,14 +263,7 @@ export default function BookingCalendar() {
         </motion.h2>
 
         <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{
-            delay: 0.15,
-            duration: 0.8,
-            ease: "easeInOut",
-          }}
+          {...getAnimationConfigWithDelay(shouldReduceMotion, 0.15)}
           className="text-center text-[#666666] mb-6 max-w-2xl mx-auto leading-loose"
         >
           Vyberte si termín, který vám vyhovuje, a rezervujte si
@@ -239,12 +272,7 @@ export default function BookingCalendar() {
 
         {/* Selected Service Badge */}
         {selectedService && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex justify-center mb-10"
-          >
+          <div className="flex justify-center mb-10">
             <div className="bg-white/70 backdrop-blur-[16px] border border-[#de397e]/30 rounded-2xl px-6 py-4 shadow-lg shadow-[#de397e]/8">
               <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
                 <span
@@ -265,7 +293,7 @@ export default function BookingCalendar() {
                 </span>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {/* Carousel Container */}
@@ -586,10 +614,7 @@ export default function BookingCalendar() {
 
         {/* WhatsApp CTA */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          {...getAnimationConfigWithDelay(shouldReduceMotion, 0.3)}
           className="text-center mt-16"
         >
           {!selectedService ? (

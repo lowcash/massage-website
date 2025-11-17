@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
 import { useState } from 'react';
-import { useBooking } from '../contexts/BookingContext';
+import { useBooking } from '@/src/contexts/BookingContext';
 
 export default function WhatsAppButton() {
   const [showTooltip, setShowTooltip] = useState(false);

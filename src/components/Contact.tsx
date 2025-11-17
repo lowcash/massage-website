@@ -2,40 +2,34 @@
 
 import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { useReducedMotion, getAnimationConfig, getAnimationConfigWithDelay } from '@/src/hooks/useReducedMotion';
 
 export default function Contact() {
+  const shouldReduceMotion = useReducedMotion();
+  
   return (
     <section id="contact" className="py-32 px-6 md:px-16 bg-gradient-to-b from-white to-[#fef8fb]">
       <div className="container mx-auto max-w-5xl">
         <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: 'easeInOut' }}
+          {...getAnimationConfig(shouldReduceMotion)}
           className="text-center text-[#de397e] mb-6 tracking-wider"
           style={{ fontFamily: 'Dancing Script', fontSize: '2.2rem' }}
         >
-          Kde mě najdete?
+          Kontaktujte mě
         </motion.h2>
 
         <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.15, duration: 0.8, ease: 'easeInOut' }}
-          className="text-center text-[#666666] mb-20 max-w-2xl mx-auto leading-loose"
+          {...getAnimationConfigWithDelay(shouldReduceMotion, 0.15)}
+          className="text-center text-[#666666] mb-16 max-w-2xl mx-auto leading-loose"
         >
-          Ozvěte se mi pro rezervaci nebo s jakýmkoliv dotazem
+          Ráda zodpovím všechny vaše dotazy a pomohu vám vybrat vhodnou masáž
         </motion.p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Info Cards */}
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, ease: 'easeInOut' }}
-            className="space-y-8"
+            {...getAnimationConfigWithDelay(shouldReduceMotion, 0)}
+            className="space-y-6"
           >
             {/* Phone Card */}
             <a
@@ -145,10 +139,7 @@ export default function Contact() {
 
           {/* Google Maps */}
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.2, ease: 'easeInOut' }}
+            {...getAnimationConfigWithDelay(shouldReduceMotion, 0.2)}
             className="h-full min-h-[600px] lg:min-h-0"
           >
             <div className="bg-white/70 backdrop-blur-[16px] border border-white/50 rounded-3xl overflow-hidden h-full shadow-[0_8px_24px_rgba(222,57,126,0.08)]">

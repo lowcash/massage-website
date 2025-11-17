@@ -1,17 +1,17 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import heroImage1 from '@/src/assets/4e82636e00d6ed1714427e23df88aa2114a00d8b.png'
-import heroImage2 from '@/src/assets/529868a68c329f2cd79b11f95989565412c07b61.png'
-import heroImage3 from '@/src/assets/2d115fb3cb1c74e407bde90bbf7d740b4c3604f2.png'
-import heroImage4 from '@/src/assets/830e380376f6a1fee2b223e47cd9f988168500d6.png'
-import heroImage5 from '@/src/assets/5f3a5cfa64b8db7422ef3fc40749c1e76bb1a86e.png'
-import heroImage6 from '@/src/assets/669702bfa59a3e8017fcb4cb9cbf4fe49cedcddf.png'
+import { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ImageWithFallback } from './figma/ImageWithFallback';
+import heroImage1 from "@/src/assets/4e82636e00d6ed1714427e23df88aa2114a00d8b.png";
+import heroImage2 from "@/src/assets/529868a68c329f2cd79b11f95989565412c07b61.png";
+import heroImage3 from "@/src/assets/2d115fb3cb1c74e407bde90bbf7d740b4c3604f2.png";
+import heroImage4 from "@/src/assets/830e380376f6a1fee2b223e47cd9f988168500d6.png";
+import heroImage5 from "@/src/assets/5f3a5cfa64b8db7422ef3fc40749c1e76bb1a86e.png";
+import heroImage6 from "@/src/assets/669702bfa59a3e8017fcb4cb9cbf4fe49cedcddf.png";
 
-const carouselImages = [heroImage1, heroImage2, heroImage3, heroImage4, heroImage5, heroImage6]
+const carouselImages = [heroImage1, heroImage2, heroImage3, heroImage4, heroImage5, heroImage6];
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -93,12 +93,11 @@ export default function Hero() {
               zIndex: index === currentIndex ? 1 : 0
             }}
           >
-            <Image
+            <ImageWithFallback
               src={image}
               alt={`Masážní služby ${index + 1}`}
-              fill
               className="w-full h-full object-cover"
-              priority={index < 2}
+              loading={index < 2 ? 'eager' : 'lazy'}
             />
             {/* Dark overlay with blur for text readability */}
             <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" />

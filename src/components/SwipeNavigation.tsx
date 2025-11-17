@@ -1,8 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-
-const sections = ['hero', 'services', 'about', 'booking', 'faq', 'contact'];
+import { SECTION_IDS } from '../constants/navigation';
 
 export default function SwipeNavigation() {
   const [touchStart, setTouchStart] = useState(0);
@@ -38,7 +37,7 @@ export default function SwipeNavigation() {
       const currentScrollPosition = window.scrollY + window.innerHeight / 2;
       let currentSectionIndex = 0;
 
-      sections.forEach((sectionId, index) => {
+      SECTION_IDS.forEach((sectionId, index) => {
         const element = document.getElementById(sectionId);
         if (element) {
           const rect = element.getBoundingClientRect();
@@ -51,8 +50,8 @@ export default function SwipeNavigation() {
 
       // Swipe up - next section
       if (swipeDistance > 0) {
-        const nextIndex = Math.min(currentSectionIndex + 1, sections.length - 1);
-        const nextSection = document.getElementById(sections[nextIndex]);
+        const nextIndex = Math.min(currentSectionIndex + 1, SECTION_IDS.length - 1);
+        const nextSection = document.getElementById(SECTION_IDS[nextIndex]);
         if (nextSection) {
           nextSection.scrollIntoView({ behavior: 'smooth' });
         }
@@ -60,7 +59,7 @@ export default function SwipeNavigation() {
       // Swipe down - previous section
       else {
         const prevIndex = Math.max(currentSectionIndex - 1, 0);
-        const prevSection = document.getElementById(sections[prevIndex]);
+        const prevSection = document.getElementById(SECTION_IDS[prevIndex]);
         if (prevSection) {
           prevSection.scrollIntoView({ behavior: 'smooth' });
         }

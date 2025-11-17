@@ -1,20 +1,18 @@
 'use client'
 
-'use client'
-
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import profileImage from '@/src/assets/56d78eee09ad0ac51d12b673a62b4fb6b3748b3e.png'
+import { motion } from 'framer-motion';
+import { ImageWithFallback } from './figma/ImageWithFallback';
+import { useReducedMotion, getAnimationConfig, getAnimationConfigWithDelay } from '@/src/hooks/useReducedMotion';
+import profileImage from "@/src/assets/56d78eee09ad0ac51d12b673a62b4fb6b3748b3e.png";
 
 export default function About() {
+  const shouldReduceMotion = useReducedMotion();
+  
   return (
     <section id="about" className="py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white overflow-hidden">
       <div className="container mx-auto max-w-5xl">  {/* Vráceno na max-w-5xl, bez extra paddingu */}
         <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: 'easeInOut' }}
+          {...getAnimationConfig(shouldReduceMotion)}
           className="text-center text-[#de397e] mb-20 tracking-wider"
           style={{ fontFamily: 'Dancing Script', fontSize: '2.2rem' }}
         >
@@ -24,10 +22,7 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">  {/* Symetrický grid zpět, gap 12/16 */}
           {/* Text content - Left */}
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.8, ease: 'easeOut' }}
+            {...getAnimationConfigWithDelay(shouldReduceMotion, 0.2)}
             className="order-2 lg:order-1 space-y-8"
           >
             <div>
@@ -131,10 +126,7 @@ export default function About() {
 
           {/* Image - Right - Same animation from top */}
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.8, ease: 'easeOut' }}
+            {...getAnimationConfigWithDelay(shouldReduceMotion, 0.2)}
             className="relative flex justify-center lg:justify-end order-1 lg:order-2"
           >
             <div className="relative w-full max-w-md">
@@ -148,11 +140,9 @@ export default function About() {
                   WebkitMaskComposite: 'source-in',
                 }}
               >
-                <Image
+                <ImageWithFallback
                   src={profileImage}
                   alt="Mgr. Radka Šebestová"
-                  width={400}
-                  height={533}
                   className="w-full aspect-[3/4] object-cover object-top"
                   style={{
                     filter: 'brightness(1.04) contrast(0.96) saturate(1.08)'

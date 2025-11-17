@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { MENU_ITEMS, SCROLL_THRESHOLD } from '../constants/navigation';
+import { scrollToSection, isScrolledPastThreshold } from '../utils/navigation';
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,26 +24,15 @@ export default function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
+      setIsScrolled(isScrolledPastThreshold(SCROLL_THRESHOLD));
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const menuItems = [
-    { label: 'Služby', href: '#services' },
-    { label: 'O mně', href: '#about' },
-    { label: 'Rezervace', href: '#booking' },
-    { label: 'Otázky', href: '#faq' },
-    { label: 'Kontakt', href: '#contact' },
-  ];
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMobileMenuOpen(false);
-    }
+  const handleNavigationClick = (href: string) => {
+    scrollToSection(href);
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -60,7 +51,7 @@ export default function Navigation() {
           <div className="flex items-center justify-between">
             {/* Logo - Simple elegant text */}
             <button
-              onClick={() => scrollToSection('#hero')}
+              onClick={() => handleNavigationClick('#hero')}
               className="transition-all duration-300 hover:opacity-80 cursor-pointer"
             >
               <span 
@@ -73,10 +64,10 @@ export default function Navigation() {
 
             {/* Desktop Menu - Dancing Script with subtle color change - desktop only (1024+) */}
             <div className="hidden lg:flex items-center gap-10">
-              {menuItems.map((item) => (
+              {MENU_ITEMS.map((item) => (
                 <button
                   key={item.href}
-                  onClick={() => scrollToSection(item.href)}
+                  onClick={() => handleNavigationClick(item.href)}
                   className="text-[#888888] transition-all duration-300 hover:text-[#b08888] cursor-pointer"
                   style={{ fontFamily: 'Dancing Script', fontSize: '1.15rem' }}
                 >
@@ -137,10 +128,7 @@ export default function Navigation() {
               {/* Logo in mobile menu - clickable to scroll to hero */}
               <div className="px-8 pt-8 pb-4 border-b border-[#de397e]/10">
                 <button
-                  onClick={() => {
-                    scrollToSection('#hero');
-                    setIsMobileMenuOpen(false);
-                  }}
+                  onClick={() => handleNavigationClick('#hero')}
                   className="text-left w-full cursor-pointer hover:opacity-80 transition-opacity"
                 >
                   <span 
@@ -163,24 +151,17 @@ export default function Navigation() {
                 </button>
               </div>
 
-              {/* Menu Items - Dancing Script like desktop - fade all together */}
+              {/* Menu Items - Dancing Script like desktop - NO FADE */}
               <nav className="px-8 py-6 space-y-2">
-                {menuItems.map((item) => (
+                {MENU_ITEMS.map((item) => (
                   <div key={item.href} className="relative">
-                    <motion.button
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ 
-                        delay: 0.15,
-                        duration: 0.5,
-                        ease: 'easeInOut'
-                      }}
-                      onClick={() => scrollToSection(item.href)}
+                    <button
+                      onClick={() => handleNavigationClick(item.href)}
                       className="text-[#888888] hover:text-[#de397e] transition-all duration-300 py-3 px-6 rounded-2xl hover:bg-[#fef8fb] text-left w-full cursor-pointer"
                       style={{ fontFamily: 'Dancing Script', fontSize: '1.15rem' }}
                     >
                       {item.label}
-                    </motion.button>
+                    </button>
                   </div>
                 ))}
               </nav>

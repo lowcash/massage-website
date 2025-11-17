@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion';
-import { useBooking } from '../contexts/BookingContext';
+import { useBooking } from '@/src/contexts/BookingContext';
+import { useReducedMotion, getAnimationConfig, getAnimationConfigWithDelay } from '@/src/hooks/useReducedMotion';
 import { 
   Target, 
   AlignCenter, 
@@ -109,16 +110,14 @@ const services = [
 
 export default function Services() {
   const { setSelectedService } = useBooking();
+  const shouldReduceMotion = useReducedMotion();
   
   const handleServiceClick = (serviceName: string) => {
     setSelectedService(serviceName);
     
-    // Smooth scroll to booking/calendar section when service is clicked
+    // Smooth scroll to booking section after state update
     setTimeout(() => {
-      const bookingSection = document.getElementById('booking');
-      if (bookingSection) {
-        bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
   };
 
@@ -126,10 +125,7 @@ export default function Services() {
     <section id="services" className="py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white">
       <div className="container mx-auto max-w-5xl">
         <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: 'easeInOut' }}
+          {...getAnimationConfig(shouldReduceMotion)}
           className="text-center text-[#de397e] mb-6 tracking-wider"
           style={{ fontFamily: 'Dancing Script', fontSize: '2.2rem' }}
         >
@@ -137,10 +133,7 @@ export default function Services() {
         </motion.h2>
 
         <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.15, duration: 0.8, ease: 'easeInOut' }}
+          {...getAnimationConfigWithDelay(shouldReduceMotion, 0.15)}
           className="text-center text-[#666666] mb-20 max-w-3xl mx-auto text-lg leading-loose"
         >
           Nabízím širokou škálu masáží a terapií přizpůsobených vašim individuálním potřebám pro dosažení harmonie těla i mysli.
@@ -152,10 +145,7 @@ export default function Services() {
             return (
               <motion.div
                 key={service.id}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.6, ease: 'easeOut' }}
+                {...getAnimationConfigWithDelay(shouldReduceMotion, index * 0.1)}
                 className="bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-3xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
                 onClick={() => handleServiceClick(service.name)}
               >
