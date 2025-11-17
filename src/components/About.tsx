@@ -1,5 +1,7 @@
 'use client'
 
+'use client'
+
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import profileImage from '@/src/assets/56d78eee09ad0ac51d12b673a62b4fb6b3748b3e.png'

@@ -6,8 +6,8 @@ import {
   ChevronRight,
   MessageCircle,
 } from "lucide-react";
-import { motion } from 'framer-motion'
-import { useBooking } from '@/src/contexts/BookingContext'
+import { motion } from "framer-motion";
+import { useBooking } from "../contexts/BookingContext";
 
 // Extended data for 21 days (3 weeks) = 7 "pages" desktop, 21 "pages" mobile
 const generateCalendarData = () => {
@@ -283,18 +283,25 @@ export default function BookingCalendar() {
             transition={{ duration: 0.5 }}
             className="flex justify-center mb-10"
           >
-            <div className="inline-flex flex-col sm:flex-row items-center gap-2 sm:gap-3 px-6 py-3 bg-gradient-to-r from-[#de397e] to-[#c4a75f] text-white rounded-full shadow-lg text-center">
-              <span
-                style={{
-                  fontFamily: "Dancing Script",
-                  fontSize: "1.2rem",
-                }}
-              >
-                Vybraná služba:
-              </span>
-              <span className="font-medium">
-                {selectedService}
-              </span>
+            <div className="bg-white/70 backdrop-blur-[16px] border border-[#de397e]/30 rounded-2xl px-6 py-4 shadow-lg shadow-[#de397e]/8">
+              <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+                <span
+                  className="text-[#666666]"
+                  style={{ fontSize: "0.95rem" }}
+                >
+                  Vybraná služba:
+                </span>
+                <span
+                  className="text-[#de397e] text-center"
+                  style={{
+                    fontFamily: "Dancing Script",
+                    fontSize: "1.4rem",
+                    lineHeight: "1.3",
+                  }}
+                >
+                  {selectedService}
+                </span>
+              </div>
             </div>
           </motion.div>
         )}

@@ -7,9 +7,8 @@ const sections = [
   { id: 'hero', label: 'Úvod' },
   { id: 'services', label: 'Služby' },
   { id: 'about', label: 'O mně' },
-  { id: 'testimonials', label: 'Recenze' },
   { id: 'booking', label: 'Rezervace' },
-  { id: 'faq', label: 'FAQ' },
+  { id: 'faq', label: 'Otázky' },
   { id: 'contact', label: 'Kontakt' },
 ];
 

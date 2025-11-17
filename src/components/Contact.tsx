@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 
 export default function Contact() {
@@ -40,7 +40,7 @@ export default function Contact() {
             {/* Phone Card */}
             <a
               href="tel:+420605579643"
-              className="block bg-white/70 backdrop-blur-[16px] border border-white/50 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/25 cursor-pointer"
+              className="block bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
             >
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
@@ -53,7 +53,7 @@ export default function Contact() {
                   >
                     Telefon
                   </h3>
-                  <p className="text-[#de397e] hover:underline">
+                  <p className="text-[#de397e] transition-colors">
                     (+420) 605 579 643
                   </p>
                 </div>
@@ -63,7 +63,7 @@ export default function Contact() {
             {/* Email Card */}
             <a
               href="mailto:sebestovar@seznam.cz"
-              className="block bg-white/70 backdrop-blur-[16px] border border-white/50 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/25 cursor-pointer"
+              className="block bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
             >
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
@@ -76,7 +76,7 @@ export default function Contact() {
                   >
                     Email
                   </h3>
-                  <p className="text-[#de397e] hover:underline break-all">
+                  <p className="text-[#de397e] break-all transition-colors">
                     sebestovar@seznam.cz
                   </p>
                 </div>
@@ -88,7 +88,7 @@ export default function Contact() {
               href="https://www.google.com/maps/search/?api=1&query=49.0661739,17.1213106"
               target="_blank"
               rel="noopener noreferrer"
-              className="block bg-white/70 backdrop-blur-[16px] border border-white/50 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/25 cursor-pointer"
+              className="block bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
             >
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
@@ -109,7 +109,7 @@ export default function Contact() {
             </a>
 
             {/* Hours Card */}
-            <div className="bg-white/70 backdrop-blur-[16px] border border-white/50 rounded-2xl p-8">
+            <div className="bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-2xl p-8">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
                   <Clock className="w-6 h-6 text-[#de397e]" />

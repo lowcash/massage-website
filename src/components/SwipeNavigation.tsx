@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-const sections = ['hero', 'services', 'about', 'testimonials', 'booking', 'contact'];
+const sections = ['hero', 'services', 'about', 'booking', 'faq', 'contact'];
 
 export default function SwipeNavigation() {
   const [touchStart, setTouchStart] = useState(0);

@@ -76,8 +76,8 @@ export default function FAQ() {
               transition={{ delay: index * 0.1, duration: 0.6, ease: 'easeOut' }}
               className={`bg-white/70 backdrop-blur-[16px] border rounded-3xl overflow-hidden transition-all duration-300 ${
                 openIndex === index 
-                  ? 'border-[#de397e]/40' 
-                  : 'border-white/50 hover:border-[#de397e]/25'
+                  ? 'border-[#de397e]/40 shadow-md' 
+                  : 'border-[#de397e]/20 hover:border-[#de397e]/35 hover:shadow-sm'
               }`}
             >
               <button

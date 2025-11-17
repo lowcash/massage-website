@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 
 interface WaveDividerProps {
   position?: 'top' | 'bottom';
@@ -8,7 +8,7 @@ interface WaveDividerProps {
   flip?: boolean;
 }
 
-export function WaveDivider({ position = 'bottom', color = '#faf7f2', flip = false }: WaveDividerProps) {
+export default function WaveDivider({ position = 'bottom', color = '#faf7f2', flip = false }: WaveDividerProps) {
   return (
     <div
       className={`absolute ${position === 'top' ? 'top-0' : 'bottom-0'} left-0 w-full overflow-hidden leading-none ${

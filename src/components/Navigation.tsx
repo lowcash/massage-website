@@ -31,8 +31,8 @@ export default function Navigation() {
   const menuItems = [
     { label: 'Služby', href: '#services' },
     { label: 'O mně', href: '#about' },
-    { label: 'Recenze', href: '#testimonials' },
-    { label: 'Kalendář', href: '#booking' },
+    { label: 'Rezervace', href: '#booking' },
+    { label: 'Otázky', href: '#faq' },
     { label: 'Kontakt', href: '#contact' },
   ];
 
@@ -138,7 +138,7 @@ export default function Navigation() {
               <div className="px-8 pt-8 pb-4 border-b border-[#de397e]/10">
                 <button
                   onClick={() => {
-                    scrollToSection('hero');
+                    scrollToSection('#hero');
                     setIsMobileMenuOpen(false);
                   }}
                   className="text-left w-full cursor-pointer hover:opacity-80 transition-opacity"

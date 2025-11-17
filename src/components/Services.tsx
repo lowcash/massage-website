@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useBooking } from '@/src/contexts/BookingContext'
+import { motion } from 'framer-motion';
+import { useBooking } from '../contexts/BookingContext';
 import { 
   Target, 
   AlignCenter, 
@@ -149,7 +149,7 @@ export default function Services() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6, ease: 'easeOut' }}
-                className="bg-white/70 backdrop-blur-[16px] border border-white/50 rounded-3xl p-8 transition-all duration-300 hover:border-[#de397e]/25 cursor-pointer"
+                className="bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-3xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
                 onClick={() => handleServiceClick(service.name)}
               >
                 <div className="flex items-start gap-5 mb-5">
