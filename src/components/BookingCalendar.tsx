@@ -380,7 +380,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/60 to-transparent z-10 pointer-events-none" />
             )}
 
-            <div className="overflow-hidden px-20 md:px-24" style={{ touchAction: 'pan-y' }}>
+            <div className="overflow-hidden px-20 md:px-24">
               <motion.div
                 animate={{
                   x: `${-currentPageDesktop * 100}%`,
@@ -546,7 +546,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
 
-            <div className="overflow-hidden" style={{ touchAction: 'pan-y' }}>
+            <div className="overflow-hidden">
               <motion.div
                 animate={{
                   x: `calc(17.5% - ${currentPageMobile * 65}%)`, // Start with 17.5% offset to center first card, then shift by 65% per page
@@ -642,12 +642,12 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
 
-            {/* Progress Dots - Mobile: Show weeks (7 dots for 21 days = 3 days per dot) */}
+            {/* Progress Dots - Mobile: Show weeks (3 days per dot) */}
             <div className="flex justify-center gap-3 mt-12">
-              {Array.from({ length: 7 }).map((_, weekIndex) => {
+              {Array.from({ length: Math.ceil(totalPagesMobile / 3) }).map((_, weekIndex) => {
                 // Each week = 3 days
                 const weekStartDay = weekIndex * 3;
-                const weekEndDay = weekStartDay + 2;
+                const weekEndDay = Math.min(weekStartDay + 2, totalPagesMobile - 1);
                 const isCurrentWeek =
                   currentPageMobile >= weekStartDay &&
                   currentPageMobile <= weekEndDay;
