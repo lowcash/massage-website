@@ -32,7 +32,7 @@ export default async function Page() {
       <Services />
       <About />
       {/* <Testimonials /> */}
-      <Calendar data={calendarData} />
+      {/* <Calendar data={calendarData} /> */}
       <Contact />
       <Footer />
       <SideDots />
