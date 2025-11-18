@@ -28,7 +28,7 @@ export function CalendarListItem({ item, isSelected, onSelect, onToggleReserved 
         }}
         className='flex-shrink-0'
       >
-        <Checkbox checked={item.reserved} />
+        <Checkbox checked={item.reserved} onChange={onToggleReserved} readOnly />
       </button>
       <div className='flex-1'>
         <p className={cn('text-sm', item.reserved ? 'line-through text-zinc-400' : 'text-zinc-900')}>

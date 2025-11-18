@@ -20,8 +20,11 @@ export const revalidate = 60
 
 export default async function Page() {
   const result = await getCalendar()
-  // Server action returns { success, data } - extract just the data array
-  const calendarData: CalendarSlot[] | undefined = result?.data as CalendarSlot[] | undefined
+  // Server action with next-safe-action returns: { data: { success, data }, ... }
+  const actionData = result?.data
+  const rawData = actionData?.data ?? []
+  // Filter out any null values and ensure proper types
+  const calendarData: CalendarSlot[] = Array.isArray(rawData) ? rawData.filter((slot): slot is CalendarSlot => slot !== null) : []
 
   return (
     <>
@@ -31,8 +34,8 @@ export default async function Page() {
       <Hero />
       <Services />
       <About />
-      {/* <Testimonials /> */}
-      {/* <Calendar data={calendarData} /> */}
+      <Testimonials />
+      <Calendar data={calendarData} />
       <Contact />
       <Footer />
       <SideDots />

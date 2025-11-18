@@ -41,6 +41,7 @@ export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isJumping, setIsJumping] = useState(false); // Flag for instant jumps
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
@@ -71,16 +72,24 @@ export default function Testimonials() {
     if (currentIndex === testimonials.length) {
       // At end clones, jump to real start
       setTimeout(() => {
+        setIsJumping(true);
         setIsTransitioning(false);
         setCurrentIndex(0);
-        setTimeout(() => setIsTransitioning(true), 50);
+        setTimeout(() => {
+          setIsTransitioning(true);
+          setIsJumping(false);
+        }, 100);
       }, 500);
     } else if (currentIndex === -1) {
       // At start clones, jump to real end
       setTimeout(() => {
+        setIsJumping(true);
         setIsTransitioning(false);
         setCurrentIndex(testimonials.length - 1);
-        setTimeout(() => setIsTransitioning(true), 50);
+        setTimeout(() => {
+          setIsTransitioning(true);
+          setIsJumping(false);
+        }, 100);
       }, 500);
     }
   }, [currentIndex]);
@@ -146,7 +155,11 @@ export default function Testimonials() {
     let scale = 100;
     let zIndex = 10;
     
-    if (!isActive) {
+    // Don't apply scaling effects during instant jumps
+    if (isJumping) {
+      scale = 100;
+      zIndex = isActive ? 20 : 10;
+    } else if (!isActive) {
       // Neaktivní karty - scale pro depth efekt
       if (distance === 1) {
         scale = 95;

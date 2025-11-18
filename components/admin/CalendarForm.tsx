@@ -2,24 +2,38 @@
 
 import { Button } from '@/components/ui/button'
 import { getDefaultDateString, getDefaultTimeString } from './utils/calendar'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Plus } from 'lucide-react'
 
 interface CalendarFormProps {
   onAdd: (dateStr: string, timeStr: string) => void
+  onUpdate: (dateStr: string, timeStr: string) => void
   isLoading: boolean
+  selectedDate?: Date | null
 }
 
-export function CalendarForm({ onAdd, isLoading }: CalendarFormProps) {
+export function CalendarForm({ onAdd, onUpdate, isLoading, selectedDate }: CalendarFormProps) {
   const now = new Date()
   const [date, setDate] = useState(getDefaultDateString(now))
   const [time, setTime] = useState(getDefaultTimeString(now))
+  
+  // Update form when calendar item is selected
+  useEffect(() => {
+    if (selectedDate) {
+      setDate(getDefaultDateString(selectedDate))
+      setTime(getDefaultTimeString(selectedDate))
+    }
+  }, [selectedDate])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onAdd(date, time)
-    setDate(getDefaultDateString(new Date()))
-    setTime(getDefaultTimeString(new Date()))
+    if (selectedDate) {
+      onUpdate(date, time)
+    } else {
+      onAdd(date, time)
+      setDate(getDefaultDateString(new Date()))
+      setTime(getDefaultTimeString(new Date()))
+    }
   }
 
   return (
@@ -54,7 +68,7 @@ export function CalendarForm({ onAdd, isLoading }: CalendarFormProps) {
       </div>
       <Button type='submit' disabled={isLoading} className='w-full gap-2 bg-green-600 hover:bg-green-700'>
         <Plus className='h-4 w-4' />
-        Přidat termín
+        {selectedDate ? 'Aktualizovat termín' : 'Přidat termín'}
       </Button>
     </form>
   )

@@ -13,23 +13,11 @@ import { useBooking } from "@/src/contexts/BookingContext";
 import { useReducedMotion, getAnimationConfig, getAnimationConfigWithDelay } from '@/src/hooks/useReducedMotion';
 import type { CalendarSlot } from './Calendar';
 
-/**
- * Map API calendar data to display format
- * API returns raw dates and reserved status
- * Component needs: day name, formatted date, time slots, isToday flag
- * 
- * IMPORTANT: Redis ukládá jednotlivé časové sloty (každý záznam = jeden konkrétní čas)
- * Musíme je seskupit podle dne a extrahovat časy
- */
 const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
-  // Handle case where server action returns { success, data } instead of just data
   let slots: CalendarSlot[] = [];
   
-  if (!apiData) {
-    return [];
-  }
+  if (!apiData) return [];
   
-  // If apiData is server action result { success, data }, extract data
   if (typeof apiData === 'object' && 'data' in apiData && Array.isArray(apiData.data)) {
     slots = apiData.data;
   } else if (Array.isArray(apiData)) {
@@ -39,22 +27,20 @@ const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
     return [];
   }
   
-  // Pokud API není dostupné nebo vrátí prázdná data → prázdný kalendář
-  if (slots.length === 0) {
-    return [];  // ← Žádný fallback! Pouze API data nebo nic.
-  }
+  if (slots.length === 0) return [];
 
   const days = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota", "Neděle"];
+  
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const todayPrague = new Date(today.toLocaleString('en-US', { timeZone: 'Europe/Prague' }));
+  todayPrague.setHours(0, 0, 0, 0);
 
-  // Seskupit sloty podle dne (YYYY-MM-DD)
   const slotsByDay = new Map<string, CalendarSlot[]>();
   
   slots.forEach((slot) => {
-    const slotDate = new Date(slot.date);
-    // Use UTC methods to avoid timezone conversion issues
-    const dayKey = `${slotDate.getUTCFullYear()}-${String(slotDate.getUTCMonth() + 1).padStart(2, '0')}-${String(slotDate.getUTCDate()).padStart(2, '0')}`;
+    const slotDate = slot.date instanceof Date ? slot.date : new Date(slot.date);
+    const slotPrague = new Date(slotDate.toLocaleString('en-US', { timeZone: 'Europe/Prague' }));
+    const dayKey = `${slotPrague.getFullYear()}-${String(slotPrague.getMonth() + 1).padStart(2, '0')}-${String(slotPrague.getDate()).padStart(2, '0')}`;
     
     if (!slotsByDay.has(dayKey)) {
       slotsByDay.set(dayKey, []);
@@ -62,33 +48,37 @@ const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
     slotsByDay.get(dayKey)!.push(slot);
   });
 
-  // Konvertovat na display format
   const result = Array.from(slotsByDay.entries())
-    .sort((a, b) => a[0].localeCompare(b[0])) // Seřadit podle data
+    .sort((a, b) => a[0].localeCompare(b[0]))
     .map(([dayKey, daySlots]) => {
-      // Vezmi první slot pro získání data dne
       const firstSlot = daySlots[0];
-      const slotDate = new Date(firstSlot.date);
-      // Use UTC methods to avoid timezone issues
-      const utcDay = slotDate.getUTCDay();
+      const slotDate = firstSlot.date instanceof Date ? firstSlot.date : new Date(firstSlot.date);
+      const slotPrague = new Date(slotDate.toLocaleString('en-US', { timeZone: 'Europe/Prague' }));
       
-      const dayName = days[utcDay === 0 ? 6 : utcDay - 1];
-      const dateStr = `${slotDate.getUTCDate()}.${slotDate.getUTCMonth() + 1}.`;
+      const dayIndex = slotPrague.getDay();
+      const dayName = days[dayIndex === 0 ? 6 : dayIndex - 1];
+      const dateStr = `${slotPrague.getDate()}.${slotPrague.getMonth() + 1}.`;
       
-      // Check if today using UTC
-      const todayUTC = `${today.getUTCFullYear()}-${String(today.getUTCMonth() + 1).padStart(2, '0')}-${String(today.getUTCDate()).padStart(2, '0')}`;
-      const slotDateUTC = `${slotDate.getUTCFullYear()}-${String(slotDate.getUTCMonth() + 1).padStart(2, '0')}-${String(slotDate.getUTCDate()).padStart(2, '0')}`;
-      const isToday = todayUTC === slotDateUTC;
+      const slotDateOnly = `${slotPrague.getFullYear()}-${String(slotPrague.getMonth() + 1).padStart(2, '0')}-${String(slotPrague.getDate()).padStart(2, '0')}`;
+      const todayDateOnly = `${todayPrague.getFullYear()}-${String(todayPrague.getMonth() + 1).padStart(2, '0')}-${String(todayPrague.getDate()).padStart(2, '0')}`;
+      const isToday = todayDateOnly === slotDateOnly;
 
-      // Vytvoč časové sloty z dat - použij UTC metody
       const slots = daySlots.map(slot => {
-        const time = new Date(slot.date);
-        const timeStr = `${time.getUTCHours()}:${String(time.getUTCMinutes()).padStart(2, '0')}`;
+        const time = slot.date instanceof Date ? slot.date : new Date(slot.date);
+        const timePrague = new Date(time.toLocaleString('en-US', { timeZone: 'Europe/Prague' }));
+        const hours = timePrague.getHours();
+        const minutes = timePrague.getMinutes();
+        const timeStr = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
         return {
           time: timeStr,
           available: !slot.reserved,
         };
-      }).sort((a, b) => a.time.localeCompare(b.time)); // Seřadit podle času
+      }).sort((a, b) => {
+        const [aHours, aMinutes] = a.time.split(':').map(Number);
+        const [bHours, bMinutes] = b.time.split(':').map(Number);
+        if (aHours !== bHours) return aHours - bHours;
+        return aMinutes - bMinutes;
+      });
 
       return {
         day: dayName,
@@ -116,12 +106,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const { selectedService } = useBooking();
   
-  const calendarData = useMemo(
-    () => mapApiDataToDisplay(data),
-    [data],
-  );
+  const calendarData = useMemo(() => mapApiDataToDisplay(data), [data]);
 
-  // Show empty state if no data
   if (!calendarData || calendarData.length === 0) {
     return (
       <section
@@ -149,30 +135,16 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
     );
   }
 
-  // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
 
-  // Desktop: 3 cards per page (7 pages total)
-  // Mobile: 1 card per page (21 pages total)
-  const cardsPerPage = 3; // Desktop
-  const totalPagesDesktop = Math.ceil(
-    calendarData.length / cardsPerPage,
-  ); // 7 pages
-  const totalPagesMobile = calendarData.length; // 21 pages
+  const cardsPerPage = 3;
+  const totalPagesDesktop = Math.ceil(calendarData.length / cardsPerPage);
+  const totalPagesMobile = calendarData.length;
 
-  // Center on today's date on mount - SEPARATE for desktop and mobile
   useEffect(() => {
-    const todayIndex = calendarData.findIndex(
-      (day) => day.isToday,
-    );
+    const todayIndex = calendarData.findIndex((day) => day.isToday);
     if (todayIndex !== -1) {
-      // Desktop: set to the page containing today
-      const todayPageDesktop = Math.floor(
-        todayIndex / cardsPerPage,
-      );
-      setCurrentPageDesktop(todayPageDesktop);
-
-      // Mobile: set to today's card index
+      setCurrentPageDesktop(Math.floor(todayIndex / cardsPerPage));
       setCurrentPageMobile(todayIndex);
     }
   }, [calendarData]);
@@ -297,7 +269,6 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           masáž přes WhatsApp
         </motion.p>
 
-        {/* Selected Service Badge */}
         {selectedService && (
           <div className="flex justify-center mb-10">
             <div className="bg-white/70 backdrop-blur-[16px] border border-[#de397e]/30 rounded-2xl px-6 py-4 shadow-lg shadow-[#de397e]/8">
@@ -323,11 +294,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           </div>
         )}
 
-        {/* Carousel Container */}
         <div className="relative">
-          {/* Desktop Version: 3 cards per page - šipky jen na desktop (lg+) */}
           <div className="hidden md:block relative">
-            {/* Previous Arrow - desktop only */}
             <button
               onClick={goToPrevious}
               disabled={currentPageDesktop === 0}
@@ -343,7 +311,6 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               />
             </button>
 
-            {/* Fade gradient on left edge - only if there are previous pages */}
             {currentPageDesktop > 0 && (
               <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/60 to-transparent z-10 pointer-events-none" />
             )}
@@ -390,7 +357,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                           return (
                             <div
                               key={globalIndex}
-                              className="flex-1"
+                              className="flex-1 max-w-[220px]"
                             >
                               <div
                                 className={`rounded-3xl p-6 w-full transition-all duration-500 ${
@@ -427,8 +394,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                                   </p>
                                 </div>
 
-                                {/* Time slots */}
-                                <div className="space-y-3">
+                                <div className="space-y-2 flex-1 flex flex-col justify-center">
                                   {dayData.slots.map((slot) => (
                                     <button
                                       key={slot.time}
@@ -465,12 +431,10 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               </motion.div>
             </div>
 
-            {/* Fade gradient on right edge - only if there are next pages */}
             {currentPageDesktop < totalPagesDesktop - 1 && (
               <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white/60 to-transparent z-10 pointer-events-none" />
             )}
 
-            {/* Next Arrow - desktop only */}
             <button
               onClick={goToNext}
               disabled={
@@ -522,9 +486,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             </div>
           </div>
 
-          {/* Mobile Version: 1 card per page */}
           <div className="md:hidden relative">
-            {/* Fade gradient on left edge - mobile - only if not first page */}
             {currentPageMobile > 0 && (
               <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
@@ -585,8 +547,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                           </p>
                         </div>
 
-                        {/* Time slots */}
-                        <div className="space-y-3">
+                        <div className="space-y-2 flex-1 flex flex-col justify-center">
                           {dayData.slots.map((slot) => (
                             <button
                               key={slot.time}
@@ -620,7 +581,6 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               </motion.div>
             </div>
 
-            {/* Fade gradient on right edge - mobile - only if not last page */}
             {currentPageMobile < totalPagesMobile - 1 && (
               <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
@@ -660,7 +620,6 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           </div>
         </div>
 
-        {/* WhatsApp CTA */}
         <motion.div
           {...getAnimationConfigWithDelay(shouldReduceMotion, 0.3)}
           className="text-center mt-16"

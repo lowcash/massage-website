@@ -31,13 +31,14 @@ export const getCalendar = actionClient.action(async () => {
     const parsedContent = JSON.parse(fileContent as string) as any[]
 
     // Map raw data to CalendarSlot format
-    // IMPORTANT: Redis stores dates as ISO strings, must convert back to Date objects
+    // IMPORTANT: Redis stores dates as ISO strings in UTC
+    // When converted to Date objects, they remain in UTC but JavaScript will display them in local timezone
     const mappedData = parsedContent.map((slot) => {
       const dateValue = slot.date
       let dateObj: Date
       
       if (typeof dateValue === 'string') {
-        // ISO string from Redis
+        // ISO string from Redis (stored in UTC)
         dateObj = new Date(dateValue)
       } else if (dateValue instanceof Date) {
         dateObj = dateValue
