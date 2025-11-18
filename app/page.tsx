@@ -8,7 +8,6 @@ import Services from '@/src/components/Services'
 import About from '@/src/components/About'
 import Testimonials from '@/src/components/Testimonials'
 import Calendar from '@/src/components/Calendar'
-import FAQ from '@/src/components/FAQ'
 import Contact from '@/src/components/Contact'
 import Footer from '@/src/components/Footer'
 import SideDots from '@/src/components/SideDots'
@@ -34,7 +33,6 @@ export default async function Page() {
       <About />
       {/* <Testimonials /> */}
       <Calendar data={calendarData} />
-      <FAQ />
       <Contact />
       <Footer />
       <SideDots />

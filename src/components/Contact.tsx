@@ -96,7 +96,8 @@ export default function Contact() {
                     Adresa
                   </h3>
                   <p className="text-[#666666]">
-                    Národní třída 383/15, Hodonín, 695 01
+                    Národní třída 383/15<br />
+                    Hodonín, 695 01
                   </p>
                 </div>
               </div>

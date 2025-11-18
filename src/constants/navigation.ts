@@ -20,7 +20,6 @@ export const NAVIGATION_SECTIONS: NavigationSection[] = [
   { id: 'services', label: 'Služby', href: '#services' },
   { id: 'about', label: 'O mně', href: '#about' },
   { id: 'booking', label: 'Rezervace', href: '#booking' },
-  { id: 'faq', label: 'Otázky', href: '#faq' },
   { id: 'contact', label: 'Kontakt', href: '#contact' },
 ];
 

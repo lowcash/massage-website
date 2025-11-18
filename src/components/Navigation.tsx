@@ -192,7 +192,7 @@ export default function Navigation() {
                       className="flex items-center gap-3 px-4 py-3 bg-white/40 hover:bg-white/70 text-[#2c2c2c] rounded-xl transition-all duration-300 cursor-pointer backdrop-blur-sm"
                     >
                       <MapPin className="w-5 h-5 flex-shrink-0 text-[#de397e]" />
-                      <span className="text-sm overflow-hidden text-ellipsis whitespace-nowrap">Národní třída 383/15, Hodonín</span>
+                      <span className="text-sm">Národní třída 383/15<br />Hodonín, 695 01</span>
                     </a>
                   </div>
                 </div>

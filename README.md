@@ -88,7 +88,7 @@ import from '@/components/SignOut'
 
 ## 📱 Stránky
 
-- `/` - Hlavní stránka s hero, služby, o mně, rezervace, FAQ, kontakt
+- `/` - Hlavní stránka s hero, služby, o mně, rezervace, kontakt
 - `/admin` - Admin panel pro správu rezervací (frontend pro tvorbu slotů)
 - `/robots.txt`, `/sitemap.xml` - SEO
 

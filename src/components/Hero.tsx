@@ -88,6 +88,7 @@ export default function Hero() {
     <section
       id="hero"
       className="relative h-screen w-full overflow-hidden"
+      style={{ touchAction: 'pan-y' }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}

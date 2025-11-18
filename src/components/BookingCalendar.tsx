@@ -348,7 +348,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/60 to-transparent z-10 pointer-events-none" />
             )}
 
-            <div className="overflow-hidden px-20 md:px-24">
+            <div className="overflow-hidden px-20 md:px-24" style={{ touchAction: 'pan-y' }}>
               <motion.div
                 animate={{
                   x: `${-currentPageDesktop * 100}%`,
@@ -529,7 +529,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
 
-            <div className="overflow-hidden">
+            <div className="overflow-hidden" style={{ touchAction: 'pan-y' }}>
               <motion.div
                 animate={{
                   x: `calc(17.5% - ${currentPageMobile * 65}%)`, // Start with 17.5% offset to center first card, then shift by 65% per page
