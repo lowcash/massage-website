@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 const PRAGUE_TZ = 'Europe/Prague'
 
 export function dateToInput(date: Date) {
-  // yyyy-MM-dd in Prague timezone
+  // yyyy-MM-dd v Prague timezone
   const pragueDate = new Date(date.toLocaleString('en-US', { timeZone: PRAGUE_TZ }))
   const yyyy = pragueDate.getFullYear()
   const MM = String(pragueDate.getMonth() + 1).padStart(2, '0')
@@ -18,13 +18,13 @@ export function dateToInput(date: Date) {
 }
 
 export function timeToInput(date: Date) {
-  // HH:MM in Prague timezone
+  // HH:MM v Prague timezone
   const pragueDate = new Date(date.toLocaleString('en-US', { timeZone: PRAGUE_TZ }))
   return `${String(pragueDate.getHours()).padStart(2, '0')}:${String(pragueDate.getMinutes()).padStart(2, '0')}`
 }
 
 export function formatDateTime(date: Date) {
-  // dd.MM.yyyy HH:mm in Prague timezone
+  // dd.MM.yyyy HH:mm v Prague timezone
   const pragueDate = new Date(date.toLocaleString('en-US', { timeZone: PRAGUE_TZ }))
   const yyyy = pragueDate.getFullYear()
   const MM = String(pragueDate.getMonth() + 1).padStart(2, '0')

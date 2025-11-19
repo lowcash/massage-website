@@ -50,6 +50,14 @@ const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
 
   const result = Array.from(slotsByDay.entries())
     .sort((a, b) => a[0].localeCompare(b[0]))
+    .filter(([dayKey, daySlots]) => {
+      // Filtrovat jen dny, které jsou dnes nebo v budoucnosti (Prague timezone)
+      const firstSlot = daySlots[0];
+      const slotDate = firstSlot.date instanceof Date ? firstSlot.date : new Date(firstSlot.date);
+      const slotPrague = new Date(slotDate.toLocaleString('en-US', { timeZone: 'Europe/Prague' }));
+      slotPrague.setHours(0, 0, 0, 0);
+      return slotPrague >= todayPrague;
+    })
     .map(([dayKey, daySlots]) => {
       const firstSlot = daySlots[0];
       const slotDate = firstSlot.date instanceof Date ? firstSlot.date : new Date(firstSlot.date);
@@ -64,6 +72,7 @@ const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
       const isToday = todayDateOnly === slotDateOnly;
 
       const slots = daySlots.map(slot => {
+        // Redis obsahuje UTC čas, převedeme na Prague timezone pro zobrazení
         const time = slot.date instanceof Date ? slot.date : new Date(slot.date);
         const timePrague = new Date(time.toLocaleString('en-US', { timeZone: 'Europe/Prague' }));
         const hours = timePrague.getHours();

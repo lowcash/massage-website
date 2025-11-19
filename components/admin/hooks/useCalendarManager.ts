@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect } from 'react'
 import { CalendarItem } from '@/types/calendar'
 import { updateCalendar } from '@/app/actions/calendar'
-import { sortCalendarList, combineDateTime, isDateTimeInFuture } from '../utils/calendar'
+import { sortCalendarList, combineDateTime, isDateTimeInFuture, filterFutureCalendarItems } from '../utils/calendar'
 
 export function useCalendarManager(initialData: CalendarItem[]) {
   const [list, setList] = useState<CalendarItem[]>(sortCalendarList(initialData))
@@ -19,7 +19,10 @@ export function useCalendarManager(initialData: CalendarItem[]) {
       if (!selected || !isDateTimeInFuture(selected)) return
 
       if (!list.some((dt) => dt.date.getTime() === selected.getTime())) {
-        const newList = sortCalendarList([...list, { date: selected, reserved: false }])
+        // Přidat nový termín a smazat staré termíny
+        const updatedList = [...list, { date: selected, reserved: false }]
+        const futureList = filterFutureCalendarItems(updatedList)
+        const newList = sortCalendarList(futureList)
         setList(newList)
         setIsLoading(true)
         try {
@@ -70,22 +73,27 @@ export function useCalendarManager(initialData: CalendarItem[]) {
       if (selectedIndex === null) return { success: false }
 
       const newDate = combineDateTime(dateStr, timeStr)
-      if (!newDate || !isDateTimeInFuture(newDate)) return { success: false }
+      if (!newDate) return { success: false }
 
       // Check if new date/time conflicts with existing items (excluding the one being updated)
       if (list.some((item, idx) => idx !== selectedIndex && item.date.getTime() === newDate.getTime())) {
         return { success: false, conflict: true }
       }
 
+      const oldItem = list[selectedIndex]
       const newList = list.map((item, idx) =>
         idx === selectedIndex ? { ...item, date: newDate } : item
       )
       const sortedList = sortCalendarList(newList)
       setList(sortedList)
+      
+      // Find new index after sorting
+      const newIndex = sortedList.findIndex(item => item.date.getTime() === newDate.getTime() && item.reserved === oldItem.reserved)
+      
       setIsLoading(true)
       try {
         await updateCalendar(sortedList)
-        return { success: true, date: newDate }
+        return { success: true, date: newDate, newIndex }
       } finally {
         setIsLoading(false)
       }

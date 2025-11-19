@@ -32,9 +32,14 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
       toast.success(`Termín ${formatDateTime(result.date)} úspěšně aktualizován`, {
         icon: <PlusCircle className='h-5 w-5' />,
       })
-      setSelectedIndex(null) // Clear selection after update
+      // Keep selection on the updated item for further editing
+      if (result.newIndex !== undefined) {
+        setSelectedIndex(result.newIndex)
+      }
     } else if (result?.conflict) {
       toast.error('Tento termín již existuje')
+    } else if (result && !result.success) {
+      toast.error('Nepodařilo se aktualizovat termín')
     }
   }
 
