@@ -66,7 +66,7 @@ export default function About() {
               </div>
               <div className="text-center">
                 <div className="text-[#de397e] mb-2" style={{ fontFamily: 'Dancing Script', fontSize: '3rem' }}>
-                  500+
+                  1 500+
                 </div>
                 <div className="text-[#666666] text-sm leading-relaxed">
                   spokojených klientů
