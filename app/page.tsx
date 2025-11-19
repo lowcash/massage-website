@@ -6,7 +6,7 @@ import Navigation from '@/src/components/Navigation'
 import Hero from '@/src/components/Hero'
 import Services from '@/src/components/Services'
 import About from '@/src/components/About'
-import Testimonials from '@/src/components/Testimonials'
+// import Testimonials from '@/src/components/Testimonials'
 import Calendar from '@/src/components/Calendar'
 import Contact from '@/src/components/Contact'
 import Footer from '@/src/components/Footer'
@@ -34,7 +34,7 @@ export default async function Page() {
       <Hero />
       <Services />
       <About />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <Calendar data={calendarData} />
       <Contact />
       <Footer />
