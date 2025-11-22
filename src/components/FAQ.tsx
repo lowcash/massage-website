@@ -8,27 +8,27 @@ import { useReducedMotion, getAnimationConfig, getAnimationConfigWithDelay } fro
 const faqs = [
   {
     question: 'Jak dlouho trvá masáž?',
-    answer: 'Délka masáže závisí na typu služby. <strong>Klasická terapie trvá 50-60 minut</strong>. Přesnou dobu naleznete u každé služby v ceníku.',
+    answer: 'Délka masáže závisí na&nbsp;typu služby. <strong>Klasická terapie trvá 50-60 minut</strong>. Přesnou dobu naleznete u&nbsp;každé služby v&nbsp;ceníku.',
   },
   {
-    question: 'Co si mám vzít s sebou?',
-    answer: '<strong>Není potřeba nic speciálního.</strong> Ručníky, oleje a vše potřebné zajistím. Doporučuji přijít v pohodlném oblečení a vzít si případně čistý převlek na cestu domů.',
+    question: 'Co si mám vzít s&nbsp;sebou?',
+    answer: '<strong>Není potřeba nic speciálního.</strong> Ručníky, oleje a&nbsp;vše potřebné zajistím. Doporučuji přijít v&nbsp;pohodlném oblečení a&nbsp;vzít si případně čistý převlek na&nbsp;cestu domů.',
   },
   {
     question: 'Jak probíhá rezervace?',
-    answer: 'Rezervaci můžete provést <strong>telefonicky na čísle (+420) 605 579 643</strong>, pomocí WhatsApp nebo SMS. <strong>Termín je platný až po mém osobním potvrzení.</strong>',
+    answer: 'Rezervaci můžete provést <strong>telefonicky na&nbsp;čísle (+420)&nbsp;605&nbsp;579&nbsp;643</strong>, pomocí WhatsApp nebo SMS. <strong>Termín je platný až po&nbsp;mém osobním potvrzení.</strong>',
   },
   {
     question: 'Mohu zrušit nebo přesunout termín?',
-    answer: 'Ano, termín lze zrušit nebo přesunout <strong>nejpozději 24 hodin před plánovanou masáží</strong>. Prosím, informujte mě včas telefonicky nebo zprávou.',
+    answer: 'Ano, termín lze zrušit nebo přesunout <strong>nejpozději 24 hodin před plánovanou masáží</strong>. Prosím, informujte mě včas telefonicky nebo zprávou.',
   },
   {
     question: 'Jaká je platba za služby?',
-    answer: 'Platba probíhá <strong>v hotovosti nebo převodem na účet</strong> po absolvování masáže. Ceny služeb najdete v sekci služeb nebo mi neváhejte zavolat.',
+    answer: 'Platba probíhá <strong>v&nbsp;hotovosti nebo převodem na&nbsp;účet</strong> po&nbsp;absolvování masáže. Ceny služeb najdete v&nbsp;sekci služeb nebo mi neváhejte zavolat.',
   },
   {
     question: 'Kde se masáže konají?',
-    answer: 'Masáže probíhají <strong>v mém klidném a soukromém prostoru v Hodoníně</strong>. Přesnou adresu sdělím při potvrzení rezervace. Zajišťuji diskrétní a příjemné prostředí pro maximální relaxaci.',
+    answer: 'Masáže probíhají <strong>v&nbsp;mém klidném a&nbsp;soukromém prostoru v&nbsp;Hodoníně</strong>. Přesnou adresu sdělím při&nbsp;potvrzení rezervace. Zajišťuji diskrétní a&nbsp;příjemné prostředí pro&nbsp;maximální relaxaci.',
   },
 ];
 

@@ -8,31 +8,31 @@ const testimonials = [
   {
     name: 'Petra K.',
     rating: 5,
-    text: 'Masáž u Radky byla naprostým zážitkem. Její přístup je velmi profesionální a zároveň osobní. Cítila jsem se naprosto uvolněná a odcházela s pocitem, že mi bylo věnováno maximum péče.',
+    text: 'Masáž u&nbsp;Radky byla naprostým zážitkem. Její přístup je velmi professionální a&nbsp;zároveň osobní. Cítila jsem se&nbsp;naprosto uvolněná a&nbsp;odcázela s&nbsp;pocitem, že mi bylo věnováno maximum péče.',
     date: '15. října 2024',
   },
   {
     name: 'Martin S.',
     rating: 5,
-    text: 'Po náročném týdnu jsem potřeboval uvolnit napjaté svaly. Radka má zlaté ruce! Sportovní masáž byla přesně to, co jsem potřeboval. Rozhodně se vrátím.',
+    text: 'Po&nbsp;náročném týdnu jsem potřeboval uvolnit napjaté svaly. Radka má zlaté ruce! Sportovní masáž byla přesně to, co jsem potřeboval. Rozhodně se&nbsp;vrátím.',
     date: '8. října 2024',
   },
   {
     name: 'Jana M.',
     rating: 5,
-    text: 'Krásné prostředí, skvělá atmosféra a hlavně úžasná masáž. Radka má opravdu dar a její přístup je velmi empatický. Můžu jen doporučit!',
+    text: 'Krásné prostředí, skvělá atmosféra a&nbsp;hlavně úžasná masáž. Radka má opravdu dar a&nbsp;její přístup je velmi empatický. Můžu jen doporučit!',
     date: '2. října 2024',
   },
   {
     name: 'Tomáš V.',
     rating: 5,
-    text: 'Lymfatická masáž mi pomohla s otoky nohou. Radka je velmi šikovná a ví, co dělá. Cítím se po masáži jako nový člověk.',
+    text: 'Lymfatická masáž mi pomohla s&nbsp;otoky nohou. Radka je velmi šikovná a&nbsp;ví, co dělá. Cítím se&nbsp;po&nbsp;masáži jako&nbsp;nový člověk.',
     date: '25. září 2024',
   },
   {
     name: 'Lucie H.',
     rating: 5,
-    text: 'Masáž lávovými kameny byla neskutečným zážitkem. Teplo kamenů a Radčiny šikovné ruce dokázaly zázraky. Určitě se vrátím!',
+    text: 'Masáž lávovými kameny byla neskutečným zážitkem. Teplo kamenů a&nbsp;Radčiny šikovné ruce dokázaly zázraky. Určitě se&nbsp;vrátím!',
     date: '18. září 2024',
   },
 ];

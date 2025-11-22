@@ -137,7 +137,7 @@ export default function Hero() {
             textShadow: '0 4px 20px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.7)'
           }}
         >
-          Pohlazení po těle a duši
+          Pohlazení po&nbsp;těle a&nbsp;duši
         </h1>
         <p
           className="text-white text-xl mb-10 max-w-2xl"

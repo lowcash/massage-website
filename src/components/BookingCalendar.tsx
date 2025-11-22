@@ -242,10 +242,10 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
     if (!available) return;
 
     // WhatsApp message with selected service
-    let message = `Dobrý den, chtěl(a) bych si rezervovat masáž na ${date} v čase ${time}.`;
+    let message = `Dobrý den, chtěl(a) bych si rezervovat masáž na&nbsp;${date} v&nbsp;čase ${time}.`;
 
     if (selectedService) {
-      message = `Dobrý den, mám zájem o: ${selectedService}\n\nRezervace na ${date} v ${time}`;
+      message = `Dobrý den, mám zájem o:&nbsp;${selectedService}\n\nRezervace na&nbsp;${date} v&nbsp;${time}`;
     }
 
     const phoneNumber = "420605579643";
@@ -274,8 +274,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           {...getAnimationConfigWithDelay(shouldReduceMotion, 0.15)}
           className="text-center text-[#666666] mb-6 max-w-2xl mx-auto leading-loose"
         >
-          Vyberte si termín, který vám vyhovuje, a rezervujte si
-          masáž přes WhatsApp
+          Vyberte si termín, který vám vyhovuje, a&nbsp;rezervujte si
+          masáž přes&nbsp;WhatsApp
         </motion.p>
 
         {selectedService && (
@@ -658,7 +658,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           ) : (
             <>
               <p className="text-[#666666] mb-6 leading-loose">
-                Nenašli jste vhodný termín? Kontaktujte mě a
+                Nenašli jste vhodný termín? Kontaktujte mě a&nbsp;
                 domluvíme se.
               </p>
               <motion.a
@@ -682,7 +682,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                     fontSize: "1.25rem",
                   }}
                 >
-                  Napište mi na WhatsApp
+                  Napište mi na&nbsp;WhatsApp
                 </span>
               </motion.a>
             </>
