@@ -21,15 +21,15 @@ const services = [
   {
     id: 1,
     name: 'Ošetření spoušťových bodů',
-    description: 'Terapeutická technika zaměřená na&nbsp;uvolnění svalových uzlů a&nbsp;zmírnění bolesti prostřednictvím tlaku na&nbsp;specifické body v&nbsp;těle.',
+    description: 'Terapeutická technika zaměřená na uvolnění svalových uzlů a zmírnění bolesti prostřednictvím tlaku na specifické body v těle.',
     duration: '50 min',
     price: 'od 750,-',
     icon: Target,
   },
   {
     id: 2,
-    name: 'Náprava a&nbsp;korekce metodou z&nbsp;MBS s&nbsp;prvky chiropraxe',
-    description: 'Terapeutická technika, která pomocí cílených manuálních zásahů obnovuje správné postavení těla a&nbsp;pohybový aparát.',
+    name: 'Náprava a korekce metodou z MBS s prvky chiropraxe',
+    description: 'Terapeutická technika, která pomocí cílených manuálních zásahů obnovuje správné postavení těla a pohybový aparát.',
     duration: '50 min',
     price: 'od 750,-',
     icon: AlignCenter,
@@ -37,7 +37,7 @@ const services = [
   {
     id: 3,
     name: 'Thajská masáž nohou',
-    description: 'Tradiční technika, která kombinuje akupresuru, stimulaci reflexních bodů a&nbsp;protahování pro uvolnění napětí a&nbsp;podporu celkového zdraví.',
+    description: 'Tradiční technika, která kombinuje akupresuru, stimulaci reflexních bodů a protahování pro uvolnění napětí a podporu celkového zdraví.',
     duration: '60 min',
     price: 'od 850,-',
     icon: Footprints,
@@ -45,7 +45,7 @@ const services = [
   {
     id: 4,
     name: 'Medová detoxikační masáž',
-    description: 'Relaxační technika, při které se&nbsp;pomocí teplého medu a&nbsp;speciálních hmatů odstraňují toxiny z&nbsp;těla a&nbsp;zlepšuje se&nbsp;prokrvení pokožky.',
+    description: 'Relaxační technika, při které se pomocí teplého medu a speciálních hmatů odstraňují toxiny z těla a zlepšuje se prokrvení pokožky.',
     duration: '60 min',
     price: 'od 800,-',
     icon: Droplet,
@@ -53,7 +53,7 @@ const services = [
   {
     id: 5,
     name: 'Deep tissue massage',
-    description: 'Hloubková masáž zaměřená na&nbsp;uvolnění chronického napětí ve&nbsp;svalech a&nbsp;pojivových tkáních pomocí pomalých, intenzivních tahů.',
+    description: 'Hloubková masáž zaměřená na uvolnění chronického napětí ve svalech a pojivových tkáních pomocí pomalých, intenzivních tahů.',
     duration: '60 min',
     price: 'od 850,-',
     icon: Zap,
@@ -61,7 +61,7 @@ const services = [
   {
     id: 6,
     name: 'Protimigrénová masáž',
-    description: 'Cílená relaxační technika zaměřená na&nbsp;uvolnění napětí v&nbsp;oblasti hlavy, krku a&nbsp;ramen s&nbsp;cílem zmírnit nebo předejít migrénám.',
+    description: 'Cílená relaxační technika zaměřená na uvolnění napětí v oblasti hlavy, krku a ramen s cílem zmírnit nebo předejít migrénám.',
     duration: '50 min',
     price: 'od 700,-',
     icon: Brain,
@@ -69,7 +69,7 @@ const services = [
   {
     id: 7,
     name: 'Spinální masáž',
-    description: 'Terapeutická masáž zaměřená na&nbsp;oblast páteře, která uvolňuje svalové napětí, podporuje správné držení těla a&nbsp;zlepšuje funkci nervového systému.',
+    description: 'Terapeutická masáž zaměřená na oblast páteře, která uvolňuje svalové napětí, podporuje správné držení těla a zlepšuje funkci nervového systému.',
     duration: '60 min',
     price: 'od 800,-',
     icon: Activity,
@@ -77,15 +77,15 @@ const services = [
   {
     id: 8,
     name: 'Baby masáže (3x)',
-    description: 'Jemné dotykové techniky určené pro&nbsp;miminka, které podporují jejich zdravý vývoj, zlepšují spánek a&nbsp;posilují vazbu mezi&nbsp;rodičem a&nbsp;dítětem.',
+    description: 'Jemné dotykové techniky určené pro miminka, které podporují jejich zdravý vývoj, zlepšují spánek a posilují vazbu mezi rodičem a dítětem.',
     duration: '45 min',
     price: '950,-',
     icon: Baby,
   },
   {
     id: 9,
-    name: 'Reflexní masáž zad a&nbsp;šíje',
-    description: 'Cílená masážní technika, která stimuluje nervové reflexní zóny k&nbsp;uvolnění napětí, zmírnění bolesti a&nbsp;podpoře regenerace v&nbsp;oblasti zad a&nbsp;šíje.',
+    name: 'Reflexní masáž zad a šíje',
+    description: 'Cílená masážní technika, která stimuluje nervové reflexní zóny k uvolnění napětí, zmírnění bolesti a podpoře regenerace v oblasti zad a šíje.',
     duration: '30 min',
     price: '500,-',
     icon: HandMetal,
@@ -93,7 +93,7 @@ const services = [
   {
     id: 10,
     name: 'Těhotenská masáž',
-    description: 'Jemná masáž určená těhotným ženám, která pomáhá uvolnit napětí, zlepšit prokrvení a&nbsp;zmírnit bolesti spojené s&nbsp;těhotenstvím.',
+    description: 'Jemná masáž určená těhotným ženám, která pomáhá uvolnit napětí, zlepšit prokrvení a zmírnit bolesti spojené s těhotenstvím.',
     duration: '60 min',
     price: 'od 850,-',
     icon: Heart,
@@ -101,7 +101,7 @@ const services = [
   {
     id: 11,
     name: 'Kineziotaping',
-    description: 'Terapeutická metoda, při které se&nbsp;na&nbsp;pokožku aplikují elastické pásky s&nbsp;cílem podpořit hojení, zmírnit bolest a&nbsp;zlepšit funkci svalů a&nbsp;kloubů.',
+    description: 'Terapeutická metoda, při které se na pokožku aplikují elastické pásky s cílem podpořit hojení, zmírnit bolest a zlepšit funkci svalů a kloubů.',
     duration: '',
     price: '100,- (+15,- cm)',
     icon: Scissors,
@@ -132,7 +132,7 @@ export default function Services() {
           {...getAnimationConfigWithDelay(shouldReduceMotion, 0.15)}
           className="text-center text-[#666666] mb-20 max-w-3xl mx-auto text-lg leading-loose"
         >
-          Nabízím širokou škálu masáží a&nbsp;terapií přizpůsobených vašim individuálním potřebám pro&nbsp;dosažení harmonie těla i&nbsp;mysli.
+          Nabízím širokou škálu masáží a terapií přizpůsobených vašim individuálním potřebám pro dosažení harmonie těla i mysli.
         </motion.p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">

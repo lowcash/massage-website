@@ -8,31 +8,31 @@ const testimonials = [
   {
     name: 'Petra K.',
     rating: 5,
-    text: 'Masáž u&nbsp;Radky byla naprostým zážitkem. Její přístup je velmi professionální a&nbsp;zároveň osobní. Cítila jsem se&nbsp;naprosto uvolněná a&nbsp;odcázela s&nbsp;pocitem, že mi bylo věnováno maximum péče.',
+    text: 'Masáž u Radky byla naprostým zážitkem. Její přístup je velmi professionální a zároveň osobní. Cítila jsem se naprosto uvolněná a odcázela s pocitem, že mi bylo věnováno maximum péče.',
     date: '15. října 2024',
   },
   {
     name: 'Martin S.',
     rating: 5,
-    text: 'Po&nbsp;náročném týdnu jsem potřeboval uvolnit napjaté svaly. Radka má zlaté ruce! Sportovní masáž byla přesně to, co jsem potřeboval. Rozhodně se&nbsp;vrátím.',
+    text: 'Po náročném týdnu jsem potřeboval uvolnit napjaté svaly. Radka má zlaté ruce! Sportovní masáž byla přesně to, co jsem potřeboval. Rozhodně se vrátím.',
     date: '8. října 2024',
   },
   {
     name: 'Jana M.',
     rating: 5,
-    text: 'Krásné prostředí, skvělá atmosféra a&nbsp;hlavně úžasná masáž. Radka má opravdu dar a&nbsp;její přístup je velmi empatický. Můžu jen doporučit!',
+    text: 'Krásné prostředí, skvělá atmosféra a hlavně úžasná masáž. Radka má opravdu dar a její přístup je velmi empatický. Můžu jen doporučit!',
     date: '2. října 2024',
   },
   {
     name: 'Tomáš V.',
     rating: 5,
-    text: 'Lymfatická masáž mi pomohla s&nbsp;otoky nohou. Radka je velmi šikovná a&nbsp;ví, co dělá. Cítím se&nbsp;po&nbsp;masáži jako&nbsp;nový člověk.',
+    text: 'Lymfatická masáž mi pomohla s otoky nohou. Radka je velmi šikovná a ví, co dělá. Cítím se po masáži jako nový člověk.',
     date: '25. září 2024',
   },
   {
     name: 'Lucie H.',
     rating: 5,
-    text: 'Masáž lávovými kameny byla neskutečným zážitkem. Teplo kamenů a&nbsp;Radčiny šikovné ruce dokázaly zázraky. Určitě se&nbsp;vrátím!',
+    text: 'Masáž lávovými kameny byla neskutečným zážitkem. Teplo kamenů a Radčiny šikovné ruce dokázaly zázraky. Určitě se vrátím!',
     date: '18. září 2024',
   },
 ];
@@ -160,7 +160,7 @@ export default function Testimonials() {
       scale = 100;
       zIndex = isActive ? 20 : 10;
     } else if (!isActive) {
-      // Neaktivní karty - scale pro depth efekt
+      // Neaktivní karty - scale pro depth efekt
       if (distance === 1) {
         scale = 95;
         zIndex = 5;
@@ -177,10 +177,10 @@ export default function Testimonials() {
       zIndex = 20;
     }
     
-    // Barevné variace pro sticky notes (subtlní rozdíly)
+    // Barevné variace pro sticky notes (subtlní rozdíly)
     const cardColors = [
-      { bg: '#fffef9', shadow: 'rgba(222, 57, 126, 0.08)' }, // Vanilla s růžovým stínem
-      { bg: '#fffdf7', shadow: 'rgba(196, 167, 95, 0.1)' },  // Warm white se zlatým stínem
+      { bg: '#fffef9', shadow: 'rgba(222, 57, 126, 0.08)' }, // Vanilla s růžovým stínem
+      { bg: '#fffdf7', shadow: 'rgba(196, 167, 95, 0.1)' },  // Warm white se zlatým stínem
       { bg: '#fffefa', shadow: 'rgba(222, 57, 126, 0.06)' }, // Soft cream
       { bg: '#fffdfa', shadow: 'rgba(196, 167, 95, 0.08)' }, // Paper white
       { bg: '#fffef8', shadow: 'rgba(222, 57, 126, 0.07)' }, // Light cream
@@ -189,7 +189,7 @@ export default function Testimonials() {
     const cardIndex = testimonials.findIndex(t => t.name === testimonial.name);
     const cardStyle = cardColors[cardIndex % cardColors.length];
     
-    // Fixní rotace pro každou kartu - náhodné, ale konzistentní
+    // Fixní rotace pro každou kartu - náhodné, ale konzistentní
     const rotations = [-1.5, 1.2, -0.8, 1.5, -1.0];
     const rotation = rotations[cardIndex % rotations.length];
     
@@ -233,7 +233,7 @@ export default function Testimonials() {
             `,
         }}
       >
-        {/* Top highlight edge - simuluje světlo na horní hraně papíru */}
+        {/* Top highlight edge - simuluje světlo na horní hraně papíru */}
         <div 
           className="absolute top-0 left-4 right-4 h-[2px] rounded-full opacity-70"
           style={{
@@ -386,7 +386,7 @@ export default function Testimonials() {
         <p
           className="text-center text-[#666666] mb-16 max-w-2xl mx-auto leading-loose"
         >
-          Přečtěte si zkušenosti našich spokojených klientů
+          Přečtěte si zkušenosti našich spokojených klientů
         </p>
 
         {/* Carousel Container - stejná logika jako kalendář */}
@@ -406,7 +406,7 @@ export default function Testimonials() {
           <div className="overflow-hidden px-0 sm:px-20 lg:px-52 py-16" style={{ touchAction: 'pan-y' }} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
             <motion.div
               animate={{ 
-                x: `calc(-${(currentIndex + cloneCount) * 100}%)`  // Posun započítává klony na začátku
+                x: `calc(-${(currentIndex + cloneCount) * 100}%)`  // Posun započítává klony na začátku
               }}
               transition={isTransitioning ? { 
                 type: 'spring', 
@@ -463,7 +463,7 @@ export default function Testimonials() {
                     ? 'w-8 bg-[#de397e]'
                     : 'w-2 bg-[#de397e]/30 hover:bg-[#de397e]/50'
                 }`}
-                aria-label={`Přejít na recenzi ${index + 1}`}
+                aria-label={`Přejít na recenzi ${index + 1}`}
               />
             ))}
           </div>

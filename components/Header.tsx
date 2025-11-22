@@ -66,7 +66,7 @@ export default function Navigation() {
               className='transition-all duration-300 hover:opacity-80 cursor-pointer'
             >
               <span className='text-[#de397e]' style={{ fontFamily: 'Dancing Script', fontSize: '1.75rem', lineHeight: '1' }}>
-                Pohlazení po&nbsp;těle a&nbsp;duší
+                Pohlazení po těle a duší
               </span>
             </button>
 
@@ -143,7 +143,7 @@ export default function Navigation() {
                   className='text-left w-full cursor-pointer hover:opacity-80 transition-opacity'
                 >
                   <span className='text-[#de397e]' style={{ fontFamily: 'Dancing Script', fontSize: '1.5rem' }}>
-                    Pohlazení po&nbsp;těle a&nbsp;duší
+                    Pohlazení po těle a duší
                   </span>
                 </button>
               </div>

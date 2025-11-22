@@ -22,7 +22,7 @@ export default function Contact() {
           {...getAnimationConfigWithDelay(shouldReduceMotion, 0.15)}
           className="text-center text-[#666666] mb-16 max-w-2xl mx-auto leading-loose"
         >
-          Ráda zodpovím všechny vaše dotazy a&nbsp;pomohu vám vybrat vhodnou masáž
+          Ráda zodpovím všechny vaše dotazy a pomohu vám vybrat vhodnou masáž
         </motion.p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -118,8 +118,8 @@ export default function Contact() {
                   </h3>
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-[#666666]">Po&nbsp;-&nbsp;Pá:</span>
-                      <span className="text-[#2c2c2c]">15:00&nbsp;-&nbsp;21:00</span>
+                      <span className="text-[#666666]">Po - Pá:</span>
+                      <span className="text-[#2c2c2c]">15:00 - 21:00</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[#666666]">So:</span>
@@ -131,7 +131,7 @@ export default function Contact() {
                     </div>
                   </div>
                   <p className="text-[#666666] text-sm mt-4 italic">
-                    Termíny jsou flexibilní a&nbsp;přizpůsobím se vašim potřebám
+                    Termíny jsou flexibilní a přizpůsobím se vašim potřebám
                   </p>
                 </div>
               </div>
@@ -152,7 +152,7 @@ export default function Contact() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Pohlazení po&nbsp;těle a&nbsp;duši - Mapa"
+                title="Pohlazení po těle a duši - Mapa"
               />
             </div>
           </motion.div>

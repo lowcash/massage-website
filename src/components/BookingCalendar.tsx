@@ -51,7 +51,7 @@ const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
   const result = Array.from(slotsByDay.entries())
     .sort((a, b) => a[0].localeCompare(b[0]))
     .filter(([dayKey, daySlots]) => {
-      // Filtrovat jen dny, které jsou dnes nebo v budoucnosti (Prague timezone)
+      // Filtrovat jen dny, které jsou dnes nebo v budoucnosti (Prague timezone)
       const firstSlot = daySlots[0];
       const slotDate = firstSlot.date instanceof Date ? firstSlot.date : new Date(firstSlot.date);
       const slotPrague = new Date(slotDate.toLocaleString('en-US', { timeZone: 'Europe/Prague' }));
@@ -72,7 +72,7 @@ const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
       const isToday = todayDateOnly === slotDateOnly;
 
       const slots = daySlots.map(slot => {
-        // Redis obsahuje UTC čas, převedeme na Prague timezone pro zobrazení
+        // Redis obsahuje UTC čas, převedeme na Prague timezone pro zobrazení
         const time = slot.date instanceof Date ? slot.date : new Date(slot.date);
         const timePrague = new Date(time.toLocaleString('en-US', { timeZone: 'Europe/Prague' }));
         const hours = timePrague.getHours();
@@ -242,10 +242,10 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
     if (!available) return;
 
     // WhatsApp message with selected service
-    let message = `Dobrý den, chtěl(a) bych si rezervovat masáž na&nbsp;${date} v&nbsp;čase ${time}.`;
+    let message = `Dobrý den, chtěl(a) bych si rezervovat masáž na ${date} v čase ${time}.`;
 
     if (selectedService) {
-      message = `Dobrý den, mám zájem o:&nbsp;${selectedService}\n\nRezervace na&nbsp;${date} v&nbsp;${time}`;
+      message = `Dobrý den, mám zájem o: ${selectedService}\n\nRezervace na ${date} v ${time}`;
     }
 
     const phoneNumber = "420605579643";
@@ -274,8 +274,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           {...getAnimationConfigWithDelay(shouldReduceMotion, 0.15)}
           className="text-center text-[#666666] mb-6 max-w-2xl mx-auto leading-loose"
         >
-          Vyberte si termín, který vám vyhovuje, a&nbsp;rezervujte si
-          masáž přes&nbsp;WhatsApp
+          Vyberte si termín, který vám vyhovuje, a rezervujte si
+          masáž přes WhatsApp
         </motion.p>
 
         {selectedService && (
@@ -487,7 +487,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                           ? "bg-[#de397e] w-8 h-3"
                           : "bg-[#de397e]/30 w-3 h-3 hover:bg-[#de397e]/60"
                       }`}
-                      aria-label={`Přejít na skupinu ${dotIndex + 1}`}
+                      aria-label={`Přejít na skupinu ${dotIndex + 1}`}
                     />
                   );
                 });
@@ -620,7 +620,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                           ? "bg-[#de397e] w-8 h-3"
                           : "bg-[#de397e]/30 w-3 h-3 hover:bg-[#de397e]/60"
                       }`}
-                      aria-label={`Přejít na skupinu ${dotIndex + 1}`}
+                      aria-label={`Přejít na skupinu ${dotIndex + 1}`}
                     />
                   );
                 });
@@ -658,7 +658,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           ) : (
             <>
               <p className="text-[#666666] mb-6 leading-loose">
-                Nenašli jste vhodný termín? Kontaktujte mě a&nbsp;
+                Nenašli jste vhodný termín? Kontaktujte mě a 
                 domluvíme se.
               </p>
               <motion.a
@@ -682,7 +682,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                     fontSize: "1.25rem",
                   }}
                 >
-                  Napište mi na&nbsp;WhatsApp
+                  Napište mi na WhatsApp
                 </span>
               </motion.a>
             </>

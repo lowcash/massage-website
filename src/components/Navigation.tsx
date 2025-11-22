@@ -58,7 +58,7 @@ export default function Navigation() {
                 className="text-[#de397e]" 
                 style={{ fontFamily: 'Dancing Script', fontSize: '1.75rem', lineHeight: '1' }}
               >
-                Pohlazení po&nbsp;těle a&nbsp;duší
+                Pohlazení po těle a duší
               </span>
             </button>
 
@@ -135,7 +135,7 @@ export default function Navigation() {
                     className="text-[#de397e]" 
                     style={{ fontFamily: 'Dancing Script', fontSize: '1.5rem' }}
                   >
-                    Pohlazení po&nbsp;těle a&nbsp;duší
+                    Pohlazení po těle a duší
                   </span>
                 </button>
               </div>

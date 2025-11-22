@@ -137,7 +137,7 @@ export default function Hero() {
             textShadow: '0 4px 20px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.7)'
           }}
         >
-          Pohlazení po&nbsp;těle a&nbsp;duši
+          Pohlazení po těle a duši
         </h1>
         <p
           className="text-white text-xl mb-10 max-w-2xl"
@@ -160,7 +160,7 @@ export default function Hero() {
             className="text-[#de397e] group-hover:text-[#c4a75f] transition-colors duration-300"
             style={{ fontFamily: 'Dancing Script', fontSize: '1.4rem' }}
           >
-            Vyberte si masáž
+            Vyberte si masáž
           </span>
         </motion.button>
       </div>
@@ -198,7 +198,7 @@ export default function Hero() {
                 ? 'bg-white w-8 h-3'
                 : 'bg-white/50 w-3 h-3 hover:bg-white/75'
             }`}
-            aria-label={`Přejít na obrázek ${index + 1}`}
+            aria-label={`Přejít na obrázek ${index + 1}`}
           />
         ))}
       </div>

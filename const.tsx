@@ -1,7 +1,7 @@
-export const NAME = 'Pohlazení po&nbsp;těle a&nbsp;duši'
-export const TITLE = 'Pohlazení po&nbsp;těle a&nbsp;duši - Masáže a&nbsp;terapie těla'
+export const NAME = 'Pohlazení po těle a duši'
+export const TITLE = 'Pohlazení po těle a duši - Masáže a terapie těla'
 export const DESCRIPTION =
-  'Professionální masáže v&nbsp;Hodoníně – dopřejte svému tělu i&nbsp;duši hluboký odpočinek a&nbsp;regeneraci. Relaxační, regenerační i&nbsp;zdravotní masáže s&nbsp;individuálním přístupem.'
+  'Professionální masáže v Hodoníně – dopřejte svému tělu i duši hluboký odpočinek a regeneraci. Relaxační, regenerační i zdravotní masáže s individuálním přístupem.'
 
 export const SECTION = {
   HERO: {

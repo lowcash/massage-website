@@ -10,13 +10,13 @@ export default function About() {
   
   return (
     <section id="about" className="py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white overflow-hidden">
-      <div className="container mx-auto max-w-5xl">  {/* Vráceno na max-w-5xl, bez extra paddingu */}
+      <div className="container mx-auto max-w-5xl">  {/* Vráceno na max-w-5xl, bez extra paddingu */}
         <motion.h2
           {...getAnimationConfig(shouldReduceMotion)}
           className="text-center text-[#de397e] mb-20 tracking-wider"
           style={{ fontFamily: 'Dancing Script', fontSize: '2.2rem' }}
         >
-          Něco málo o mně
+          Něco málo o mně
         </motion.h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">  {/* Symetrický grid zpět, gap 12/16 */}
@@ -36,21 +36,21 @@ export default function About() {
                 className="text-[#de397e] mb-6"
                 style={{ fontSize: '1.1rem', fontWeight: 400 }}
               >
-                Terapeutka a&nbsp;masérka
+                Terapeutka a masérka
               </p>
             </div>
 
             <div className="space-y-5">
               <p className="text-[#666666] leading-loose">
                 Jsem mladá žena s chutí žít život naplno. Cítím, že mým posláním je <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>vykouzlit
-                druhým na tváři úsměv</span>.
+                druhým na tváři úsměv</span>.
               </p>
               <p className="text-[#666666] leading-loose">
-                Ráda bych, abyste se&nbsp;mnou <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>zapomněli na&nbsp;každodenní starosti</span> a&nbsp;užili si chvíli
-                určenou jen a&nbsp;jen vám.
+                Ráda bych, abyste se mnou <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>zapomněli na každodenní starosti</span> a užili si chvíli
+                určenou jen a jen vám.
               </p>
               <p className="text-[#666666] leading-loose">
-                Ke&nbsp;každému člověku se&nbsp;snažím přistupovat jako k&nbsp;<span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>jedinečné bytosti</span>.
+                Ke každému člověku se snažím přistupovat jako k <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>jedinečné bytosti</span>.
               </p>
             </div>
 
@@ -87,29 +87,29 @@ export default function About() {
                 className="text-[#de397e] mb-5"
                 style={{ fontFamily: 'Dancing Script', fontSize: '1.6rem' }}
               >
-                Těším se na Vaši návštěvu
+                Těším se na Vaši návštěvu
               </h4>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
                   <span className="text-[#666666]">
-                    <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Magisterskĭ studium ošetřovatelství</span> na&nbsp;VŠZaSP sv. Alžbety v&nbsp;Bratislavě
+                    <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Magisterskĭ studium ošetřovatelství</span> na VŠZaSP sv. Alžbety v Bratislavě
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
-                  <span className="text-[#666666]">Specializace v&nbsp;oboru <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>geriatrie</span></span>
+                  <span className="text-[#666666]">Specializace v oboru <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>geriatrie</span></span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
                   <span className="text-[#666666]">
-                    <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Dlouholetý masér</span> pro zdravotnictví a&nbsp;terapeut
+                    <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Dlouholetý masér</span> pro zdravotnictví a terapeut
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
                   <span className="text-[#666666]">
-                    Zkušenosti se&nbsp;zařízeními <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>sociální a&nbsp;zdravotní péče</span>
+                    Zkušenosti se zařízeními <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>sociální a zdravotní péče</span>
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
@@ -118,7 +118,7 @@ export default function About() {
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
-                  <span className="text-[#666666]"><span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Lektor</span> v&nbsp;sociální sféře</span>
+                  <span className="text-[#666666]"><span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Lektor</span> v sociální sféře</span>
                 </li>
               </ul>
             </div>
