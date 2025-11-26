@@ -66,8 +66,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    // TODO: Přidejte po registraci na Google Search Console
-    // google: 'your-google-verification-code',
+    google: 'wp5Ozmpn2DAK-Ll6d0LZ8Id2qPc3cTJUTKpPpOZGCuE',
   },
 }
 
