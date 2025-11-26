@@ -81,7 +81,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": `${SITE_URL}/#business`,
-    "name": "Pohlazení po těle a duší",
+    "name": "Pohlazení po těle a duši",
     "description": DESCRIPTION,
     "url": SITE_URL,
     "telephone": "+420605579643",
