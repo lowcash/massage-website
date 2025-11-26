@@ -41,9 +41,9 @@ export const metadata: Metadata = {
     siteName: 'Pohlazení po těle a duši',
     images: [
       {
-        url: '/og-image.jpg', // TODO: Přidejte obrázek do /public/og-image.jpg (1200x630px)
-        width: 1200,
-        height: 630,
+        url: '/og-image.png',
+        width: 1720,
+        height: 782,
         alt: 'Pohlazení po těle a duši - Masáže Hodonín',
       },
     ],
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: TITLE,
     description: DESCRIPTION,
-    images: ['/og-image.jpg'],
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
