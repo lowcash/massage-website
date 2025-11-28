@@ -79,7 +79,7 @@ export default function Contact() {
 
             {/* Address Card */}
             <a
-              href="https://www.google.com/maps/search/?api=1&query=49.0661739,17.1213106"
+              href="https://maps.app.goo.gl/1X9WnjXbchNxBfwB6"
               target="_blank"
               rel="noopener noreferrer"
               className="block bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
@@ -96,8 +96,8 @@ export default function Contact() {
                     Adresa
                   </h3>
                   <p className="text-[#666666]">
-                    Národní třída 383/15<br />
-                    Hodonín, 695 01
+                    Národní tř. 383/15<br />
+                    695 01 Hodonín 1
                   </p>
                 </div>
               </div>

@@ -88,7 +88,7 @@ export default function RootLayout({
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Národní třída 383/15",
+      "streetAddress": "Národní tř. 383/15",
       "addressLocality": "Hodonín",
       "postalCode": "695 01",
       "addressCountry": "CZ"

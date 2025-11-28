@@ -92,9 +92,9 @@ export default function Navigation() {
       <AnimatePresence>
         {isScrolled && (
           <motion.button
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
             onClick={() => setIsMobileMenuOpen(true)}
             className="lg:hidden fixed top-4 right-4 z-40 p-3 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white cursor-pointer"
             aria-label="Otevřít menu"
@@ -186,13 +186,13 @@ export default function Navigation() {
                       <span className="text-sm overflow-hidden text-ellipsis whitespace-nowrap">sebestovar@seznam.cz</span>
                     </a>
                     <a
-                      href="https://www.google.com/maps/search/?api=1&query=49.0661739,17.1213106"
+                      href="https://maps.app.goo.gl/1X9WnjXbchNxBfwB6"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 px-4 py-3 bg-white/40 hover:bg-white/70 text-[#2c2c2c] rounded-xl transition-all duration-300 cursor-pointer backdrop-blur-sm"
                     >
                       <MapPin className="w-5 h-5 flex-shrink-0 text-[#de397e]" />
-                      <span className="text-sm">Národní třída 383/15<br />Hodonín, 695 01</span>
+                      <span className="text-sm">Národní tř. 383/15<br />695 01 Hodonín 1</span>
                     </a>
                   </div>
                 </div>

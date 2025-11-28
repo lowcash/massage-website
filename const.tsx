@@ -44,9 +44,9 @@ export const FACEBOOK = 'https://www.facebook.com/radka6575'
 export const INSTAGRAM =
   'https://www.instagram.com/radka.sebestova.5?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=='
 export const ADDRESS = `
-   Národní třída 383/15
+   Národní tř. 383/15
    <br />
-   Hodonín, 695 01`
+   695 01 Hodonín 1`
 
 export const OPENING_HOURS_WORKDAYS = '15:00 - 21:00'
 export const OPENING_HOURS_SATURDAY = 'Zavřeno'

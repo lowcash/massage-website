@@ -70,9 +70,9 @@ export default function Footer() {
               <p>
                 <span className="text-[#c4a75f]">Adresa:</span>
                 <br />
-                Národní třída 383/15
+                Národní tř. 383/15
                 <br />
-                Hodonín, 695 01
+                695 01 Hodonín 1
               </p>
             </div>
           </div>
