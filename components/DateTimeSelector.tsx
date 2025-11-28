@@ -1,9 +1,20 @@
 'use client'
 
+import { useState } from 'react'
 import { useCalendarManager } from '@/components/admin/hooks/useCalendarManager'
 import { CalendarForm } from '@/components/admin/CalendarForm'
 import { CalendarList } from '@/components/admin/CalendarList'
 import { Button } from '@/components/ui/button'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 import { type CalendarItem } from '@/types/calendar'
 import { Trash2, PlusCircle } from 'lucide-react'
 import { toast } from 'sonner'
@@ -16,6 +27,7 @@ interface DateTimeSelectorProps {
 export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
   const { list, selectedIndex, setSelectedIndex, isLoading, handleAdd, handleRemove, handleToggleReserved, handleUpdate } =
     useCalendarManager(data)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   const handleAddWithToast = async (dateStr: string, timeStr: string) => {
     const result = await handleAdd(dateStr, timeStr)
@@ -50,24 +62,23 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
         icon: <Trash2 className='h-5 w-5' />,
       })
     }
+    setShowDeleteDialog(false)
   }
 
   const selectedDate = selectedIndex !== null ? list[selectedIndex]?.date : null
+  const selectedItem = selectedIndex !== null ? list[selectedIndex] : null
 
   return (
-    <div className='flex w-full max-w-2xl flex-col gap-6 rounded border bg-white p-6 shadow'>
-      <div className='space-y-4'>
-        <h2 className='text-lg font-semibold text-zinc-900'>Správa dostupných termínů</h2>
-        <CalendarForm onAdd={handleAddWithToast} onUpdate={handleUpdateWithToast} isLoading={isLoading} selectedDate={selectedDate} />
-      </div>
-
-      <div className='space-y-4'>
-        <CalendarList items={list} selectedIndex={selectedIndex} onSelect={setSelectedIndex} onToggleReserved={handleToggleReserved} />
-      </div>
-
+    <div className='flex h-full w-full flex-col gap-4 rounded-lg border bg-white/90 backdrop-blur-sm p-6 shadow-lg overflow-hidden'>
+      {/* Action buttons - sticky header */}
       {selectedIndex !== null && (
-        <div className='flex gap-2 border-t border-zinc-200 pt-4'>
-          <Button onClick={handleRemoveWithToast} disabled={isLoading} variant='destructive' className='flex-1 gap-2'>
+        <div className='flex gap-2 pb-4 border-b border-zinc-200 flex-shrink-0'>
+          <Button 
+            onClick={() => setShowDeleteDialog(true)} 
+            disabled={isLoading} 
+            variant='destructive' 
+            className='flex-1 gap-2'
+          >
             <Trash2 className='h-4 w-4' />
             Smazat vybraný termín
           </Button>
@@ -76,6 +87,43 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
           </Button>
         </div>
       )}
+
+      {/* Form section */}
+      <div className='space-y-4 flex-shrink-0'>
+        <h2 className='text-lg font-semibold text-zinc-900'>Správa dostupných termínů</h2>
+        <CalendarForm onAdd={handleAddWithToast} onUpdate={handleUpdateWithToast} isLoading={isLoading} selectedDate={selectedDate} />
+      </div>
+
+      {/* Scrollable calendar list */}
+      <div className='flex-1 overflow-hidden flex flex-col min-h-0'>
+        <CalendarList items={list} selectedIndex={selectedIndex} onSelect={setSelectedIndex} onToggleReserved={handleToggleReserved} />
+      </div>
+
+      {/* Delete confirmation dialog */}
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Opravdu chcete smazat tento termín?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {selectedItem && (
+                <span className='block mt-2 font-semibold text-zinc-900'>
+                  {formatDateTime(selectedItem.date)}
+                  {selectedItem.reserved && <span className='ml-2 text-red-600'>(Rezervováno)</span>}
+                </span>
+              )}
+              <span className='block mt-2'>
+                Tato akce je nevratná. Termín bude trvale odstraněn z databáze.
+              </span>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Zrušit</AlertDialogCancel>
+            <AlertDialogAction onClick={handleRemoveWithToast} disabled={isLoading}>
+              Smazat termín
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

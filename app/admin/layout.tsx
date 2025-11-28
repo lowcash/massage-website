@@ -6,9 +6,9 @@ export default function Layout({
   children: React.ReactNode
 }>) {
   return (
-    <>
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-[#fef8fb]">
       {children}
       <Toaster richColors />
-    </>
+    </div>
   )
 }

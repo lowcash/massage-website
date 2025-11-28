@@ -20,9 +20,9 @@ export function CalendarList({ items, selectedIndex, onSelect, onToggleReserved 
   }
 
   return (
-    <div className='space-y-2'>
-      <h3 className='mb-3 text-sm font-semibold text-zinc-700'>Dostupné termíny ({items.length})</h3>
-      <div className='max-h-96 space-y-2 overflow-y-auto rounded-lg border border-zinc-200 bg-white'>
+    <div className='flex flex-col h-full'>
+      <h3 className='mb-3 text-sm font-semibold text-zinc-700 flex-shrink-0'>Dostupné termíny ({items.length})</h3>
+      <div className='flex-1 space-y-2 overflow-y-auto rounded-lg border border-zinc-200 bg-white'>
         {items.map((item, idx) => (
           <CalendarListItem
             key={`${item.date.getTime()}-${idx}`}

@@ -40,12 +40,17 @@ export default async function Admin() {
     }))
 
   return (
-    <div className='mx-auto flex w-full max-w-lg flex-col gap-6 p-4'>
-      <div className='flex items-center justify-between'>
+    <div className='flex flex-col h-screen w-full max-w-4xl mx-auto p-4 gap-4'>
+      <div className='flex items-center justify-between flex-shrink-0'>
+        <h1 className='text-2xl font-semibold text-[#de397e]' style={{ fontFamily: 'Dancing Script' }}>
+          Administrace
+        </h1>
         <SignOut />
       </div>
 
-      <DateTimeSelector data={calendarData} />
+      <div className='flex-1 overflow-hidden'>
+        <DateTimeSelector data={calendarData} />
+      </div>
     </div>
   )
 }
