@@ -95,6 +95,11 @@ export default function Navigation() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 260,
+              damping: 20
+            }}
             onClick={() => setIsMobileMenuOpen(true)}
             className="lg:hidden fixed top-4 right-4 z-40 p-3 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white cursor-pointer"
             aria-label="Otevřít menu"
