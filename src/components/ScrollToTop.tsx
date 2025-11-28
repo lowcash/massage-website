@@ -31,10 +31,13 @@ export default function ScrollToTop() {
     <AnimatePresence>
       {isVisible && (
         <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0 }}
+          transition={{ 
+            duration: 0.4,
+            ease: [0.22, 1, 0.36, 1] // Custom cubic-bezier for smooth pop-in
+          }}
           onClick={scrollToTop}
           className="fixed bottom-8 right-8 z-40 p-4 bg-white/60 backdrop-blur-[16px] border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white/80 cursor-pointer"
           aria-label="Scroll to top"
