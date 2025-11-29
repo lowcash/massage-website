@@ -34,7 +34,7 @@ export default function WhatsAppButton() {
       transition={{ delay: 1 }}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
-      className="fixed bottom-8 left-8 z-40 p-4 bg-[#de397e] text-white rounded-full shadow-lg transition-all hover:scale-110 hover:shadow-[0_10px_30px_rgba(222,57,126,0.4)]"
+      className="fixed bottom-6 left-4 sm:left-6 z-40 p-3 sm:p-4 bg-[#de397e] text-white rounded-full shadow-lg transition-all hover:scale-110 hover:shadow-[0_10px_30px_rgba(222,57,126,0.4)]"
       aria-label="Kontaktujte nás na WhatsApp"
     >
       {/* Pulse animation ring */}
