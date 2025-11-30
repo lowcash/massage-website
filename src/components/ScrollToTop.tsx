@@ -40,7 +40,7 @@ export default function ScrollToTop() {
             damping: 20
           }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-40 p-4 bg-white/60 backdrop-blur-[16px] border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white/80 cursor-pointer"
+          className="fixed bottom-6 right-4 sm:right-6 z-40 p-3 sm:p-4 bg-white/60 backdrop-blur-[16px] border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white/80 cursor-pointer"
           aria-label="Scroll to top"
         >
           <ChevronUp className="w-6 h-6 text-[#de397e]" />

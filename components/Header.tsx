@@ -87,7 +87,7 @@ export default function Navigation() {
             {/* Mobile + Tablet Hamburger Menu */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className='lg:hidden p-3 rounded-xl bg-white/60 backdrop-blur-[16px] border border-white/50 hover:bg-white/80 transition-all cursor-pointer'
+              className='lg:hidden p-3 sm:p-4 rounded-xl bg-white/60 backdrop-blur-[16px] border border-white/50 hover:bg-white/80 transition-all cursor-pointer'
               aria-label='Otevřít menu'
             >
               <Menu className='w-5 h-5 text-[#de397e]' />
@@ -104,7 +104,7 @@ export default function Navigation() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0 }}
             onClick={() => setIsMobileMenuOpen(true)}
-            className='lg:hidden fixed top-4 right-4 z-40 p-3 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white cursor-pointer'
+            className='lg:hidden fixed top-4 right-4 z-40 p-3 sm:p-4 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white cursor-pointer'
             aria-label='Otevřít menu'
           >
             <Menu className='w-5 h-5 text-[#de397e]' />
