@@ -8,7 +8,7 @@ import { AUTH_JWT_KEY, ERROR_CAUSE } from '@/const'
 
 export const actionClient = createSafeActionClient({})
 
-export const authActionClient = actionClient.use(async ({ next, metadata }) => {
+export const authActionClient = actionClient.use(async ({ next }) => {
   const jwtToken = (await cookies()).get(AUTH_JWT_KEY)?.value
 
   if (!jwtToken) throw new Error(ERROR_CAUSE.UNAUTHORIZED)

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { X, Menu, Phone, Mail, MapPin } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import { PHONE, EMAIL } from '@/const'
+
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)

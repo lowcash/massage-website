@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { SECTION_IDS } from '@/src/constants/navigation';
+
 
 export default function SwipeNavigation() {
   const [touchStart, setTouchStart] = useState(0);

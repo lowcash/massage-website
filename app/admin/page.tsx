@@ -1,9 +1,9 @@
 import { getCalendar } from '@/app/actions/calendar'
-import type { CalendarSlot } from '@/src/components/Calendar'
+import type { CalendarSlot } from '@/src/components/features/Calendar'
 import type { CalendarItem } from '@/types/calendar'
 
-import SignOut from '@/components/SignOut'
-import DateTimeSelector from '@/components/DateTimeSelector'
+import SignOut from '@/src/components/shared/SignOut'
+import DateTimeSelector from '@/src/components/shared/DateTimeSelector'
 
 export const dynamic = 'force-dynamic'
 

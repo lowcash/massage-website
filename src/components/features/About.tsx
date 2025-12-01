@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ImageWithFallback } from '@/src/components/shared/ImageWithFallback';
 import { useReducedMotion, getAnimationConfig, getAnimationConfigWithDelay } from '@/src/hooks/useReducedMotion';
 import profileImage from "@/src/assets/56d78eee09ad0ac51d12b673a62b4fb6b3748b3e.png";
 

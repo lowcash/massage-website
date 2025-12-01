@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { useCalendarManager } from '@/components/admin/hooks/useCalendarManager'
-import { CalendarForm } from '@/components/admin/CalendarForm'
-import { CalendarList } from '@/components/admin/CalendarList'
-import { Button } from '@/components/ui/button'
+import { useCalendarManager } from '@/src/components/features/admin/hooks/useCalendarManager'
+import { CalendarForm } from '@/src/components/features/admin/CalendarForm'
+import { CalendarList } from '@/src/components/features/admin/CalendarList'
+import { Button } from '@/src/components/ui/button'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,7 +14,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
+} from '@/src/components/ui/alert-dialog'
 import { type CalendarItem } from '@/types/calendar'
 import { Trash2, PlusCircle } from 'lucide-react'
 import { toast } from 'sonner'

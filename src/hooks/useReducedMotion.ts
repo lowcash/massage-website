@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+
 
 /**
  * Hook to detect if animations should be reduced
@@ -25,7 +25,7 @@ export function useReducedMotion(): boolean {
  * ✅ Hover efekty (micro-interactions) 
  * ✅ Mobile menu slide (UX standard)
  */
-export function getAnimationConfig(shouldReduce: boolean) {
+export function getAnimationConfig(_: boolean) {
   // Všude stejné - žádná animace při scroll
   return {
     initial: { opacity: 1 },
@@ -39,7 +39,7 @@ export function getAnimationConfig(shouldReduce: boolean) {
  * Get animation config with custom delay
  * Delay je ignorován - všechny komponenty se zobrazí okamžitě
  */
-export function getAnimationConfigWithDelay(shouldReduce: boolean, delay: number = 0) {
+export function getAnimationConfigWithDelay(_: boolean, __: number = 0) {
   // Delay ignorujeme - okamžité zobrazení
   return {
     initial: { opacity: 1 },

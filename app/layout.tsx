@@ -10,7 +10,6 @@ import {
   SITE_URL, 
   THERAPIST_NAME,
   EMAIL,
-  PHONE,
   FACEBOOK,
   INSTAGRAM
 } from '@/const'

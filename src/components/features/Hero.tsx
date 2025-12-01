@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { motion } from 'framer-motion';
+import { ImageWithFallback } from '@/src/components/shared/ImageWithFallback';
 import heroImage1 from "@/src/assets/4e82636e00d6ed1714427e23df88aa2114a00d8b.png";
 import heroImage2 from "@/src/assets/529868a68c329f2cd79b11f95989565412c07b61.png";
 import heroImage3 from "@/src/assets/2d115fb3cb1c74e407bde90bbf7d740b4c3604f2.png";

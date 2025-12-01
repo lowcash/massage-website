@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/src/components/ui/button'
 import { getDefaultDateString, getDefaultTimeString } from './utils/calendar'
 import { useState, useEffect } from 'react'
 import { Plus } from 'lucide-react'

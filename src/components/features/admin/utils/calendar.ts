@@ -1,5 +1,5 @@
 import { CalendarItem } from '@/types/calendar'
-import { dateToInput, formatDateTime, timeToInput } from '@/lib/utils'
+import { dateToInput, timeToInput } from '@/lib/utils'
 
 export function combineDateTime(dateStr: string, timeStr: string): Date | null {
   if (!dateStr || !timeStr) return null

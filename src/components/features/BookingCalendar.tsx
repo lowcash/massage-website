@@ -2,11 +2,8 @@
 
 import { useState, useMemo, useEffect } from "react";
 import {
-  Calendar as CalendarIcon,
-  Clock,
   ChevronLeft,
   ChevronRight,
-  MessageCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useBooking } from "@/src/contexts/BookingContext";
@@ -50,7 +47,7 @@ const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
 
   const result = Array.from(slotsByDay.entries())
     .sort((a, b) => a[0].localeCompare(b[0]))
-    .filter(([dayKey, daySlots]) => {
+    .filter(([_, daySlots]) => {
       // Filtrovat jen dny, které jsou dnes nebo v budoucnosti (Prague timezone)
       const firstSlot = daySlots[0];
       const slotDate = firstSlot.date instanceof Date ? firstSlot.date : new Date(firstSlot.date);
@@ -58,7 +55,7 @@ const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
       slotPrague.setHours(0, 0, 0, 0);
       return slotPrague >= todayPrague;
     })
-    .map(([dayKey, daySlots]) => {
+    .map(([_, daySlots]) => {
       const firstSlot = daySlots[0];
       const slotDate = firstSlot.date instanceof Date ? firstSlot.date : new Date(firstSlot.date);
       const slotPrague = new Date(slotDate.toLocaleString('en-US', { timeZone: 'Europe/Prague' }));
@@ -356,10 +353,6 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                           const globalIndex =
                             pageIndex * cardsPerPage +
                             cardIndex;
-                          // Highlight only the currently viewed card (first card of visible page)
-                          const isActiveDay =
-                            globalIndex ===
-                            currentPageDesktop * cardsPerPage;
                           // Only allow clicks on cards from the current page
                           const isCurrentPage =
                             pageIndex === currentPageDesktop;

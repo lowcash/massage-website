@@ -2,7 +2,7 @@
 
 import { CalendarItem } from '@/types/calendar'
 import { formatDateTime } from '@/lib/utils'
-import { Checkbox } from '@/components/ui/checkbox'
+import { Checkbox } from '@/src/components/ui/checkbox'
 import { cn } from '@/lib/utils'
 
 interface CalendarListItemProps {

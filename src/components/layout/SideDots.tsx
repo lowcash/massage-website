@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+
 import { NAVIGATION_SECTIONS, SCROLL_THRESHOLD } from '@/src/constants/navigation';
 import { scrollToSection, getActiveSection, isScrolledPastThreshold } from '@/src/utils/navigation';
 
