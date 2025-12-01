@@ -1,8 +1,8 @@
 # Massage Website - Mgr. Radka Šebestová
 
-Profesionální web pro masérku s online rezervačním systémem. Vytvořeno s Next.js s design komponentami ze struktury kompatibilní s Vite.
+Professional website for a massage therapist with an online reservation system. Built with Next.js using a component structure compatible with Vite.
 
-## 🚀 Technologie
+## 🚀 Technologies
 
 - **Next.js 16** - React framework
 - **TypeScript** - Type safety
@@ -12,30 +12,25 @@ Profesionální web pro masérku s online rezervačním systémem. Vytvořeno s 
 - **shadcn/ui** - UI components
 - **Sonner** - Toast notifications
 
-## 📁 Projekt Struktura
+## 📁 Project Structure
 
-Viz `ARCHITECTURE.md` pro podrobný popis. Krátký přehled:
+See `ARCHITECTURE.md` for a detailed description. Brief overview:
 
 ```
-/src              → Design komponenty (single source of truth)
-/components       → Next-specific komponenty (admin, utilities)
-/app              → Next.js app router (pages, layouts, actions)
+/src/components/features   → Domain-specific components (Hero, Admin, etc.)
+/src/components/layout     → Layout components (Header, Footer, Navigation)
+/src/components/shared     → Shared reusable components
+/src/components/ui         → Base UI components (shadcn/ui)
+/app                       → Next.js app router (pages, layouts, actions)
 ```
 
 ## 🏗️ Design Architecture
 
-Všechny **design komponenty** žijí v `/src/components` a jsou importovány jako:
+All components live in `/src/components` and are organized by category:
 
 ```typescript
-import Hero from '@/src/components/Hero'
-import { useBooking } from '@/src/contexts/BookingContext'
-```
-
-**Admin komponenty** a utilities zůstávají v `/components`:
-
-```typescript
-import { Button } from '@/components/ui/button'
-import SignOut from '@/components/SignOut'
+import Hero from '@/src/components/features/Hero'
+import { Button } from '@/src/components/ui/button'
 ```
 
 ## 🛠️ Development
@@ -48,13 +43,13 @@ npm install
 
 # Set up environment variables
 cp .env.example .env.local
-# Edituj .env.local s tvým API klíčem, Redis URL, atd.
+# Edit .env.local with your API key, Redis URL, etc.
 
 # Run dev server
 npm run dev
 ```
 
-Otevři [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000).
 
 ### Build
 
@@ -63,66 +58,51 @@ npm run build
 npm run start
 ```
 
-## 📝 Klíčové Soubory
+## 📝 Key Files
 
-- `app/page.tsx` - Hlavní stránka (importuje z `/src/components`)
-- `app/admin/page.tsx` - Admin panel (importuje z `/components`)
-- `app/layout.tsx` - Root layout s BookingProvider
+- `app/page.tsx` - Main page
+- `app/admin/page.tsx` - Admin panel
+- `app/layout.tsx` - Root layout with BookingProvider
 - `src/contexts/BookingContext.tsx` - State management
-- `app/actions/calendar.ts` - Server actions pro rezervace
+- `app/actions/calendar.ts` - Server actions for reservations
 
-## 🔗 Import Convention
+## 📱 Pages
 
-**Design komponenty** (reusable, framework-agnostic):
-```typescript
-import from '@/src/components/...'
-import from '@/src/assets/...'
-import from '@/src/contexts/...'
-```
-
-**Next-specific** (admin, utilities):
-```typescript
-import from '@/components/ui/...'
-import from '@/components/SignOut'
-```
-
-## 📱 Stránky
-
-- `/` - Hlavní stránka s hero, služby, o mně, rezervace, kontakt
-- `/admin` - Admin panel pro správu rezervací (frontend pro tvorbu slotů)
+- `/` - Main page with hero, services, about me, booking, contact
+- `/admin` - Admin panel for reservation management
 - `/robots.txt`, `/sitemap.xml` - SEO
 
 ## 🎨 Styling
 
-- Global styles v `app/globals.css`
-- Component styles inline s Tailwind
-- Font: Dancing Script (pro nadpisy), system font (text)
+- Global styles in `app/globals.css`
+- Component styles inline with Tailwind
+- Font: Dancing Script (headings), system font (text)
 
 ## 🚀 Deployment
 
-Deploy na Vercel:
+Deploy to Vercel:
 
 ```bash
 git push origin main
 ```
 
-Vercel automaticky detekuje Next.js a deployuje.
+Vercel automatically detects Next.js and deploys.
 
-Nebo ručně:
+Or manually:
 
 ```bash
 npm run build
 npm start
 ```
 
-## 📚 Další Info
+## 📚 More Info
 
-- ARCHITECTURE.md - Detailní popis struktury projektu
-- TypeScript config v `tsconfig.json`
-- Tailwind config v `tailwind.config.ts`
-- Next.js config v `next.config.ts`
+- ARCHITECTURE.md - Detailed project structure description
+- TypeScript config in `tsconfig.json`
+- Tailwind config in `tailwind.config.ts`
+- Next.js config in `next.config.ts`
 
 ---
 
-**Autor**: Radka Šebestová  
+**Author**: Radka Šebestová  
 **Web**: https://masaze-hodonin.cz
