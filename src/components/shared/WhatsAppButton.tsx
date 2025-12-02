@@ -26,15 +26,17 @@ export default function WhatsAppButton() {
       href={getWhatsAppUrl()}
       target="_blank"
       rel="noopener noreferrer"
-      initial={{ opacity: 0, scale: 0 }}
+      initial={{ opacity: 0, scale: 0.5 }}
       animate={{ 
         opacity: 1, 
         scale: 1,
       }}
+      exit={{ opacity: 0, scale: 0.5 }}
       transition={{ delay: 1 }}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
-      className="fixed bottom-6 left-4 sm:left-6 z-40 p-3 sm:p-4 bg-[#de397e] text-white rounded-full shadow-lg transition-all hover:scale-110 hover:shadow-[0_10px_30px_rgba(222,57,126,0.4)]"
+      className="fixed bottom-8 left-6 sm:bottom-10 sm:left-10 z-40 p-3 sm:p-4 bg-[#de397e] text-white rounded-full shadow-lg transition-all hover:scale-110 hover:shadow-[0_10px_30px_rgba(222,57,126,0.4)]"
+      style={{ marginBottom: 'env(safe-area-inset-bottom)' }}
       aria-label="Kontaktujte nás na WhatsApp"
     >
       {/* Pulse animation ring */}

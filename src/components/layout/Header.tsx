@@ -100,11 +100,12 @@ export default function Navigation() {
       <AnimatePresence>
         {isScrolled && (
           <motion.button
-            initial={{ opacity: 0, scale: 0 }}
+            initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
+            exit={{ opacity: 0, scale: 0.5 }}
             onClick={() => setIsMobileMenuOpen(true)}
-            className='lg:hidden fixed top-4 right-4 z-40 p-3 sm:p-4 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white cursor-pointer'
+            className='lg:hidden fixed top-6 right-6 z-40 p-3 sm:p-4 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white cursor-pointer'
+            style={{ marginTop: 'env(safe-area-inset-top)' }}
             aria-label='Otevřít menu'
           >
             <Menu className='w-5 h-5 text-[#de397e]' />

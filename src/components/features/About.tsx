@@ -93,7 +93,7 @@ export default function About() {
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
                   <span className="text-[#666666]">
-                    <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Magisterskĭ studium ošetřovatelství</span> na VŠZaSP sv. Alžbety v Bratislavě
+                    <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Magisterské studium ošetřovatelství</span> na VŠZaSP sv. Alžbety v Bratislavě
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
