@@ -22,14 +22,11 @@ export default function SwipeNavigation() {
     const handleTouchEnd = () => {
       if (window.innerWidth >= 768) return;
       
-      const swipeDistance = touchStart - touchEnd;
       const minSwipeDistance = 150; // increased from 100 to make it less sensitive
       
       if (!touchStart || !touchEnd) return;
       
       const distance = touchStart - touchEnd;
-      const isLeftSwipe = distance > minSwipeDistance;
-      const isRightSwipe = distance < -minSwipeDistance;
       
       if (Math.abs(distance) < minSwipeDistance) return;
 
