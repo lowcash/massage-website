@@ -29,6 +29,10 @@ body {
   scrollbar-color: #de397e #333333;
 }
 
+html {
+  @apply bg-studio-light-beige;
+}
+
 /* Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {
   width: 6px;
@@ -68,6 +72,18 @@ body {
 
   .section-title {
     @apply font-dancing text-[#de397e] relative mb-1 inline-block text-3xl md:text-4xl;
+  }
+
+  .text-dancing-sm {
+    @apply font-dancing text-[1.6rem];
+  }
+
+  .text-dancing-md {
+    @apply font-dancing text-[2.2rem];
+  }
+
+  .text-dancing-lg {
+    @apply font-dancing text-[3rem];
   }
 
   .font-dancing {

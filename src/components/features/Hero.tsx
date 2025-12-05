@@ -137,7 +137,7 @@ export default function Hero() {
             textShadow: '0 4px 20px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.7)'
           }}
         >
-          Pohlazení po těle a duši
+          Pohlazení po&nbsp;těle a&nbsp;duši
         </h1>
         <p
           className="text-white text-xl mb-10 max-w-2xl"
@@ -154,7 +154,7 @@ export default function Hero() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
           onClick={scrollToBooking}
-          className="group px-8 py-3 bg-white/75 backdrop-blur-[24px] border-2 border-white/70 rounded-full transition-all duration-300 hover:bg-white hover:border-white hover:shadow-xl cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
+          className="group px-8 py-3 bg-white/75 backdrop-blur-xl border-2 border-white/70 rounded-full transition-all duration-300 hover:bg-white hover:border-white hover:shadow-xl cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
         >
           <span 
             className="text-[#de397e] group-hover:text-[#c4a75f] transition-colors duration-300"
@@ -171,14 +171,14 @@ export default function Hero() {
           <div className="relative">
             <button
               onClick={goToPrevious}
-              className="absolute left-0 p-3 bg-white/60 backdrop-blur-[16px] border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/80 cursor-pointer"
+              className="absolute left-0 p-3 bg-white/60 backdrop-blur-lg border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/80 cursor-pointer"
               aria-label="Předchozí obrázek"
             >
               <ChevronLeft className="w-6 h-6 text-[#de397e]" />
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-0 p-3 bg-white/60 backdrop-blur-[16px] border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/80 cursor-pointer"
+              className="absolute right-0 p-3 bg-white/60 backdrop-blur-lg border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/80 cursor-pointer"
               aria-label="Další obrázek"
             >
               <ChevronRight className="w-6 h-6 text-[#de397e]" />

@@ -60,7 +60,7 @@ export default function WhatsAppButton() {
           animate={{ opacity: 1, x: 0 }}
           className="absolute left-full ml-4 top-1/2 -translate-y-1/2 bg-[#2c2c2c]/90 text-white px-4 py-2 rounded-lg text-sm whitespace-nowrap"
         >
-          Napište nám na WhatsApp
+          Napište nám na&nbsp;WhatsApp
         </motion.div>
       )}
     </motion.a>

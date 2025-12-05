@@ -41,7 +41,7 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white">
+    <section id="faq" className="py-32 px-6 md:px-16 bg-linear-to-b from-white via-[#fef8fb] to-white">
       <div className="container mx-auto max-w-4xl">
         <motion.h2
           {...getAnimationConfig(shouldReduceMotion)}
@@ -63,7 +63,7 @@ export default function FAQ() {
             <motion.div
               key={index}
               {...getAnimationConfigWithDelay(shouldReduceMotion, index * 0.1)}
-              className={`bg-white/70 backdrop-blur-[16px] border rounded-3xl overflow-hidden transition-all duration-300 ${
+              className={`bg-white/70 backdrop-blur-lg border rounded-3xl overflow-hidden transition-all duration-300 ${
                 openIndex === index 
                   ? 'border-[#de397e]/40 shadow-md' 
                   : 'border-[#de397e]/20 hover:border-[#de397e]/35 hover:shadow-sm'
@@ -77,7 +77,7 @@ export default function FAQ() {
                 <motion.div
                   animate={{ rotate: openIndex === index ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
-                  className="flex-shrink-0"
+                  className="shrink-0"
                 >
                   <ChevronDown className="w-5 h-5 text-[#de397e]" />
                 </motion.div>

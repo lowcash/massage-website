@@ -10,7 +10,9 @@ import { useBooking } from "@/src/contexts/BookingContext";
 import { useReducedMotion, getAnimationConfig, getAnimationConfigWithDelay } from '@/src/hooks/useReducedMotion';
 import type { CalendarSlot } from './Calendar';
 
-const mapApiDataToDisplay = (apiData?: CalendarSlot[] | any) => {
+const minSwipeDistance = 50;
+
+const mapApiDataToDisplay = (apiData?: CalendarSlot[] | unknown) => {
   let slots: CalendarSlot[] = [];
   
   if (!apiData) return [];
@@ -114,11 +116,24 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   
   const calendarData = useMemo(() => mapApiDataToDisplay(data), [data]);
 
+  const cardsPerPage = 3;
+  const totalPagesDesktop = calendarData ? Math.ceil(calendarData.length / cardsPerPage) : 0;
+  const totalPagesMobile = calendarData ? calendarData.length : 0;
+
+  useEffect(() => {
+    if (!calendarData) return;
+    const todayIndex = calendarData.findIndex((day) => day.isToday);
+    if (todayIndex !== -1) {
+      setCurrentPageDesktop(Math.floor(todayIndex / cardsPerPage));
+      setCurrentPageMobile(todayIndex);
+    }
+  }, [calendarData]);
+
   if (!calendarData || calendarData.length === 0) {
     return (
       <section
         id="booking"
-        className="py-32 px-6 md:px-16 bg-gradient-to-b from-white to-[#fef8fb]"
+        className="py-32 px-6 md:px-16 bg-linear-to-b from-white to-[#fef8fb]"
       >
         <div className="container mx-auto max-w-4xl">
           <motion.h2
@@ -140,20 +155,6 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
       </section>
     );
   }
-
-  const minSwipeDistance = 50;
-
-  const cardsPerPage = 3;
-  const totalPagesDesktop = Math.ceil(calendarData.length / cardsPerPage);
-  const totalPagesMobile = calendarData.length;
-
-  useEffect(() => {
-    const todayIndex = calendarData.findIndex((day) => day.isToday);
-    if (todayIndex !== -1) {
-      setCurrentPageDesktop(Math.floor(todayIndex / cardsPerPage));
-      setCurrentPageMobile(todayIndex);
-    }
-  }, [calendarData]);
 
   const goToPrevious = () => {
     setCurrentPageDesktop((prev) => Math.max(0, prev - 1));
@@ -253,7 +254,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   return (
     <section
       id="booking"
-      className="py-32 px-6 md:px-16 bg-gradient-to-b from-white to-[#fef8fb]"
+      className="py-32 px-6 md:px-16 bg-linear-to-b from-white to-[#fef8fb]"
     >
       <div className="container mx-auto max-w-4xl">
         <motion.h2
@@ -271,13 +272,13 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           {...getAnimationConfigWithDelay(shouldReduceMotion, 0.15)}
           className="text-center text-[#666666] mb-6 max-w-2xl mx-auto leading-loose"
         >
-          Vyberte si termín, který vám vyhovuje, a rezervujte si
-          masáž přes WhatsApp
+          Vyberte si&nbsp;termín, který vám vyhovuje, a&nbsp;rezervujte si
+          masáž přes&nbsp;WhatsApp
         </motion.p>
 
         {selectedService && (
           <div className="flex justify-center mb-10">
-            <div className="bg-white/70 backdrop-blur-[16px] border border-[#de397e]/30 rounded-2xl px-6 py-4 shadow-lg shadow-[#de397e]/8">
+            <div className="bg-white/70 backdrop-blur-lg border border-[#de397e]/30 rounded-2xl px-6 py-4 shadow-lg shadow-[#de397e]/8">
               <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
                 <span
                   className="text-[#666666]"
@@ -305,7 +306,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             <button
               onClick={goToPrevious}
               disabled={currentPageDesktop === 0}
-              className={`hidden lg:block absolute left-8 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 ${
+              className={`hidden lg:block absolute left-8 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-lg border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 ${
                 currentPageDesktop === 0
                   ? "opacity-50 cursor-not-allowed"
                   : "cursor-pointer"
@@ -318,7 +319,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             </button>
 
             {currentPageDesktop > 0 && (
-              <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/60 to-transparent z-10 pointer-events-none" />
+              <div className="absolute left-0 top-0 bottom-0 w-32 bg-linear-to-r from-white via-white/60 to-transparent z-10 pointer-events-none" />
             )}
 
             <div className="overflow-hidden px-20 md:px-24" style={{ touchAction: 'pan-y' }}>
@@ -342,7 +343,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                   (_, pageIndex) => (
                     <div
                       key={pageIndex}
-                      className="w-full flex-shrink-0 flex gap-6"
+                      className="w-full shrink-0 flex gap-6"
                     >
                       {calendarData
                         .slice(
@@ -364,8 +365,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                               <div
                                 className={`rounded-3xl p-6 w-full transition-all duration-500 ${
                                   dayData.isToday
-                                    ? "bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10"
-                                    : "bg-white/70 backdrop-blur-[16px] border border-white/50"
+                                    ? "bg-linear-to-br from-[#fef8fb] to-[#fff5f9] border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10"
+                                    : "bg-white/70 backdrop-blur-lg border border-white/50"
                                 } ${!isCurrentPage ? "opacity-50" : ""}`}
                               >
                                 {/* Day header - centered */}
@@ -434,7 +435,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             </div>
 
             {currentPageDesktop < totalPagesDesktop - 1 && (
-              <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white/60 to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-32 bg-linear-to-l from-white via-white/60 to-transparent z-10 pointer-events-none" />
             )}
 
             <button
@@ -442,7 +443,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               disabled={
                 currentPageDesktop >= totalPagesDesktop - 1
               }
-              className={`hidden lg:block absolute right-8 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 ${
+              className={`hidden lg:block absolute right-8 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-lg border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 ${
                 currentPageDesktop >= totalPagesDesktop - 1
                   ? "opacity-50 cursor-not-allowed"
                   : "cursor-pointer"
@@ -454,43 +455,43 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               />
             </button>
 
-            {/* Progress Dots - Desktop: Intelligent grouping with max 10 dots */}
-            <div className="flex justify-center gap-3 mt-12">
-              {(() => {
-                const MAX_DOTS = 10;
-                const totalPages = totalPagesDesktop;
-                
-                // Calculate pages per dot to fit within MAX_DOTS
-                const pagesPerDot = Math.ceil(totalPages / MAX_DOTS);
-                const actualDots = Math.ceil(totalPages / pagesPerDot);
-                
-                return Array.from({ length: actualDots }).map((_, dotIndex) => {
-                  const groupStartPage = dotIndex * pagesPerDot;
-                  const groupEndPage = Math.min(groupStartPage + pagesPerDot - 1, totalPages - 1);
-                  const isCurrentGroup =
-                    currentPageDesktop >= groupStartPage &&
-                    currentPageDesktop <= groupEndPage;
+            {/* Page Indicator - Desktop */}
+            <div className="flex items-center justify-center gap-6 mt-12">
+              <button
+                onClick={goToPrevious}
+                disabled={currentPageDesktop === 0}
+                className={`p-2 rounded-full transition-all duration-300 ${
+                  currentPageDesktop === 0
+                    ? "text-gray-300 cursor-not-allowed"
+                    : "text-[#de397e] hover:bg-[#de397e]/10 cursor-pointer"
+                }`}
+                aria-label="Předchozí"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              
+              <span className="text-[#666666] font-medium" style={{ fontFamily: "Dancing Script", fontSize: "1.5rem" }}>
+                {currentPageDesktop + 1} / {totalPagesDesktop}
+              </span>
 
-                  return (
-                    <button
-                      key={dotIndex}
-                      onClick={() => setCurrentPageDesktop(groupStartPage)}
-                      className={`transition-all rounded-full cursor-pointer ${
-                        isCurrentGroup
-                          ? "bg-[#de397e] w-8 h-3"
-                          : "bg-[#de397e]/30 w-3 h-3 hover:bg-[#de397e]/60"
-                      }`}
-                      aria-label={`Přejít na skupinu ${dotIndex + 1}`}
-                    />
-                  );
-                });
-              })()}
+              <button
+                onClick={goToNext}
+                disabled={currentPageDesktop >= totalPagesDesktop - 1}
+                className={`p-2 rounded-full transition-all duration-300 ${
+                  currentPageDesktop >= totalPagesDesktop - 1
+                    ? "text-gray-300 cursor-not-allowed"
+                    : "text-[#de397e] hover:bg-[#de397e]/10 cursor-pointer"
+                }`}
+                aria-label="Další"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
             </div>
           </div>
 
           <div className="md:hidden relative">
             {currentPageMobile > 0 && (
-              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
+              <div className="absolute left-0 top-0 bottom-0 w-8 bg-linear-to-r from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
 
             <div className="overflow-hidden" style={{ touchAction: 'pan-y' }}>
@@ -512,14 +513,14 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                 {calendarData.map((dayData, index) => (
                   <div
                     key={index}
-                    className="flex-shrink-0 w-[65%]"
+                    className="shrink-0 w-[65%]"
                   >
                     <div className="px-0 h-full">
                       <div
                         className={`rounded-3xl px-4 py-6 w-full max-w-[320px] mx-auto transition-all duration-500 ${
                           dayData.isToday
-                            ? "bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10"
-                            : "bg-white/70 backdrop-blur-[16px] border border-white/50"
+                            ? "bg-linear-to-br from-[#fef8fb] to-[#fff5f9] border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10"
+                            : "bg-white/70 backdrop-blur-lg border border-white/50"
                         } ${index !== currentPageMobile ? "opacity-40 scale-95" : "opacity-100"}`}
                       >
                         {/* Day header */}
@@ -584,40 +585,40 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             </div>
 
             {currentPageMobile < totalPagesMobile - 1 && (
-              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-8 bg-linear-to-l from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
 
-            {/* Progress Dots - Mobile: Intelligent grouping with max 10 dots */}
-            <div className="flex justify-center gap-3 mt-12">
-              {(() => {
-                const MAX_DOTS = 10;
-                const totalDays = totalPagesMobile;
-                
-                // Calculate days per dot to fit within MAX_DOTS
-                const daysPerDot = Math.ceil(totalDays / MAX_DOTS);
-                const actualDots = Math.ceil(totalDays / daysPerDot);
-                
-                return Array.from({ length: actualDots }).map((_, dotIndex) => {
-                  const groupStartDay = dotIndex * daysPerDot;
-                  const groupEndDay = Math.min(groupStartDay + daysPerDot - 1, totalDays - 1);
-                  const isCurrentGroup =
-                    currentPageMobile >= groupStartDay &&
-                    currentPageMobile <= groupEndDay;
+            {/* Page Indicator - Mobile */}
+            <div className="flex items-center justify-center gap-6 mt-12">
+              <button
+                onClick={goToPreviousMobile}
+                disabled={currentPageMobile === 0}
+                className={`p-2 rounded-full transition-all duration-300 ${
+                  currentPageMobile === 0
+                    ? "text-gray-300 cursor-not-allowed"
+                    : "text-[#de397e] hover:bg-[#de397e]/10 cursor-pointer"
+                }`}
+                aria-label="Předchozí"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              
+              <span className="text-[#666666] font-medium" style={{ fontFamily: "Dancing Script", fontSize: "1.5rem" }}>
+                {currentPageMobile + 1} / {totalPagesMobile}
+              </span>
 
-                  return (
-                    <button
-                      key={dotIndex}
-                      onClick={() => setCurrentPageMobile(groupStartDay)}
-                      className={`transition-all rounded-full cursor-pointer ${
-                        isCurrentGroup
-                          ? "bg-[#de397e] w-8 h-3"
-                          : "bg-[#de397e]/30 w-3 h-3 hover:bg-[#de397e]/60"
-                      }`}
-                      aria-label={`Přejít na skupinu ${dotIndex + 1}`}
-                    />
-                  );
-                });
-              })()}
+              <button
+                onClick={goToNextMobile}
+                disabled={currentPageMobile >= totalPagesMobile - 1}
+                className={`p-2 rounded-full transition-all duration-300 ${
+                  currentPageMobile >= totalPagesMobile - 1
+                    ? "text-gray-300 cursor-not-allowed"
+                    : "text-[#de397e] hover:bg-[#de397e]/10 cursor-pointer"
+                }`}
+                aria-label="Další"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
             </div>
           </div>
         </div>
@@ -629,7 +630,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           {!selectedService ? (
             <>
               <p className="text-[#666666] mb-6 leading-loose">
-                Pro rezervaci termínu nejprve vyberte službu
+                Pro&nbsp;rezervaci termínu nejprve vyberte službu
                 výše
               </p>
               <motion.a
@@ -651,8 +652,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           ) : (
             <>
               <p className="text-[#666666] mb-6 leading-loose">
-                Nenašli jste vhodný termín? Kontaktujte mě a 
-                domluvíme se.
+                Nenašli jste vhodný termín? Kontaktujte mě a&nbsp;domluvíme se.
               </p>
               <motion.a
                 href="https://wa.me/420605579643"
@@ -675,7 +675,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                     fontSize: "1.25rem",
                   }}
                 >
-                  Napište mi na WhatsApp
+                  Napište mi na&nbsp;WhatsApp
                 </span>
               </motion.a>
             </>

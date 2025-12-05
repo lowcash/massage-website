@@ -4,19 +4,19 @@ import { motion } from 'framer-motion';
 import { ImageWithFallback } from '@/src/components/shared/ImageWithFallback';
 import { useReducedMotion, getAnimationConfig, getAnimationConfigWithDelay } from '@/src/hooks/useReducedMotion';
 import profileImage from "@/src/assets/56d78eee09ad0ac51d12b673a62b4fb6b3748b3e.png";
+import { formatCzechText } from '@/src/utils/textFormatting';
 
 export default function About() {
   const shouldReduceMotion = useReducedMotion();
   
   return (
-    <section id="about" className="py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white overflow-hidden">
-      <div className="container mx-auto max-w-5xl">  {/* Vráceno na max-w-5xl, bez extra paddingu */}
+    <section id="about" className="py-32 px-6 md:px-16 bg-linear-to-b from-white via-[#fef8fb] to-white overflow-hidden">
+      <div className="container mx-auto max-w-5xl">  {/* Vráceno na max-w-5xl, bez extra paddingu */}
         <motion.h2
           {...getAnimationConfig(shouldReduceMotion)}
-          className="text-center text-[#de397e] mb-20 tracking-wider"
-          style={{ fontFamily: 'Dancing Script', fontSize: '2.2rem' }}
+          className="text-dancing-md text-center text-[#de397e] mb-20 tracking-wider"
         >
-          Něco málo o mně
+          {formatCzechText("Něco málo o mně")}
         </motion.h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">  {/* Symetrický grid zpět, gap 12/16 */}
@@ -27,98 +27,81 @@ export default function About() {
           >
             <div>
               <h3
-                className="text-[#2c2c2c] mb-2"
-                style={{ fontSize: '2rem', fontWeight: 500 }}
+                className="text-[#2c2c2c] mb-2 text-2xl font-medium"
               >
                 Mgr. Radka Šebestová
               </h3>
               <p 
-                className="text-[#de397e] mb-6"
-                style={{ fontSize: '1.1rem', fontWeight: 400 }}
+                className="text-[#de397e] mb-6 text-lg font-normal"
               >
-                Terapeutka a masérka
+                Terapeutka a masérka
               </p>
             </div>
 
             <div className="space-y-5">
-              <p className="text-[#666666] leading-loose">
-                Jsem mladá žena s chutí žít život naplno. Cítím, že mým posláním je <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>vykouzlit
-                druhým na tváři úsměv</span>.
-              </p>
-              <p className="text-[#666666] leading-loose">
-                Ráda bych, abyste se mnou <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>zapomněli na každodenní starosti</span> a užili si chvíli
-                určenou jen a jen vám.
-              </p>
-              <p className="text-[#666666] leading-loose">
-                Ke každému člověku se snažím přistupovat jako k <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>jedinečné bytosti</span>.
-              </p>
+              <p className="text-[#666666] leading-loose" dangerouslySetInnerHTML={{ __html: formatCzechText("Jsem mladá žena s&nbsp;chutí žít život naplno. Cítím, že mým posláním je <span class='text-[#2c2c2c] font-semibold'>vykouzlit druhým na&nbsp;tváři úsměv</span>.") }} />
+              <p className="text-[#666666] leading-loose" dangerouslySetInnerHTML={{ __html: formatCzechText("Ráda bych, abyste se&nbsp;mnou <span class='text-[#2c2c2c] font-semibold'>zapomněli na&nbsp;každodenní starosti</span> a&nbsp;užili si chvíli určenou jen a&nbsp;jen vám.") }} />
+              <p className="text-[#666666] leading-loose" dangerouslySetInnerHTML={{ __html: formatCzechText("Ke&nbsp;každému člověku se&nbsp;snažím přistupovat jako k&nbsp;<span class='text-[#2c2c2c] font-semibold'>jedinečné bytosti</span>.") }} />
             </div>
 
             {/* Trust indicators */}
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-[#de397e]/20">
               <div className="text-center">
-                <div className="text-[#de397e] mb-2" style={{ fontFamily: 'Dancing Script', fontSize: '3rem' }}>
+                <div className="text-dancing-lg text-[#de397e] mb-2">
                   15+
                 </div>
                 <div className="text-[#666666] text-sm leading-relaxed">
-                  let zkušeností
+                  {formatCzechText("let zkušeností")}
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-[#de397e] mb-2" style={{ fontFamily: 'Dancing Script', fontSize: '3rem' }}>
-                  1 500+
+                <div className="text-dancing-lg text-[#de397e] mb-2 whitespace-nowrap">
+                  {formatCzechText("1 500+")}
                 </div>
                 <div className="text-[#666666] text-sm leading-relaxed">
-                  spokojených klientů
+                  {formatCzechText("spokojených klientů")}
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-[#de397e] mb-2" style={{ fontFamily: 'Dancing Script', fontSize: '3rem' }}>
+                <div className="text-dancing-lg text-[#de397e] mb-2">
                   11
                 </div>
                 <div className="text-[#666666] text-sm leading-relaxed">
-                  druhů masáží
+                  {formatCzechText("druhů masáží")}
                 </div>
               </div>
             </div>
 
             <div className="pt-6">
               <h4
-                className="text-[#de397e] mb-5"
-                style={{ fontFamily: 'Dancing Script', fontSize: '1.6rem' }}
+                className="text-dancing-sm text-[#de397e] mb-5"
               >
-                Těším se na Vaši návštěvu
+                {formatCzechText("Těším se na Vaši návštěvu")}
               </h4>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
-                  <span className="text-[#666666]">
-                    <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Magisterské studium ošetřovatelství</span> na VŠZaSP sv. Alžbety v Bratislavě
-                  </span>
+                  <span className="shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
+                  <span className="text-[#666666]" dangerouslySetInnerHTML={{ __html: formatCzechText("<span class='text-[#2c2c2c] font-semibold'>Magisterské studium ošetřovatelství</span> na&nbsp;VŠZaSP sv.&nbsp;Alžbety v&nbsp;Bratislavě") }} />
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
-                  <span className="text-[#666666]">Specializace v oboru <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>geriatrie</span></span>
+                  <span className="shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
+                  <span className="text-[#666666]" dangerouslySetInnerHTML={{ __html: formatCzechText("Specializace v&nbsp;oboru <span class='text-[#2c2c2c] font-semibold'>geriatrie</span>") }} />
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
-                  <span className="text-[#666666]">
-                    <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Dlouholetý masér</span> pro zdravotnictví a terapeut
-                  </span>
+                  <span className="shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
+                  <span className="text-[#666666]" dangerouslySetInnerHTML={{ __html: formatCzechText("<span class='text-[#2c2c2c] font-semibold'>Dlouholetý masér</span> pro&nbsp;zdravotnictví a&nbsp;terapeut") }} />
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
-                  <span className="text-[#666666]">
-                    Zkušenosti se zařízeními <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>sociální a zdravotní péče</span>
-                  </span>
+                  <span className="shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
+                  <span className="text-[#666666]" dangerouslySetInnerHTML={{ __html: formatCzechText("Zkušenosti se&nbsp;zařízeními <span class='text-[#2c2c2c] font-semibold'>sociální a&nbsp;zdravotní péče</span>") }} />
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
-                  <span className="text-[#666666]"><span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Učitelka</span> zdravotnických předmětů</span>
+                  <span className="shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
+                  <span className="text-[#666666]" dangerouslySetInnerHTML={{ __html: formatCzechText("<span class='text-[#2c2c2c] font-semibold'>Učitelka</span> zdravotnických předmětů") }} />
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
-                  <span className="text-[#666666]"><span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Lektor</span> v sociální sféře</span>
+                  <span className="shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
+                  <span className="text-[#666666]" dangerouslySetInnerHTML={{ __html: formatCzechText("<span class='text-[#2c2c2c] font-semibold'>Lektor</span> v&nbsp;sociální sféře") }} />
                 </li>
               </ul>
             </div>
@@ -143,7 +126,7 @@ export default function About() {
                 <ImageWithFallback
                   src={profileImage}
                   alt="Mgr. Radka Šebestová"
-                  className="w-full aspect-[3/4] object-cover object-top"
+                  className="w-full aspect-3/4 object-cover object-top"
                   style={{
                     filter: 'brightness(1.04) contrast(0.96) saturate(1.08)'
                   }}

@@ -53,7 +53,7 @@ export default function SideDots() {
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 activeSection === section.id
                   ? 'bg-[#de397e] scale-125 shadow-lg shadow-[#de397e]/50'
-                  : 'bg-white/60 border-2 border-[#de397e]/40 backdrop-blur-[8px] hover:bg-[#de397e]/60 hover:border-[#de397e] hover:scale-110'
+                  : 'bg-white/60 border-2 border-[#de397e]/40 backdrop-blur hover:bg-[#de397e]/60 hover:border-[#de397e] hover:scale-110'
               }`}
             />
             {/* Subtle text label without background */}

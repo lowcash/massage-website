@@ -26,7 +26,7 @@ export function CalendarListItem({ item, isSelected, onSelect, onToggleReserved 
           e.stopPropagation()
           onToggleReserved()
         }}
-        className='flex-shrink-0'
+        className='shrink-0'
       >
         <Checkbox checked={item.reserved} onChange={onToggleReserved} readOnly />
       </button>
@@ -35,7 +35,7 @@ export function CalendarListItem({ item, isSelected, onSelect, onToggleReserved 
           {formatDateTime(item.date)}
         </p>
       </div>
-      {isSelected && <div className='flex-shrink-0 rounded-full bg-blue-500 p-1' />}
+      {isSelected && <div className='shrink-0 rounded-full bg-blue-500 p-1' />}
     </div>
   )
 }

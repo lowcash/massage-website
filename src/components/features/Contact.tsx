@@ -8,7 +8,7 @@ export default function Contact() {
   const shouldReduceMotion = useReducedMotion();
   
   return (
-    <section id="contact" className="py-32 px-6 md:px-16 bg-gradient-to-b from-white to-[#fef8fb]">
+    <section id="contact" className="py-32 px-6 md:px-16 bg-linear-to-b from-white to-[#fef8fb]">
       <div className="container mx-auto max-w-5xl">
         <motion.h2
           {...getAnimationConfig(shouldReduceMotion)}
@@ -22,7 +22,7 @@ export default function Contact() {
           {...getAnimationConfigWithDelay(shouldReduceMotion, 0.15)}
           className="text-center text-[#666666] mb-16 max-w-2xl mx-auto leading-loose"
         >
-          Ráda zodpovím všechny vaše dotazy a pomohu vám vybrat vhodnou masáž
+          Ráda zodpovím všechny vaše dotazy a&nbsp;pomohu vám vybrat vhodnou masáž
         </motion.p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -34,10 +34,10 @@ export default function Contact() {
             {/* Phone Card */}
             <a
               href="tel:+420605579643"
-              className="block bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
+              className="block bg-white/70 backdrop-blur-lg border border-[#de397e]/20 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
             >
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <Phone className="w-6 h-6 text-[#de397e]" />
                 </div>
                 <div className="flex-1">
@@ -57,10 +57,10 @@ export default function Contact() {
             {/* Email Card */}
             <a
               href="mailto:sebestovar@seznam.cz"
-              className="block bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
+              className="block bg-white/70 backdrop-blur-lg border border-[#de397e]/20 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
             >
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <Mail className="w-6 h-6 text-[#de397e]" />
                 </div>
                 <div className="flex-1">
@@ -82,10 +82,10 @@ export default function Contact() {
               href="https://maps.app.goo.gl/1X9WnjXbchNxBfwB6"
               target="_blank"
               rel="noopener noreferrer"
-              className="block bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
+              className="block bg-white/70 backdrop-blur-lg border border-[#de397e]/20 rounded-2xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
             >
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <MapPin className="w-6 h-6 text-[#de397e]" />
                 </div>
                 <div className="flex-1">
@@ -104,9 +104,9 @@ export default function Contact() {
             </a>
 
             {/* Hours Card */}
-            <div className="bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-2xl p-8">
+            <div className="bg-white/70 backdrop-blur-lg border border-[#de397e]/20 rounded-2xl p-8">
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <Clock className="w-6 h-6 text-[#de397e]" />
                 </div>
                 <div className="flex-1">
@@ -131,7 +131,7 @@ export default function Contact() {
                     </div>
                   </div>
                   <p className="text-[#666666] text-sm mt-4 italic">
-                    Termíny jsou flexibilní a přizpůsobím se vašim potřebám
+                    Termíny jsou flexibilní a&nbsp;přizpůsobím se&nbsp;vašim potřebám
                   </p>
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function Contact() {
             {...getAnimationConfigWithDelay(shouldReduceMotion, 0.2)}
             className="h-full min-h-[600px] lg:min-h-0"
           >
-            <div className="bg-white/70 backdrop-blur-[16px] border border-white/50 rounded-3xl overflow-hidden h-full shadow-[0_8px_24px_rgba(222,57,126,0.08)]">
+            <div className="bg-white/70 backdrop-blur-lg border border-white/50 rounded-3xl overflow-hidden h-full shadow-[0_8px_24px_rgba(222,57,126,0.08)]">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2633.3!2d17.1213!3d48.8483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476b6df8e1f8c1b1%3A0x1!2sN%C3%A1rodn%C3%AD%20t%C5%99%C3%ADda%20383%2F15%2C%20695%2001%20Hodon%C3%ADn!5e0!3m2!1sen!2scz!4v1234567890"
                 width="100%"

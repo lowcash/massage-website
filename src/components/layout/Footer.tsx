@@ -9,12 +9,12 @@ export default function Footer() {
           <div>
             <div className="mb-4">
               <span className="text-xl" style={{ fontFamily: 'Dancing Script' }}>
-                Pohlazení po těle a duši
+                Pohlazení po&nbsp;těle a&nbsp;duši
               </span>
             </div>
-            <p className="text-[#e0e0e0] mb-4">Masáže a terapie těla</p>
+            <p className="text-[#e0e0e0] mb-4">Masáže a&nbsp;terapie těla</p>
             <p className="text-[#e0e0e0] text-sm">
-              © 2025 Pohlazení po těle a duši.
+              © 2025 Pohlazení po&nbsp;těle a&nbsp;duši.
               <br />
               Všechna práva vyhrazena.
             </p>

@@ -55,8 +55,8 @@ export default function Navigation() {
           y: isScrolled ? -120 : 0,
           opacity: isScrolled ? 0 : 1,
         }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className='fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-[24px] border-b border-white/30 shadow-sm'
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className='fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-xl border-b border-white/30 shadow-sm'
       >
         <div className='container mx-auto px-6 md:px-16 py-5 max-w-7xl'>
           <div className='flex items-center justify-between'>
@@ -87,7 +87,7 @@ export default function Navigation() {
             {/* Mobile + Tablet Hamburger Menu */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className='lg:hidden p-3 sm:p-4 rounded-xl bg-white/60 backdrop-blur-[16px] border border-white/50 hover:bg-white/80 transition-all cursor-pointer'
+              className='lg:hidden p-3 sm:p-4 rounded-xl bg-white/60 backdrop-blur-lg border border-white/50 hover:bg-white/80 transition-all cursor-pointer'
               aria-label='Otevřít menu'
             >
               <Menu className='w-5 h-5 text-[#de397e]' />
@@ -100,11 +100,12 @@ export default function Navigation() {
       <AnimatePresence>
         {isScrolled && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.5 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             onClick={() => setIsMobileMenuOpen(true)}
-            className='lg:hidden fixed top-6 right-6 z-40 p-3 sm:p-4 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white cursor-pointer'
+            className='lg:hidden fixed top-6 right-6 z-40 p-3 sm:p-4 bg-white/80 backdrop-blur-lg border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white cursor-pointer'
             style={{ marginTop: 'env(safe-area-inset-top)' }}
             aria-label='Otevřít menu'
           >
@@ -184,7 +185,7 @@ export default function Navigation() {
 
               {/* Contact Info in Mobile Menu */}
               <div className='absolute bottom-8 left-0 right-0 px-8'>
-                <div className='bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] p-5 rounded-2xl border border-[#de397e]/20'>
+                <div className='bg-linear-to-br from-[#fef8fb] to-[#fff5f9] p-5 rounded-2xl border border-[#de397e]/20'>
                   <p className='text-[#de397e] mb-3' style={{ fontFamily: 'Dancing Script', fontSize: '1.3rem' }}>
                     Kontakt
                   </p>
@@ -193,14 +194,14 @@ export default function Navigation() {
                       href="tel:+420605579643"
                       className='flex items-center gap-3 px-4 py-3 bg-white/40 hover:bg-white/70 text-[#2c2c2c] rounded-xl transition-all duration-300 cursor-pointer backdrop-blur-sm'
                     >
-                      <Phone className='w-5 h-5 flex-shrink-0 text-[#de397e]' />
+                      <Phone className='w-5 h-5 shrink-0 text-[#de397e]' />
                       <span className='text-sm overflow-hidden text-ellipsis whitespace-nowrap'>(+420) 605 579 643</span>
                     </a>
                     <a
                       href={`mailto:sebestovar@seznam.cz`}
                       className='flex items-center gap-3 px-4 py-3 bg-white/40 hover:bg-white/70 text-[#2c2c2c] rounded-xl transition-all duration-300 cursor-pointer backdrop-blur-sm'
                     >
-                      <Mail className='w-5 h-5 flex-shrink-0 text-[#de397e]' />
+                      <Mail className='w-5 h-5 shrink-0 text-[#de397e]' />
                       <span className='text-sm overflow-hidden text-ellipsis whitespace-nowrap'>sebestovar@seznam.cz</span>
                     </a>
                     <a
@@ -209,7 +210,7 @@ export default function Navigation() {
                       rel='noopener noreferrer'
                       className='flex items-center gap-3 px-4 py-3 bg-white/40 hover:bg-white/70 text-[#2c2c2c] rounded-xl transition-all duration-300 cursor-pointer backdrop-blur-sm'
                     >
-                      <MapPin className='w-5 h-5 flex-shrink-0 text-[#de397e]' />
+                      <MapPin className='w-5 h-5 shrink-0 text-[#de397e]' />
                       <span className='text-sm overflow-hidden text-ellipsis whitespace-nowrap'>
                         Národní třída 383/15, Hodonín
                       </span>
