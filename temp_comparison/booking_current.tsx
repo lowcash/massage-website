@@ -133,7 +133,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
     return (
       <section
         id="booking"
-        className="py-32 px-6 md:px-16 bg-gradient-to-b from-white to-[#fef8fb]"
+        className="py-32 px-6 md:px-16 bg-linear-to-b from-white to-[#fef8fb]"
       >
         <div className="container mx-auto max-w-4xl">
           <motion.h2
@@ -254,7 +254,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   return (
     <section
       id="booking"
-      className="py-32 px-6 md:px-16 bg-gradient-to-b from-white to-[#fef8fb]"
+      className="py-32 px-6 md:px-16 bg-linear-to-b from-white to-[#fef8fb]"
     >
       <div className="container mx-auto max-w-4xl">
         <motion.h2
@@ -319,7 +319,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             </button>
 
             {currentPageDesktop > 0 && (
-              <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/60 to-transparent z-10 pointer-events-none" />
+              <div className="absolute left-0 top-0 bottom-0 w-32 bg-linear-to-r from-white via-white/60 to-transparent z-10 pointer-events-none" />
             )}
 
             <div className="overflow-hidden px-20 md:px-24" style={{ touchAction: 'pan-y' }}>
@@ -365,7 +365,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                               <div
                                 className={`rounded-3xl p-6 w-full transition-all duration-500 ${
                                   dayData.isToday
-                                    ? "bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10"
+                                    ? "bg-linear-to-br from-[#fef8fb] to-[#fff5f9] border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10"
                                     : "bg-white/70 backdrop-blur-lg border border-white/50"
                                 } ${!isCurrentPage ? "opacity-50" : ""}`}
                               >
@@ -435,7 +435,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             </div>
 
             {currentPageDesktop < totalPagesDesktop - 1 && (
-              <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white/60 to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-32 bg-linear-to-l from-white via-white/60 to-transparent z-10 pointer-events-none" />
             )}
 
             <button
@@ -491,7 +491,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
 
           <div className="md:hidden relative">
             {currentPageMobile > 0 && (
-              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
+              <div className="absolute left-0 top-0 bottom-0 w-8 bg-linear-to-r from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
 
             <div className="overflow-hidden" style={{ touchAction: 'pan-y' }}>
@@ -519,7 +519,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                       <div
                         className={`rounded-3xl px-4 py-6 w-full max-w-[320px] mx-auto transition-all duration-500 ${
                           dayData.isToday
-                            ? "bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10"
+                            ? "bg-linear-to-br from-[#fef8fb] to-[#fff5f9] border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10"
                             : "bg-white/70 backdrop-blur-lg border border-white/50"
                         } ${index !== currentPageMobile ? "opacity-40 scale-95" : "opacity-100"}`}
                       >
@@ -585,7 +585,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             </div>
 
             {currentPageMobile < totalPagesMobile - 1 && (
-              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-8 bg-linear-to-l from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
 
             {/* Page Indicator - Mobile */}

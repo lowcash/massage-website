@@ -128,7 +128,7 @@ export default function Navigation() {
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               className="fixed top-0 right-0 w-[340px] h-[100dvh] bg-white/90 backdrop-blur-[32px] border-l border-white/40 shadow-2xl z-50"
             >
               {/* Logo in mobile menu - clickable to scroll to hero */}
@@ -174,7 +174,7 @@ export default function Navigation() {
 
               {/* Contact Info in Mobile Menu */}
               <div className="absolute bottom-8 left-0 right-0 px-8">
-                <div className="bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] p-5 rounded-2xl border border-[#de397e]/20">
+                <div className="bg-linear-to-br from-[#fef8fb] to-[#fff5f9] p-5 rounded-2xl border border-[#de397e]/20">
                   <p className="text-[#de397e] mb-3" style={{ fontFamily: 'Dancing Script', fontSize: '1.3rem' }}>Kontakt</p>
                   <div className="space-y-2">
                     <a 

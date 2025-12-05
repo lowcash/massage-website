@@ -45,7 +45,7 @@ export default function Navigation() {
           opacity: isScrolled ? 0 : 1
         }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-xl border-b border-white/30 shadow-sm"
+        className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-[24px] border-b border-white/30 shadow-sm"
       >
         <div className="container mx-auto px-6 md:px-16 py-5 max-w-7xl">
           <div className="flex items-center justify-between">
@@ -79,7 +79,7 @@ export default function Navigation() {
             {/* Mobile + Tablet Hamburger Menu */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-3 rounded-xl bg-white/60 backdrop-blur-lg border border-white/50 hover:bg-white/80 transition-all cursor-pointer"
+              className="lg:hidden p-3 rounded-xl bg-white/60 backdrop-blur-[16px] border border-white/50 hover:bg-white/80 transition-all cursor-pointer"
               aria-label="Otevřít menu"
             >
               <Menu className="w-5 h-5 text-[#de397e]" />
@@ -92,17 +92,16 @@ export default function Navigation() {
       <AnimatePresence>
         {isScrolled && (
           <motion.button
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
             transition={{ 
               type: "spring",
               stiffness: 260,
               damping: 20
             }}
             onClick={() => setIsMobileMenuOpen(true)}
-            className="lg:hidden fixed top-6 right-6 z-40 p-3 sm:p-4 bg-white/80 backdrop-blur-lg border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white cursor-pointer"
-            style={{ marginTop: 'env(safe-area-inset-top)' }}
+            className="lg:hidden fixed top-4 right-4 z-40 p-3 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white cursor-pointer"
             aria-label="Otevřít menu"
           >
             <Menu className="w-5 h-5 text-[#de397e]" />
@@ -128,8 +127,8 @@ export default function Navigation() {
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 w-[340px] h-[100dvh] bg-white/90 backdrop-blur-[32px] border-l border-white/40 shadow-2xl z-50"
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 bottom-0 w-[340px] bg-white/90 backdrop-blur-[32px] border-l border-white/40 shadow-2xl z-50"
             >
               {/* Logo in mobile menu - clickable to scroll to hero */}
               <div className="px-8 pt-8 pb-4 border-b border-[#de397e]/10">
@@ -181,14 +180,14 @@ export default function Navigation() {
                       href="tel:+420605579643"
                       className="flex items-center gap-3 px-4 py-3 bg-white/40 hover:bg-white/70 text-[#2c2c2c] rounded-xl transition-all duration-300 cursor-pointer backdrop-blur-sm"
                     >
-                      <Phone className="w-5 h-5 shrink-0 text-[#de397e]" />
+                      <Phone className="w-5 h-5 flex-shrink-0 text-[#de397e]" />
                       <span className="text-sm overflow-hidden text-ellipsis whitespace-nowrap">(+420) 605 579 643</span>
                     </a>
                     <a 
                       href="mailto:sebestovar@seznam.cz"
                       className="flex items-center gap-3 px-4 py-3 bg-white/40 hover:bg-white/70 text-[#2c2c2c] rounded-xl transition-all duration-300 cursor-pointer backdrop-blur-sm"
                     >
-                      <Mail className="w-5 h-5 shrink-0 text-[#de397e]" />
+                      <Mail className="w-5 h-5 flex-shrink-0 text-[#de397e]" />
                       <span className="text-sm overflow-hidden text-ellipsis whitespace-nowrap">sebestovar@seznam.cz</span>
                     </a>
                     <a
@@ -197,7 +196,7 @@ export default function Navigation() {
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 px-4 py-3 bg-white/40 hover:bg-white/70 text-[#2c2c2c] rounded-xl transition-all duration-300 cursor-pointer backdrop-blur-sm"
                     >
-                      <MapPin className="w-5 h-5 shrink-0 text-[#de397e]" />
+                      <MapPin className="w-5 h-5 flex-shrink-0 text-[#de397e]" />
                       <span className="text-sm">Národní tř. 383/15<br />695 01 Hodonín 1</span>
                     </a>
                   </div>

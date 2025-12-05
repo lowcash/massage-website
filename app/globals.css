@@ -20,13 +20,14 @@
 }
 
 * {
-  @apply border-border scroll-smooth;
+  @apply border-border scroll-smooth outline-ring/50;
 }
 
 body {
   @apply bg-studio-light-beige text-foreground font-sans;
   scrollbar-width: thin;
   scrollbar-color: #de397e #333333;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 html {
@@ -386,12 +387,4 @@ html {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
+
