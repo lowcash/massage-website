@@ -103,7 +103,7 @@ const services = [
     name: 'Kineziotaping',
     description: 'Terapeutická metoda, při které se na pokožku aplikují elastické pásky s cílem podpořit hojení, zmírnit bolest a zlepšit funkci svalů a kloubů.',
     duration: '',
-    price: '2,- (+15,- cm)',
+    price: '100,- (+2,- cm)',
     icon: Scissors,
   },
 ];
