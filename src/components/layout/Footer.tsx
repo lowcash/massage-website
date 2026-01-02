@@ -1,6 +1,8 @@
 import { Facebook, Instagram } from 'lucide-react';
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="bg-[#2c2c2c] text-white py-16 px-6 md:px-16">
       <div className="container mx-auto max-w-5xl">
@@ -9,12 +11,12 @@ export default function Footer() {
           <div>
             <div className="mb-4">
               <span className="text-xl" style={{ fontFamily: 'Dancing Script' }}>
-                Pohlazení po těle a duši
+                Pohlazení po těle a duši
               </span>
             </div>
-            <p className="text-[#e0e0e0] mb-4">Masáže a terapie těla</p>
+            <p className="text-[#e0e0e0] mb-4">Masáže a terapie těla</p>
             <p className="text-[#e0e0e0] text-sm">
-              © 2025 Pohlazení po těle a duši.
+              © {currentYear} Pohlazení po těle a duši.
               <br />
               Všechna práva vyhrazena.
             </p>
