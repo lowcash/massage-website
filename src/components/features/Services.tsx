@@ -120,10 +120,6 @@ export default function Services() {
     document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleGiftVoucherClick = () => {
-    window.open('https://wa.me/420605579643?text=Dobrý%20den,%20mám%20zájem%20o%20dárkový%20poukaz.', '_blank');
-  };
-
   return (
     <section id="services" className="py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white">
       <div className="container mx-auto max-w-5xl">
