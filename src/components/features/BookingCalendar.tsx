@@ -454,37 +454,84 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               />
             </button>
 
-            {/* Progress Dots - Desktop: Intelligent grouping with max 10 dots */}
-            <div className="flex justify-center gap-3 mt-12">
-              {(() => {
-                const MAX_DOTS = 10;
-                const totalPages = totalPagesDesktop;
-                
-                // Calculate pages per dot to fit within MAX_DOTS
-                const pagesPerDot = Math.ceil(totalPages / MAX_DOTS);
-                const actualDots = Math.ceil(totalPages / pagesPerDot);
-                
-                return Array.from({ length: actualDots }).map((_, dotIndex) => {
-                  const groupStartPage = dotIndex * pagesPerDot;
-                  const groupEndPage = Math.min(groupStartPage + pagesPerDot - 1, totalPages - 1);
-                  const isCurrentGroup =
-                    currentPageDesktop >= groupStartPage &&
-                    currentPageDesktop <= groupEndPage;
+
+            {/* Page Navigation - Desktop: Numbered pagination */}
+            <div className="flex items-center justify-center gap-4 mt-12">
+              {/* Previous button */}
+              <button
+                onClick={goToPrevious}
+                disabled={currentPageDesktop === 0}
+                className={`px-3 py-2 rounded-xl transition-all duration-300 ${
+                  currentPageDesktop === 0
+                    ? "text-[#de397e]/30 cursor-not-allowed"
+                    : "text-[#de397e] hover:bg-[#de397e]/10 cursor-pointer"
+                }`}
+                aria-label="Předchozí stránka"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+
+              {/* Page numbers */}
+              <div className="flex items-center gap-2">
+                {Array.from({ length: totalPagesDesktop }).map((_, pageIndex) => {
+                  // Show first page, last page, current page and 2 pages around current
+                  const showPage = 
+                    pageIndex === 0 || 
+                    pageIndex === totalPagesDesktop - 1 ||
+                    Math.abs(pageIndex - currentPageDesktop) <= 1;
+                  
+                  const showEllipsis = 
+                    (pageIndex === 1 && currentPageDesktop > 3) ||
+                    (pageIndex === totalPagesDesktop - 2 && currentPageDesktop < totalPagesDesktop - 4);
+
+                  if (showEllipsis) {
+                    return (
+                      <span key={pageIndex} className="text-[#de397e]/40 px-2">
+                        ...
+                      </span>
+                    );
+                  }
+
+                  if (!showPage) return null;
 
                   return (
                     <button
-                      key={dotIndex}
-                      onClick={() => setCurrentPageDesktop(groupStartPage)}
-                      className={`transition-all rounded-full cursor-pointer ${
-                        isCurrentGroup
-                          ? "bg-[#de397e] w-8 h-3"
-                          : "bg-[#de397e]/30 w-3 h-3 hover:bg-[#de397e]/60"
+                      key={pageIndex}
+                      onClick={() => setCurrentPageDesktop(pageIndex)}
+                      className={`min-w-[2.5rem] h-10 rounded-xl transition-all duration-300 cursor-pointer ${
+                        pageIndex === currentPageDesktop
+                          ? "bg-[#de397e] text-white shadow-md scale-105"
+                          : "text-[#de397e] hover:bg-[#de397e]/10"
                       }`}
-                      aria-label={`Přejít na skupinu ${dotIndex + 1}`}
-                    />
+                      style={{ fontFamily: 'Dancing Script', fontSize: '1.1rem' }}
+                      aria-label={`Přejít na stránku ${pageIndex + 1}`}
+                    >
+                      {pageIndex + 1}
+                    </button>
                   );
-                });
-              })()}
+                })}
+              </div>
+
+              {/* Next button */}
+              <button
+                onClick={goToNext}
+                disabled={currentPageDesktop >= totalPagesDesktop - 1}
+                className={`px-3 py-2 rounded-xl transition-all duration-300 ${
+                  currentPageDesktop >= totalPagesDesktop - 1
+                    ? "text-[#de397e]/30 cursor-not-allowed"
+                    : "text-[#de397e] hover:bg-[#de397e]/10 cursor-pointer"
+                }`}
+                aria-label="Další stránka"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+
+              {/* Page indicator text */}
+              <div className="ml-2 text-[#666666] text-sm min-w-[4rem] text-center">
+                <span style={{ fontFamily: 'Dancing Script', fontSize: '1rem' }}>
+                  {currentPageDesktop + 1} / {totalPagesDesktop}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -587,37 +634,43 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
 
-            {/* Progress Dots - Mobile: Intelligent grouping with max 10 dots */}
-            <div className="flex justify-center gap-3 mt-12">
-              {(() => {
-                const MAX_DOTS = 10;
-                const totalDays = totalPagesMobile;
-                
-                // Calculate days per dot to fit within MAX_DOTS
-                const daysPerDot = Math.ceil(totalDays / MAX_DOTS);
-                const actualDots = Math.ceil(totalDays / daysPerDot);
-                
-                return Array.from({ length: actualDots }).map((_, dotIndex) => {
-                  const groupStartDay = dotIndex * daysPerDot;
-                  const groupEndDay = Math.min(groupStartDay + daysPerDot - 1, totalDays - 1);
-                  const isCurrentGroup =
-                    currentPageMobile >= groupStartDay &&
-                    currentPageMobile <= groupEndDay;
 
-                  return (
-                    <button
-                      key={dotIndex}
-                      onClick={() => setCurrentPageMobile(groupStartDay)}
-                      className={`transition-all rounded-full cursor-pointer ${
-                        isCurrentGroup
-                          ? "bg-[#de397e] w-8 h-3"
-                          : "bg-[#de397e]/30 w-3 h-3 hover:bg-[#de397e]/60"
-                      }`}
-                      aria-label={`Přejít na skupinu ${dotIndex + 1}`}
-                    />
-                  );
-                });
-              })()}
+            {/* Page Navigation - Mobile: Numbered pagination */}
+            <div className="flex items-center justify-center gap-3 mt-12">
+              {/* Previous button */}
+              <button
+                onClick={goToPreviousMobile}
+                disabled={currentPageMobile === 0}
+                className={`px-2 py-2 rounded-xl transition-all duration-300 ${
+                  currentPageMobile === 0
+                    ? "text-[#de397e]/30 cursor-not-allowed"
+                    : "text-[#de397e] hover:bg-[#de397e]/10 cursor-pointer"
+                }`}
+                aria-label="Předchozí den"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+
+              {/* Page indicator - compact for mobile */}
+              <div className="px-4 py-2 bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-xl min-w-[5.5rem]">
+                <span className="text-[#de397e] block text-center" style={{ fontFamily: 'Dancing Script', fontSize: '1.1rem' }}>
+                  {currentPageMobile + 1} / {totalPagesMobile}
+                </span>
+              </div>
+
+              {/* Next button */}
+              <button
+                onClick={goToNextMobile}
+                disabled={currentPageMobile >= totalPagesMobile - 1}
+                className={`px-2 py-2 rounded-xl transition-all duration-300 ${
+                  currentPageMobile >= totalPagesMobile - 1
+                    ? "text-[#de397e]/30 cursor-not-allowed"
+                    : "text-[#de397e] hover:bg-[#de397e]/10 cursor-pointer"
+                }`}
+                aria-label="Další den"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </div>

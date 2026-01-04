@@ -14,6 +14,7 @@ import SideDots from '@/src/components/layout/SideDots'
 import SwipeNavigation from '@/src/components/layout/SwipeNavigation'
 import ScrollToTop from '@/src/components/layout/ScrollToTop'
 import WhatsAppButton from '@/src/components/shared/WhatsAppButton'
+import GiftVoucherButton from '@/src/components/shared/GiftVoucherButton'
 import { Toaster } from '@/src/components/ui/sonner'
 
 export const revalidate = 60
@@ -41,6 +42,7 @@ export default async function Page() {
       <SideDots />
       <ScrollToTop />
       <WhatsAppButton />
+      <GiftVoucherButton />
       <Toaster />
     </>
   )
