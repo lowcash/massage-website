@@ -28,10 +28,14 @@ export default function GiftVoucherButton() {
           <AnimatePresence>
             {isVisible && (
               <motion.button
-                initial={{ opacity: 0, scale: 0.8, x: 100 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.8, x: 100 }}
-                transition={{ duration: 0.3 }}
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.5, opacity: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 260,
+                  damping: 20
+                }}
                 onClick={() => setShowModal(true)}
                 className="pointer-events-auto absolute right-2 top-32 group cursor-pointer"
                 aria-label="Dárkové poukazy"
