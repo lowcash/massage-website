@@ -165,7 +165,7 @@ export default function Services() {
               </div>
               
               {/* Content section */}
-              <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
+              <div className="flex-1 p-6 md:p-8 md:pr-20 flex flex-col justify-center">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-2.5 bg-white rounded-xl shadow-lg">
                     <Gift className="w-7 h-7 text-[#c4a75f]" />
@@ -178,8 +178,10 @@ export default function Services() {
                   </h3>
                 </div>
                 
-                <p className="text-white/90 mb-5 leading-relaxed" style={{ hyphens: 'auto' }} lang="cs">
-                  Darujte svým blízkým chvíle plné relaxace a pohody. Ideální dárek pro každou příležitost – narozeniny, Vánoce nebo jen tak pro radost.
+                <p className="text-white/90 mb-5 leading-relaxed" style={{ hyphens: 'auto', wordSpacing: '0.1em' }} lang="cs">
+                  Darujte svým blízkým chvíle plné relaxace a pohody.
+                  <br />
+                  Ideální dárek pro každou příležitost - narozeniny, Vánoce nebo jen tak pro radost.
                 </p>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
