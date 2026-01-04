@@ -82,7 +82,9 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
             <Trash2 className='h-4 w-4' />
             Smazat vybraný termín
           </Button>
-          <Button onClick={() => setSelectedIndex(null)} variant='outline' className='flex-1'>
+          <Button onClick={() => {
+            setSelectedIndex(null)
+          }} variant='outline' className='flex-1'>
             Zrušit výběr
           </Button>
         </div>

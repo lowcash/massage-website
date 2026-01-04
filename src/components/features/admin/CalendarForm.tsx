@@ -31,8 +31,6 @@ export function CalendarForm({ onAdd, onUpdate, isLoading, selectedDate }: Calen
       onUpdate(date, time)
     } else {
       onAdd(date, time)
-      setDate(getDefaultDateString(new Date()))
-      setTime(getDefaultTimeString(new Date()))
     }
   }
 
