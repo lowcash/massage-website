@@ -129,16 +129,16 @@ export default function Hero() {
       <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6 md:px-16">
         <div className="flex flex-col items-center max-w-[275px] md:max-w-2xl">
         <h1
-          className="text-white mb-6"
+          className="text-white mb-6 text-[2.5rem] md:text-[3.5rem]"
           style={{ 
             fontFamily: 'Dancing Script', 
-            fontSize: '3.5rem', 
             lineHeight: '1.2',
             letterSpacing: '0.02em',
-            textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9)'
+            textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9)',
+            whiteSpace: 'nowrap'
           }}
         >
-          Pohlazení po těle a duší
+          Pohlazení po&nbsp;těle a&nbsp;duši
         </h1>
         <div className="max-w-2xl mb-8">
           <p
