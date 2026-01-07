@@ -471,8 +471,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                 <ChevronLeft className="w-5 h-5" />
               </button>
 
-              {/* Page numbers */}
-              <div className="flex items-center gap-2">
+              {/* Page numbers - fixed width container */}
+              <div className="flex items-center justify-center gap-2 min-w-[320px]">
                 {Array.from({ length: totalPagesDesktop }).map((_, pageIndex) => {
                   // Show first page, last page, current page and 2 pages around current
                   const showPage = 
@@ -486,7 +486,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
 
                   if (showEllipsis) {
                     return (
-                      <span key={pageIndex} className="text-[#de397e]/40 px-2">
+                      <span key={pageIndex} className="text-[#de397e]/40 w-10 text-center">
                         ...
                       </span>
                     );
@@ -498,7 +498,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                     <button
                       key={pageIndex}
                       onClick={() => setCurrentPageDesktop(pageIndex)}
-                      className={`min-w-[2.5rem] h-10 rounded-xl transition-all duration-300 cursor-pointer ${
+                      className={`w-10 h-10 rounded-xl transition-all duration-300 cursor-pointer ${
                         pageIndex === currentPageDesktop
                           ? "bg-[#de397e] text-white shadow-md scale-105"
                           : "text-[#de397e] hover:bg-[#de397e]/10"
