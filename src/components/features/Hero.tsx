@@ -127,6 +127,7 @@ export default function Hero() {
 
       {/* Content - Always visible with high z-index */}
       <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6 md:px-16">
+        <div className="flex flex-col items-center max-w-[275px] md:max-w-2xl">
         <h1
           className="text-white mb-6"
           style={{ 
@@ -134,54 +135,64 @@ export default function Hero() {
             fontSize: '3.5rem', 
             lineHeight: '1.2',
             letterSpacing: '0.02em',
-            textShadow: '0 4px 20px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.7)'
+            textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9)'
           }}
         >
-          Pohlazení po těle a duši
+          Pohlazení po těle a duší
         </h1>
-        <p
-          className="text-white text-xl mb-10 max-w-2xl"
-          style={{ 
-            textShadow: '0 2px 12px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.8)',
-            lineHeight: '1.8',
-            letterSpacing: '0.02em'
-          }}
-        >
-          Dotek, který uleví - péče, která obnoví.
-        </p>
+        <div className="max-w-2xl mb-8">
+          <p
+            className="text-white text-xl mb-3"
+            style={{ 
+              textShadow: '0 2px 12px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.9)',
+              lineHeight: '1.8',
+              letterSpacing: '0.02em'
+            }}
+          >
+            Dotek, který uleví a obnoví.
+          </p>
+          <p
+            className="text-white/95 text-base md:text-lg"
+            style={{ 
+              textShadow: '0 2px 12px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.9)',
+              lineHeight: '1.6'
+            }}
+          >
+            Uvolnění ztuhlých svalů • Regenerace po sportu • Hluboká relaxace mysli
+          </p>
+        </div>
         {/* CTA Button - NO FADE */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
           onClick={scrollToBooking}
-          className="group px-8 py-3 bg-white/75 backdrop-blur-[24px] border-2 border-white/70 rounded-full transition-all duration-300 hover:bg-white hover:border-white hover:shadow-xl cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
+          className="group px-10 py-4 md:px-8 md:py-3 bg-white/75 backdrop-blur-[24px] border-2 border-white/70 rounded-full transition-all duration-300 hover:bg-white hover:border-white hover:shadow-xl cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
         >
           <span 
             className="text-[#de397e] group-hover:text-[#c4a75f] transition-colors duration-300"
-            style={{ fontFamily: 'Dancing Script', fontSize: '1.4rem' }}
+            style={{ fontFamily: 'Dancing Script', fontSize: '1.6rem' }}
           >
             Vyberte si masáž
           </span>
-        </motion.button>
-      </div>
+        </motion.button>        </div>      </div>
 
-      {/* Navigation Arrows - desktop only, respektují max-width kontejneru navbaru */}
-      <div className="hidden lg:block absolute inset-x-0 top-1/2 -translate-y-1/2 z-20">
-        <div className="container mx-auto px-6 md:px-16 max-w-7xl">
+      {/* Navigation Arrows - responsive, menší a průhlednější na mobilu */}
+      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-20">
+        <div className="container mx-auto px-4 md:px-6 lg:px-16 max-w-7xl">
           <div className="relative">
             <button
               onClick={goToPrevious}
-              className="absolute left-0 p-3 bg-white/60 backdrop-blur-[16px] border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/80 cursor-pointer"
+              className="absolute left-0 p-2 md:p-3 bg-white/50 md:bg-white/60 backdrop-blur-[16px] border border-white/30 md:border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/70 md:hover:bg-white/80 cursor-pointer"
               aria-label="Předchozí obrázek"
             >
-              <ChevronLeft className="w-6 h-6 text-[#de397e]" />
+              <ChevronLeft className="w-4 h-4 md:w-6 md:h-6 text-[#de397e]" />
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-0 p-3 bg-white/60 backdrop-blur-[16px] border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/80 cursor-pointer"
+              className="absolute right-0 p-2 md:p-3 bg-white/50 md:bg-white/60 backdrop-blur-[16px] border border-white/30 md:border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/70 md:hover:bg-white/80 cursor-pointer"
               aria-label="Další obrázek"
             >
-              <ChevronRight className="w-6 h-6 text-[#de397e]" />
+              <ChevronRight className="w-4 h-4 md:w-6 md:h-6 text-[#de397e]" />
             </button>
           </div>
         </div>
@@ -195,13 +206,24 @@ export default function Hero() {
             onClick={() => setCurrentIndex(index)}
             className={`transition-all rounded-full drop-shadow-lg cursor-pointer ${
               index === currentIndex
-                ? 'bg-white w-8 h-3'
-                : 'bg-white/50 w-3 h-3 hover:bg-white/75'
+                ? 'bg-white w-8 h-3 shadow-[0_0_12px_rgba(255,255,255,0.8)]'
+                : 'bg-white/40 w-3 h-3 hover:bg-white/70'
             }`}
             aria-label={`Přejít na obrázek ${index + 1}`}
           />
         ))}
       </div>
-    </section>
+      {/* Scroll Down Indicator - only mobile, jen ikona bez textu */}
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: 'easeInOut'
+        }}
+        className="md:hidden absolute bottom-32 left-1/2 -translate-x-1/2 z-30"
+      >
+        <ChevronLeft className="w-6 h-6 text-white/70 rotate-[-90deg]" style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.8))' }} />
+      </motion.div>    </section>
   );
 }
