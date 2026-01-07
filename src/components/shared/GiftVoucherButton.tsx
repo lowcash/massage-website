@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Gift, X, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import giftVoucherImage from '@/src/assets/830e380376f6a1fee2b223e47cd9f988168500d6.png';
+import giftVoucherImage from '@/src/assets/poukazy.jpg';
 
 export default function GiftVoucherButton() {
   const [isVisible, setIsVisible] = useState(false);

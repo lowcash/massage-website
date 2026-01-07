@@ -18,7 +18,7 @@ import {
   Scissors,
   Gift
 } from 'lucide-react';
-import giftVoucherImage from '@/src/assets/830e380376f6a1fee2b223e47cd9f988168500d6.png';
+import giftVoucherImage from '@/src/assets/poukazy.jpg';
 
 const services = [
   {
@@ -142,7 +142,7 @@ export default function Services() {
           {/* Gift Voucher Card - Featured */}
           <motion.div
             {...getAnimationConfigWithDelay(shouldReduceMotion, 0)}
-            className="lg:col-span-2 bg-gradient-to-br from-[#c4a75f] to-[#a08945] border-2 border-[#c4a75f] rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-xl relative"
+            className="lg:col-span-2 bg-gradient-to-br from-[#c4a75f] to-[#a08945] border-2 border-[#c4a75f] rounded-3xl overflow-hidden transition-all duration-300 relative"
           >
             {/* Decorative elements */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 z-0" />
