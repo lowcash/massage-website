@@ -378,4 +378,9 @@ body {
     @apply bg-background text-foreground;
     padding-bottom: env(safe-area-inset-bottom);
   }
+  
+  /* Viewport background pro iPhone - tmavý dole (jako footer), bílý nahoře */
+  html {
+    background: linear-gradient(to bottom, #ffffff 0%, #ffffff 50%, #2c2c2c 50%, #2c2c2c 100%);
+  }
 }

@@ -119,7 +119,8 @@ export default function Navigation() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-black/40 z-50"
+              style={{ backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)' }}
             />
 
             {/* Menu Panel */}
