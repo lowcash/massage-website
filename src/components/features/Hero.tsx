@@ -18,6 +18,32 @@ export default function Hero() {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [scrollY, setScrollY] = useState(0);
+  const [isAutoScrollPaused, setIsAutoScrollPaused] = useState(false);
+
+  // Resume autoscroll after inactivity
+  useEffect(() => {
+    if (!isAutoScrollPaused) return;
+
+    const timeout = setTimeout(() => {
+      setIsAutoScrollPaused(false);
+    }, 15000); // Resume after 15 seconds of inactivity
+
+    return () => clearTimeout(timeout);
+  }, [isAutoScrollPaused, currentIndex]); // Reset timer when index changes (interaction)
+
+  // Autoscroll
+  useEffect(() => {
+    if (isAutoScrollPaused) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % carouselImages.length);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [isAutoScrollPaused]);
+
+  const handleInteraction = () => {
+    setIsAutoScrollPaused(true);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,22 +53,18 @@ export default function Hero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % carouselImages.length);
-    }, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
   const goToPrevious = () => {
+    handleInteraction();
     setCurrentIndex((prev) => (prev - 1 + carouselImages.length) % carouselImages.length);
   };
 
   const goToNext = () => {
+    handleInteraction();
     setCurrentIndex((prev) => (prev + 1) % carouselImages.length);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    handleInteraction();
     const target = e.target as HTMLElement;
     // Ignore touch on button to allow proper click
     if (target.closest('button')) {
@@ -127,9 +149,9 @@ export default function Hero() {
 
       {/* Content - Always visible with high z-index */}
       <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6 md:px-16">
-        <div className="flex flex-col items-center max-w-[275px] md:max-w-2xl">
+        <div className="flex flex-col items-center max-w-[275px] md:max-w-4xl">
         <h1
-          className="text-white mb-6 text-[2.5rem] md:text-[3.5rem]"
+          className="text-white mb-2 md:mb-6 text-[2.5rem] md:text-[4rem] lg:text-[5rem] font-bold"
           style={{ 
             fontFamily: 'Dancing Script', 
             lineHeight: '1.2',
@@ -140,22 +162,37 @@ export default function Hero() {
         >
           Pohlazení po&nbsp;těle a&nbsp;duši
         </h1>
-        <div className="max-w-2xl mb-8">
-          <p
-            className="text-white text-xl mb-3"
+        
+        {/* NEW: Location info */}
+        <div className="mb-8 md:mb-10 text-white/90">
+          <span 
+            className="text-2xl md:text-3xl lg:text-4xl"
             style={{ 
-              textShadow: '0 2px 12px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.9)',
-              lineHeight: '1.8',
+              fontFamily: 'Dancing Script',
+              textShadow: '0 2px 8px rgba(0,0,0,0.6)',
+              letterSpacing: '0.05em'
+            }}
+          >
+            Masáže v Hodoníně
+          </span>
+        </div>
+
+        <div className="max-w-3xl mb-8 md:mb-10">
+          <p
+            className="text-white text-xl md:text-3xl font-medium mb-4 md:mb-6"
+            style={{ 
+              textShadow: '0 2px 12px rgba(0,0,0,0.8), 0 1px 4px rgba(0,0,0,0.9)',
+              lineHeight: '1.4',
               letterSpacing: '0.02em'
             }}
           >
             Dotek, který uleví a obnoví.
           </p>
           <p
-            className="text-white/95 text-base md:text-lg"
+            className="text-white/95 text-base md:text-xl font-medium tracking-wide"
             style={{ 
-              textShadow: '0 2px 12px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.9)',
-              lineHeight: '1.6'
+              textShadow: '0 2px 12px rgba(0,0,0,0.8), 0 1px 4px rgba(0,0,0,0.9)',
+              lineHeight: '1.8'
             }}
           >
             Uvolnění ztuhlých svalů • Regenerace po sportu • Hluboká relaxace mysli

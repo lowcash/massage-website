@@ -52,7 +52,7 @@ export default function GiftVoucherButton() {
                   damping: 20
                 }}
                 onClick={() => setShowModal(true)}
-                className="pointer-events-auto absolute right-2 top-32 group cursor-pointer"
+                className="pointer-events-auto absolute right-4 top-40 md:top-48 group cursor-pointer"
                 aria-label="Dárkové poukazy"
               >
                 {/* Main button */}

@@ -37,7 +37,7 @@ export default function WhatsAppButton() {
           transition={{ delay: 1 }}
           onMouseEnter={() => setShowTooltip(true)}
           onMouseLeave={() => setShowTooltip(false)}
-          className="pointer-events-auto absolute bottom-8 left-3 sm:bottom-10 p-3 sm:p-4 bg-[#de397e] text-white rounded-full shadow-lg transition-all hover:scale-110 hover:shadow-[0_10px_30px_rgba(222,57,126,0.4)]"
+          className="pointer-events-auto absolute bottom-8 left-4 sm:bottom-10 p-3 sm:p-4 bg-[#de397e] text-white rounded-full shadow-lg transition-all hover:scale-110 hover:shadow-[0_10px_30px_rgba(222,57,126,0.4)]"
           style={{ marginBottom: 'env(safe-area-inset-bottom)' }}
           aria-label="Kontaktujte nás na WhatsApp"
         >
