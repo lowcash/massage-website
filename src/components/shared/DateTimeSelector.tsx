@@ -72,7 +72,7 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
     <div className='flex h-full w-full flex-col gap-4 rounded-lg border bg-white/90 backdrop-blur-sm p-6 shadow-lg overflow-hidden'>
       {/* Action buttons - sticky header */}
       {selectedIndex !== null && (
-        <div className='flex gap-2 pb-4 border-b border-zinc-200 flex-shrink-0'>
+        <div className='flex gap-2 pb-4 border-b border-zinc-200 shrink-0'>
           <Button 
             onClick={() => setShowDeleteDialog(true)} 
             disabled={isLoading} 
@@ -91,7 +91,7 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
       )}
 
       {/* Form section */}
-      <div className='space-y-4 flex-shrink-0'>
+      <div className='space-y-4 shrink-0'>
         <h2 className='text-lg font-semibold text-zinc-900'>Správa dostupných termínů</h2>
         <CalendarForm onAdd={handleAddWithToast} onUpdate={handleUpdateWithToast} isLoading={isLoading} selectedDate={selectedDate} />
       </div>

@@ -9,7 +9,7 @@ export default function About() {
   const shouldReduceMotion = useReducedMotion();
   
   return (
-    <section id="about" className="py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white overflow-hidden">
+    <section id="about" className="py-32 px-6 md:px-16 bg-linear-to-b f from-white via-[#fef8fb] to-white overflow-hidden">
       <div className="container mx-auto max-w-5xl">  {/* Vráceno na max-w-5xl, bez extra paddingu */}
         <motion.h2
           {...getAnimationConfig(shouldReduceMotion)}

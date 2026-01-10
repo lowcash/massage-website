@@ -174,7 +174,7 @@ export default function Navigation() {
 
               {/* Contact Info in Mobile Menu */}
               <div className="absolute bottom-8 left-0 right-0 px-8">
-                <div className="bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] p-5 rounded-2xl border border-[#de397e]/20">
+                <div className="bg-linear-to-br from-[#fef8fb] to-[#fff5f9] p-5 rounded-2xl border border-[#de397e]/20">
                   <p className="text-[#de397e] mb-3" style={{ fontFamily: 'Dancing Script', fontSize: '1.3rem' }}>Kontakt</p>
                   <div className="space-y-2">
                     <a 

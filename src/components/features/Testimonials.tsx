@@ -235,7 +235,7 @@ export default function Testimonials() {
       >
         {/* Top highlight edge - simuluje světlo na horní hraně papíru */}
         <div 
-          className="absolute top-0 left-4 right-4 h-[2px] rounded-full opacity-70"
+          className="absolute top-0 left-4 right-4 h-0.5 rounded-full opacity-70"
           style={{
             background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9) 20%, rgba(255, 255, 255, 0.9) 80%, transparent)',
           }}
@@ -243,7 +243,7 @@ export default function Testimonials() {
         
         {/* Bottom edge shadow - simuluje tloušťku papíru */}
         <div 
-          className="absolute bottom-0 left-6 right-6 h-[1px] opacity-40"
+          className="absolute bottom-0 left-6 right-6 h-px opacity-40"
           style={{
             background: 'linear-gradient(90deg, transparent, rgba(196, 167, 95, 0.4) 20%, rgba(196, 167, 95, 0.4) 80%, transparent)',
             filter: 'blur(0.5px)'
@@ -319,7 +319,7 @@ export default function Testimonials() {
         >
           {/* Subtle gradient on divider */}
           <div 
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-[1px]"
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px"
             style={{
               background: 'linear-gradient(90deg, transparent, rgba(222, 57, 126, 0.3), transparent)',
             }}
@@ -368,7 +368,7 @@ export default function Testimonials() {
   return (
     <section 
       id="testimonials" 
-      className="py-32 px-6 md:px-16 bg-gradient-to-b from-[#fef8fb] to-white overflow-hidden"
+      className="py-32 px-6 md:px-16 bg-linear-to-b from-[#fef8fb] to-white overflow-hidden"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -394,14 +394,14 @@ export default function Testimonials() {
           {/* Previous Arrow - desktop only (lg+) */}
           <button
             onClick={goToPrevious}
-            className="hidden lg:block absolute left-42 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 cursor-pointer"
+            className="hidden lg:block absolute left-42 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-lg border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 cursor-pointer"
             aria-label="Předchozí recenze"
           >
             <ChevronLeft className="w-6 h-6 text-[#de397e]" />
           </button>
 
           {/* Fade gradient on left edge - wider and smoother */}
-          <div className="absolute left-0 top-0 bottom-0 w-64 bg-gradient-to-r from-[#fef8fb] via-[#fef8fb]/60 to-transparent z-10 pointer-events-none hidden md:block" />
+          <div className="absolute left-0 top-0 bottom-0 w-64 bg-linear-to-r from-[#fef8fb] via-[#fef8fb]/60 to-transparent z-10 pointer-events-none hidden md:block" />
 
           <div className="overflow-hidden px-0 sm:px-20 lg:px-52 py-16" style={{ touchAction: 'pan-y' }} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
             <motion.div
@@ -424,7 +424,7 @@ export default function Testimonials() {
                 return (
                   <div
                     key={index}
-                    className="flex-shrink-0 flex justify-center"
+                    className="shrink-0 flex justify-center"
                     style={{ width: '100%' }}
                   >
                     <div className="w-full max-w-2xl lg:max-w-2xl xl:max-w-3xl px-4">  {/* Responsive max-width */}
@@ -441,12 +441,12 @@ export default function Testimonials() {
           </div>
 
           {/* Fade gradient on right edge - wider and smoother */}
-          <div className="absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-white via-white/60 to-transparent z-10 pointer-events-none hidden md:block" />
+          <div className="absolute right-0 top-0 bottom-0 w-64 bg-linear-to-l from-white via-white/60 to-transparent z-10 pointer-events-none hidden md:block" />
 
           {/* Next Arrow - desktop only (lg+) */}
           <button
             onClick={goToNext}
-            className="hidden lg:block absolute right-42 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 cursor-pointer"
+            className="hidden lg:block absolute right-42 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-lg border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 cursor-pointer"
             aria-label="Další recenze"
           >
             <ChevronRight className="w-6 h-6 text-[#de397e]" />

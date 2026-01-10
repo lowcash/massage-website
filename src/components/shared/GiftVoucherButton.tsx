@@ -57,7 +57,7 @@ export default function GiftVoucherButton() {
               >
                 {/* Main button */}
                 <div className="relative">
-                  <div className="bg-gradient-to-br from-[#c4a75f] to-[#a08945] text-white rounded-2xl p-4 shadow-2xl border-2 border-white/40 backdrop-blur-sm transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_8px_30px_rgba(196,167,95,0.4)]">
+                  <div className="bg-linear-to-br from-[#c4a75f] to-[#a08945] text-white rounded-2xl p-4 shadow-2xl border-2 border-white/40 backdrop-blur-sm transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_8px_30px_rgba(196,167,95,0.4)]">
                     <Gift className="w-6 h-6" />
                   </div>
                   
@@ -109,7 +109,7 @@ export default function GiftVoucherButton() {
               {/* Modal content - flexbox layout */}
               <div className="flex flex-col md:flex-row h-full overflow-hidden">
                 {/* Left side - Image */}
-                <div className="md:w-1/2 relative h-32 md:h-auto min-h-[120px] md:min-h-[400px] flex-shrink-0">
+                <div className="md:w-1/2 relative h-32 md:h-auto min-h-[120px] md:min-h-[400px] shrink-0">
                   <Image
                     src={giftVoucherImage}
                     alt="Dárkové poukazy"
@@ -124,7 +124,7 @@ export default function GiftVoucherButton() {
                   <div className="p-4 md:p-8 flex flex-col justify-between h-full">
                     {/* Header - kompaktní na mobilu */}
                     <div className="text-center mb-3 md:mb-4">
-                      <div className="inline-block p-2 md:p-3 bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] rounded-2xl mb-2 md:mb-3">
+                      <div className="inline-block p-2 md:p-3 bg-linear-to-br from-[#fef8fb] to-[#fff5f9] rounded-2xl mb-2 md:mb-3">
                         <Gift className="w-10 h-10 md:w-12 md:h-12 text-[#c4a75f]" />
                       </div>
                       <h3
@@ -139,23 +139,23 @@ export default function GiftVoucherButton() {
                     </div>
 
                     {/* Benefits - kompaktní na mobilu */}
-                    <div className="space-y-1.5 md:space-y-2.5 mb-3 md:mb-5 flex-grow">
-                      <div className="flex items-center gap-2 md:gap-2.5 p-2 md:p-2.5 bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] rounded-xl">
-                        <div className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 bg-[#c4a75f] rounded-full flex items-center justify-center text-white text-xs font-bold">
+                    <div className="space-y-1.5 md:space-y-2.5 mb-3 md:mb-5 grow">
+                      <div className="flex items-center gap-2 md:gap-2.5 p-2 md:p-2.5 bg-linear-to-br from-[#fef8fb] to-[#fff5f9] rounded-xl">
+                        <div className="shrink-0 w-5 h-5 md:w-6 md:h-6 bg-[#c4a75f] rounded-full flex items-center justify-center text-white text-xs font-bold">
                           ✓
                         </div>
                         <p className="text-[#2c2c2c] font-medium text-sm md:text-sm" style={{ hyphens: 'auto' }} lang="cs">Flexibilní použití na kteroukoli službu</p>
                       </div>
                       
-                      <div className="flex items-center gap-2 md:gap-2.5 p-2 md:p-2.5 bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] rounded-xl">
-                        <div className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 bg-[#c4a75f] rounded-full flex items-center justify-center text-white text-xs font-bold">
+                      <div className="flex items-center gap-2 md:gap-2.5 p-2 md:p-2.5 bg-linear-to-br from-[#fef8fb] to-[#fff5f9] rounded-xl">
+                        <div className="shrink-0 w-5 h-5 md:w-6 md:h-6 bg-[#c4a75f] rounded-full flex items-center justify-center text-white text-xs font-bold">
                           ✓
                         </div>
                         <p className="text-[#2c2c2c] font-medium text-sm md:text-sm" style={{ hyphens: 'auto' }} lang="cs">Libovolná hodnota podle vašich představ</p>
                       </div>
                       
-                      <div className="flex items-center gap-2 md:gap-2.5 p-2 md:p-2.5 bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] rounded-xl">
-                        <div className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 bg-[#c4a75f] rounded-full flex items-center justify-center text-white text-xs font-bold">
+                      <div className="flex items-center gap-2 md:gap-2.5 p-2 md:p-2.5 bg-linear-to-br from-[#fef8fb] to-[#fff5f9] rounded-xl">
+                        <div className="shrink-0 w-5 h-5 md:w-6 md:h-6 bg-[#c4a75f] rounded-full flex items-center justify-center text-white text-xs font-bold">
                           ✓
                         </div>
                         <p className="text-[#2c2c2c] font-medium text-sm md:text-sm" style={{ hyphens: 'auto' }} lang="cs">Okamžitá objednávka přes WhatsApp</p>

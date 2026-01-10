@@ -21,7 +21,7 @@ export function CalendarList({ items, selectedIndex, onSelect, onToggleReserved 
 
   return (
     <div className='flex flex-col h-full'>
-      <h3 className='mb-3 text-sm font-semibold text-zinc-700 flex-shrink-0'>Dostupné termíny ({items.length})</h3>
+      <h3 className='mb-3 text-sm font-semibold text-zinc-700 shrink-0'>Dostupné termíny ({items.length})</h3>
       <div className='flex-1 space-y-2 overflow-y-auto rounded-lg border border-zinc-200 bg-white'>
         {items.map((item, idx) => (
           <CalendarListItem

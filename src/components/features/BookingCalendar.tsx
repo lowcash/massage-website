@@ -118,7 +118,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
     return (
       <section
         id="booking"
-        className="py-32 px-6 md:px-16 bg-gradient-to-b from-white to-[#fef8fb]"
+        className="py-32 px-6 md:px-16 bg-linear-to-b from-white to-[#fef8fb]"
       >
         <div className="container mx-auto max-w-4xl">
           <motion.h2
@@ -253,7 +253,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   return (
     <section
       id="booking"
-      className="py-32 px-6 md:px-16 bg-gradient-to-b from-white to-[#fef8fb]"
+      className="py-32 px-6 md:px-16 bg-linear-to-b from-white to-[#fef8fb]"
     >
       <div className="container mx-auto max-w-4xl">
         <motion.h2
@@ -277,7 +277,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
 
         {selectedService && (
           <div className="flex justify-center mb-10">
-            <div className="bg-white/70 backdrop-blur-[16px] border border-[#de397e]/30 rounded-2xl px-6 py-4 shadow-lg shadow-[#de397e]/8">
+            <div className="bg-white/70 backdrop-blur-lg border border-[#de397e]/30 rounded-2xl px-6 py-4 shadow-lg shadow-[#de397e]/8">
               <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
                 <span
                   className="text-[#666666]"
@@ -305,7 +305,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             <button
               onClick={goToPrevious}
               disabled={currentPageDesktop === 0}
-              className={`hidden lg:block absolute left-8 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 ${
+              className={`hidden lg:block absolute left-8 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-lg border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 ${
                 currentPageDesktop === 0
                   ? "opacity-50 cursor-not-allowed"
                   : "cursor-pointer"
@@ -318,7 +318,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             </button>
 
             {currentPageDesktop > 0 && (
-              <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/60 to-transparent z-10 pointer-events-none" />
+              <div className="absolute left-0 top-0 bottom-0 w-32 bg-linear-to-r from-white via-white/60 to-transparent z-10 pointer-events-none" />
             )}
 
             <div className="overflow-hidden px-20 md:px-24" style={{ touchAction: 'pan-y' }}>
@@ -342,7 +342,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                   (_, pageIndex) => (
                     <div
                       key={pageIndex}
-                      className="w-full flex-shrink-0 flex gap-6"
+                      className="w-full shrink-0 flex gap-6"
                     >
                       {calendarData
                         .slice(
@@ -364,8 +364,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                               <div
                                 className={`rounded-3xl p-6 w-full transition-all duration-500 ${
                                   dayData.isToday
-                                    ? "bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10"
-                                    : "bg-white/70 backdrop-blur-[16px] border border-white/50"
+                                    ? "bg-linear-to-br from-[#fef8fb] to-[#fff5f9] border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10"
+                                    : "bg-white/70 backdrop-blur-lg border border-white/50"
                                 } ${!isCurrentPage ? "opacity-50" : ""}`}
                               >
                                 {/* Day header - centered */}
@@ -434,7 +434,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             </div>
 
             {currentPageDesktop < totalPagesDesktop - 1 && (
-              <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white/60 to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-32 bg-linear-to-l from-white via-white/60 to-transparent z-10 pointer-events-none" />
             )}
 
             <button
@@ -442,7 +442,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               disabled={
                 currentPageDesktop >= totalPagesDesktop - 1
               }
-              className={`hidden lg:block absolute right-8 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-[16px] border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 ${
+              className={`hidden lg:block absolute right-8 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-lg border border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-lg z-20 ${
                 currentPageDesktop >= totalPagesDesktop - 1
                   ? "opacity-50 cursor-not-allowed"
                   : "cursor-pointer"
@@ -527,7 +527,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               </button>
 
               {/* Page indicator text */}
-              <div className="ml-2 text-[#666666] text-sm min-w-[4rem] text-center">
+              <div className="ml-2 text-[#666666] text-sm min-w-16 text-center">
                 <span style={{ fontFamily: 'Dancing Script', fontSize: '1rem' }}>
                   {currentPageDesktop + 1} / {totalPagesDesktop}
                 </span>
@@ -537,7 +537,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
 
           <div className="md:hidden relative">
             {currentPageMobile > 0 && (
-              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
+              <div className="absolute left-0 top-0 bottom-0 w-8 bg-linear-to-r from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
 
             <div className="overflow-hidden" style={{ touchAction: 'pan-y' }}>
@@ -559,14 +559,14 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                 {calendarData.map((dayData, index) => (
                   <div
                     key={index}
-                    className="flex-shrink-0 w-[65%]"
+                    className="shrink-0 w-[65%]"
                   >
                     <div className="px-0 h-full">
                       <div
                         className={`rounded-3xl px-4 py-6 w-full max-w-[320px] mx-auto transition-all duration-500 ${
                           dayData.isToday
-                            ? "bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10"
-                            : "bg-white/70 backdrop-blur-[16px] border border-white/50"
+                            ? "bg-linear-to-br from-[#fef8fb] to-[#fff5f9] border-2 border-[#de397e]/30 shadow-lg shadow-[#de397e]/10"
+                            : "bg-white/70 backdrop-blur-lg border border-white/50"
                         } ${index !== currentPageMobile ? "opacity-40 scale-95" : "opacity-100"}`}
                       >
                         {/* Day header */}
@@ -631,7 +631,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             </div>
 
             {currentPageMobile < totalPagesMobile - 1 && (
-              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-8 bg-linear-to-l from-[#fef8fb]/80 via-[#fef8fb]/20 to-transparent z-10 pointer-events-none" />
             )}
 
 
@@ -652,7 +652,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               </button>
 
               {/* Page indicator - compact for mobile */}
-              <div className="px-4 py-2 bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-xl min-w-[5.5rem]">
+              <div className="px-4 py-2 bg-white/70 backdrop-blur-lg border border-[#de397e]/20 rounded-xl min-w-22">
                 <span className="text-[#de397e] block text-center" style={{ fontFamily: 'Dancing Script', fontSize: '1.1rem' }}>
                   {currentPageMobile + 1} / {totalPagesMobile}
                 </span>

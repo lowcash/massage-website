@@ -41,7 +41,7 @@ export default async function Admin() {
 
   return (
     <div className='flex flex-col h-screen w-full max-w-4xl mx-auto p-4 gap-4'>
-      <div className='flex items-center justify-between flex-shrink-0'>
+      <div className='flex items-center justify-between shrink-0'>
         <h1 className='text-2xl font-semibold text-[#de397e]' style={{ fontFamily: 'Dancing Script' }}>
           Administrace
         </h1>
