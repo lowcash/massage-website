@@ -121,7 +121,7 @@ export default function Services() {
   };
 
   return (
-    <section id="services" className="py-32 px-6 md:px-16 bg-gradient-to-b from-white via-[#fef8fb] to-white">
+    <section id="services" className="py-32 px-6 md:px-16 bg-linear-to-b from-white via-[#fef8fb] to-white">
       <div className="container mx-auto max-w-5xl">
         <motion.h2
           {...getAnimationConfig(shouldReduceMotion)}
@@ -150,7 +150,7 @@ export default function Services() {
               >
                 <div className="flex items-start gap-5 mb-5">
                   <motion.div
-                    className="shrink-0 p-4 bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] rounded-2xl"
+                    className="shrink-0 p-4 bg-linear-to-br from-[#fef8fb] to-[#fff5f9] rounded-2xl"
                     whileHover={{ scale: 1.08, rotate: 5 }}
                     transition={{ duration: 0.4, ease: 'easeOut' }}
                   >
