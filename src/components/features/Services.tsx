@@ -139,10 +139,47 @@ export default function Services() {
         </motion.p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          {services.map((service, index) => {
+            const Icon = service.icon;
+            return (
+              <motion.div
+                key={service.id}
+                {...getAnimationConfigWithDelay(shouldReduceMotion, (index + 1) * 0.1)}
+                className="bg-white/70 backdrop-blur-lg border border-[#de397e]/20 rounded-3xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
+                onClick={() => handleServiceClick(service.name)}
+              >
+                <div className="flex items-start gap-5 mb-5">
+                  <motion.div
+                    className="shrink-0 p-4 bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] rounded-2xl"
+                    whileHover={{ scale: 1.08, rotate: 5 }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                  >
+                    <Icon className="w-7 h-7 text-[#de397e]" />
+                  </motion.div>
+                  <div className="flex-1">
+                    <h3
+                      className="text-[#2c2c2c] mb-2"
+                      style={{ fontFamily: 'Dancing Script', fontSize: '1.5rem' }}
+                    >
+                      {service.name}
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-[#666666] mb-4 leading-relaxed">
+                  {service.description}
+                </p>
+                <div className="flex items-center justify-between pt-4 border-t border-[#de397e]/10">
+                  <span className="text-[#666666]" style={{ fontSize: '1.05rem', fontWeight: 500 }}>{service.duration}</span>
+                  <span className="text-[#c4a75f]" style={{ fontSize: '1.15rem', fontWeight: 600 }}>{service.price}</span>
+                </div>
+              </motion.div>
+            );
+          })}
+
           {/* Gift Voucher Card - Featured */}
           <motion.div
-            {...getAnimationConfigWithDelay(shouldReduceMotion, 0)}
-            className="lg:col-span-2 bg-gradient-to-br from-[#c4a75f] to-[#a08945] border-2 border-[#c4a75f] rounded-3xl overflow-hidden transition-all duration-300 relative"
+            {...getAnimationConfigWithDelay(shouldReduceMotion, (services.length + 1) * 0.1)}
+            className="lg:col-span-2 bg-linear-to-br from-[#c4a75f] to-[#a08945] border-2 border-[#c4a75f] rounded-3xl overflow-hidden transition-all duration-300 relative"
           >
             {/* Decorative elements */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 z-0" />
@@ -212,43 +249,6 @@ export default function Services() {
               </div>
             </div>
           </motion.div>
-
-          {services.map((service, index) => {
-            const Icon = service.icon;
-            return (
-              <motion.div
-                key={service.id}
-                {...getAnimationConfigWithDelay(shouldReduceMotion, (index + 1) * 0.1)}
-                className="bg-white/70 backdrop-blur-[16px] border border-[#de397e]/20 rounded-3xl p-8 transition-all duration-300 hover:border-[#de397e]/40 hover:shadow-md cursor-pointer"
-                onClick={() => handleServiceClick(service.name)}
-              >
-                <div className="flex items-start gap-5 mb-5">
-                  <motion.div
-                    className="flex-shrink-0 p-4 bg-gradient-to-br from-[#fef8fb] to-[#fff5f9] rounded-2xl"
-                    whileHover={{ scale: 1.08, rotate: 5 }}
-                    transition={{ duration: 0.4, ease: 'easeOut' }}
-                  >
-                    <Icon className="w-7 h-7 text-[#de397e]" />
-                  </motion.div>
-                  <div className="flex-1">
-                    <h3
-                      className="text-[#2c2c2c] mb-2"
-                      style={{ fontFamily: 'Dancing Script', fontSize: '1.5rem' }}
-                    >
-                      {service.name}
-                    </h3>
-                  </div>
-                </div>
-                <p className="text-[#666666] mb-4 leading-relaxed">
-                  {service.description}
-                </p>
-                <div className="flex items-center justify-between pt-4 border-t border-[#de397e]/10">
-                  <span className="text-[#666666]" style={{ fontSize: '1.05rem', fontWeight: 500 }}>{service.duration}</span>
-                  <span className="text-[#c4a75f]" style={{ fontSize: '1.15rem', fontWeight: 600 }}>{service.price}</span>
-                </div>
-              </motion.div>
-            );
-          })}
         </div>
       </div>
     </section>

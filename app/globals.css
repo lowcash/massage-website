@@ -24,9 +24,10 @@
 }
 
 body {
-  @apply bg-studio-light-beige text-foreground font-sans;
+  @apply text-foreground font-sans;
   scrollbar-width: thin;
   scrollbar-color: #de397e #333333;
+  background-color: #2c2c2c;
 }
 
 /* Custom scrollbar for webkit browsers */
@@ -381,6 +382,6 @@ body {
   
   /* Viewport background pro iPhone - tmavý dole (jako footer), bílý nahoře */
   html {
-    background: linear-gradient(to bottom, #ffffff 0%, #ffffff 50%, #2c2c2c 50%, #2c2c2c 100%) fixed;
+    background: #2c2c2c;
   }
 }

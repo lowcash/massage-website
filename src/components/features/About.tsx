@@ -91,33 +91,33 @@ export default function About() {
               </h4>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
+                  <span className="shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
                   <span className="text-[#666666]">
                     <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Magisterské studium ošetřovatelství</span> na VŠZaSP sv. Alžbety v Bratislavě
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
+                  <span className="shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
                   <span className="text-[#666666]">Specializace v oboru <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>geriatrie</span></span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
+                  <span className="shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
                   <span className="text-[#666666]">
                     <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Dlouholetý masér</span> pro zdravotnictví a terapeut
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
+                  <span className="shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
                   <span className="text-[#666666]">
                     Zkušenosti se zařízeními <span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>sociální a zdravotní péče</span>
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
+                  <span className="shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
                   <span className="text-[#666666]"><span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Učitelka</span> zdravotnických předmětů</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
+                  <span className="shrink-0 w-2 h-2 mt-2 bg-[#c4a75f] rounded-full" />
                   <span className="text-[#666666]"><span className="text-[#2c2c2c]" style={{ fontWeight: 600 }}>Lektor</span> v sociální sféře</span>
                 </li>
               </ul>
@@ -143,7 +143,7 @@ export default function About() {
                 <ImageWithFallback
                   src={profileImage}
                   alt="Mgr. Radka Šebestová"
-                  className="w-full aspect-[3/4] object-cover object-top"
+                  className="w-full aspect-3/4 object-cover object-top"
                   style={{
                     filter: 'brightness(1.04) contrast(0.96) saturate(1.08)'
                   }}

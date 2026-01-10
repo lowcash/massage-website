@@ -203,7 +203,7 @@ export default function Hero() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
           onClick={scrollToBooking}
-          className="group px-10 py-4 md:px-8 md:py-3 bg-white/75 backdrop-blur-[24px] border-2 border-white/70 rounded-full transition-all duration-300 hover:bg-white hover:border-white hover:shadow-xl cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
+          className="group px-10 py-4 md:px-8 md:py-3 bg-white/75 backdrop-blur-xl border-2 border-white/70 rounded-full transition-all duration-300 hover:bg-white hover:border-white hover:shadow-xl cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
         >
           <span 
             className="text-[#de397e] group-hover:text-[#c4a75f] transition-colors duration-300"
@@ -219,14 +219,14 @@ export default function Hero() {
           <div className="relative">
             <button
               onClick={goToPrevious}
-              className="absolute left-0 p-2 md:p-3 bg-white/50 md:bg-white/60 backdrop-blur-[16px] border border-white/30 md:border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/70 md:hover:bg-white/80 cursor-pointer"
+              className="absolute left-0 p-2 md:p-3 bg-white/50 md:bg-white/60 backdrop-blur-lg border border-white/30 md:border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/70 md:hover:bg-white/80 cursor-pointer"
               aria-label="Předchozí obrázek"
             >
               <ChevronLeft className="w-4 h-4 md:w-6 md:h-6 text-[#de397e]" />
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-0 p-2 md:p-3 bg-white/50 md:bg-white/60 backdrop-blur-[16px] border border-white/30 md:border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/70 md:hover:bg-white/80 cursor-pointer"
+              className="absolute right-0 p-2 md:p-3 bg-white/50 md:bg-white/60 backdrop-blur-lg border border-white/30 md:border-white/40 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/70 md:hover:bg-white/80 cursor-pointer"
               aria-label="Další obrázek"
             >
               <ChevronRight className="w-4 h-4 md:w-6 md:h-6 text-[#de397e]" />
@@ -260,7 +260,7 @@ export default function Hero() {
         }}
         className="md:hidden absolute bottom-32 left-1/2 -translate-x-1/2 z-30"
       >
-        <ChevronLeft className="w-6 h-6 text-white/70 rotate-[-90deg]" style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.8))' }} />
+        <ChevronLeft className="w-6 h-6 text-white/70 -rotate-90" style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.8))' }} />
       </motion.div>    </section>
   );
 }

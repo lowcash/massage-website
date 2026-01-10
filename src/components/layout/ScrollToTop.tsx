@@ -42,7 +42,7 @@ export default function ScrollToTop() {
                 damping: 20
               }}
               onClick={scrollToTop}
-              className="pointer-events-auto absolute bottom-8 right-4 sm:bottom-10 p-3 sm:p-4 bg-white/60 backdrop-blur-[16px] border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white/80 cursor-pointer"
+              className="pointer-events-auto absolute bottom-8 right-4 sm:bottom-10 p-3 sm:p-4 bg-white/60 backdrop-blur-lg border border-white/40 rounded-full shadow-lg transition-all hover:scale-110 hover:bg-white/80 cursor-pointer"
               style={{ marginBottom: 'env(safe-area-inset-bottom)' }}
               aria-label="Scroll to top"
             >
