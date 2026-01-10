@@ -58,8 +58,14 @@ export default function SideDots() {
                       : 'bg-white/60 border-2 border-[#de397e]/40 backdrop-blur-[8px] hover:bg-[#de397e]/60 hover:border-[#de397e] hover:scale-110'
                   }`}
                 />
-                {/* Subtle text label without background */}
-                <span className="absolute right-6 top-1/2 -translate-y-1/2 text-[#2c2c2c] text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none drop-shadow-[0_2px_4px_rgba(255,255,255,0.9)]">
+                {/* Beautiful script text label with shadow */}
+                <span 
+                  className="absolute right-6 top-1/2 -translate-y-1/2 text-[#de397e] text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none font-medium"
+                  style={{ 
+                    fontFamily: 'Dancing Script, cursive',
+                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(222, 57, 126, 0.3)'
+                  }}
+                >
                   {section.label}
                 </span>
               </button>
