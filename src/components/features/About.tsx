@@ -58,7 +58,7 @@ export default function About() {
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-[#de397e]/20">
               <div className="text-center">
                 <div className="text-[#de397e] mb-2" style={{ fontFamily: 'Dancing Script', fontSize: '3rem' }}>
-                  15+
+                  16+
                 </div>
                 <div className="text-[#666666] text-sm leading-relaxed">
                   let zkušeností
@@ -74,7 +74,7 @@ export default function About() {
               </div>
               <div className="text-center">
                 <div className="text-[#de397e] mb-2" style={{ fontFamily: 'Dancing Script', fontSize: '3rem' }}>
-                  11
+                  12
                 </div>
                 <div className="text-[#666666] text-sm leading-relaxed">
                   druhů masáží
