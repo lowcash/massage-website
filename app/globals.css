@@ -63,6 +63,16 @@ html {
   -ms-overflow-style: none;
 }
 
+section[id] {
+  scroll-margin-top: 88px;
+}
+
+@media (min-width: 768px) {
+  section[id] {
+    scroll-margin-top: 96px;
+  }
+}
+
 button:not(:disabled),
 [role='button'],
 a {
@@ -156,7 +166,7 @@ button:disabled {
 }
 
 .text-shadow {
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.34);
 }
 
 /* Smooth carousel transitions */

@@ -15,7 +15,7 @@ export function SectionIntro({ id, title, subtitle, description, light = false }
         id={id}
         className={light ? 'font-dancing text-4xl text-white md:text-5xl' : 'font-dancing text-4xl text-[#2f2523] md:text-5xl'}
       >
-        {title}
+        {applyCzechNbsp(title)}
       </h2>
       <p
         className={

@@ -72,6 +72,7 @@ export default function Services() {
                 key={service.name}
                 initial={shouldReduceMotion ? animation.initial : { opacity: 0, y: 14 }}
                 whileInView={animation.whileInView}
+                whileHover={shouldReduceMotion ? undefined : { y: -4 }}
                 viewport={animation.viewport}
                 transition={
                   shouldReduceMotion
@@ -82,13 +83,13 @@ export default function Services() {
                         ease: [0.22, 1, 0.36, 1],
                       }
                 }
-                className='flex h-full cursor-pointer flex-col rounded-2xl border border-[#e7d0cb] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_35px_rgba(113,73,65,0.12)]'
+                className='flex h-full cursor-pointer flex-col rounded-2xl border border-[#e7d0cb] bg-white p-6 transition-shadow duration-300 hover:shadow-[0_16px_35px_rgba(113,73,65,0.12)]'
                 onClick={() => handleServiceClick(service.name)}
               >
                 <div className='mb-4 flex items-center gap-3'>
                   <Icon className='h-4 w-4 text-[#ca6f61]' />
                   <h3 className='text-[1.45rem] leading-tight text-[#342a28]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
-                    {service.name}
+                    {applyCzechNbsp(service.name)}
                   </h3>
                 </div>
 

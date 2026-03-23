@@ -55,7 +55,9 @@ export const siteContent = {
     closeMenuAriaLabel: 'Zavřít navigaci',
     items: [
       { id: 'services', label: 'Služby', href: '#services' },
+      { id: 'vouchers', label: 'Poukazy', href: '#vouchers' },
       { id: 'about', label: 'O mně', href: '#about' },
+      { id: 'studio', label: 'Studio', href: '#studio' },
       { id: 'booking', label: 'Termíny', href: '#booking' },
       { id: 'contact', label: 'Kontakt', href: '#contact' },
     ] as NavigationItem[],

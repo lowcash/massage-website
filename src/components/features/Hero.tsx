@@ -6,7 +6,8 @@ import { motion } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
-import heroImage from '@/src/assets/4e82636e00d6ed1714427e23df88aa2114a00d8b.png'
+import { applyCzechNbsp } from '@/lib/utils'
+import heroImage from '@/src/assets/hero.jpg'
 
 export default function Hero() {
   const [scrollY, setScrollY] = useState(0)
@@ -63,7 +64,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(41,30,26,0.15),rgba(24,15,12,0.62))]' />
+      <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(41,30,26,0.18),rgba(24,15,12,0.64))]' />
 
       <motion.div
         initial={{ opacity: 0, y: 42 }}
@@ -71,16 +72,18 @@ export default function Hero() {
         transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
         className='relative z-20 mx-auto flex w-full max-w-5xl flex-col items-center gap-6 px-6 pt-16 text-center text-white md:gap-8'
       >
+        <div className='pointer-events-none absolute inset-x-5 top-1/2 -z-10 h-[62%] -translate-y-1/2 rounded-4xl bg-black/24 blur-2xl md:inset-x-12 md:h-[58%] md:bg-black/20' />
+
         <p className='text-sm tracking-[0.24em] text-white/85 uppercase'>
-          {siteContent.brand.subtitle}
+          {applyCzechNbsp(siteContent.brand.subtitle)}
         </p>
 
-        <h1 className='max-w-4xl text-5xl leading-[1.1] md:text-7xl' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
-          {siteContent.hero.title}
+        <h1 className='text-shadow max-w-4xl text-5xl leading-[1.1] md:text-7xl' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+          {applyCzechNbsp(siteContent.hero.title)}
         </h1>
 
-        <p className='max-w-2xl text-[15px] leading-relaxed text-white/90 md:text-xl'>
-          {siteContent.hero.subtitle}
+        <p className='text-shadow max-w-2xl text-[15px] leading-relaxed text-white/90 md:text-xl'>
+          {applyCzechNbsp(siteContent.hero.subtitle)}
         </p>
 
         <button

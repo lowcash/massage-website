@@ -6,7 +6,27 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function applyCzechNbsp(text: string) {
-  return text.replace(/(^|\s)([aAiIkKoOsSuUvVzZ])\s+/g, '$1$2\u00A0')
+  if (!text) {
+    return text
+  }
+
+  // Keep one-letter Czech prepositions/conjunctions with the following word.
+  const withSingleLetterWords = text.replace(
+    /(^|[\s\u00A0])([AaIiKkOoSsUuVvZz])\s+/g,
+    '$1$2\u00A0'
+  )
+
+  // Keep common two-letter Czech prepositions at line start with the following word.
+  const withShortPrepositions = withSingleLetterWords.replace(
+    /(^|[\s\u00A0])(ke|ve|ze|se)\s+/gi,
+    '$1$2\u00A0'
+  )
+
+  // Keep numeric values together with short units.
+  return withShortPrepositions.replace(
+    /(\d+)\s+(%|°C|kg|g|km|m|cm|mm|min|h)\b/gi,
+    '$1\u00A0$2'
+  )
 }
 
 // Czech timezone formatter

@@ -1,21 +1,21 @@
 import { Facebook, Instagram } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
+import { applyCzechNbsp } from '@/lib/utils'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const brandName = applyCzechNbsp(siteContent.brand.name)
 
   return (
     <footer className='bg-[#2d1d1a] text-[#f6ece9]'>
-      <div className='h-8 bg-[linear-gradient(to_bottom,#ecd8d3_0%,#c9b0ab_55%,#2d1d1a_100%)]' />
-
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-10 px-5 py-14 md:px-8'>
         <div className='grid gap-8 md:grid-cols-3'>
           <div className='flex flex-col gap-3'>
-            <p className='font-dancing text-3xl'>{siteContent.brand.name}</p>
-            <p className='text-[15px] text-[#e4d4d0]'>{siteContent.footer.description}</p>
+            <p className='font-dancing text-3xl'>{brandName}</p>
+            <p className='text-[15px] text-[#e4d4d0]'>{applyCzechNbsp(siteContent.footer.description)}</p>
             <p className='text-sm text-[#cdb8b3]'>
-              © {currentYear} {siteContent.brand.name}. {siteContent.footer.rights}
+              © {currentYear} {brandName}. {applyCzechNbsp(siteContent.footer.rights)}
             </p>
           </div>
 
@@ -35,17 +35,22 @@ export default function Footer() {
 
           <div className='flex flex-col gap-3 text-[15px] text-[#ddc8c3]'>
             <h3 className='font-dancing text-2xl text-[#f8e9e5]'>{siteContent.footer.contactHeading}</h3>
-            <a href={`mailto:${siteContent.brand.email}`} className='transition hover:text-white'>
+            <a href={`mailto:${siteContent.brand.email}`} className='cursor-pointer transition hover:text-white'>
               {siteContent.brand.email}
             </a>
-            <a href={`tel:+${siteContent.brand.phoneDigits}`} className='transition hover:text-white'>
+            <a href={`tel:+${siteContent.brand.phoneDigits}`} className='cursor-pointer transition hover:text-white'>
               {siteContent.brand.phone}
             </a>
-            <p>
+            <a
+              href={siteContent.brand.mapsLink}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='cursor-pointer transition hover:text-white'
+            >
               {siteContent.brand.addressLine1}
               <br />
               {siteContent.brand.addressLine2}
-            </p>
+            </a>
           </div>
         </div>
 
