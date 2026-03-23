@@ -11,7 +11,7 @@ import {
   useReducedMotion,
 } from '@/src/hooks/useReducedMotion'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
-import giftVoucherImage from '@/src/assets/poukazy.jpg'
+import giftVoucherImage from '@/src/assets/voucher.jpg'
 
 export default function GiftVouchers() {
   const shouldReduceMotion = useReducedMotion()

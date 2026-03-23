@@ -203,7 +203,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
         <motion.div {...getAnimationConfigWithDelay(shouldReduceMotion, 0.14)} className='mx-auto w-full max-w-6xl'>
           <PeekCarousel
             ariaLabel={siteContent.calendar.carouselAriaLabel}
-            itemClassName='w-[84%] sm:w-[46%] lg:w-[19%]'
+            itemClassName='w-[84%] sm:w-[46%] md:w-[32%] lg:w-[19%]'
             fadeEdges={true}
             fadeColor='rgb(241 227 223)'
           >

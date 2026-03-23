@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
@@ -13,15 +13,16 @@ import {
   getAnimationConfigWithDelay,
   useReducedMotion,
 } from '@/src/hooks/useReducedMotion'
-import studioImage1 from '@/src/assets/529868a68c329f2cd79b11f95989565412c07b61.png'
-import studioImage2 from '@/src/assets/2d115fb3cb1c74e407bde90bbf7d740b4c3604f2.png'
-import studioImage3 from '@/src/assets/669702bfa59a3e8017fcb4cb9cbf4fe49cedcddf.png'
+import studioImage1 from '@/src/assets/gallery-1.jpg'
+import studioImage2 from '@/src/assets/gallery-2.jpg'
+import studioImage3 from '@/src/assets/gallery-3.jpg'
 
 const studioImages = [studioImage1, studioImage2, studioImage3]
 
 export default function Gallery() {
   const shouldReduceMotion = useReducedMotion()
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null)
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null)
 
   useEffect(() => {
     if (activeImageIndex === null) {
@@ -96,6 +97,34 @@ export default function Gallery() {
 
       return prev === studioImages.length - 1 ? 0 : prev + 1
     })
+  }
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0]
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY }
+  }
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (!touchStartRef.current) {
+      return
+    }
+
+    const touch = event.changedTouches[0]
+    const dx = touch.clientX - touchStartRef.current.x
+    const dy = touch.clientY - touchStartRef.current.y
+
+    touchStartRef.current = null
+
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.2) {
+      return
+    }
+
+    if (dx < 0) {
+      showNextImage()
+      return
+    }
+
+    showPreviousImage()
   }
 
   return (
@@ -200,7 +229,11 @@ export default function Gallery() {
                 <ChevronLeft className='h-5 w-5' />
               </button>
 
-              <div className='relative w-full overflow-hidden rounded-2xl'>
+              <div
+                className='relative w-full overflow-hidden rounded-2xl'
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+              >
                 <div className='relative aspect-4/3 w-full max-h-[82vh]'>
                   <Image
                     src={studioImages[activeImageIndex]}

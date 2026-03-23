@@ -12,7 +12,7 @@ import {
   getAnimationConfigWithDelay,
   useReducedMotion,
 } from '@/src/hooks/useReducedMotion'
-import profileImage from '@/src/assets/56d78eee09ad0ac51d12b673a62b4fb6b3748b3e.png'
+import profileImage from '@/src/assets/profile.jpg'
 
 export default function About() {
   const shouldReduceMotion = useReducedMotion()
@@ -28,7 +28,7 @@ export default function About() {
           />
         </motion.div>
 
-        <div className='grid items-start gap-7 rounded-2xl border border-[#e6d1cb] bg-white p-6 shadow-[0_20px_45px_rgba(90,60,53,0.1)] md:grid-cols-2 md:items-stretch md:p-10'>
+        <div className='grid items-start gap-7 rounded-2xl border border-[#e6d1cb] bg-white p-6 shadow-[0_20px_45px_rgba(90,60,53,0.1)] md:p-10 lg:grid-cols-2 lg:items-stretch'>
           <motion.div
             {...getAnimationConfigWithDelay(shouldReduceMotion, 0.2)}
             className='order-2 flex h-full flex-col gap-7 md:order-2'
@@ -38,7 +38,7 @@ export default function About() {
                 {siteContent.brand.therapistName}
               </h3>
               <p className='text-[15px] tracking-[0.12em] text-[#a46f67] uppercase'>
-                {siteContent.about.role}
+                {applyCzechNbsp(siteContent.about.role)}
               </p>
             </div>
 
@@ -75,13 +75,13 @@ export default function About() {
 
           <motion.div
             {...getAnimationConfigWithDelay(shouldReduceMotion, 0.3)}
-            className='order-1 md:order-1 md:h-full'
+            className='order-1 md:order-1 md:mx-auto md:w-full md:max-w-2xl lg:h-full lg:max-w-none'
           >
-            <div className='overflow-hidden rounded-2xl bg-[#efe6e3] md:h-full'>
+            <div className='overflow-hidden rounded-2xl bg-[#efe6e3] lg:h-full lg:max-h-none'>
               <Image
                 src={profileImage}
                 alt={siteContent.brand.therapistName}
-                className='h-full w-full object-cover object-top'
+                className='h-auto w-full object-cover object-top lg:h-full lg:max-h-none'
                 priority={false}
               />
             </div>
