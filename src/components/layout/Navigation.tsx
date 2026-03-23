@@ -159,7 +159,7 @@ export default function Navigation() {
                 </button>
               </div>
 
-              <div className='flex-1 overflow-y-auto overscroll-contain pb-[max(1rem,env(safe-area-inset-bottom))] pr-1'>
+              <div className='flex-1 overflow-y-auto overscroll-contain pr-1'>
                 <div className='flex flex-col gap-2.5 sm:gap-3'>
                   {siteContent.navigation.items.map((item) => (
                     <button
@@ -173,8 +173,10 @@ export default function Navigation() {
                     </button>
                   ))}
                 </div>
+              </div>
 
-                <div className='mt-5 grid gap-2.5 text-sm text-[#6b5551] sm:mt-6 sm:gap-3'>
+              <div className='mt-auto border-t border-[#e8d5d0] pt-5'>
+                <div className='grid gap-2.5 text-sm text-[#6b5551] sm:gap-3'>
                   <a
                     href={`tel:+${siteContent.brand.phoneDigits}`}
                     className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
