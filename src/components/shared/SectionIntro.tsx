@@ -1,11 +1,14 @@
+import { applyCzechNbsp } from '@/lib/utils'
+
 interface SectionIntroProps {
   id: string
   title: string
   subtitle: string
+  description?: string
   light?: boolean
 }
 
-export function SectionIntro({ id, title, subtitle, light = false }: SectionIntroProps) {
+export function SectionIntro({ id, title, subtitle, description, light = false }: SectionIntroProps) {
   return (
     <div className='mx-auto flex max-w-3xl flex-col items-center gap-3 text-center'>
       <h2
@@ -21,8 +24,14 @@ export function SectionIntro({ id, title, subtitle, light = false }: SectionIntr
             : 'text-sm tracking-[0.2em] text-[#8b706c] uppercase'
         }
       >
-        {subtitle}
+        {applyCzechNbsp(subtitle)}
       </p>
+
+      {description ? (
+        <p className={light ? 'max-w-2xl text-[15px] leading-relaxed text-white/90' : 'max-w-2xl text-[15px] leading-relaxed text-[#6f5b56]'}>
+          {applyCzechNbsp(description)}
+        </p>
+      ) : null}
     </div>
   )
 }

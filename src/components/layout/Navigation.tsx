@@ -32,15 +32,44 @@ export default function Navigation() {
   }, [isMobileMenuOpen])
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 24)
+    const heroElement = document.getElementById('hero')
+
+    if (!heroElement) {
+      const handleScrollFallback = () => {
+        setIsScrolled(window.scrollY > 24)
+      }
+
+      handleScrollFallback()
+      window.addEventListener('scroll', handleScrollFallback, { passive: true })
+
+      return () => {
+        window.removeEventListener('scroll', handleScrollFallback)
+      }
     }
 
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsScrolled(!entry.isIntersecting)
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '-88px 0px 0px 0px',
+      }
+    )
+
+    observer.observe(heroElement)
+
+    const handleScrollSync = () => {
+      const heroBottom = heroElement.getBoundingClientRect().bottom
+      setIsScrolled(heroBottom <= 88)
+    }
+
+    handleScrollSync()
+    window.addEventListener('scroll', handleScrollSync, { passive: true })
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      observer.disconnect()
+      window.removeEventListener('scroll', handleScrollSync)
     }
   }, [])
 
@@ -49,9 +78,9 @@ export default function Navigation() {
       <motion.header
         initial={false}
         animate={{
-          backgroundColor: isScrolled ? 'rgba(244, 225, 220, 0.72)' : 'rgba(0, 0, 0, 0)',
-          backdropFilter: isScrolled ? 'blur(14px)' : 'blur(0px)',
-          boxShadow: isScrolled ? '0 8px 25px rgba(62, 34, 27, 0.08)' : '0 0 0 rgba(0,0,0,0)',
+          backgroundColor: isScrolled ? 'rgba(246, 237, 235, 0.94)' : 'rgba(0, 0, 0, 0)',
+          backdropFilter: isScrolled ? 'blur(12px)' : 'blur(0px)',
+          boxShadow: isScrolled ? '0 10px 24px rgba(62, 34, 27, 0.09)' : '0 0 0 rgba(0,0,0,0)',
           borderBottomColor: isScrolled ? 'rgba(214, 178, 169, 0.3)' : 'rgba(255,255,255,0)',
         }}
         transition={{ duration: 0.35, ease: 'easeOut' }}

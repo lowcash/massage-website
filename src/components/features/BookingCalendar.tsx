@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 
 import { siteContent } from '@/lib/content'
+import { applyCzechNbsp } from '@/lib/utils'
 import { useBooking } from '@/src/contexts/BookingContext'
 import PeekCarousel from '@/src/components/shared/PeekCarousel'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
@@ -133,6 +134,10 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   const { selectedService } = useBooking()
 
   const calendarData = useMemo(() => mapApiDataToDisplay(data), [data])
+  const whatsappCtaMessage = selectedService
+    ? siteContent.floatingButtons.whatsappSelectedServiceMessage.replace('{service}', selectedService)
+    : siteContent.floatingButtons.whatsappDefaultMessage
+  const whatsappCtaUrl = `https://wa.me/${siteContent.brand.phoneDigits}?text=${encodeURIComponent(whatsappCtaMessage)}`
 
   const handleSlotClick = (date: string, time: string, available: boolean) => {
     if (!available) {
@@ -175,12 +180,13 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
 
   return (
     <section id='booking' className='bg-[#f1e3df] px-5 py-20 md:px-8 md:py-28'>
-      <div className='mx-auto flex w-full max-w-6xl flex-col gap-10'>
+      <div className='mx-auto flex w-full max-w-6xl flex-col gap-12'>
         <motion.div {...getAnimationConfig(shouldReduceMotion)}>
           <SectionIntro
             id='booking-heading'
             title={siteContent.calendar.heading}
             subtitle={siteContent.calendar.subtitle}
+            description={siteContent.calendar.intro}
           />
         </motion.div>
 
@@ -194,7 +200,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           </motion.div>
         )}
 
-        <motion.div {...getAnimationConfigWithDelay(shouldReduceMotion, 0.14)}>
+        <motion.div {...getAnimationConfigWithDelay(shouldReduceMotion, 0.14)} className='mx-auto w-full max-w-5xl'>
           <PeekCarousel ariaLabel={siteContent.calendar.carouselAriaLabel}>
             {calendarData.map((dayData) => (
               <article
@@ -232,6 +238,23 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               </article>
             ))}
           </PeekCarousel>
+        </motion.div>
+
+        <motion.div
+          {...getAnimationConfigWithDelay(shouldReduceMotion, 0.2)}
+          className='flex flex-col items-center gap-4 text-center'
+        >
+          <p className='text-[15px] leading-relaxed text-[#6f5b56]'>
+            {applyCzechNbsp(siteContent.calendar.flexibilityNote)}
+          </p>
+          <a
+            href={whatsappCtaUrl}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='inline-flex rounded-md bg-[#ca6f61] px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition hover:bg-[#b45c4f]'
+          >
+            {siteContent.calendar.whatsappCta}
+          </a>
         </motion.div>
       </div>
     </section>

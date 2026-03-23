@@ -5,6 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export function applyCzechNbsp(text: string) {
+  return text.replace(/(^|\s)([aAiIkKoOsSuUvVzZ])\s+/g, '$1$2\u00A0')
+}
+
 // Czech timezone formatter
 const PRAGUE_TZ = 'Europe/Prague'
 

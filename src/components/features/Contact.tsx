@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Clock, Mail, MapPin, Phone } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
+import { applyCzechNbsp } from '@/lib/utils'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 import {
   getAnimationConfig,
@@ -19,7 +20,7 @@ export default function Contact() {
 
   return (
     <section id='contact' className='bg-[#ecd8d3] px-5 py-20 md:px-8 md:py-28'>
-      <div className='mx-auto flex w-full max-w-6xl flex-col gap-12'>
+      <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
         <motion.div {...getAnimationConfig(shouldReduceMotion)}>
           <SectionIntro
             id='contact-heading'
@@ -77,7 +78,9 @@ export default function Contact() {
                 ))}
               </div>
 
-              <p className='mt-3 text-sm text-[#796661]'>{siteContent.contact.cards.flexibilityNote}</p>
+              <p className='mt-3 text-sm text-[#796661]'>
+                {applyCzechNbsp(siteContent.contact.cards.flexibilityNote)}
+              </p>
             </div>
           </motion.div>
 

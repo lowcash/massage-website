@@ -11,6 +11,8 @@ interface PeekCarouselProps {
   ariaLabel: string
   itemClassName?: string
   className?: string
+  fadeEdges?: boolean
+  fadeColor?: string
 }
 
 export default function PeekCarousel({
@@ -18,6 +20,8 @@ export default function PeekCarousel({
   ariaLabel,
   itemClassName,
   className,
+  fadeEdges = false,
+  fadeColor,
 }: PeekCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -59,7 +63,7 @@ export default function PeekCarousel({
   }
 
   return (
-    <div className={cn('relative w-full', className)}>
+    <div className={cn('relative w-full overflow-hidden', className)}>
       <button
         type='button'
         onClick={() => scrollByCards(-1)}
@@ -78,10 +82,23 @@ export default function PeekCarousel({
         <ChevronRight className='h-5 w-5' />
       </button>
 
+      {fadeEdges && fadeColor ? (
+        <>
+          <div
+            className='pointer-events-none absolute top-0 left-0 z-10 h-full w-10 md:w-16'
+            style={{ backgroundImage: `linear-gradient(to right, ${fadeColor}, transparent)` }}
+          />
+          <div
+            className='pointer-events-none absolute top-0 right-0 z-10 h-full w-10 md:w-16'
+            style={{ backgroundImage: `linear-gradient(to left, ${fadeColor}, transparent)` }}
+          />
+        </>
+      ) : null}
+
       <div
         ref={containerRef}
         className={cn(
-          'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 pl-1 pr-[14%] select-none md:pr-[10%]',
+          'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-2 pl-1 pr-[14%] select-none md:pr-[10%]',
           isDragging ? 'cursor-grabbing' : 'cursor-grab'
         )}
         onMouseDown={onMouseDown}

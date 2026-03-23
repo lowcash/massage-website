@@ -70,6 +70,8 @@ export const siteContent = {
   services: {
     heading: 'Jak Vám můžu pomoci?',
     subtitle: 'Široká nabídka masáží pro vaše tělo i mysl',
+    intro:
+      'Nabízím širokou škálu masáží a terapií přizpůsobených vašim individuálním potřebám pro dosažení harmonie těla i mysli.',
     defaultDurationLabel: 'dle dohody',
     items: [
       {
@@ -219,6 +221,7 @@ export const siteContent = {
       'Učitelka zdravotnických předmětů',
       'Lektor v sociální sféře',
     ],
+    closingLine: 'Těším se na Vaši návštěvu.',
   },
   studio: {
     heading: 'Naše studio',
@@ -245,6 +248,7 @@ export const siteContent = {
   calendar: {
     heading: 'Volné termíny',
     subtitle: 'Najděte si termín, který vám vyhovuje',
+    intro: 'Vyberte si termín, který vám vyhovuje, a rezervujte si masáž přes WhatsApp.',
     selectedServiceLabel: 'Vybraná služba',
     unavailableMessage: 'Kalendář není aktuálně dostupný.',
     unavailableHelp: 'Pro rezervaci mě prosím kontaktujte přímo.',
@@ -252,6 +256,8 @@ export const siteContent = {
     dayNames: ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle'],
     whatsappDefaultTemplate: 'Dobrý den, chtěl(a) bych si rezervovat masáž na {date} v čase {time}.',
     whatsappServiceTemplate: 'Dobrý den, mám zájem o: {service}\n\nRezervace na {date} v {time}',
+    flexibilityNote: 'Termíny jsou flexibilní a ráda je přizpůsobím vašim možnostem.',
+    whatsappCta: 'Rezervovat přes WhatsApp',
   },
   contact: {
     heading: 'Kontaktujte mě',

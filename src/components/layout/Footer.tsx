@@ -6,8 +6,10 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className='bg-[#2d1d1a] px-5 py-14 text-[#f6ece9] md:px-8'>
-      <div className='mx-auto flex w-full max-w-6xl flex-col gap-10'>
+    <footer className='bg-[#2d1d1a] text-[#f6ece9]'>
+      <div className='h-20 bg-[linear-gradient(to_bottom,#ecd8d3_0%,#dcc4be_35%,#715451_72%,#2d1d1a_100%)]' />
+
+      <div className='mx-auto flex w-full max-w-6xl flex-col gap-10 px-5 py-14 md:px-8'>
         <div className='grid gap-8 md:grid-cols-3'>
           <div className='flex flex-col gap-3'>
             <p className='font-dancing text-3xl'>{siteContent.brand.name}</p>

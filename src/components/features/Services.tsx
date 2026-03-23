@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
+import { applyCzechNbsp } from '@/lib/utils'
 import { useBooking } from '@/src/contexts/BookingContext'
 import {
   getAnimationConfig,
@@ -57,6 +58,7 @@ export default function Services() {
             id='services-heading'
             title={siteContent.services.heading}
             subtitle={siteContent.services.subtitle}
+            description={siteContent.services.intro}
           />
         </motion.div>
 
@@ -79,7 +81,7 @@ export default function Services() {
                 </div>
 
                 <p className='min-h-28 text-[15px] leading-relaxed text-[#5f4f4b]'>
-                  {service.description}
+                  {applyCzechNbsp(service.description)}
                 </p>
 
                 <div className='mt-auto flex items-center justify-between border-t border-[#ecd8d3] pt-4 text-sm'>

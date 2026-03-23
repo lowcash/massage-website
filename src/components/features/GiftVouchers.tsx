@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 import { siteContent } from '@/lib/content'
+import { applyCzechNbsp } from '@/lib/utils'
 import {
   getAnimationConfig,
   getAnimationConfigWithDelay,
@@ -52,7 +53,7 @@ export default function GiftVouchers() {
             </h3>
 
             <p className='text-[15px] leading-relaxed text-[#5d4c48]'>
-              {siteContent.vouchers.description}
+              {applyCzechNbsp(siteContent.vouchers.description)}
             </p>
 
             <ul className='flex flex-col gap-3 text-[15px] text-[#5d4c48]'>
@@ -61,7 +62,7 @@ export default function GiftVouchers() {
                   <span className='inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#ca6f61] text-xs text-white'>
                     ✓
                   </span>
-                  <span>{benefit}</span>
+                  <span>{applyCzechNbsp(benefit)}</span>
                 </li>
               ))}
             </ul>
@@ -70,7 +71,7 @@ export default function GiftVouchers() {
               href={href}
               target='_blank'
               rel='noopener noreferrer'
-              className='mt-2 inline-flex w-fit rounded-md bg-[#ca6f61] px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition hover:bg-[#b45c4f]'
+              className='mt-2 inline-flex w-full justify-center rounded-md bg-[#ca6f61] px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition hover:bg-[#b45c4f]'
             >
               {siteContent.vouchers.cta}
             </a>
