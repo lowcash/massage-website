@@ -1,7 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import Script from 'next/script'
-import { Dancing_Script } from 'next/font/google'
+import { Cormorant_Garamond, Dancing_Script, DM_Sans } from 'next/font/google'
 
 import { 
   DESCRIPTION, 
@@ -17,6 +17,16 @@ import { BookingProvider } from '@/src/contexts/BookingContext'
 
 const dancingScript = Dancing_Script({
   variable: '--font-dancing',
+  subsets: ['latin'],
+})
+
+const cormorantGaramond = Cormorant_Garamond({
+  variable: '--font-serif-display',
+  subsets: ['latin'],
+})
+
+const dmSans = DM_Sans({
+  variable: '--font-sans-display',
   subsets: ['latin'],
 })
 
@@ -176,7 +186,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body className={`${dancingScript.variable} antialiased min-h-screen`}>
+      <body className={`${dancingScript.variable} ${cormorantGaramond.variable} ${dmSans.variable} antialiased min-h-screen`}>
         <BookingProvider>
           {children}
         </BookingProvider>
