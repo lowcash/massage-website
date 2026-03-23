@@ -30,25 +30,26 @@ body {
   font-family: var(--font-sans-display);
   font-size: 15px;
   line-height: 1.55;
-  scrollbar-width: thin;
-  scrollbar-color: #ca6f61 #f0dfdb;
+  scrollbar-width: none;
   background-color: #f6edeb;
 }
 
-/* Custom scrollbar for webkit browsers */
+html {
+  scrollbar-width: none;
+}
+
+/* Hide native scrollbar globally while keeping scroll enabled */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 0;
+  height: 0;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f0dfdb;
-  border-radius: 8px;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #ca6f61;
-  border-radius: 8px;
-  border: 1px solid #f0dfdb;
+  background: transparent;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -60,6 +61,16 @@ body {
 .no-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+button:not(:disabled),
+[role='button'],
+a {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
 }
 
 @layer components {

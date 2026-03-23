@@ -32,59 +32,26 @@ export default function Navigation() {
   }, [isMobileMenuOpen])
 
   useEffect(() => {
-    const heroElement = document.getElementById('hero')
-
-    if (!heroElement) {
-      const handleScrollFallback = () => {
-        setIsScrolled(window.scrollY > 24)
-      }
-
-      handleScrollFallback()
-      window.addEventListener('scroll', handleScrollFallback, { passive: true })
-
-      return () => {
-        window.removeEventListener('scroll', handleScrollFallback)
-      }
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 18)
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsScrolled(!entry.isIntersecting)
-      },
-      {
-        threshold: 0.2,
-        rootMargin: '-88px 0px 0px 0px',
-      }
-    )
-
-    observer.observe(heroElement)
-
-    const handleScrollSync = () => {
-      const heroBottom = heroElement.getBoundingClientRect().bottom
-      setIsScrolled(heroBottom <= 88)
-    }
-
-    handleScrollSync()
-    window.addEventListener('scroll', handleScrollSync, { passive: true })
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
-      observer.disconnect()
-      window.removeEventListener('scroll', handleScrollSync)
+      window.removeEventListener('scroll', handleScroll)
     }
   }, [])
 
   return (
     <>
-      <motion.header
-        initial={false}
-        animate={{
-          backgroundColor: isScrolled ? 'rgba(246, 237, 235, 0.94)' : 'rgba(0, 0, 0, 0)',
-          backdropFilter: isScrolled ? 'blur(12px)' : 'blur(0px)',
-          boxShadow: isScrolled ? '0 10px 24px rgba(62, 34, 27, 0.09)' : '0 0 0 rgba(0,0,0,0)',
-          borderBottomColor: isScrolled ? 'rgba(214, 178, 169, 0.3)' : 'rgba(255,255,255,0)',
-        }}
-        transition={{ duration: 0.35, ease: 'easeOut' }}
-        className='fixed top-0 right-0 left-0 z-50 border-b'
+      <header
+        className={
+          isScrolled
+            ? 'fixed top-0 right-0 left-0 z-50 bg-[#f6edeb]/88 transition-colors duration-300'
+            : 'fixed top-0 right-0 left-0 z-50 bg-transparent transition-colors duration-300'
+        }
       >
         <nav className='mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5 md:px-8'>
           <button
@@ -93,7 +60,7 @@ export default function Navigation() {
             className={
               isScrolled
                 ? 'font-dancing text-3xl leading-none text-[#5f3b36] transition'
-                : 'font-dancing text-3xl leading-none text-white drop-shadow-md transition'
+                : 'font-dancing text-3xl leading-none text-white transition'
             }
             aria-label={siteContent.navigation.homeAriaLabel}
           >
@@ -108,8 +75,8 @@ export default function Navigation() {
                 onClick={() => handleNavigationClick(item.href)}
                 className={
                   isScrolled
-                    ? 'text-xs tracking-[0.22em] text-[#6e4d48] uppercase transition hover:text-[#b96657]'
-                    : 'text-xs tracking-[0.22em] text-white uppercase transition hover:text-[#ffd8cf]'
+                    ? 'cursor-pointer text-xs tracking-[0.22em] text-[#6e4d48] uppercase transition hover:text-[#b96657]'
+                    : 'cursor-pointer text-xs tracking-[0.22em] text-white uppercase transition hover:text-[#ffe4de]'
                 }
               >
                 {item.label}
@@ -122,15 +89,15 @@ export default function Navigation() {
             onClick={() => setIsMobileMenuOpen(true)}
             className={
               isScrolled
-                ? 'flex h-10 w-10 items-center justify-center rounded-full border border-[#d4b2aa] bg-white/70 text-[#6e4d48] md:hidden'
-                : 'flex h-10 w-10 items-center justify-center rounded-full border border-white/60 bg-white/10 text-white md:hidden'
+                ? 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#d4b2aa] bg-white/70 text-[#6e4d48] md:hidden'
+                : 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/70 bg-white/10 text-white md:hidden'
             }
             aria-label={siteContent.navigation.openMenuAriaLabel}
           >
             <Menu className='h-5 w-5' />
           </button>
         </nav>
-      </motion.header>
+      </header>
 
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -140,7 +107,7 @@ export default function Navigation() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className='fixed inset-0 z-50 bg-black/45'
+              className='fixed inset-0 z-50 cursor-pointer bg-black/55 backdrop-blur-sm'
             />
 
             <motion.aside
@@ -148,7 +115,7 @@ export default function Navigation() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', stiffness: 260, damping: 28 }}
-              className='fixed top-0 right-0 bottom-0 z-50 flex w-[86%] max-w-sm flex-col border-l border-[#e4cfc9] bg-[#f8ede9]/95 px-6 py-6 backdrop-blur-xl'
+              className='fixed top-0 right-0 bottom-0 z-50 flex w-[86%] max-w-sm flex-col border-l border-[#e4cfc9] bg-[#f8ede9]/90 px-6 py-6 backdrop-blur-2xl'
             >
               <div className='mb-10 flex items-center justify-between'>
                 <span className='font-dancing text-3xl text-[#5f3b36]'>
@@ -158,7 +125,7 @@ export default function Navigation() {
                 <button
                   type='button'
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className='flex h-10 w-10 items-center justify-center rounded-full border border-[#d5b6ae] bg-white/70 text-[#6e4d48]'
+                  className='flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#d5b6ae] bg-white/70 text-[#6e4d48]'
                   aria-label={siteContent.navigation.closeMenuAriaLabel}
                 >
                   <X className='h-5 w-5' />
@@ -171,7 +138,7 @@ export default function Navigation() {
                     key={item.id}
                     type='button'
                     onClick={() => handleNavigationClick(item.href)}
-                    className='rounded-2xl border border-[#e5d0cb] bg-white/70 px-5 py-4 text-left text-sm tracking-[0.2em] text-[#5f3b36] uppercase transition hover:bg-white'
+                    className='cursor-pointer rounded-2xl border border-[#e5d0cb] bg-white/70 px-5 py-4 text-left text-sm tracking-[0.2em] text-[#5f3b36] uppercase transition hover:bg-white'
                   >
                     {item.label}
                   </button>

@@ -161,7 +161,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
 
   if (calendarData.length === 0) {
     return (
-      <section id='booking' className='bg-[#f1e3df] px-5 py-20 md:px-8 md:py-28'>
+      <section id='booking' className='bg-[#f1e3df] px-5 py-16 md:px-8 md:py-24'>
         <div className='mx-auto flex w-full max-w-6xl flex-col gap-10'>
           <SectionIntro
             id='booking-heading'
@@ -179,7 +179,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   }
 
   return (
-    <section id='booking' className='bg-[#f1e3df] px-5 py-20 md:px-8 md:py-28'>
+    <section id='booking' className='bg-[#f1e3df] px-5 py-16 md:px-8 md:py-24'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-12'>
         <motion.div {...getAnimationConfig(shouldReduceMotion)}>
           <SectionIntro
@@ -200,19 +200,24 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           </motion.div>
         )}
 
-        <motion.div {...getAnimationConfigWithDelay(shouldReduceMotion, 0.14)} className='mx-auto w-full max-w-5xl'>
-          <PeekCarousel ariaLabel={siteContent.calendar.carouselAriaLabel}>
+        <motion.div {...getAnimationConfigWithDelay(shouldReduceMotion, 0.14)} className='mx-auto w-full max-w-6xl'>
+          <PeekCarousel
+            ariaLabel={siteContent.calendar.carouselAriaLabel}
+            itemClassName='w-[84%] sm:w-[46%] lg:w-[19%]'
+            fadeEdges={true}
+            fadeColor='rgb(241 227 223)'
+          >
             {calendarData.map((dayData) => (
               <article
                 key={`${dayData.day}-${dayData.date}`}
                 className={
                   dayData.isToday
-                    ? 'h-full rounded-xl border-2 border-[#c97b6f] bg-[#fff7f5] p-5 shadow-[0_8px_26px_rgba(201,123,111,0.18)]'
-                    : 'h-full rounded-xl border border-[#e0c7c1] bg-white p-5'
+                    ? 'h-full rounded-xl border-2 border-[#c97b6f] bg-[#fff7f5] p-4 shadow-[0_8px_26px_rgba(201,123,111,0.18)]'
+                    : 'h-full rounded-xl border border-[#e0c7c1] bg-white p-4'
                 }
               >
                 <div className='mb-5 border-b border-[#ecd9d5] pb-4 text-center'>
-                  <h3 className='text-4xl leading-none text-[#412f2b]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+                  <h3 className='text-3xl leading-none text-[#412f2b] lg:text-[2rem]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
                     {dayData.day}
                   </h3>
                   <p className='mt-2 text-sm tracking-[0.14em] text-[#8a6963] uppercase'>{dayData.date}</p>

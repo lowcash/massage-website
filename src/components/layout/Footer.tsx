@@ -7,7 +7,7 @@ export default function Footer() {
 
   return (
     <footer className='bg-[#2d1d1a] text-[#f6ece9]'>
-      <div className='h-20 bg-[linear-gradient(to_bottom,#ecd8d3_0%,#dcc4be_35%,#715451_72%,#2d1d1a_100%)]' />
+      <div className='h-8 bg-[linear-gradient(to_bottom,#ecd8d3_0%,#c9b0ab_55%,#2d1d1a_100%)]' />
 
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-10 px-5 py-14 md:px-8'>
         <div className='grid gap-8 md:grid-cols-3'>

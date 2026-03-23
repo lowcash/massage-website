@@ -13,6 +13,7 @@ interface PeekCarouselProps {
   className?: string
   fadeEdges?: boolean
   fadeColor?: string
+  mobilePeek?: boolean
 }
 
 export default function PeekCarousel({
@@ -22,6 +23,7 @@ export default function PeekCarousel({
   className,
   fadeEdges = false,
   fadeColor,
+  mobilePeek = true,
 }: PeekCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -85,12 +87,12 @@ export default function PeekCarousel({
       {fadeEdges && fadeColor ? (
         <>
           <div
-            className='pointer-events-none absolute top-0 left-0 z-10 h-full w-10 md:w-16'
-            style={{ backgroundImage: `linear-gradient(to right, ${fadeColor}, transparent)` }}
+            className='pointer-events-none absolute top-0 left-0 z-10 h-full w-6 md:w-8'
+            style={{ backgroundImage: `linear-gradient(to right, ${fadeColor} 16%, transparent 100%)` }}
           />
           <div
-            className='pointer-events-none absolute top-0 right-0 z-10 h-full w-10 md:w-16'
-            style={{ backgroundImage: `linear-gradient(to left, ${fadeColor}, transparent)` }}
+            className='pointer-events-none absolute top-0 right-0 z-10 h-full w-6 md:w-8'
+            style={{ backgroundImage: `linear-gradient(to left, ${fadeColor} 16%, transparent 100%)` }}
           />
         </>
       ) : null}
@@ -98,7 +100,9 @@ export default function PeekCarousel({
       <div
         ref={containerRef}
         className={cn(
-          'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-2 pl-1 pr-[14%] select-none md:pr-[10%]',
+          mobilePeek
+            ? 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-2 pl-1 pr-1 select-none md:pr-1'
+            : 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-2 pl-1 pr-1 select-none md:pr-1',
           isDragging ? 'cursor-grabbing' : 'cursor-grab'
         )}
         onMouseDown={onMouseDown}

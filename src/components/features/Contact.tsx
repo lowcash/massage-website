@@ -19,7 +19,7 @@ export default function Contact() {
     'rounded-2xl border border-[#e3ccc7] bg-white p-5 text-[15px] leading-relaxed text-[#5c4b47]'
 
   return (
-    <section id='contact' className='bg-[#ecd8d3] px-5 py-20 md:px-8 md:py-28'>
+    <section id='contact' className='bg-[#ecd8d3] px-5 py-16 md:px-8 md:py-24'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
         <motion.div {...getAnimationConfig(shouldReduceMotion)}>
           <SectionIntro

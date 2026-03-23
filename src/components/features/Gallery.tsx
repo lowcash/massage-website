@@ -28,6 +28,23 @@ export default function Gallery() {
       return
     }
 
+    const previousBodyOverflow = document.body.style.overflow
+    const previousHtmlOverflow = document.documentElement.style.overflow
+
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow
+      document.documentElement.style.overflow = previousHtmlOverflow
+    }
+  }, [activeImageIndex])
+
+  useEffect(() => {
+    if (activeImageIndex === null) {
+      return
+    }
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setActiveImageIndex(null)
@@ -82,7 +99,7 @@ export default function Gallery() {
   }
 
   return (
-    <section id='studio' className='bg-[#f1e3df] px-5 py-20 md:px-8 md:py-28'>
+    <section id='studio' className='bg-[#f1e3df] px-5 py-16 md:px-8 md:py-24'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
         <motion.div {...getAnimationConfig(shouldReduceMotion)}>
           <SectionIntro
@@ -92,9 +109,11 @@ export default function Gallery() {
           />
         </motion.div>
 
-        <motion.div {...getAnimationConfigWithDelay(shouldReduceMotion, 0.1)}>
+        <motion.div {...getAnimationConfigWithDelay(shouldReduceMotion, 0.1)} className='lg:hidden'>
           <PeekCarousel
             ariaLabel={siteContent.studio.carouselAriaLabel}
+            mobilePeek={false}
+            itemClassName='w-full sm:w-[46%]'
             fadeEdges
             fadeColor='#f1e3df'
           >
@@ -103,7 +122,7 @@ export default function Gallery() {
                 key={image.id}
                 type='button'
                 onClick={() => setActiveImageIndex(index)}
-                className='w-full overflow-hidden rounded-xl border border-[#e0c5bf] bg-white text-left shadow-sm'
+                className='w-full cursor-pointer overflow-hidden rounded-xl border border-[#e0c5bf] bg-white text-left shadow-sm'
                 aria-label={`Zobrazit fotografii: ${image.alt}`}
               >
                 <div className='relative aspect-4/3 w-full'>
@@ -112,12 +131,37 @@ export default function Gallery() {
                     alt={image.alt}
                     fill
                     className='object-cover transition duration-300 hover:scale-[1.02]'
-                    sizes='(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 84vw'
+                    sizes='(min-width: 1024px) 35vw, (min-width: 640px) 46vw, 84vw'
                   />
                 </div>
               </button>
             ))}
           </PeekCarousel>
+        </motion.div>
+
+        <motion.div
+          {...getAnimationConfigWithDelay(shouldReduceMotion, 0.1)}
+          className='hidden grid-cols-3 gap-4 lg:grid'
+        >
+          {siteContent.studio.images.map((image, index) => (
+            <button
+              key={image.id}
+              type='button'
+              onClick={() => setActiveImageIndex(index)}
+              className='w-full cursor-pointer overflow-hidden rounded-xl border border-[#e0c5bf] bg-white text-left shadow-sm'
+              aria-label={`Zobrazit fotografii: ${image.alt}`}
+            >
+              <div className='relative aspect-4/3 w-full'>
+                <Image
+                  src={studioImages[index]}
+                  alt={image.alt}
+                  fill
+                  className='object-cover transition duration-300 hover:scale-[1.02]'
+                  sizes='(min-width: 1024px) 31vw, 100vw'
+                />
+              </div>
+            </button>
+          ))}
         </motion.div>
       </div>
 
@@ -127,7 +171,7 @@ export default function Gallery() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className='fixed inset-0 z-[70] flex items-center justify-center bg-black/75 p-4 md:p-8'
+            className='fixed inset-0 z-70 flex cursor-default items-center justify-center bg-black/70 p-4 backdrop-blur-md md:p-8'
             onClick={() => setActiveImageIndex(null)}
           >
             <motion.div
@@ -135,7 +179,7 @@ export default function Gallery() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98, y: 12 }}
               transition={{ duration: 0.24, ease: 'easeOut' }}
-              className='relative flex w-full max-w-5xl items-center justify-center'
+              className='relative flex w-full max-w-5xl cursor-default items-center justify-center'
               onClick={(event) => event.stopPropagation()}
             >
               <button
@@ -157,13 +201,14 @@ export default function Gallery() {
               </button>
 
               <div className='relative w-full overflow-hidden rounded-2xl'>
-                <div className='relative aspect-[4/3] w-full max-h-[82vh]'>
+                <div className='relative aspect-4/3 w-full max-h-[82vh]'>
                   <Image
                     src={studioImages[activeImageIndex]}
                     alt={siteContent.studio.images[activeImageIndex].alt}
                     fill
+                    quality={90}
                     className='object-contain'
-                    sizes='90vw'
+                    sizes='(min-width: 1280px) 1200px, 92vw'
                     priority
                   />
                 </div>

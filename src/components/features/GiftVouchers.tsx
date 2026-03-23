@@ -32,14 +32,14 @@ export default function GiftVouchers() {
         <div className='grid gap-0 overflow-hidden rounded-2xl border border-[#e1c1ba] bg-white shadow-[0_14px_40px_rgba(91,58,50,0.08)] md:grid-cols-2'>
           <motion.div
             {...getAnimationConfigWithDelay(shouldReduceMotion, 0.05)}
-            className='relative min-h-72 bg-linear-to-br from-[#e4b5ac] to-[#c97b6f] p-10'
+            className='relative min-h-72 bg-[#f1ddd7] p-10'
           >
-            <div className='absolute inset-8 rounded-xl border border-white/35' />
+            <div className='absolute inset-8 rounded-xl border border-white/50' />
             <Image
               src={giftVoucherImage}
               alt={siteContent.vouchers.imageAlt}
               fill
-              className='object-cover opacity-30 mix-blend-overlay'
+              className='object-cover opacity-55'
               sizes='(min-width: 768px) 50vw, 100vw'
             />
           </motion.div>

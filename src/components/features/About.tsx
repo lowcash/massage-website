@@ -18,7 +18,7 @@ export default function About() {
   const shouldReduceMotion = useReducedMotion()
 
   return (
-    <section id='about' className='bg-[#f6edeb] px-5 py-20 md:px-8 md:py-28'>
+    <section id='about' className='bg-[#f6edeb] px-5 py-16 md:px-8 md:py-24'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
         <motion.div {...getAnimationConfig(shouldReduceMotion)}>
           <SectionIntro
@@ -28,10 +28,10 @@ export default function About() {
           />
         </motion.div>
 
-        <div className='grid items-start gap-7 rounded-2xl border border-[#e6d1cb] bg-white p-6 shadow-[0_20px_45px_rgba(90,60,53,0.1)] md:grid-cols-[0.88fr_1.12fr] md:p-10'>
+        <div className='grid items-start gap-7 rounded-2xl border border-[#e6d1cb] bg-white p-6 shadow-[0_20px_45px_rgba(90,60,53,0.1)] md:grid-cols-2 md:items-stretch md:p-10'>
           <motion.div
             {...getAnimationConfigWithDelay(shouldReduceMotion, 0.2)}
-            className='order-2 flex flex-col gap-7 md:order-2'
+            className='order-2 flex h-full flex-col gap-7 md:order-2'
           >
             <div className='flex flex-col gap-1'>
               <h3 className='text-[2rem] text-[#2f2523]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
@@ -75,19 +75,15 @@ export default function About() {
 
           <motion.div
             {...getAnimationConfigWithDelay(shouldReduceMotion, 0.3)}
-            className='order-1 self-start md:order-1'
+            className='order-1 md:order-1 md:h-full'
           >
-            <div className='overflow-hidden rounded-2xl bg-[#efe6e3]'>
+            <div className='overflow-hidden rounded-2xl bg-[#efe6e3] md:h-full'>
               <Image
                 src={profileImage}
                 alt={siteContent.brand.therapistName}
-                className='h-auto w-full object-cover object-top'
+                className='h-full w-full object-cover object-top'
                 priority={false}
               />
-
-              <div className='bg-[#f3e5e1] px-5 py-4 text-sm tracking-[0.12em] text-[#7a625d] uppercase'>
-                {siteContent.brand.therapistName}
-              </div>
             </div>
           </motion.div>
         </div>

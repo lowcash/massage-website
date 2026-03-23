@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ChevronUp } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
@@ -26,28 +26,24 @@ export default function ScrollToTop() {
   }
 
   return (
-    <div className='pointer-events-none fixed right-4 bottom-6 z-40 md:right-8 md:bottom-8'>
+    <div className='pointer-events-none fixed right-5 bottom-6 z-40 md:right-8'>
       <div className='relative'>
-        <AnimatePresence>
-          {isVisible && (
-            <motion.button
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.5, opacity: 0 }}
-              transition={{
-                type: 'spring',
-                stiffness: 260,
-                damping: 20,
-              }}
-              onClick={scrollToTop}
-              className='pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#ca6f61] text-white shadow-lg transition hover:scale-105 hover:bg-[#b55d50]'
-              style={{ marginBottom: 'env(safe-area-inset-bottom)' }}
-              aria-label={siteContent.floatingButtons.scrollTopLabel}
-            >
-              <ChevronUp className='h-6 w-6' />
-            </motion.button>
-          )}
-        </AnimatePresence>
+        <motion.button
+          initial={false}
+          animate={{
+            opacity: isVisible ? 1 : 0,
+            scale: isVisible ? 1 : 0.88,
+            y: isVisible ? 0 : 10,
+          }}
+          transition={{ duration: 0.28, ease: 'easeOut' }}
+          onClick={scrollToTop}
+          className='pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full bg-[#ca6f61] text-white shadow-lg transition hover:scale-105 hover:bg-[#b55d50]'
+          style={{ marginBottom: 'env(safe-area-inset-bottom)' }}
+          aria-label={siteContent.floatingButtons.scrollTopLabel}
+          tabIndex={isVisible ? 0 : -1}
+        >
+          <ChevronUp className='h-5 w-5' />
+        </motion.button>
       </div>
     </div>
   )

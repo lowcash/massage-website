@@ -51,7 +51,7 @@ export default function Services() {
   }
 
   return (
-    <section id='services' className='bg-[#f6edeb] px-5 py-20 md:px-8 md:py-28'>
+    <section id='services' className='bg-[#f6edeb] px-5 py-16 md:px-8 md:py-24'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
         <motion.div {...getAnimationConfig(shouldReduceMotion)}>
           <SectionIntro
@@ -62,14 +62,26 @@ export default function Services() {
           />
         </motion.div>
 
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4'>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           {siteContent.services.items.map((service, index) => {
             const Icon = iconMap[service.icon]
+            const animation = getAnimationConfigWithDelay(shouldReduceMotion, (index + 1) * 0.1)
 
             return (
               <motion.div
                 key={service.name}
-                {...getAnimationConfigWithDelay(shouldReduceMotion, (index + 1) * 0.1)}
+                initial={shouldReduceMotion ? animation.initial : { opacity: 0, y: 14 }}
+                whileInView={animation.whileInView}
+                viewport={animation.viewport}
+                transition={
+                  shouldReduceMotion
+                    ? animation.transition
+                    : {
+                        duration: 0.75,
+                        delay: (index + 1) * 0.09,
+                        ease: [0.22, 1, 0.36, 1],
+                      }
+                }
                 className='flex h-full cursor-pointer flex-col rounded-2xl border border-[#e7d0cb] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_35px_rgba(113,73,65,0.12)]'
                 onClick={() => handleServiceClick(service.name)}
               >
