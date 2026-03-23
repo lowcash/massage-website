@@ -85,15 +85,15 @@ export default function Navigation() {
             onClick={() => handleNavigationClick('#hero')}
             className={
               isScrolled
-                ? 'font-dancing text-3xl leading-none text-[#5f3b36] transition'
-                : 'font-dancing text-3xl leading-none text-white transition'
+                ? 'font-dancing text-[1.9rem] leading-none text-[#5f3b36] transition sm:text-3xl'
+                : 'font-dancing text-[1.9rem] leading-none text-white transition sm:text-3xl'
             }
             aria-label={siteContent.navigation.homeAriaLabel}
           >
             {applyCzechNbsp(siteContent.brand.name)}
           </button>
 
-          <div className='hidden items-center gap-5 md:flex lg:gap-8'>
+          <div className='hidden items-center gap-5 xl:flex xl:gap-7'>
             {siteContent.navigation.items.map((item) => (
               <button
                 key={item.id}
@@ -102,8 +102,8 @@ export default function Navigation() {
                 aria-current={activeSection === item.href.replace('#', '') ? 'page' : undefined}
                 className={
                   isScrolled
-                    ? `cursor-pointer text-xs tracking-[0.22em] uppercase transition hover:text-[#b96657] ${activeSection === item.href.replace('#', '') ? 'text-[#b96657]' : 'text-[#6e4d48]'}`
-                    : `cursor-pointer text-xs tracking-[0.22em] uppercase transition hover:text-[#ffe4de] ${activeSection === item.href.replace('#', '') ? 'text-[#ffe4de]' : 'text-white'}`
+                    ? `cursor-pointer text-[11px] tracking-[0.2em] uppercase transition hover:text-[#b96657] ${activeSection === item.href.replace('#', '') ? 'text-[#b96657]' : 'text-[#6e4d48]'}`
+                    : `cursor-pointer text-[11px] tracking-[0.2em] uppercase transition hover:text-[#ffe4de] ${activeSection === item.href.replace('#', '') ? 'text-[#ffe4de]' : 'text-white'}`
                 }
               >
                 {item.label}
@@ -116,8 +116,8 @@ export default function Navigation() {
             onClick={() => setIsMobileMenuOpen(true)}
             className={
               isScrolled
-                ? 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#d4b2aa] bg-white/70 text-[#6e4d48] md:hidden'
-                : 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/70 bg-white/10 text-white md:hidden'
+                ? 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#d4b2aa] bg-white/70 text-[#6e4d48] xl:hidden'
+                : 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/70 bg-white/10 text-white xl:hidden'
             }
             aria-label={siteContent.navigation.openMenuAriaLabel}
           >
@@ -142,67 +142,69 @@ export default function Navigation() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', stiffness: 260, damping: 28 }}
-              className='fixed top-0 right-0 bottom-0 z-50 flex w-[86%] max-w-sm flex-col border-l border-[#e4cfc9] bg-[#f8ede9]/90 px-6 py-6 backdrop-blur-2xl'
+              className='fixed top-0 right-0 bottom-0 z-50 flex h-dvh w-[92%] max-w-sm flex-col border-l border-[#e4cfc9] bg-[#f8ede9]/92 px-4 py-4 backdrop-blur-2xl sm:px-6 sm:py-6'
             >
-              <div className='mb-10 flex items-center'>
-                <span className='font-dancing text-3xl text-[#5f3b36]'>
+              <div className='mb-6 flex shrink-0 items-center pr-14 sm:mb-8'>
+                <span className='font-dancing text-[1.85rem] leading-none text-[#5f3b36] sm:text-3xl'>
                   {applyCzechNbsp(siteContent.brand.name)}
                 </span>
 
                 <button
                   type='button'
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className='fixed top-5 right-5 z-60 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#d5b6ae] bg-white/70 text-[#6e4d48]'
+                  className='absolute top-4 right-4 z-60 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#d5b6ae] bg-white/70 text-[#6e4d48] sm:top-5 sm:right-5'
                   aria-label={siteContent.navigation.closeMenuAriaLabel}
                 >
                   <X className='h-5 w-5' />
                 </button>
               </div>
 
-              <div className='flex flex-col gap-3'>
-                {siteContent.navigation.items.map((item) => (
-                  <button
-                    key={item.id}
-                    type='button'
-                    onClick={() => handleNavigationClick(item.href)}
-                    aria-current={activeSection === item.href.replace('#', '') ? 'page' : undefined}
-                    className={`cursor-pointer rounded-2xl border bg-white/70 px-5 py-4 text-left text-sm tracking-[0.2em] uppercase transition hover:bg-white ${activeSection === item.href.replace('#', '') ? 'border-[#d8b1a8] bg-[#fff8f6] text-[#be675a]' : 'border-[#e5d0cb] text-[#5f3b36]'}`}
+              <div className='flex-1 overflow-y-auto overscroll-contain pb-[max(1rem,env(safe-area-inset-bottom))] pr-1'>
+                <div className='flex flex-col gap-2.5 sm:gap-3'>
+                  {siteContent.navigation.items.map((item) => (
+                    <button
+                      key={item.id}
+                      type='button'
+                      onClick={() => handleNavigationClick(item.href)}
+                      aria-current={activeSection === item.href.replace('#', '') ? 'page' : undefined}
+                      className={`cursor-pointer rounded-2xl border bg-white/70 px-4 py-3 text-left text-[13px] tracking-[0.16em] uppercase transition hover:bg-white sm:px-5 sm:py-4 sm:text-sm sm:tracking-[0.2em] ${activeSection === item.href.replace('#', '') ? 'border-[#d8b1a8] bg-[#fff8f6] text-[#be675a]' : 'border-[#e5d0cb] text-[#5f3b36]'}`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className='mt-5 grid gap-2.5 text-sm text-[#6b5551] sm:mt-6 sm:gap-3'>
+                  <a
+                    href={`tel:+${siteContent.brand.phoneDigits}`}
+                    className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
                   >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
+                    <Phone className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
+                    <span className='leading-snug'>{siteContent.brand.phone}</span>
+                  </a>
 
-              <div className='mt-auto grid gap-3 text-sm text-[#6b5551]'>
-                <a
-                  href={`tel:+${siteContent.brand.phoneDigits}`}
-                  className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-3 transition hover:border-[#d8b6af] hover:bg-[#fff8f6]'
-                >
-                  <Phone className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
-                  <span className='leading-snug'>{siteContent.brand.phone}</span>
-                </a>
+                  <a
+                    href={`mailto:${siteContent.brand.email}`}
+                    className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
+                  >
+                    <Mail className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
+                    <span className='leading-snug'>{siteContent.brand.email}</span>
+                  </a>
 
-                <a
-                  href={`mailto:${siteContent.brand.email}`}
-                  className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-3 transition hover:border-[#d8b6af] hover:bg-[#fff8f6]'
-                >
-                  <Mail className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
-                  <span className='leading-snug'>{siteContent.brand.email}</span>
-                </a>
-
-                <a
-                  href={siteContent.brand.mapsLink}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-3 transition hover:border-[#d8b6af] hover:bg-[#fff8f6]'
-                >
-                  <MapPin className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
-                  <span className='leading-snug'>
-                    {siteContent.brand.addressLine1}
-                    <br />
-                    {siteContent.brand.addressLine2}
-                  </span>
-                </a>
+                  <a
+                    href={siteContent.brand.mapsLink}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
+                  >
+                    <MapPin className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
+                    <span className='leading-snug'>
+                      {siteContent.brand.addressLine1}
+                      <br />
+                      {siteContent.brand.addressLine2}
+                    </span>
+                  </a>
+                </div>
               </div>
             </motion.aside>
           </>

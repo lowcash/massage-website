@@ -10,13 +10,25 @@ export default function Footer() {
   return (
     <footer className='bg-[#2d1d1a] text-[#f6ece9]'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-10 px-5 py-14 md:px-8'>
-        <div className='grid gap-8 md:grid-cols-3'>
+        <div className='grid gap-8 md:grid-cols-2 lg:grid-cols-4'>
           <div className='flex flex-col gap-3'>
             <p className='font-dancing text-3xl'>{brandName}</p>
             <p className='text-[15px] text-[#e4d4d0]'>{applyCzechNbsp(siteContent.footer.description)}</p>
             <p className='text-sm text-[#cdb8b3]'>
               © {currentYear} {brandName}. {applyCzechNbsp(siteContent.footer.rights)}
             </p>
+          </div>
+
+          <div className='flex flex-col gap-3 text-[15px] text-[#ddc8c3]'>
+            <h3 className='font-dancing text-2xl text-[#f8e9e5]'>Rychlé odkazy</h3>
+            <a href='#hero' className='cursor-pointer transition hover:text-white'>
+              Úvod
+            </a>
+            {siteContent.navigation.items.map((item) => (
+              <a key={item.id} href={item.href} className='cursor-pointer transition hover:text-white'>
+                {item.label}
+              </a>
+            ))}
           </div>
 
           <div className='flex flex-col gap-3'>

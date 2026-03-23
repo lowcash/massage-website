@@ -99,12 +99,15 @@ export default function Hero() {
         <motion.button
           type='button'
           onClick={scrollToBooking}
-          className='absolute bottom-8 left-1/2 z-20 -translate-x-1/2 text-white/85'
+          className='absolute bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-1.5 rounded-full px-3 py-2 text-white/90'
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
           aria-label={siteContent.hero.scrollIndicatorAriaLabel}
         >
-          <ChevronDown className='h-7 w-7' />
+          <span className='text-[10px] tracking-[0.24em] text-white/80 uppercase'>Posunout</span>
+          <span className='flex h-9 w-9 items-center justify-center rounded-full border border-white/35 bg-black/25'>
+            <ChevronDown className='h-6 w-6' />
+          </span>
         </motion.button>
       )}
     </section>
