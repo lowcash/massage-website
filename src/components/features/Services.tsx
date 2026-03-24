@@ -82,10 +82,10 @@ export default function Services() {
                 className='flex h-full cursor-pointer flex-col rounded-2xl border border-[#e7d0cb] bg-white p-6 transition-shadow duration-300 hover:shadow-[0_16px_35px_rgba(113,73,65,0.12)]'
                 onClick={() => handleServiceClick(service.name)}
               >
-                <div className='mb-4 flex items-center gap-3'>
-                  <Icon className='h-4 w-4 text-[#ca6f61]' />
+                <div className='mb-4 flex items-start gap-3'>
+                  <Icon className='mt-0.5 h-[18px] w-[18px] shrink-0 text-[#ca6f61]' />
                   <h3
-                    className='text-[1.45rem] leading-tight text-[#342a28]'
+                    className='text-[1.45rem] leading-[1.2] text-[#342a28]'
                     style={{ fontFamily: 'Cormorant Garamond, serif' }}
                   >
                     {applyCzechNbsp(service.name)}
