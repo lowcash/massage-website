@@ -12,6 +12,6 @@ export const signOut = authActionClient.action(async () => {
     path: '/',
     httpOnly: true,
     secure: true,
-    sameSite: 'strict'
+    sameSite: 'strict',
   })
 })

@@ -1,14 +1,17 @@
-import { useCallback, useState, useEffect } from 'react'
-import { CalendarItem } from '@/types/calendar'
+'use client'
+
+import { useCallback, useEffect, useState } from 'react'
+
 import { updateCalendar } from '@/app/actions/calendar'
-import { sortCalendarList, combineDateTime, isDateTimeInFuture, filterFutureCalendarItems } from '../utils/calendar'
+import type { CalendarItem } from '@/types/calendar'
+
+import { combineDateTime, filterFutureCalendarItems, isDateTimeInFuture, sortCalendarList } from '../utils/calendar'
 
 export function useCalendarManager(initialData: CalendarItem[]) {
   const [list, setList] = useState<CalendarItem[]>(sortCalendarList(initialData))
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  // Ensure list is always sorted when initialData changes
   useEffect(() => {
     setList(sortCalendarList(initialData))
   }, [initialData])
@@ -16,10 +19,11 @@ export function useCalendarManager(initialData: CalendarItem[]) {
   const handleAdd = useCallback(
     async (dateStr: string, timeStr: string) => {
       const selected = combineDateTime(dateStr, timeStr)
-      if (!selected || !isDateTimeInFuture(selected)) return
+      if (!selected || !isDateTimeInFuture(selected)) {
+        return
+      }
 
       if (!list.some((dt) => dt.date.getTime() === selected.getTime())) {
-        // Přidat nový termín a smazat staré termíny
         const updatedList = [...list, { date: selected, reserved: false }]
         const futureList = filterFutureCalendarItems(updatedList)
         const newList = sortCalendarList(futureList)
@@ -30,8 +34,10 @@ export function useCalendarManager(initialData: CalendarItem[]) {
         } finally {
           setIsLoading(false)
         }
+
         return { success: true, date: selected }
       }
+
       return { success: false }
     },
     [list],
@@ -51,12 +57,15 @@ export function useCalendarManager(initialData: CalendarItem[]) {
         setIsLoading(false)
       }
     }
+
     return { success: false }
   }, [selectedIndex, list])
 
   const handleToggleReserved = useCallback(
     async (idx: number) => {
-      const newList = sortCalendarList(list.map((item, i) => (i === idx ? { ...item, reserved: !item.reserved } : item)))
+      const newList = sortCalendarList(
+        list.map((item, i) => (i === idx ? { ...item, reserved: !item.reserved } : item)),
+      )
       setList(newList)
       setIsLoading(true)
       try {
@@ -70,26 +79,28 @@ export function useCalendarManager(initialData: CalendarItem[]) {
 
   const handleUpdate = useCallback(
     async (dateStr: string, timeStr: string) => {
-      if (selectedIndex === null) return { success: false }
+      if (selectedIndex === null) {
+        return { success: false }
+      }
 
       const newDate = combineDateTime(dateStr, timeStr)
-      if (!newDate) return { success: false }
+      if (!newDate) {
+        return { success: false }
+      }
 
-      // Check if new date/time conflicts with existing items (excluding the one being updated)
       if (list.some((item, idx) => idx !== selectedIndex && item.date.getTime() === newDate.getTime())) {
         return { success: false, conflict: true }
       }
 
       const oldItem = list[selectedIndex]
-      const newList = list.map((item, idx) =>
-        idx === selectedIndex ? { ...item, date: newDate } : item
-      )
+      const newList = list.map((item, idx) => (idx === selectedIndex ? { ...item, date: newDate } : item))
       const sortedList = sortCalendarList(newList)
       setList(sortedList)
-      
-      // Find new index after sorting
-      const newIndex = sortedList.findIndex(item => item.date.getTime() === newDate.getTime() && item.reserved === oldItem.reserved)
-      
+
+      const newIndex = sortedList.findIndex(
+        (item) => item.date.getTime() === newDate.getTime() && item.reserved === oldItem.reserved,
+      )
+
       setIsLoading(true)
       try {
         await updateCalendar(sortedList)

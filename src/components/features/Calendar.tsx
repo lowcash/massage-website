@@ -1,5 +1,3 @@
-'use client'
-
 import BookingCalendar from './BookingCalendar'
 
 export interface CalendarSlot {

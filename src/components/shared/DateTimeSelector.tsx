@@ -25,8 +25,16 @@ interface DateTimeSelectorProps {
 }
 
 export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
-  const { list, selectedIndex, setSelectedIndex, isLoading, handleAdd, handleRemove, handleToggleReserved, handleUpdate } =
-    useCalendarManager(data)
+  const {
+    list,
+    selectedIndex,
+    setSelectedIndex,
+    isLoading,
+    handleAdd,
+    handleRemove,
+    handleToggleReserved,
+    handleUpdate,
+  } = useCalendarManager(data)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   const handleAddWithToast = async (dateStr: string, timeStr: string) => {
@@ -69,36 +77,50 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
   const selectedItem = selectedIndex !== null ? list[selectedIndex] : null
 
   return (
-    <div className='flex h-full w-full flex-col gap-4 rounded-lg border bg-white/90 backdrop-blur-sm p-6 shadow-lg overflow-hidden'>
+    <div className='flex h-full w-full flex-col gap-4 overflow-hidden rounded-lg border bg-white/90 p-6 shadow-lg backdrop-blur-sm'>
       {/* Action buttons - sticky header */}
       {selectedIndex !== null && (
-        <div className='flex gap-2 pb-4 border-b border-zinc-200 shrink-0'>
-          <Button 
-            onClick={() => setShowDeleteDialog(true)} 
-            disabled={isLoading} 
-            variant='destructive' 
+        <div className='flex shrink-0 gap-2 border-b border-zinc-200 pb-4'>
+          <Button
+            onClick={() => setShowDeleteDialog(true)}
+            disabled={isLoading}
+            variant='destructive'
             className='flex-1 gap-2'
           >
             <Trash2 className='h-4 w-4' />
             Smazat vybraný termín
           </Button>
-          <Button onClick={() => {
-            setSelectedIndex(null)
-          }} variant='outline' className='flex-1'>
+          <Button
+            onClick={() => {
+              setSelectedIndex(null)
+            }}
+            variant='outline'
+            className='flex-1'
+          >
             Zrušit výběr
           </Button>
         </div>
       )}
 
       {/* Form section */}
-      <div className='space-y-4 shrink-0'>
+      <div className='shrink-0 space-y-4'>
         <h2 className='text-lg font-semibold text-zinc-900'>Správa dostupných termínů</h2>
-        <CalendarForm onAdd={handleAddWithToast} onUpdate={handleUpdateWithToast} isLoading={isLoading} selectedDate={selectedDate} />
+        <CalendarForm
+          onAdd={handleAddWithToast}
+          onUpdate={handleUpdateWithToast}
+          isLoading={isLoading}
+          selectedDate={selectedDate}
+        />
       </div>
 
       {/* Scrollable calendar list */}
-      <div className='flex-1 overflow-hidden flex flex-col min-h-0'>
-        <CalendarList items={list} selectedIndex={selectedIndex} onSelect={setSelectedIndex} onToggleReserved={handleToggleReserved} />
+      <div className='flex min-h-0 flex-1 flex-col overflow-hidden'>
+        <CalendarList
+          items={list}
+          selectedIndex={selectedIndex}
+          onSelect={setSelectedIndex}
+          onToggleReserved={handleToggleReserved}
+        />
       </div>
 
       {/* Delete confirmation dialog */}
@@ -108,14 +130,12 @@ export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
             <AlertDialogTitle>Opravdu chcete smazat tento termín?</AlertDialogTitle>
             <AlertDialogDescription>
               {selectedItem && (
-                <span className='block mt-2 font-semibold text-zinc-900'>
+                <span className='mt-2 block font-semibold text-zinc-900'>
                   {formatDateTime(selectedItem.date)}
                   {selectedItem.reserved && <span className='ml-2 text-red-600'>(Rezervováno)</span>}
                 </span>
               )}
-              <span className='block mt-2'>
-                Tato akce je nevratná. Termín bude trvale odstraněn z databáze.
-              </span>
+              <span className='mt-2 block'>Tato akce je nevratná. Termín bude trvale odstraněn z databáze.</span>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

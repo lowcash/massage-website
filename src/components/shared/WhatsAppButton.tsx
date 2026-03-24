@@ -1,47 +1,66 @@
 'use client'
 
-import { motion } from 'framer-motion';
-import { MessageCircle } from 'lucide-react';
-import { useState } from 'react';
-import { useBooking } from '@/src/contexts/BookingContext';
+import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import { MessageCircle } from 'lucide-react'
+
+import { siteContent } from '@/lib/content'
+import { useBooking } from '@/src/contexts/BookingContext'
 
 export default function WhatsAppButton() {
-  const [showTooltip, setShowTooltip] = useState(false);
-  const { selectedService } = useBooking();
+  const { selectedService } = useBooking()
+  const [isFooterVisible, setIsFooterVisible] = useState(false)
 
-  // Prepare WhatsApp message with selected service
-  const getWhatsAppUrl = () => {
-    const phoneNumber = '420605579643';
-    let message = 'Dobrý den, chtěl(a) bych se informovat o masáži.\n\nMoje jméno: [Vyplňte prosím]\nTelefon: [Vyplňte prosím]';
-    
-    if (selectedService) {
-      message = `Dobrý den, mám zájem o: ${selectedService}\n\nMoje jméno: [Vyplňte prosím]\nTelefon: [Vyplňte prosím]`;
+  useEffect(() => {
+    const footerElement = document.querySelector('footer')
+
+    if (!footerElement) {
+      return
     }
-    
-    return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-  };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFooterVisible(entry.isIntersecting)
+      },
+      {
+        threshold: 0.02,
+      },
+    )
+
+    observer.observe(footerElement)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
+
+  const getWhatsAppUrl = () => {
+    let message = siteContent.floatingButtons.whatsappDefaultMessage
+
+    if (selectedService) {
+      message = siteContent.floatingButtons.whatsappSelectedServiceMessage.replace('{service}', selectedService)
+    }
+
+    return `https://wa.me/${siteContent.brand.phoneDigits}?text=${encodeURIComponent(message)}`
+  }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 pointer-events-none">
-      <div className="relative mx-auto px-6 md:px-16 max-w-7xl h-0">
+    <div
+      className={`pointer-events-none fixed inset-x-0 bottom-6 z-40 transition-opacity duration-250 ${isFooterVisible ? 'opacity-0' : 'opacity-100'}`}
+    >
+      <div className='mx-auto flex w-full max-w-6xl items-center px-5 md:px-8'>
         <motion.a
           href={getWhatsAppUrl()}
-          target="_blank"
-          rel="noopener noreferrer"
+          target='_blank'
+          rel='noopener noreferrer'
           initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ 
-            opacity: 1, 
-            scale: 1,
-          }}
+          animate={{ opacity: isFooterVisible ? 0 : 1, scale: isFooterVisible ? 0.88 : 1 }}
           exit={{ opacity: 0, scale: 0.5 }}
-          transition={{ delay: 1 }}
-          onMouseEnter={() => setShowTooltip(true)}
-          onMouseLeave={() => setShowTooltip(false)}
-          className="pointer-events-auto absolute bottom-8 left-4 sm:bottom-10 p-3 sm:p-4 bg-[#de397e] text-white rounded-full shadow-lg transition-all hover:scale-110 hover:shadow-[0_10px_30px_rgba(222,57,126,0.4)]"
+          transition={{ delay: 1, duration: 0.22 }}
+          className={`pointer-events-auto relative flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition hover:scale-105 ${isFooterVisible ? 'pointer-events-none' : ''}`}
           style={{ marginBottom: 'env(safe-area-inset-bottom)' }}
-          aria-label="Kontaktujte nás na WhatsApp"
+          aria-label={siteContent.floatingButtons.whatsappAriaLabel}
         >
-          {/* Pulse animation ring */}
           <motion.div
             animate={{
               scale: [1, 1.4, 1],
@@ -52,21 +71,12 @@ export default function WhatsAppButton() {
               repeat: Infinity,
               ease: 'easeInOut',
             }}
-            className="absolute inset-0 bg-[#de397e] rounded-full"
+            className='absolute inset-0 rounded-full bg-[#25D366]'
           />
-          
-          <MessageCircle className="w-6 h-6 relative z-10" />
-          {showTooltip && (
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="absolute left-full ml-4 top-1/2 -translate-y-1/2 bg-[#2c2c2c]/90 text-white px-4 py-2 rounded-lg text-sm whitespace-nowrap"
-            >
-              Napište nám na WhatsApp
-            </motion.div>
-          )}
+
+          <MessageCircle className='relative z-10 h-5 w-5' />
         </motion.a>
       </div>
     </div>
-  );
+  )
 }

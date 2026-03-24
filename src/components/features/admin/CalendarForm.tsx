@@ -16,7 +16,7 @@ export function CalendarForm({ onAdd, onUpdate, isLoading, selectedDate }: Calen
   const now = new Date()
   const [date, setDate] = useState(getDefaultDateString(now))
   const [time, setTime] = useState(getDefaultTimeString(now))
-  
+
   // Update form when calendar item is selected
   useEffect(() => {
     if (selectedDate) {
