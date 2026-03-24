@@ -26,11 +26,11 @@ export default function PeekCarousel({
   mobilePeek = true,
 }: PeekCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const dragStartXRef = useRef(0)
+  const dragStartScrollLeftRef = useRef(0)
   const [isDragging, setIsDragging] = useState(false)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(false)
-  const [startX, setStartX] = useState(0)
-  const [startScrollLeft, setStartScrollLeft] = useState(0)
 
   const getItemOffsets = (el: HTMLDivElement) => {
     return Array.from(el.children)
@@ -98,27 +98,40 @@ export default function PeekCarousel({
     el.scrollTo({ left: target, behavior: 'smooth' })
   }
 
-  const onMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+  const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType !== 'mouse' || event.button !== 0) {
+      return
+    }
+
     const el = containerRef.current
     if (!el) {
       return
     }
 
     setIsDragging(true)
-    setStartX(event.clientX)
-    setStartScrollLeft(el.scrollLeft)
+    dragStartXRef.current = event.clientX
+    dragStartScrollLeftRef.current = el.scrollLeft
+    event.currentTarget.setPointerCapture(event.pointerId)
   }
 
-  const onMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!isDragging || !containerRef.current) {
+  const onPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging || event.pointerType !== 'mouse' || !containerRef.current) {
       return
     }
 
-    const dx = event.clientX - startX
-    containerRef.current.scrollLeft = startScrollLeft - dx
+    const dx = event.clientX - dragStartXRef.current
+    containerRef.current.scrollLeft = dragStartScrollLeftRef.current - dx
   }
 
-  const stopDragging = () => {
+  const onPointerEnd = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType !== 'mouse') {
+      return
+    }
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId)
+    }
+
     setIsDragging(false)
   }
 
@@ -166,14 +179,14 @@ export default function PeekCarousel({
         ref={containerRef}
         className={cn(
           mobilePeek
-            ? 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden px-[8%] pb-2 select-none sm:px-0'
-            : 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-2 select-none',
+            ? 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden px-[8%] pb-2 select-none touch-pan-x [-webkit-overflow-scrolling:touch] sm:px-0'
+            : 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-2 select-none touch-pan-x [-webkit-overflow-scrolling:touch]',
           isDragging ? 'cursor-grabbing' : 'cursor-grab',
         )}
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={stopDragging}
-        onMouseLeave={stopDragging}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerEnd}
+        onPointerCancel={onPointerEnd}
       >
         {children.map((child, index) => (
           <div
