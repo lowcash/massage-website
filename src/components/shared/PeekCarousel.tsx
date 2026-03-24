@@ -39,6 +39,19 @@ export default function PeekCarousel({
       .sort((a, b) => a - b)
   }
 
+  const getScrollBounds = (el: HTMLDivElement) => {
+    const itemOffsets = getItemOffsets(el)
+    const rawMaxScrollLeft = Math.max(0, el.scrollWidth - el.clientWidth)
+    const minScrollLeft = mobilePeek ? (itemOffsets[0] ?? 0) : 0
+    const maxScrollLeft = Math.max(minScrollLeft, rawMaxScrollLeft)
+
+    return { itemOffsets, minScrollLeft, maxScrollLeft }
+  }
+
+  const clampScrollLeft = (value: number, minScrollLeft: number, maxScrollLeft: number) => {
+    return Math.min(maxScrollLeft, Math.max(minScrollLeft, value))
+  }
+
   useEffect(() => {
     const el = containerRef.current
     if (!el) {
@@ -46,17 +59,16 @@ export default function PeekCarousel({
     }
 
     const updateScrollState = () => {
-      const maxScrollLeft = el.scrollWidth - el.clientWidth
-      const itemOffsets = getItemOffsets(el)
-      const minScrollLeft = itemOffsets[0] ?? 0
+      const { minScrollLeft, maxScrollLeft } = getScrollBounds(el)
       const hasOverflow = maxScrollLeft > 2
+      const clampedScrollLeft = clampScrollLeft(el.scrollLeft, minScrollLeft, maxScrollLeft)
 
-      if (mobilePeek && hasOverflow && el.scrollLeft < minScrollLeft - 1) {
-        el.scrollLeft = minScrollLeft
+      if (Math.abs(clampedScrollLeft - el.scrollLeft) > 0.5) {
+        el.scrollLeft = clampedScrollLeft
       }
 
-      setCanScrollLeft(hasOverflow && el.scrollLeft > minScrollLeft + 2)
-      setCanScrollRight(hasOverflow && el.scrollLeft < maxScrollLeft - 2)
+      setCanScrollLeft(hasOverflow && clampedScrollLeft > minScrollLeft + 2)
+      setCanScrollRight(hasOverflow && clampedScrollLeft < maxScrollLeft - 2)
     }
 
     updateScrollState()
@@ -76,25 +88,28 @@ export default function PeekCarousel({
       return
     }
 
-    const maxScrollLeft = el.scrollWidth - el.clientWidth
-    const itemOffsets = getItemOffsets(el)
-    const minScrollLeft = itemOffsets[0] ?? 0
+    const { itemOffsets, minScrollLeft, maxScrollLeft } = getScrollBounds(el)
 
     const tolerance = 2
     const step = el.clientWidth * 0.82
-    const current = Math.max(el.scrollLeft, minScrollLeft)
+    const current = clampScrollLeft(el.scrollLeft, minScrollLeft, maxScrollLeft)
 
     if (direction === 1) {
+      const nextOffsets = itemOffsets.filter((offset) => offset > current + tolerance)
       const desired = current + step
-      const nextOffset = itemOffsets.find((offset) => offset >= desired - tolerance)
-      const target = typeof nextOffset === 'number' ? Math.min(nextOffset, maxScrollLeft) : maxScrollLeft
+      const nextOffset = nextOffsets.find((offset) => offset >= desired - tolerance)
+      const fallbackNextOffset = nextOffsets.length > 0 ? nextOffsets[0] : maxScrollLeft
+      const target = clampScrollLeft(typeof nextOffset === 'number' ? nextOffset : fallbackNextOffset, minScrollLeft, maxScrollLeft)
       el.scrollTo({ left: target, behavior: 'smooth' })
       return
     }
 
+    const previousOffsets = itemOffsets.filter((offset) => offset < current - tolerance)
     const desired = current - step
-    const previousOffsets = itemOffsets.filter((offset) => offset <= desired + tolerance)
-    const target = previousOffsets.length > 0 ? previousOffsets[previousOffsets.length - 1] : minScrollLeft
+    const candidates = previousOffsets.filter((offset) => offset <= desired + tolerance)
+    const fallbackPreviousOffset = previousOffsets.length > 0 ? previousOffsets[previousOffsets.length - 1] : minScrollLeft
+    const targetOffset = candidates.length > 0 ? candidates[candidates.length - 1] : fallbackPreviousOffset
+    const target = clampScrollLeft(targetOffset, minScrollLeft, maxScrollLeft)
     el.scrollTo({ left: target, behavior: 'smooth' })
   }
 
@@ -179,8 +194,8 @@ export default function PeekCarousel({
         ref={containerRef}
         className={cn(
           mobilePeek
-            ? 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden px-[8%] pb-2 select-none touch-pan-x [-webkit-overflow-scrolling:touch] sm:px-0'
-            : 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-2 select-none touch-pan-x [-webkit-overflow-scrolling:touch]',
+            ? 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden px-[8%] pb-2 select-none touch-pan-x overscroll-x-contain [-webkit-overflow-scrolling:touch] sm:px-0'
+            : 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-2 select-none touch-pan-x overscroll-x-contain [-webkit-overflow-scrolling:touch]',
           isDragging ? 'cursor-grabbing' : 'cursor-grab',
         )}
         onPointerDown={onPointerDown}
