@@ -41,9 +41,8 @@ export default function PeekCarousel({
 
   const getScrollBounds = (el: HTMLDivElement) => {
     const itemOffsets = getItemOffsets(el)
-    const rawMaxScrollLeft = Math.max(0, el.scrollWidth - el.clientWidth)
-    const minScrollLeft = mobilePeek ? (itemOffsets[0] ?? 0) : 0
-    const maxScrollLeft = Math.max(minScrollLeft, rawMaxScrollLeft)
+    const minScrollLeft = 0
+    const maxScrollLeft = Math.max(0, el.scrollWidth - el.clientWidth)
 
     return { itemOffsets, minScrollLeft, maxScrollLeft }
   }

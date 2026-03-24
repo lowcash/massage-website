@@ -31,7 +31,8 @@ export default function HeroScrollCue({ href, ariaLabel }: HeroScrollCueProps) {
   return (
     <a
       href={href}
-      className='absolute bottom-16 left-1/2 z-20 -translate-x-1/2 text-white/75 transition hover:text-white motion-safe:animate-bounce sm:bottom-[max(1.5rem,env(safe-area-inset-bottom))]'
+      className='fixed bottom-6 left-1/2 z-20 -translate-x-1/2 text-white/75 transition hover:text-white motion-safe:animate-bounce'
+      style={{ marginBottom: 'env(safe-area-inset-bottom)' }}
       aria-label={ariaLabel}
     >
       <ChevronDown className='h-8 w-8' />
