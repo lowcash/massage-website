@@ -40,7 +40,7 @@ export default function CountUpValue({ value, suffix = '', durationMs = 1200 }: 
         requestAnimationFrame(frame)
         observer.disconnect()
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 },
     )
 
     observer.observe(ref.current)

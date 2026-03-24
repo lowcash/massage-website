@@ -31,7 +31,7 @@ export function CalendarListItem({ item, isSelected, onSelect, onToggleReserved 
         <Checkbox checked={item.reserved} onChange={onToggleReserved} readOnly />
       </button>
       <div className='flex-1'>
-        <p className={cn('text-sm', item.reserved ? 'line-through text-zinc-400' : 'text-zinc-900')}>
+        <p className={cn('text-sm', item.reserved ? 'text-zinc-400 line-through' : 'text-zinc-900')}>
           {formatDateTime(item.date)}
         </p>
       </div>

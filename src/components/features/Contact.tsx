@@ -1,38 +1,24 @@
-'use client'
-
-import { motion } from 'framer-motion'
 import { Clock, Mail, MapPin, Phone } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp } from '@/lib/utils'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
-import {
-  getAnimationConfig,
-  getAnimationConfigWithDelay,
-  useReducedMotion,
-} from '@/src/hooks/useReducedMotion'
 
 export default function Contact() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const cardClassName =
-    'rounded-2xl border border-[#e3ccc7] bg-white p-5 text-[15px] leading-relaxed text-[#5c4b47]'
-  const linkCardClassName =
-    `${cardClassName} cursor-pointer transition hover:border-[#d8b6af] hover:bg-[#fff8f6]`
+  const cardClassName = 'rounded-2xl border border-[#e3ccc7] bg-white p-5 text-[15px] leading-relaxed text-[#5c4b47]'
+  const linkCardClassName = `${cardClassName} cursor-pointer transition hover:border-[#d8b6af] hover:bg-[#fff8f6]`
 
   return (
     <section id='contact' className='bg-[#ecd8d3] px-5 py-16 md:px-8 md:py-24'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
-        <motion.div {...getAnimationConfig(shouldReduceMotion)}>
-          <SectionIntro
-            id='contact-heading'
-            title={siteContent.contact.heading}
-            subtitle={siteContent.contact.subtitle}
-          />
-        </motion.div>
+        <SectionIntro
+          id='contact-heading'
+          title={siteContent.contact.heading}
+          subtitle={siteContent.contact.subtitle}
+        />
 
         <div className='grid gap-7 lg:grid-cols-[0.95fr_1.05fr]'>
-          <motion.div {...getAnimationConfigWithDelay(shouldReduceMotion, 0.08)} className='grid gap-4 sm:grid-cols-2'>
+          <div className='grid gap-4 sm:grid-cols-2'>
             <a href={`tel:+${siteContent.brand.phoneDigits}`} className={linkCardClassName}>
               <div className='mb-3 flex items-center gap-2 text-[#ca6f61]'>
                 <Phone className='h-4 w-4' />
@@ -66,9 +52,7 @@ export default function Contact() {
             <div className={cardClassName}>
               <div className='mb-3 flex items-center gap-2 text-[#ca6f61]'>
                 <Clock className='h-4 w-4' />
-                <p className='text-xs tracking-[0.14em] uppercase'>
-                  {siteContent.contact.cards.openingHoursLabel}
-                </p>
+                <p className='text-xs tracking-[0.14em] uppercase'>{siteContent.contact.cards.openingHoursLabel}</p>
               </div>
 
               <div className='flex flex-col gap-1.5'>
@@ -80,13 +64,11 @@ export default function Contact() {
                 ))}
               </div>
 
-              <p className='mt-3 text-sm text-[#796661]'>
-                {applyCzechNbsp(siteContent.contact.cards.flexibilityNote)}
-              </p>
+              <p className='mt-3 text-sm text-[#796661]'>{applyCzechNbsp(siteContent.contact.cards.flexibilityNote)}</p>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div {...getAnimationConfigWithDelay(shouldReduceMotion, 0.16)}>
+          <div>
             <div className='h-full min-h-[420px] overflow-hidden rounded-2xl border border-[#e3ccc7] bg-white'>
               <iframe
                 src={siteContent.brand.mapsEmbed}
@@ -100,7 +82,7 @@ export default function Contact() {
                 title={siteContent.contact.mapTitle}
               />
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

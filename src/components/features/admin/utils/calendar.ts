@@ -5,14 +5,14 @@ export function combineDateTime(dateStr: string, timeStr: string): Date | null {
   if (!dateStr || !timeStr) return null
   const [hours, minutes] = timeStr.split(':').map(Number)
   const [year, month, day] = dateStr.split('-').map(Number)
-  
+
   // Vytvoříme datum v Prague timezone a převedeme na UTC
   // Uživatel zadá např. 15:00 Prague → uloží se jako 14:00 UTC
   const pragueDate = new Date(year, month - 1, day, hours, minutes)
   const utcString = pragueDate.toLocaleString('en-US', { timeZone: 'Europe/Prague' })
   const parsedUtc = new Date(utcString)
   const offset = pragueDate.getTime() - parsedUtc.getTime()
-  
+
   return new Date(pragueDate.getTime() + offset)
 }
 
@@ -44,7 +44,7 @@ export function filterFutureCalendarItems(items: CalendarItem[]): CalendarItem[]
   const now = new Date()
   const nowPrague = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Prague' }))
   nowPrague.setHours(0, 0, 0, 0)
-  
+
   return items.filter((item) => {
     const itemPrague = new Date(item.date.toLocaleString('en-US', { timeZone: 'Europe/Prague' }))
     return itemPrague >= nowPrague

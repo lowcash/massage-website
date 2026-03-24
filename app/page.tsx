@@ -22,7 +22,9 @@ export default async function Page() {
   const actionData = result?.data
   const rawData = actionData?.data ?? []
   // Filter out any null values and ensure proper types
-  const calendarData: CalendarSlot[] = Array.isArray(rawData) ? rawData.filter((slot): slot is CalendarSlot => slot !== null) : []
+  const calendarData: CalendarSlot[] = Array.isArray(rawData)
+    ? rawData.filter((slot): slot is CalendarSlot => slot !== null)
+    : []
 
   return (
     <>

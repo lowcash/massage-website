@@ -1,39 +1,24 @@
-'use client'
-
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp } from '@/lib/utils'
-import {
-  getAnimationConfig,
-  getAnimationConfigWithDelay,
-  useReducedMotion,
-} from '@/src/hooks/useReducedMotion'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 import giftVoucherImage from '@/src/assets/voucher.jpg'
 
 export default function GiftVouchers() {
-  const shouldReduceMotion = useReducedMotion()
-
   const href = `https://wa.me/${siteContent.brand.phoneDigits}?text=${encodeURIComponent(siteContent.vouchers.whatsappMessage)}`
 
   return (
     <section id='vouchers' className='bg-[#ecd8d3] px-5 py-20 md:px-8 md:py-28'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
-        <motion.div {...getAnimationConfig(shouldReduceMotion)}>
-          <SectionIntro
-            id='vouchers-heading'
-            title={siteContent.vouchers.heading}
-            subtitle={siteContent.vouchers.subtitle}
-          />
-        </motion.div>
+        <SectionIntro
+          id='vouchers-heading'
+          title={siteContent.vouchers.heading}
+          subtitle={siteContent.vouchers.subtitle}
+        />
 
         <div className='grid gap-0 overflow-hidden rounded-2xl border border-[#e1c1ba] bg-white shadow-[0_14px_40px_rgba(91,58,50,0.08)] md:grid-cols-2'>
-          <motion.div
-            {...getAnimationConfigWithDelay(shouldReduceMotion, 0.05)}
-            className='relative min-h-72 bg-[#f1ddd7] p-10'
-          >
+          <div className='relative min-h-72 bg-[#f1ddd7] p-10'>
             <div className='absolute inset-8 rounded-xl border border-white/50' />
             <Image
               src={giftVoucherImage}
@@ -42,12 +27,9 @@ export default function GiftVouchers() {
               className='object-cover opacity-55'
               sizes='(min-width: 768px) 50vw, 100vw'
             />
-          </motion.div>
+          </div>
 
-          <motion.div
-            {...getAnimationConfigWithDelay(shouldReduceMotion, 0.15)}
-            className='flex flex-col gap-6 p-8 md:p-10'
-          >
+          <div className='flex flex-col gap-6 p-8 md:p-10'>
             <h3 className='text-4xl leading-tight text-[#2f2523]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
               {applyCzechNbsp(siteContent.vouchers.title)}
             </h3>
@@ -75,7 +57,7 @@ export default function GiftVouchers() {
             >
               {applyCzechNbsp(siteContent.vouchers.cta)}
             </a>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

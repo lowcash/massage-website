@@ -8,11 +8,7 @@ import { siteContent } from '@/lib/content'
 import { applyCzechNbsp } from '@/lib/utils'
 import CountUpValue from '@/src/components/shared/CountUpValue'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
-import {
-  getAnimationConfig,
-  getAnimationConfigWithDelay,
-  useReducedMotion,
-} from '@/src/hooks/useReducedMotion'
+import { getAnimationConfig, getAnimationConfigWithDelay, useReducedMotion } from '@/src/hooks/useReducedMotion'
 import profileImage from '@/src/assets/profile.jpg'
 
 const ABOUT_PARAGRAPH_EMPHASIS = [
@@ -22,8 +18,7 @@ const ABOUT_PARAGRAPH_EMPHASIS = [
 ]
 
 const ABOUT_CREDENTIAL_EMPHASIS: Record<string, string> = {
-  'Magisterské studium ošetřovatelství na VŠZaSP sv. Alžbety v Bratislavě':
-    'Magisterské studium ošetřovatelství',
+  'Magisterské studium ošetřovatelství na VŠZaSP sv. Alžbety v Bratislavě': 'Magisterské studium ošetřovatelství',
   'Specializace v oboru geriatrie': 'geriatrie',
   'Dlouholetý masér pro zdravotnictví a terapeut': 'Dlouholetý masér',
   'Zkušenosti se zařízeními sociální a zdravotní péče': 'sociální a zdravotní péče',
@@ -55,11 +50,7 @@ export default function About() {
     <section id='about' className='bg-[#f6edeb] px-5 py-16 md:px-8 md:py-24'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
         <motion.div {...getAnimationConfig(shouldReduceMotion)}>
-          <SectionIntro
-            id='about-heading'
-            title={siteContent.about.heading}
-            subtitle={siteContent.about.subtitle}
-          />
+          <SectionIntro id='about-heading' title={siteContent.about.heading} subtitle={siteContent.about.subtitle} />
         </motion.div>
 
         <div className='grid items-start gap-7 rounded-2xl border border-[#e6d1cb] bg-white p-6 shadow-[0_20px_45px_rgba(90,60,53,0.1)] md:p-10 lg:grid-cols-2 lg:items-stretch'>

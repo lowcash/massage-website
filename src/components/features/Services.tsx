@@ -19,11 +19,7 @@ import {
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp } from '@/lib/utils'
 import { useBooking } from '@/src/contexts/BookingContext'
-import {
-  getAnimationConfig,
-  getAnimationConfigWithDelay,
-  useReducedMotion,
-} from '@/src/hooks/useReducedMotion'
+import { getAnimationConfig, getAnimationConfigWithDelay, useReducedMotion } from '@/src/hooks/useReducedMotion'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 
 const iconMap = {
@@ -88,7 +84,10 @@ export default function Services() {
               >
                 <div className='mb-4 flex items-center gap-3'>
                   <Icon className='h-4 w-4 text-[#ca6f61]' />
-                  <h3 className='text-[1.45rem] leading-tight text-[#342a28]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+                  <h3
+                    className='text-[1.45rem] leading-tight text-[#342a28]'
+                    style={{ fontFamily: 'Cormorant Garamond, serif' }}
+                  >
                     {applyCzechNbsp(service.name)}
                   </h3>
                 </div>

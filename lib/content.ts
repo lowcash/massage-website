@@ -43,8 +43,7 @@ export const siteContent = {
     addressLine1: 'Národní tř. 383/15',
     addressLine2: '695 01 Hodonín 1',
     facebook: 'https://www.facebook.com/radka6575',
-    instagram:
-      'https://www.instagram.com/radka.sebestova.5?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    instagram: 'https://www.instagram.com/radka.sebestova.5?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
     mapsLink: 'https://maps.app.goo.gl/1X9WnjXbchNxBfwB6',
     mapsEmbed:
       'https://www.google.com/maps?q=N%C3%A1rodn%C3%AD+t%C5%99.+383%2F15%2C+695+01+Hodon%C3%ADn+1&output=embed',
@@ -190,8 +189,7 @@ export const siteContent = {
     heading: 'Dárkové poukazy',
     subtitle: 'Darujte radost z uvolnění',
     title: 'Darujte chvíle klidu',
-    description:
-      'Darujte svým blízkým chvíle plné relaxace a pohody. Ideální dárek pro každou příležitost.',
+    description: 'Darujte svým blízkým chvíle plné relaxace a pohody. Ideální dárek pro každou příležitost.',
     benefits: [
       'Libovolná hodnota poukazu',
       'Flexibilní použití na všechny služby',

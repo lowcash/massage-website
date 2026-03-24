@@ -10,8 +10,8 @@ let redisClient: ReturnType<typeof createClient> | null = null
 
 async function getRedisClient() {
   if (!redisClient) {
-    redisClient = createClient({ 
-      url: process.env.REDIS_URL || 'redis://localhost:6379' 
+    redisClient = createClient({
+      url: process.env.REDIS_URL || 'redis://localhost:6379',
     })
     await redisClient.connect()
   }
@@ -22,45 +22,47 @@ export const getCalendar = actionClient.action(async () => {
   try {
     const redis = await getRedisClient()
     const fileContent = await redis.get(CALENDAR_KV_KEY)
-    
+
     if (!fileContent) {
       // Return empty array if no data in Redis
       return { success: true, data: [] }
     }
-    
+
     const parsedContent = JSON.parse(fileContent as string) as any[]
 
     // Map raw data to CalendarSlot format
     // IMPORTANT: Redis stores dates as ISO strings in UTC
     // When converted to Date objects, they remain in UTC but JavaScript will display them in local timezone
-    const mappedData = parsedContent.map((slot) => {
-      const dateValue = slot.date
-      let dateObj: Date
-      
-      if (typeof dateValue === 'string') {
-        // ISO string from Redis (stored in UTC)
-        dateObj = new Date(dateValue)
-      } else if (dateValue instanceof Date) {
-        dateObj = dateValue
-      } else if (typeof dateValue === 'number') {
-        // Unix timestamp
-        dateObj = new Date(dateValue)
-      } else {
-        console.error('Invalid date format in Redis:', dateValue)
-        return null
-      }
-      
-      // Validate date is valid
-      if (isNaN(dateObj.getTime())) {
-        console.error('Invalid date after parsing:', dateValue)
-        return null
-      }
-      
-      return {
-        date: dateObj,
-        reserved: slot.reserved ?? false,
-      }
-    }).filter(Boolean) // Remove null entries
+    const mappedData = parsedContent
+      .map((slot) => {
+        const dateValue = slot.date
+        let dateObj: Date
+
+        if (typeof dateValue === 'string') {
+          // ISO string from Redis (stored in UTC)
+          dateObj = new Date(dateValue)
+        } else if (dateValue instanceof Date) {
+          dateObj = dateValue
+        } else if (typeof dateValue === 'number') {
+          // Unix timestamp
+          dateObj = new Date(dateValue)
+        } else {
+          console.error('Invalid date format in Redis:', dateValue)
+          return null
+        }
+
+        // Validate date is valid
+        if (isNaN(dateObj.getTime())) {
+          console.error('Invalid date after parsing:', dateValue)
+          return null
+        }
+
+        return {
+          date: dateObj,
+          reserved: slot.reserved ?? false,
+        }
+      })
+      .filter(Boolean) // Remove null entries
 
     return { success: true, data: mappedData }
   } catch (error) {

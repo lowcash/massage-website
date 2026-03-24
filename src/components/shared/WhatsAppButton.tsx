@@ -24,7 +24,7 @@ export default function WhatsAppButton() {
       },
       {
         threshold: 0.02,
-      }
+      },
     )
 
     observer.observe(footerElement)
@@ -38,10 +38,7 @@ export default function WhatsAppButton() {
     let message = siteContent.floatingButtons.whatsappDefaultMessage
 
     if (selectedService) {
-      message = siteContent.floatingButtons.whatsappSelectedServiceMessage.replace(
-        '{service}',
-        selectedService
-      )
+      message = siteContent.floatingButtons.whatsappSelectedServiceMessage.replace('{service}', selectedService)
     }
 
     return `https://wa.me/${siteContent.brand.phoneDigits}?text=${encodeURIComponent(message)}`

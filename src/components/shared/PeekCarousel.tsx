@@ -129,7 +129,7 @@ export default function PeekCarousel({
         onClick={() => scrollByCards(-1)}
         className={cn(
           'absolute top-1/2 left-2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#dcb7af] bg-white/90 text-[#8b5f58] shadow-sm transition hover:bg-white md:flex',
-          canScrollLeft ? 'opacity-100' : 'pointer-events-none opacity-0'
+          canScrollLeft ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
         aria-label={`Posunout ${ariaLabel} doleva`}
       >
@@ -141,7 +141,7 @@ export default function PeekCarousel({
         onClick={() => scrollByCards(1)}
         className={cn(
           'absolute top-1/2 right-2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#dcb7af] bg-white/90 text-[#8b5f58] shadow-sm transition hover:bg-white md:flex',
-          canScrollRight ? 'opacity-100' : 'pointer-events-none opacity-0'
+          canScrollRight ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
         aria-label={`Posunout ${ariaLabel} doprava`}
       >
@@ -166,9 +166,9 @@ export default function PeekCarousel({
         ref={containerRef}
         className={cn(
           mobilePeek
-            ? 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-2 px-[8%] select-none sm:px-0'
+            ? 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden px-[8%] pb-2 select-none sm:px-0'
             : 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-2 select-none',
-          isDragging ? 'cursor-grabbing' : 'cursor-grab'
+          isDragging ? 'cursor-grabbing' : 'cursor-grab',
         )}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
@@ -178,10 +178,7 @@ export default function PeekCarousel({
         {children.map((child, index) => (
           <div
             key={index}
-            className={cn(
-              'w-[84%] shrink-0 snap-center sm:snap-start sm:w-[46%] lg:w-[31%]',
-              itemClassName
-            )}
+            className={cn('w-[84%] shrink-0 snap-center sm:w-[46%] sm:snap-start lg:w-[31%]', itemClassName)}
           >
             {child}
           </div>

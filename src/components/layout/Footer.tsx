@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <footer className='bg-[#2d1d1a] text-[#f6ece9]'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-10 px-5 py-14 md:px-8'>
-        <div className='grid gap-8 md:grid-cols-3 lg:gap-8 lg:grid-cols-3'>
+        <div className='grid gap-8 md:grid-cols-3 lg:grid-cols-3 lg:gap-8'>
           <div className='flex flex-col gap-3'>
             <p className='font-dancing text-3xl'>{brandName}</p>
             <p className='text-[15px] text-[#e4d4d0]'>{applyCzechNbsp(siteContent.footer.description)}</p>
@@ -34,7 +34,9 @@ export default function Footer() {
           </div>
 
           <div className='flex flex-col gap-3 text-[15px] text-[#ddc8c3]'>
-            <h3 className='font-dancing text-2xl text-[#f8e9e5]'>{applyCzechNbsp(siteContent.footer.contactHeading)}</h3>
+            <h3 className='font-dancing text-2xl text-[#f8e9e5]'>
+              {applyCzechNbsp(siteContent.footer.contactHeading)}
+            </h3>
             <a href={`mailto:${siteContent.brand.email}`} className='cursor-pointer transition hover:text-white'>
               {siteContent.brand.email}
             </a>
@@ -55,9 +57,7 @@ export default function Footer() {
         </div>
 
         <div className='flex items-center justify-between border-t border-white/10 pt-7'>
-          <p className='text-xs tracking-[0.16em] text-[#b89f9a] uppercase'>
-            {siteContent.footer.cityLabel}
-          </p>
+          <p className='text-xs tracking-[0.16em] text-[#b89f9a] uppercase'>{siteContent.footer.cityLabel}</p>
 
           <div className='flex items-center gap-3'>
             <a

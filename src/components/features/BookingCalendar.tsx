@@ -8,11 +8,7 @@ import { applyCzechNbsp } from '@/lib/utils'
 import { useBooking } from '@/src/contexts/BookingContext'
 import PeekCarousel from '@/src/components/shared/PeekCarousel'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
-import {
-  getAnimationConfig,
-  getAnimationConfigWithDelay,
-  useReducedMotion,
-} from '@/src/hooks/useReducedMotion'
+import { getAnimationConfig, getAnimationConfigWithDelay, useReducedMotion } from '@/src/hooks/useReducedMotion'
 import type { CalendarSlot } from './Calendar'
 
 interface CalendarDisplaySlot {
@@ -144,9 +140,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
       return
     }
 
-    let message = siteContent.calendar.whatsappDefaultTemplate
-      .replace('{date}', date)
-      .replace('{time}', time)
+    let message = siteContent.calendar.whatsappDefaultTemplate.replace('{date}', date).replace('{time}', time)
 
     if (selectedService) {
       message = siteContent.calendar.whatsappServiceTemplate
@@ -217,7 +211,10 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                 }
               >
                 <div className='mb-5 border-b border-[#ecd9d5] pb-4 text-center'>
-                  <h3 className='text-3xl leading-none text-[#412f2b] lg:text-[2rem]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+                  <h3
+                    className='text-3xl leading-none text-[#412f2b] lg:text-[2rem]'
+                    style={{ fontFamily: 'Cormorant Garamond, serif' }}
+                  >
                     {dayData.day}
                   </h3>
                   <p className='mt-2 text-sm tracking-[0.14em] text-[#8a6963] uppercase'>{dayData.date}</p>

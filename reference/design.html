@@ -1,489 +1,751 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html lang="cs"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Pohlazení po těle a duši</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script>
-        tailwind.config = {
-          theme: {
-            extend: {
-              colors: {
-                brand: {
-                  cream: '#FDF0EE',
-                  light: '#F7E0DA',
-                  primary: '#C4736A',
-                  primaryDark: '#B0655D',
-                  text: '#3A3331',
-                  dark: '#2A1F1D',
-                  dustyRose: '#C4736A',
-                  softCream: '#FDF0EE',
-                  border: '#E8C4BB'
-                }
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Pohlazení po těle a duši</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                cream: '#FDF0EE',
+                light: '#F7E0DA',
+                primary: '#C4736A',
+                primaryDark: '#B0655D',
+                text: '#3A3331',
+                dark: '#2A1F1D',
+                dustyRose: '#C4736A',
+                softCream: '#FDF0EE',
+                border: '#E8C4BB',
               },
-              fontFamily: {
-                serif: ['"Playfair Display"', 'serif'],
-                sans: ['"Lato"', 'sans-serif'],
-                cormorant: ['"Cormorant Garamond"', 'serif'],
-                dmSans: ['"DM Sans"', 'sans-serif'],
-                cursive: ['"Dancing Script"', 'cursive'],
-              },
-              animation: {
-                'bounce-slow': 'bounce 2s infinite',
-              }
-            }
-          }
-        }
+            },
+            fontFamily: {
+              serif: ['"Playfair Display"', 'serif'],
+              sans: ['"Lato"', 'sans-serif'],
+              cormorant: ['"Cormorant Garamond"', 'serif'],
+              dmSans: ['"DM Sans"', 'sans-serif'],
+              cursive: ['"Dancing Script"', 'cursive'],
+            },
+            animation: {
+              'bounce-slow': 'bounce 2s infinite',
+            },
+          },
+        },
+      }
     </script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;family=DM+Sans:wght@400;500;700&amp;family=Dancing+Script:wght@400;500;600;700&amp;family=Lato:wght@300;400;700&amp;family=Playfair+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-        body { font-family: 'Lato', sans-serif; color: #3A3331; background-color: #FDF0EE; }
-        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Playfair Display', serif; }
-        .font-cormorant { font-family: 'Cormorant Garamond', serif; }
-        .font-dm-sans { font-family: 'DM Sans', sans-serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        header.scrolled {
-            background-color: rgba(253, 240, 238, 0.9);
-            backdrop-filter: blur(8px);
-            color: #3A3331;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;family=DM+Sans:wght@400;500;700&amp;family=Dancing+Script:wght@400;500;600;700&amp;family=Lato:wght@300;400;700&amp;family=Playfair+Display:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+      body {
+        font-family: 'Lato', sans-serif;
+        color: #3a3331;
+        background-color: #fdf0ee;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      .font-serif {
+        font-family: 'Playfair Display', serif;
+      }
+      .font-cormorant {
+        font-family: 'Cormorant Garamond', serif;
+      }
+      .font-dm-sans {
+        font-family: 'DM Sans', sans-serif;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      header.scrolled {
+        background-color: rgba(253, 240, 238, 0.9);
+        backdrop-filter: blur(8px);
+        color: #3a3331;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
     </style>
-</head>
-<body class="bg-brand-cream text-brand-text antialiased">
-<!-- BEGIN: Hero Section -->
-<section class="relative w-full h-screen bg-cover bg-center flex flex-col items-center justify-center overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCntiuY3Aj9AFofwuYoHWOLMwvXgCb1r8GJdu8MLc88qXaTn-TG_1FEYYD5xTXJn4Qw5ABzSdoP15nIkafkFFiz73uvNRIDyztGS2zF9Kwgh5vlPCF8xzT3wTdJymP_yZ7h13LwUTm0o8tN6YfjuMBcLKK_EsWkU4AjDcRwMTh-KL5L2EbtfuQ9Y_X0_wbq4NVmyh0zoMR0U7KQk8eH7pHZTYCLOV2e3rPGvMjvXVD7CgT9B05qZRB5muxIFT7IPVPH-vCmEo4WOs4');">
-<div class="absolute inset-0 bg-black/40"></div>
-<!-- BEGIN: MainHeader -->
-<header class="fixed top-0 w-full z-50 px-6 py-6 md:px-12 flex justify-between items-center text-white transition-all duration-300" id="main-nav">
-<div class="text-2xl md:text-3xl font-cursive tracking-normal">Pohlazení po těle a duši</div>
-<nav class="hidden md:flex space-x-8 text-sm uppercase tracking-widest font-dm-sans font-light">
-<a class="hover:text-brand-primary transition" href="#">Služby</a>
-<a class="hover:text-brand-primary transition" href="#">O mně</a>
-<a class="hover:text-brand-primary transition" href="#">Termíny</a>
-<a class="hover:text-brand-primary transition" href="#">Kontakt</a>
-</nav>
-<button class="md:hidden"><i class="fas fa-bars text-2xl"></i></button>
-</header>
-<!-- END: MainHeader -->
-<div class="relative z-10 flex flex-col justify-center items-center text-center text-white px-4">
-<h1 class="text-4xl md:text-6xl font-serif mb-4 leading-tight max-w-4xl">Dotek, který uleví a obnoví.</h1>
-<p class="text-lg md:text-xl font-light mb-8 max-w-2xl">Uvolnění ztuhlých svalů • Regenerace po sportu • Hluboká relaxace mysli.</p>
-<a class="inline-block bg-brand-primary hover:bg-brand-primaryDark text-white px-8 py-3 rounded-md transition font-medium tracking-wide shadow-lg" href="#">Vyberte si masáž</a>
-</div>
-<!-- Animated Chevron -->
-<div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-white/70 animate-bounce-slow">
-<i class="fas fa-chevron-down text-2xl"></i>
-</div>
-</section>
-<!-- END: Hero Section -->
-<!-- BEGIN: Services Section -->
-<section class="py-24 px-6 max-w-6xl mx-auto bg-brand-cream">
-<div class="text-center mb-16">
-<h2 class="text-3xl md:text-4xl font-cormorant font-semibold text-brand-dark mb-2">Jak Vám můžu pomoci?</h2>
-<p class="text-gray-500 font-dm-sans text-xs uppercase tracking-widest">Široká nabídka masáží pro vaše tělo i mysl</p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-<!-- Service Card 1 -->
-<div class="bg-white p-8 rounded-2xl border border-brand-border hover:shadow-md transition flex flex-col h-full">
-<div class="flex items-center gap-3 mb-4">
-<i class="fas fa-leaf text-brand-primary text-sm"></i>
-<h3 class="font-cormorant text-xl font-medium text-brand-dark">Ájurvédská masáž hlavy</h3>
-</div>
-<p class="font-dm-sans text-sm text-gray-600 mb-8 leading-relaxed flex-grow">Mírní stres, napětí a přináší hluboké uvolnění celého nervového systému.</p>
-<div class="border-t border-brand-border pt-4 flex justify-between items-center text-sm">
-<span class="text-gray-500 font-dm-sans">50 min</span>
-<span class="text-brand-primary font-medium">od 800,-</span>
-</div>
-</div>
-<!-- Service Card 2 -->
-<div class="bg-white p-8 rounded-2xl border border-brand-border hover:shadow-md transition flex flex-col h-full">
-<div class="flex items-center gap-3 mb-4">
-<i class="fas fa-hands text-brand-primary text-sm"></i>
-<h3 class="font-cormorant text-xl font-medium text-brand-dark">Terapeutická masáž</h3>
-</div>
-<p class="font-dm-sans text-sm text-gray-600 mb-8 leading-relaxed flex-grow">Intenzivní masáž zaměřená na konkrétní problémy a svalové dysbalance.</p>
-<div class="border-t border-brand-border pt-4 flex justify-between items-center text-sm">
-<span class="text-gray-500 font-dm-sans">50 min</span>
-<span class="text-brand-primary font-medium">od 900,-</span>
-</div>
-</div>
-<!-- Service Card 3 -->
-<div class="bg-white p-8 rounded-2xl border border-brand-border hover:shadow-md transition flex flex-col h-full">
-<div class="flex items-center gap-3 mb-4">
-<i class="fas fa-spa text-brand-primary text-sm"></i>
-<h3 class="font-cormorant text-xl font-medium text-brand-dark">Relaxační masáž</h3>
-</div>
-<p class="font-dm-sans text-sm text-gray-600 mb-8 leading-relaxed flex-grow">Jemná relaxační masáž pro uvolnění těla i mysli v tichém prostředí.</p>
-<div class="border-t border-brand-border pt-4 flex justify-between items-center text-sm">
-<span class="text-gray-500 font-dm-sans">50 min</span>
-<span class="text-brand-primary font-medium">od 800,-</span>
-</div>
-</div>
-<!-- Service Card 4 -->
-<div class="bg-white p-8 rounded-2xl border border-brand-border hover:shadow-md transition flex flex-col h-full">
-<div class="flex items-center gap-3 mb-4">
-<i class="fas fa-fire text-brand-primary text-sm"></i>
-<h3 class="font-cormorant text-xl font-medium text-brand-dark">Masáž lávovými kameny</h3>
-</div>
-<p class="font-dm-sans text-sm text-gray-600 mb-8 leading-relaxed flex-grow">Hluboké prohřátí a uvolnění svalů horkými kameny z vulkanických hornin.</p>
-<div class="border-t border-brand-border pt-4 flex justify-between items-center text-sm">
-<span class="text-gray-500 font-dm-sans">50 min</span>
-<span class="text-brand-primary font-medium">od 1200,-</span>
-</div>
-</div>
-<!-- Service Card 5-8 -->
-<div class="bg-white p-8 rounded-2xl border border-brand-border hover:shadow-md transition flex flex-col h-full">
-<div class="flex items-center gap-3 mb-4">
-<i class="fas fa-leaf text-brand-primary text-sm"></i>
-<h3 class="font-cormorant text-xl font-medium text-brand-dark">Indická masáž</h3>
-</div>
-<p class="font-dm-sans text-sm text-gray-600 mb-8 leading-relaxed flex-grow">Tradiční technika zaměřená na energetickou rovnováhu celého těla.</p>
-<div class="border-t border-brand-border pt-4 flex justify-between items-center text-sm">
-<span class="text-gray-500 font-dm-sans">50 min</span>
-<span class="text-brand-primary font-medium">od 800,-</span>
-</div>
-</div>
-<div class="bg-white p-8 rounded-2xl border border-brand-border hover:shadow-md transition flex flex-col h-full">
-<div class="flex items-center gap-3 mb-4">
-<i class="fas fa-hands text-brand-primary text-sm"></i>
-<h3 class="font-cormorant text-xl font-medium text-brand-dark">Sportovní masáž</h3>
-</div>
-<p class="font-dm-sans text-sm text-gray-600 mb-8 leading-relaxed flex-grow">Pro sportovce i aktivní lidi k urychlení regenerace po zátěži.</p>
-<div class="border-t border-brand-border pt-4 flex justify-between items-center text-sm">
-<span class="text-gray-500 font-dm-sans">50 min</span>
-<span class="text-brand-primary font-medium">od 900,-</span>
-</div>
-</div>
-<div class="bg-white p-8 rounded-2xl border border-brand-border hover:shadow-md transition flex flex-col h-full">
-<div class="flex items-center gap-3 mb-4">
-<i class="fas fa-spa text-brand-primary text-sm"></i>
-<h3 class="font-cormorant text-xl font-medium text-brand-dark">Aromaterapie</h3>
-</div>
-<p class="font-dm-sans text-sm text-gray-600 mb-8 leading-relaxed flex-grow">Spojení léčivé síly doteku a esenciálních olejů nejvyšší kvality.</p>
-<div class="border-t border-brand-border pt-4 flex justify-between items-center text-sm">
-<span class="text-gray-500 font-dm-sans">50 min</span>
-<span class="text-brand-primary font-medium">od 800,-</span>
-</div>
-</div>
-<div class="bg-white p-8 rounded-2xl border border-brand-border hover:shadow-md transition flex flex-col h-full">
-<div class="flex items-center gap-3 mb-4">
-<i class="fas fa-fire text-brand-primary text-sm"></i>
-<h3 class="font-cormorant text-xl font-medium text-brand-dark">Reflexní terapie</h3>
-</div>
-<p class="font-dm-sans text-sm text-gray-600 mb-8 leading-relaxed flex-grow">Stimulace reflexních bodů na chodidlech pro celkové zdraví.</p>
-<div class="border-t border-brand-border pt-4 flex justify-between items-center text-sm">
-<span class="text-gray-500 font-dm-sans">50 min</span>
-<span class="text-brand-primary font-medium">od 1200,-</span>
-</div>
-</div>
-</div>
-</section>
-<!-- END: Services Section -->
-<!-- BEGIN: Gift Voucher Banner -->
-<section class="bg-brand-light py-24 px-6">
-<div class="max-w-6xl mx-auto">
-<div class="text-center mb-12">
-<h2 class="text-3xl md:text-4xl font-cormorant font-semibold text-brand-dark mb-2">Dárkové poukazy</h2>
-<p class="text-gray-500 font-dm-sans text-xs uppercase tracking-widest">Darujte radost z uvolnění</p>
-</div>
-<div class="bg-white rounded-2xl overflow-hidden flex flex-col md:flex-row shadow-sm">
-<div class="md:w-1/2 min-h-[350px] bg-gradient-to-br from-[#E8C4BB] to-[#C4736A] flex items-center justify-center p-12">
-<div class="w-full h-full border-2 border-white/20 rounded-xl flex items-center justify-center text-white/40">
-<i class="fas fa-gift text-8xl"></i>
-</div>
-</div>
-<div class="md:w-1/2 p-12 flex flex-col justify-center">
-<h3 class="text-2xl font-serif mb-4 text-brand-dark">Darujte chvíle klidu</h3>
-<p class="text-gray-600 mb-8 leading-relaxed">Darujte svým blízkým chvíle plné relaxace a pohody. Ideální dárek pro každou příležitost.</p>
-<ul class="space-y-4 mb-10">
-<li class="flex items-center text-gray-700 text-sm"><i class="fas fa-check text-brand-primary mr-3"></i> Libovolná hodnota poukazu</li>
-<li class="flex items-center text-gray-700 text-sm"><i class="fas fa-check text-brand-primary mr-3"></i> Flexibilní použití – na všechny služby</li>
-<li class="flex items-center text-gray-700 text-sm"><i class="fas fa-check text-brand-primary mr-3"></i> Okamžitá objednávka přes WhatsApp</li>
-</ul>
-<a class="inline-block bg-brand-primary hover:bg-brand-primaryDark text-white px-8 py-3 rounded-md transition w-max shadow-md font-medium" href="#">Objednat dárkový poukaz</a>
-</div>
-</div>
-</div>
-</section>
-<!-- END: Gift Voucher Banner -->
-<!-- BEGIN: About Section -->
-<section class="bg-brand-cream py-24 px-6">
-<div class="max-w-6xl mx-auto">
-<div class="flex flex-col lg:flex-row gap-0 items-stretch bg-white rounded-3xl overflow-hidden border border-brand-border/30">
-<!-- Left Column (55% width) -->
-<div class="lg:w-[55%] p-12 flex flex-col">
-<div class="text-center mb-10">
-<h2 class="text-3xl md:text-4xl font-cormorant font-semibold text-brand-dark mb-2">O mně</h2>
-<p class="text-gray-500 font-dm-sans text-xs uppercase tracking-widest">Terapeutka a masérka v Hodoníně</p>
-</div>
-<!-- Stats Row -->
-<div class="flex flex-row justify-between items-center mb-10 border-y border-brand-border/30 py-8">
-<div class="text-center flex-1">
-<div class="text-5xl font-cormorant font-bold text-brand-primary leading-none mb-1">16+</div>
-<div class="text-[10px] uppercase tracking-widest text-gray-400 font-dm-sans font-medium">let zkušeností</div>
-</div>
-<div class="w-px h-10 bg-brand-border/30"></div>
-<div class="text-center flex-1 px-4">
-<div class="text-5xl font-cormorant font-bold text-brand-primary leading-none mb-1">1500+</div>
-<div class="text-[10px] uppercase tracking-widest text-gray-400 font-dm-sans font-medium">spokojených klientů</div>
-</div>
-<div class="w-px h-10 bg-brand-border/30"></div>
-<div class="text-center flex-1">
-<div class="text-5xl font-cormorant font-bold text-brand-primary leading-none mb-1">12</div>
-<div class="text-[10px] uppercase tracking-widest text-gray-400 font-dm-sans font-medium">druhů masáží</div>
-</div>
-</div>
-<h3 class="text-2xl font-serif mb-4 text-brand-dark">Mgr. Radka Šebestová</h3>
-<p class="text-gray-600 leading-relaxed mb-8 text-base">Jsem masérka s vášní pro celostní přístup k lidskému tělu. Věřím, že dotek má léčivou sílu nejen pro fyzické potíže, ale i pro uvolnění mysli a nalezení vnitřní rovnováhy.</p>
-<ul class="space-y-3 text-gray-600 text-sm mt-auto">
-<li class="flex items-start"><i class="fas fa-check text-brand-primary mt-1 mr-4"></i> Individuální přístup ke každému klientovi</li>
-<li class="flex items-start"><i class="fas fa-check text-brand-primary mt-1 mr-4"></i> Profesionální a certifikované techniky</li>
-<li class="flex items-start"><i class="fas fa-check text-brand-primary mt-1 mr-4"></i> Terapie šité na míru vašim aktuálním potřebám</li>
-<li class="flex items-start"><i class="fas fa-check text-brand-primary mt-1 mr-4"></i> Relaxační hudba a výběrová aromaterapie</li>
-<li class="flex items-start"><i class="fas fa-check text-brand-primary mt-1 mr-4"></i> Příjemné a tiché prostředí pro nerušený odpočinek</li>
-</ul>
-</div>
-<!-- Right Column (45% width) -->
-<div class="lg:w-[45%]">
-<img alt="Mgr. Radka Šebestová" class="w-full h-full max-h-[540px] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZi3z6zySnxdWaA50U32D_AdmJrSMVFgCEmCuumARqBaXNCOtKLZsW5Z2bTQ-tUldDs4C98FRdSppqzxOPNcYQAH77ezVNXpsqHNop-y8Cr1IOmUwfTLY-kRyI4mQ0jIvYea-jKQkgCRut6bjdX0InL8uTRzA0GbtWx4u0w6f_-O0iJ2b5rCdPxlzPxBBvshJfz1W9lnEf8zWlsLSnRtCYxui6UD_TaHtWlCMqzg35qLsZeBKh-D-i_FikVjj32r5jwYfg7XfL8Aw"/>
-</div>
-</div>
-</div>
-</section>
-<!-- END: About Section -->
-<!-- BEGIN: Gallery Section -->
-<section class="bg-brand-cream py-24 px-6">
-<div class="max-w-6xl mx-auto">
-<div class="text-center mb-12">
-<h2 class="text-3xl md:text-4xl font-cormorant font-semibold text-brand-dark mb-2">Naše studio</h2>
-<p class="text-gray-500 font-dm-sans text-xs uppercase tracking-widest">Autentické záběry z našeho prostředí</p>
-</div>
-<div class="relative group">
-<div class="flex gap-6 overflow-x-auto pb-8 snap-x no-scrollbar" id="gallery-slider">
-<div class="min-w-[75%] md:min-w-[31.5%] snap-start">
-<img alt="Studio detail 1" class="w-full h-[400px] object-cover rounded-xl shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVCKjXAwr6fZ2oWZMhcnPlgdGk-t0o90Z_bT26lPCrOp4xg6l3CXNoWUGrQoF0-lh48HLyjdxWzTWCha95iWIkt8Eidf3HGchagbLILDN1if8cgK-K4opqLIqKe5bZGHKSh0se2x-2o3y4NpzThG4AP5ka4nIRLBhx06soULxQCabxLJ5M6otZG1OhwuIfjiQVbwBqB7L4BzOphtgF1LLnDdIPSL09HK0hzSi9jSvDFzsMcHM3aUcNIb6CRMh5j1WDYlHcU0zNsXs"/>
-</div>
-<div class="min-w-[75%] md:min-w-[31.5%] snap-start">
-<img alt="Studio detail 2" class="w-full h-[400px] object-cover rounded-xl shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNxLxz0fYGVvlU3eNW1majOI4ksqWYOYj8z4qIzWanYAI40JsaGpSpilD13-AObK35b1opYymev9BcfGh3nFpp61HQ08hZOqDs3bhr6plqBHghnAhNNqdNwXQJClw6KfyTUl2W7XGKTdpsn0vbkgNmSiecPPp7v0UN2uu2gWWL-hTNHgyactI-VysC7uBlTQIJAMWrHqgC7FSZ3xXwa6e7qS9ZcrtDmt6GjrG9c66muaWj0SrRIsdP5nSvHnWXTstSK9n6trSjsgU"/>
-</div>
-<div class="min-w-[75%] md:min-w-[31.5%] snap-start">
-<img alt="Studio detail 3" class="w-full h-[400px] object-cover rounded-xl shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSzK2RSwFcZi1xda_IYdBvZU5h7h55xSRZJDGlb5dbxQWqdpsmdtjn8-kRzdwoNeISzHmnthWktkGK5uuLkiU3oJCjnebLJXS03qHeHcTUsUIg-f4F8AY2wbXZZUjttGJ-32wXjAJ11fYk2Wq3BnlJR1bdh86XaqjOmOlvBOpoQQjWdpdilHRoj2r97dGKjDlKE28BtMOK4kBA4ZrOcKTyBtU0Q84puynSqH3Ns8DHR4M-hKt-Yqva_hhFp81ucdjNBQpzYEjepQM"/>
-</div>
-<div class="min-w-[75%] md:min-w-[31.5%] snap-start">
-<img alt="Studio detail 4" class="w-full h-[400px] object-cover rounded-xl shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3-dO0I1P8Q2UdR73VzxOTgFhyU4nKb76UCpwQfuTrz5db50SjkFQcFzV3q2sNiUJS2Kk0NA0Ibq2lBUOosVdrts0LGYpNBPkMRyNSV7n4iYPoLsCwAnnjBu3CNO6ZqG-i7gVdQG47w-EqymKIUJhvFVHglQd6YyhQJ8OxVryxO-C47JP-WNfS8MjNzhMPaI1EYEpgDjphLoMU1Rya_jDrDue-BSK-JXw3SIQyvPO5t_o1khYPJPmAQojPSlMKaqzLnam_n8jTgRo"/>
-</div>
-</div>
-<button class="absolute left-0 top-1/2 -translate-y-1/2 -ml-5 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-brand-dark hover:bg-brand-primary hover:text-white transition opacity-0 group-hover:opacity-100 hidden md:flex" onclick="document.getElementById('gallery-slider').scrollBy({left: -400, behavior: 'smooth'})">
-<i class="fas fa-chevron-left text-xs"></i>
-</button>
-<button class="absolute right-0 top-1/2 -translate-y-1/2 -mr-5 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-brand-dark hover:bg-brand-primary hover:text-white transition opacity-0 group-hover:opacity-100 hidden md:flex" onclick="document.getElementById('gallery-slider').scrollBy({left: 400, behavior: 'smooth'})">
-<i class="fas fa-chevron-right text-xs"></i>
-</button>
-</div>
-</div>
-</section>
-<!-- END: Gallery Section -->
-<!-- BEGIN: Booking Calendar Section -->
-<section class="py-24 px-6 bg-brand-cream">
-<div class="max-w-6xl mx-auto">
-<div class="text-center mb-16">
-<h2 class="text-3xl md:text-4xl font-cormorant font-semibold text-brand-dark mb-2">Volné termíny</h2>
-<p class="text-gray-500 font-dm-sans text-xs uppercase tracking-widest">Najděte si svůj čas pro regeneraci</p>
-</div>
-<div class="relative group">
-<!-- Horizontal Slider -->
-<div class="flex gap-6 overflow-x-auto pb-8 snap-x no-scrollbar" id="calendar-slider">
-<!-- Day Card 1 -->
-<div class="min-w-[85%] md:min-w-[31.5%] snap-start bg-brand-light rounded-xl overflow-hidden flex flex-col items-center">
-<div class="w-full py-6 text-center">
-<span class="font-cormorant italic text-2xl text-brand-primary font-medium">Pondělí</span>
-<div class="text-gray-500 text-[11px] font-dm-sans uppercase tracking-widest mt-1">20. března</div>
-</div>
-<div class="w-full p-6 flex flex-col gap-3">
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">16:00</button>
-<button class="w-full py-2 bg-gray-200/50 text-gray-400 line-through rounded-full font-dm-sans text-sm cursor-not-allowed">17:00</button>
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">18:00</button>
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">19:00</button>
-</div>
-</div>
-<!-- Day Card 2 -->
-<div class="min-w-[85%] md:min-w-[31.5%] snap-start bg-brand-light rounded-xl overflow-hidden flex flex-col items-center">
-<div class="w-full py-6 text-center">
-<span class="font-cormorant italic text-2xl text-brand-primary font-medium">Úterý</span>
-<div class="text-gray-500 text-[11px] font-dm-sans uppercase tracking-widest mt-1">21. března</div>
-</div>
-<div class="w-full p-6 flex flex-col gap-3">
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">16:00</button>
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">17:00</button>
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">18:00</button>
-<button class="w-full py-2 bg-gray-200/50 text-gray-400 line-through rounded-full font-dm-sans text-sm cursor-not-allowed">19:00</button>
-</div>
-</div>
-<!-- Day Card 3 -->
-<div class="min-w-[85%] md:min-w-[31.5%] snap-start bg-brand-light rounded-xl overflow-hidden flex flex-col items-center">
-<div class="w-full py-6 text-center">
-<span class="font-cormorant italic text-2xl text-brand-primary font-medium">Středa</span>
-<div class="text-gray-500 text-[11px] font-dm-sans uppercase tracking-widest mt-1">22. března</div>
-</div>
-<div class="w-full p-6 flex flex-col gap-3">
-<button class="w-full py-2 bg-gray-200/50 text-gray-400 line-through rounded-full font-dm-sans text-sm cursor-not-allowed">16:00</button>
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">17:00</button>
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">18:00</button>
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">19:00</button>
-</div>
-</div>
-<!-- Day Card 4 -->
-<div class="min-w-[85%] md:min-w-[31.5%] snap-start bg-brand-light rounded-xl overflow-hidden flex flex-col items-center">
-<div class="w-full py-6 text-center">
-<span class="font-cormorant italic text-2xl text-brand-primary font-medium">Čtvrtek</span>
-<div class="text-gray-500 text-[11px] font-dm-sans uppercase tracking-widest mt-1">23. března</div>
-</div>
-<div class="w-full p-6 flex flex-col gap-3">
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">15:00</button>
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">16:00</button>
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">17:00</button>
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">18:00</button>
-<button class="w-full py-2 bg-white border border-brand-primary rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition font-dm-sans text-sm font-medium">19:00</button>
-</div>
-</div>
-</div>
-<!-- Minimalist Arrow Navigation -->
-<button class="absolute left-0 top-1/2 -translate-y-1/2 -ml-5 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-brand-dark hover:bg-brand-primary hover:text-white transition opacity-0 group-hover:opacity-100 hidden md:flex" onclick="document.getElementById('calendar-slider').scrollBy({left: -400, behavior: 'smooth'})">
-<i class="fas fa-chevron-left text-xs"></i>
-</button>
-<button class="absolute right-0 top-1/2 -translate-y-1/2 -mr-5 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-brand-dark hover:bg-brand-primary hover:text-white transition opacity-0 group-hover:opacity-100 hidden md:flex" onclick="document.getElementById('calendar-slider').scrollBy({left: 400, behavior: 'smooth'})">
-<i class="fas fa-chevron-right text-xs"></i>
-</button>
-</div>
-<div class="text-center mt-12">
-<a class="inline-block bg-brand-primary hover:bg-brand-primaryDark text-white px-8 py-3 rounded-md transition font-medium shadow-md" href="#">
-<i class="fab fa-whatsapp mr-2"></i> Rezervovat přes WhatsApp
-        </a>
-</div>
-</div>
-</section>
-<!-- END: Booking Calendar Section -->
-<!-- BEGIN: Contact Section -->
-<section class="bg-brand-light py-24 px-6">
-<div class="max-w-6xl mx-auto">
-<div class="text-center mb-16">
-<h2 class="text-3xl md:text-4xl font-cormorant font-semibold text-brand-dark mb-2">Kontaktujte mě</h2>
-<p class="text-gray-500 font-dm-sans text-xs uppercase tracking-widest">Kde mě najdete a jak se spojit</p>
-</div>
-<div class="flex flex-col lg:flex-row gap-16 items-stretch">
-<!-- Left Column: Content -->
-<div class="lg:w-1/2 flex flex-col">
-<p class="text-brand-primary italic mb-6 font-medium">“Těším se na Vaši návštěvu a ráda Vám pomohu najít ten správný druh relaxace.” — Radka</p>
-<p class="text-gray-600 mb-10 font-light">Ráda zodpovím Vaše dotazy a pomohu vybrat správnou masáž.</p>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-y-10 gap-x-8 mt-auto">
-<div class="flex items-start">
-<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-brand-primary shadow-sm mr-4 shrink-0">
-<i class="fas fa-phone-alt text-sm"></i>
-</div>
-<div>
-<h4 class="text-[11px] font-bold text-brand-dark uppercase tracking-widest mb-1">Telefon</h4>
-<p class="text-gray-700 text-sm">(+420) 605 579 643</p>
-</div>
-</div>
-<div class="flex items-start">
-<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-brand-primary shadow-sm mr-4 shrink-0">
-<i class="fas fa-envelope text-sm"></i>
-</div>
-<div>
-<h4 class="text-[11px] font-bold text-brand-dark uppercase tracking-widest mb-1">Email</h4>
-<p class="text-gray-700 text-sm">sebestovar@seznam.cz</p>
-</div>
-</div>
-<div class="flex items-start">
-<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-brand-primary shadow-sm mr-4 shrink-0">
-<i class="fas fa-map-marker-alt text-sm"></i>
-</div>
-<div>
-<h4 class="text-[11px] font-bold text-brand-dark uppercase tracking-widest mb-1">Adresa</h4>
-<p class="text-gray-700 text-sm">Národní tř. 383/15, 695 01 Hodonín 1</p>
-</div>
-</div>
-<div class="flex items-start">
-<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-brand-primary shadow-sm mr-4 shrink-0">
-<i class="fas fa-clock text-sm"></i>
-</div>
-<div>
-<h4 class="text-[11px] font-bold text-brand-dark uppercase tracking-widest mb-1">Provozní doba</h4>
-<p class="text-gray-700 text-sm">Po–Pá 15:00–21:00</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Right Column: Map -->
-<div class="lg:w-1/2">
-<div class="w-full h-full min-h-[400px] bg-gray-200 rounded-[12px] shadow-sm overflow-hidden relative">
-<iframe allowfullscreen="" class="w-full h-full border-0 absolute inset-0" loading="lazy" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2616.745672224168!2d17.126488315680197!3d48.85236687928738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4712df8643899f8d%3A0x1d4d8e87d8d7e0a!2zTsOhcm9kbsOtIHTFmS4gMzgzLzE1LCA2OTUgMDEgSG9kb27DrW4sIEN6ZWNoaWE!5e0!3m2!1sen!2sus!4v1647450000000!5m2!1sen!2sus"></iframe>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- END: Contact Section -->
-<!-- BEGIN: Footer -->
-<footer class="bg-brand-dark text-white/80 pt-16 pb-8 px-6 md:px-12 relative">
-<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 border-b border-white/10 pb-12">
-<!-- Footer Left -->
-<div>
-<h4 class="text-3xl font-cursive text-white mb-4">Pohlazení<br/>po těle a duši</h4>
-<p class="text-sm mb-6 text-brand-primary">Masáže a terapie těla</p>
-<p class="text-sm leading-relaxed">Masáže a terapie těla – prostor pro uvolnění těla i mysli, prevence a regenerace po sportu i náročném pracovném dni.</p>
-</div>
-<!-- Footer Middle -->
-<div>
-<h4 class="text-xl font-serif text-white mb-6">Navigace</h4>
-<ul class="space-y-3 text-sm font-dm-sans">
-<li><a class="hover:text-brand-primary transition" href="#">Služby</a></li>
-<li><a class="hover:text-brand-primary transition" href="#">O mně</a></li>
-<li><a class="hover:text-brand-primary transition" href="#">Termíny</a></li>
-<li><a class="hover:text-brand-primary transition" href="#">Kontakt</a></li>
-<li><a class="hover:text-brand-primary transition" href="#">Dárkové poukazy</a></li>
-</ul>
-</div>
-<!-- Footer Right -->
-<div>
-<h4 class="text-xl font-serif text-white mb-6">Kontakt</h4>
-<ul class="space-y-4 text-sm font-dm-sans">
-<li class="flex items-center"><i class="fas fa-phone mr-3 text-brand-primary w-5"></i> <strong>Telefon:</strong> +420 605 579 643</li>
-<li class="flex items-center"><i class="fas fa-envelope mr-3 text-brand-primary w-5"></i> <strong>Email:</strong> sebestovar@seznam.cz</li>
-<li class="flex items-start"><i class="fas fa-map-marker-alt mr-3 text-brand-primary mt-1 w-5"></i> <span><strong>Adresa:</strong> Národní tř. 383/15<br/>695 01 Hodonín 1</span></li>
-</ul>
-<div class="mt-6 flex space-x-4">
-<a class="text-white hover:text-brand-primary transition text-xl" href="#"><i class="fab fa-facebook"></i></a>
-<a class="text-white hover:text-brand-primary transition text-xl" href="#"><i class="fab fa-instagram"></i></a>
-</div>
-</div>
-</div>
-<div class="text-center text-[10px] text-white/50 font-dm-sans tracking-widest uppercase">
+  </head>
+  <body class="bg-brand-cream text-brand-text antialiased">
+    <!-- BEGIN: Hero Section -->
+    <section
+      class="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-cover bg-center"
+      style="
+        background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCntiuY3Aj9AFofwuYoHWOLMwvXgCb1r8GJdu8MLc88qXaTn-TG_1FEYYD5xTXJn4Qw5ABzSdoP15nIkafkFFiz73uvNRIDyztGS2zF9Kwgh5vlPCF8xzT3wTdJymP_yZ7h13LwUTm0o8tN6YfjuMBcLKK_EsWkU4AjDcRwMTh-KL5L2EbtfuQ9Y_X0_wbq4NVmyh0zoMR0U7KQk8eH7pHZTYCLOV2e3rPGvMjvXVD7CgT9B05qZRB5muxIFT7IPVPH-vCmEo4WOs4');
+      "
+    >
+      <div class="absolute inset-0 bg-black/40"></div>
+      <!-- BEGIN: MainHeader -->
+      <header
+        class="fixed top-0 z-50 flex w-full items-center justify-between px-6 py-6 text-white transition-all duration-300 md:px-12"
+        id="main-nav"
+      >
+        <div class="font-cursive text-2xl tracking-normal md:text-3xl">Pohlazení po těle a duši</div>
+        <nav class="font-dm-sans hidden space-x-8 text-sm font-light tracking-widest uppercase md:flex">
+          <a class="hover:text-brand-primary transition" href="#">Služby</a>
+          <a class="hover:text-brand-primary transition" href="#">O mně</a>
+          <a class="hover:text-brand-primary transition" href="#">Termíny</a>
+          <a class="hover:text-brand-primary transition" href="#">Kontakt</a>
+        </nav>
+        <button class="md:hidden"><i class="fas fa-bars text-2xl"></i></button>
+      </header>
+      <!-- END: MainHeader -->
+      <div class="relative z-10 flex flex-col items-center justify-center px-4 text-center text-white">
+        <h1 class="mb-4 max-w-4xl font-serif text-4xl leading-tight md:text-6xl">Dotek, který uleví a obnoví.</h1>
+        <p class="mb-8 max-w-2xl text-lg font-light md:text-xl">
+          Uvolnění ztuhlých svalů • Regenerace po sportu • Hluboká relaxace mysli.
+        </p>
+        <a
+          class="bg-brand-primary hover:bg-brand-primaryDark inline-block rounded-md px-8 py-3 font-medium tracking-wide text-white shadow-lg transition"
+          href="#"
+          >Vyberte si masáž</a
+        >
+      </div>
+      <!-- Animated Chevron -->
+      <div class="animate-bounce-slow absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-white/70">
+        <i class="fas fa-chevron-down text-2xl"></i>
+      </div>
+    </section>
+    <!-- END: Hero Section -->
+    <!-- BEGIN: Services Section -->
+    <section class="bg-brand-cream mx-auto max-w-6xl px-6 py-24">
+      <div class="mb-16 text-center">
+        <h2 class="font-cormorant text-brand-dark mb-2 text-3xl font-semibold md:text-4xl">Jak Vám můžu pomoci?</h2>
+        <p class="font-dm-sans text-xs tracking-widest text-gray-500 uppercase">
+          Široká nabídka masáží pro vaše tělo i mysl
+        </p>
+      </div>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <!-- Service Card 1 -->
+        <div
+          class="border-brand-border flex h-full flex-col rounded-2xl border bg-white p-8 transition hover:shadow-md"
+        >
+          <div class="mb-4 flex items-center gap-3">
+            <i class="fas fa-leaf text-brand-primary text-sm"></i>
+            <h3 class="font-cormorant text-brand-dark text-xl font-medium">Ájurvédská masáž hlavy</h3>
+          </div>
+          <p class="font-dm-sans mb-8 flex-grow text-sm leading-relaxed text-gray-600">
+            Mírní stres, napětí a přináší hluboké uvolnění celého nervového systému.
+          </p>
+          <div class="border-brand-border flex items-center justify-between border-t pt-4 text-sm">
+            <span class="font-dm-sans text-gray-500">50 min</span>
+            <span class="text-brand-primary font-medium">od 800,-</span>
+          </div>
+        </div>
+        <!-- Service Card 2 -->
+        <div
+          class="border-brand-border flex h-full flex-col rounded-2xl border bg-white p-8 transition hover:shadow-md"
+        >
+          <div class="mb-4 flex items-center gap-3">
+            <i class="fas fa-hands text-brand-primary text-sm"></i>
+            <h3 class="font-cormorant text-brand-dark text-xl font-medium">Terapeutická masáž</h3>
+          </div>
+          <p class="font-dm-sans mb-8 flex-grow text-sm leading-relaxed text-gray-600">
+            Intenzivní masáž zaměřená na konkrétní problémy a svalové dysbalance.
+          </p>
+          <div class="border-brand-border flex items-center justify-between border-t pt-4 text-sm">
+            <span class="font-dm-sans text-gray-500">50 min</span>
+            <span class="text-brand-primary font-medium">od 900,-</span>
+          </div>
+        </div>
+        <!-- Service Card 3 -->
+        <div
+          class="border-brand-border flex h-full flex-col rounded-2xl border bg-white p-8 transition hover:shadow-md"
+        >
+          <div class="mb-4 flex items-center gap-3">
+            <i class="fas fa-spa text-brand-primary text-sm"></i>
+            <h3 class="font-cormorant text-brand-dark text-xl font-medium">Relaxační masáž</h3>
+          </div>
+          <p class="font-dm-sans mb-8 flex-grow text-sm leading-relaxed text-gray-600">
+            Jemná relaxační masáž pro uvolnění těla i mysli v tichém prostředí.
+          </p>
+          <div class="border-brand-border flex items-center justify-between border-t pt-4 text-sm">
+            <span class="font-dm-sans text-gray-500">50 min</span>
+            <span class="text-brand-primary font-medium">od 800,-</span>
+          </div>
+        </div>
+        <!-- Service Card 4 -->
+        <div
+          class="border-brand-border flex h-full flex-col rounded-2xl border bg-white p-8 transition hover:shadow-md"
+        >
+          <div class="mb-4 flex items-center gap-3">
+            <i class="fas fa-fire text-brand-primary text-sm"></i>
+            <h3 class="font-cormorant text-brand-dark text-xl font-medium">Masáž lávovými kameny</h3>
+          </div>
+          <p class="font-dm-sans mb-8 flex-grow text-sm leading-relaxed text-gray-600">
+            Hluboké prohřátí a uvolnění svalů horkými kameny z vulkanických hornin.
+          </p>
+          <div class="border-brand-border flex items-center justify-between border-t pt-4 text-sm">
+            <span class="font-dm-sans text-gray-500">50 min</span>
+            <span class="text-brand-primary font-medium">od 1200,-</span>
+          </div>
+        </div>
+        <!-- Service Card 5-8 -->
+        <div
+          class="border-brand-border flex h-full flex-col rounded-2xl border bg-white p-8 transition hover:shadow-md"
+        >
+          <div class="mb-4 flex items-center gap-3">
+            <i class="fas fa-leaf text-brand-primary text-sm"></i>
+            <h3 class="font-cormorant text-brand-dark text-xl font-medium">Indická masáž</h3>
+          </div>
+          <p class="font-dm-sans mb-8 flex-grow text-sm leading-relaxed text-gray-600">
+            Tradiční technika zaměřená na energetickou rovnováhu celého těla.
+          </p>
+          <div class="border-brand-border flex items-center justify-between border-t pt-4 text-sm">
+            <span class="font-dm-sans text-gray-500">50 min</span>
+            <span class="text-brand-primary font-medium">od 800,-</span>
+          </div>
+        </div>
+        <div
+          class="border-brand-border flex h-full flex-col rounded-2xl border bg-white p-8 transition hover:shadow-md"
+        >
+          <div class="mb-4 flex items-center gap-3">
+            <i class="fas fa-hands text-brand-primary text-sm"></i>
+            <h3 class="font-cormorant text-brand-dark text-xl font-medium">Sportovní masáž</h3>
+          </div>
+          <p class="font-dm-sans mb-8 flex-grow text-sm leading-relaxed text-gray-600">
+            Pro sportovce i aktivní lidi k urychlení regenerace po zátěži.
+          </p>
+          <div class="border-brand-border flex items-center justify-between border-t pt-4 text-sm">
+            <span class="font-dm-sans text-gray-500">50 min</span>
+            <span class="text-brand-primary font-medium">od 900,-</span>
+          </div>
+        </div>
+        <div
+          class="border-brand-border flex h-full flex-col rounded-2xl border bg-white p-8 transition hover:shadow-md"
+        >
+          <div class="mb-4 flex items-center gap-3">
+            <i class="fas fa-spa text-brand-primary text-sm"></i>
+            <h3 class="font-cormorant text-brand-dark text-xl font-medium">Aromaterapie</h3>
+          </div>
+          <p class="font-dm-sans mb-8 flex-grow text-sm leading-relaxed text-gray-600">
+            Spojení léčivé síly doteku a esenciálních olejů nejvyšší kvality.
+          </p>
+          <div class="border-brand-border flex items-center justify-between border-t pt-4 text-sm">
+            <span class="font-dm-sans text-gray-500">50 min</span>
+            <span class="text-brand-primary font-medium">od 800,-</span>
+          </div>
+        </div>
+        <div
+          class="border-brand-border flex h-full flex-col rounded-2xl border bg-white p-8 transition hover:shadow-md"
+        >
+          <div class="mb-4 flex items-center gap-3">
+            <i class="fas fa-fire text-brand-primary text-sm"></i>
+            <h3 class="font-cormorant text-brand-dark text-xl font-medium">Reflexní terapie</h3>
+          </div>
+          <p class="font-dm-sans mb-8 flex-grow text-sm leading-relaxed text-gray-600">
+            Stimulace reflexních bodů na chodidlech pro celkové zdraví.
+          </p>
+          <div class="border-brand-border flex items-center justify-between border-t pt-4 text-sm">
+            <span class="font-dm-sans text-gray-500">50 min</span>
+            <span class="text-brand-primary font-medium">od 1200,-</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: Services Section -->
+    <!-- BEGIN: Gift Voucher Banner -->
+    <section class="bg-brand-light px-6 py-24">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-12 text-center">
+          <h2 class="font-cormorant text-brand-dark mb-2 text-3xl font-semibold md:text-4xl">Dárkové poukazy</h2>
+          <p class="font-dm-sans text-xs tracking-widest text-gray-500 uppercase">Darujte radost z uvolnění</p>
+        </div>
+        <div class="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm md:flex-row">
+          <div
+            class="flex min-h-[350px] items-center justify-center bg-gradient-to-br from-[#E8C4BB] to-[#C4736A] p-12 md:w-1/2"
+          >
+            <div
+              class="flex h-full w-full items-center justify-center rounded-xl border-2 border-white/20 text-white/40"
+            >
+              <i class="fas fa-gift text-8xl"></i>
+            </div>
+          </div>
+          <div class="flex flex-col justify-center p-12 md:w-1/2">
+            <h3 class="text-brand-dark mb-4 font-serif text-2xl">Darujte chvíle klidu</h3>
+            <p class="mb-8 leading-relaxed text-gray-600">
+              Darujte svým blízkým chvíle plné relaxace a pohody. Ideální dárek pro každou příležitost.
+            </p>
+            <ul class="mb-10 space-y-4">
+              <li class="flex items-center text-sm text-gray-700">
+                <i class="fas fa-check text-brand-primary mr-3"></i> Libovolná hodnota poukazu
+              </li>
+              <li class="flex items-center text-sm text-gray-700">
+                <i class="fas fa-check text-brand-primary mr-3"></i> Flexibilní použití – na všechny služby
+              </li>
+              <li class="flex items-center text-sm text-gray-700">
+                <i class="fas fa-check text-brand-primary mr-3"></i> Okamžitá objednávka přes WhatsApp
+              </li>
+            </ul>
+            <a
+              class="bg-brand-primary hover:bg-brand-primaryDark inline-block w-max rounded-md px-8 py-3 font-medium text-white shadow-md transition"
+              href="#"
+              >Objednat dárkový poukaz</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: Gift Voucher Banner -->
+    <!-- BEGIN: About Section -->
+    <section class="bg-brand-cream px-6 py-24">
+      <div class="mx-auto max-w-6xl">
+        <div
+          class="border-brand-border/30 flex flex-col items-stretch gap-0 overflow-hidden rounded-3xl border bg-white lg:flex-row"
+        >
+          <!-- Left Column (55% width) -->
+          <div class="flex flex-col p-12 lg:w-[55%]">
+            <div class="mb-10 text-center">
+              <h2 class="font-cormorant text-brand-dark mb-2 text-3xl font-semibold md:text-4xl">O mně</h2>
+              <p class="font-dm-sans text-xs tracking-widest text-gray-500 uppercase">
+                Terapeutka a masérka v Hodoníně
+              </p>
+            </div>
+            <!-- Stats Row -->
+            <div class="border-brand-border/30 mb-10 flex flex-row items-center justify-between border-y py-8">
+              <div class="flex-1 text-center">
+                <div class="font-cormorant text-brand-primary mb-1 text-5xl leading-none font-bold">16+</div>
+                <div class="font-dm-sans text-[10px] font-medium tracking-widest text-gray-400 uppercase">
+                  let zkušeností
+                </div>
+              </div>
+              <div class="bg-brand-border/30 h-10 w-px"></div>
+              <div class="flex-1 px-4 text-center">
+                <div class="font-cormorant text-brand-primary mb-1 text-5xl leading-none font-bold">1500+</div>
+                <div class="font-dm-sans text-[10px] font-medium tracking-widest text-gray-400 uppercase">
+                  spokojených klientů
+                </div>
+              </div>
+              <div class="bg-brand-border/30 h-10 w-px"></div>
+              <div class="flex-1 text-center">
+                <div class="font-cormorant text-brand-primary mb-1 text-5xl leading-none font-bold">12</div>
+                <div class="font-dm-sans text-[10px] font-medium tracking-widest text-gray-400 uppercase">
+                  druhů masáží
+                </div>
+              </div>
+            </div>
+            <h3 class="text-brand-dark mb-4 font-serif text-2xl">Mgr. Radka Šebestová</h3>
+            <p class="mb-8 text-base leading-relaxed text-gray-600">
+              Jsem masérka s vášní pro celostní přístup k lidskému tělu. Věřím, že dotek má léčivou sílu nejen pro
+              fyzické potíže, ale i pro uvolnění mysli a nalezení vnitřní rovnováhy.
+            </p>
+            <ul class="mt-auto space-y-3 text-sm text-gray-600">
+              <li class="flex items-start">
+                <i class="fas fa-check text-brand-primary mt-1 mr-4"></i> Individuální přístup ke každému klientovi
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-brand-primary mt-1 mr-4"></i> Profesionální a certifikované techniky
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-brand-primary mt-1 mr-4"></i> Terapie šité na míru vašim aktuálním potřebám
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-brand-primary mt-1 mr-4"></i> Relaxační hudba a výběrová aromaterapie
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-brand-primary mt-1 mr-4"></i> Příjemné a tiché prostředí pro nerušený
+                odpočinek
+              </li>
+            </ul>
+          </div>
+          <!-- Right Column (45% width) -->
+          <div class="lg:w-[45%]">
+            <img
+              alt="Mgr. Radka Šebestová"
+              class="h-full max-h-[540px] w-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZi3z6zySnxdWaA50U32D_AdmJrSMVFgCEmCuumARqBaXNCOtKLZsW5Z2bTQ-tUldDs4C98FRdSppqzxOPNcYQAH77ezVNXpsqHNop-y8Cr1IOmUwfTLY-kRyI4mQ0jIvYea-jKQkgCRut6bjdX0InL8uTRzA0GbtWx4u0w6f_-O0iJ2b5rCdPxlzPxBBvshJfz1W9lnEf8zWlsLSnRtCYxui6UD_TaHtWlCMqzg35qLsZeBKh-D-i_FikVjj32r5jwYfg7XfL8Aw"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: About Section -->
+    <!-- BEGIN: Gallery Section -->
+    <section class="bg-brand-cream px-6 py-24">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-12 text-center">
+          <h2 class="font-cormorant text-brand-dark mb-2 text-3xl font-semibold md:text-4xl">Naše studio</h2>
+          <p class="font-dm-sans text-xs tracking-widest text-gray-500 uppercase">
+            Autentické záběry z našeho prostředí
+          </p>
+        </div>
+        <div class="group relative">
+          <div class="no-scrollbar flex snap-x gap-6 overflow-x-auto pb-8" id="gallery-slider">
+            <div class="min-w-[75%] snap-start md:min-w-[31.5%]">
+              <img
+                alt="Studio detail 1"
+                class="h-[400px] w-full rounded-xl object-cover shadow-sm"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVCKjXAwr6fZ2oWZMhcnPlgdGk-t0o90Z_bT26lPCrOp4xg6l3CXNoWUGrQoF0-lh48HLyjdxWzTWCha95iWIkt8Eidf3HGchagbLILDN1if8cgK-K4opqLIqKe5bZGHKSh0se2x-2o3y4NpzThG4AP5ka4nIRLBhx06soULxQCabxLJ5M6otZG1OhwuIfjiQVbwBqB7L4BzOphtgF1LLnDdIPSL09HK0hzSi9jSvDFzsMcHM3aUcNIb6CRMh5j1WDYlHcU0zNsXs"
+              />
+            </div>
+            <div class="min-w-[75%] snap-start md:min-w-[31.5%]">
+              <img
+                alt="Studio detail 2"
+                class="h-[400px] w-full rounded-xl object-cover shadow-sm"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNxLxz0fYGVvlU3eNW1majOI4ksqWYOYj8z4qIzWanYAI40JsaGpSpilD13-AObK35b1opYymev9BcfGh3nFpp61HQ08hZOqDs3bhr6plqBHghnAhNNqdNwXQJClw6KfyTUl2W7XGKTdpsn0vbkgNmSiecPPp7v0UN2uu2gWWL-hTNHgyactI-VysC7uBlTQIJAMWrHqgC7FSZ3xXwa6e7qS9ZcrtDmt6GjrG9c66muaWj0SrRIsdP5nSvHnWXTstSK9n6trSjsgU"
+              />
+            </div>
+            <div class="min-w-[75%] snap-start md:min-w-[31.5%]">
+              <img
+                alt="Studio detail 3"
+                class="h-[400px] w-full rounded-xl object-cover shadow-sm"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSzK2RSwFcZi1xda_IYdBvZU5h7h55xSRZJDGlb5dbxQWqdpsmdtjn8-kRzdwoNeISzHmnthWktkGK5uuLkiU3oJCjnebLJXS03qHeHcTUsUIg-f4F8AY2wbXZZUjttGJ-32wXjAJ11fYk2Wq3BnlJR1bdh86XaqjOmOlvBOpoQQjWdpdilHRoj2r97dGKjDlKE28BtMOK4kBA4ZrOcKTyBtU0Q84puynSqH3Ns8DHR4M-hKt-Yqva_hhFp81ucdjNBQpzYEjepQM"
+              />
+            </div>
+            <div class="min-w-[75%] snap-start md:min-w-[31.5%]">
+              <img
+                alt="Studio detail 4"
+                class="h-[400px] w-full rounded-xl object-cover shadow-sm"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3-dO0I1P8Q2UdR73VzxOTgFhyU4nKb76UCpwQfuTrz5db50SjkFQcFzV3q2sNiUJS2Kk0NA0Ibq2lBUOosVdrts0LGYpNBPkMRyNSV7n4iYPoLsCwAnnjBu3CNO6ZqG-i7gVdQG47w-EqymKIUJhvFVHglQd6YyhQJ8OxVryxO-C47JP-WNfS8MjNzhMPaI1EYEpgDjphLoMU1Rya_jDrDue-BSK-JXw3SIQyvPO5t_o1khYPJPmAQojPSlMKaqzLnam_n8jTgRo"
+              />
+            </div>
+          </div>
+          <button
+            class="text-brand-dark hover:bg-brand-primary absolute top-1/2 left-0 -ml-5 flex hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white opacity-0 shadow-md transition group-hover:opacity-100 hover:text-white md:flex"
+            onclick="document.getElementById('gallery-slider').scrollBy({left: -400, behavior: 'smooth'})"
+          >
+            <i class="fas fa-chevron-left text-xs"></i>
+          </button>
+          <button
+            class="text-brand-dark hover:bg-brand-primary absolute top-1/2 right-0 -mr-5 flex hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white opacity-0 shadow-md transition group-hover:opacity-100 hover:text-white md:flex"
+            onclick="document.getElementById('gallery-slider').scrollBy({left: 400, behavior: 'smooth'})"
+          >
+            <i class="fas fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- END: Gallery Section -->
+    <!-- BEGIN: Booking Calendar Section -->
+    <section class="bg-brand-cream px-6 py-24">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <h2 class="font-cormorant text-brand-dark mb-2 text-3xl font-semibold md:text-4xl">Volné termíny</h2>
+          <p class="font-dm-sans text-xs tracking-widest text-gray-500 uppercase">Najděte si svůj čas pro regeneraci</p>
+        </div>
+        <div class="group relative">
+          <!-- Horizontal Slider -->
+          <div class="no-scrollbar flex snap-x gap-6 overflow-x-auto pb-8" id="calendar-slider">
+            <!-- Day Card 1 -->
+            <div
+              class="bg-brand-light flex min-w-[85%] snap-start flex-col items-center overflow-hidden rounded-xl md:min-w-[31.5%]"
+            >
+              <div class="w-full py-6 text-center">
+                <span class="font-cormorant text-brand-primary text-2xl font-medium italic">Pondělí</span>
+                <div class="font-dm-sans mt-1 text-[11px] tracking-widest text-gray-500 uppercase">20. března</div>
+              </div>
+              <div class="flex w-full flex-col gap-3 p-6">
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  16:00
+                </button>
+                <button
+                  class="font-dm-sans w-full cursor-not-allowed rounded-full bg-gray-200/50 py-2 text-sm text-gray-400 line-through"
+                >
+                  17:00
+                </button>
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  18:00
+                </button>
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  19:00
+                </button>
+              </div>
+            </div>
+            <!-- Day Card 2 -->
+            <div
+              class="bg-brand-light flex min-w-[85%] snap-start flex-col items-center overflow-hidden rounded-xl md:min-w-[31.5%]"
+            >
+              <div class="w-full py-6 text-center">
+                <span class="font-cormorant text-brand-primary text-2xl font-medium italic">Úterý</span>
+                <div class="font-dm-sans mt-1 text-[11px] tracking-widest text-gray-500 uppercase">21. března</div>
+              </div>
+              <div class="flex w-full flex-col gap-3 p-6">
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  16:00
+                </button>
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  17:00
+                </button>
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  18:00
+                </button>
+                <button
+                  class="font-dm-sans w-full cursor-not-allowed rounded-full bg-gray-200/50 py-2 text-sm text-gray-400 line-through"
+                >
+                  19:00
+                </button>
+              </div>
+            </div>
+            <!-- Day Card 3 -->
+            <div
+              class="bg-brand-light flex min-w-[85%] snap-start flex-col items-center overflow-hidden rounded-xl md:min-w-[31.5%]"
+            >
+              <div class="w-full py-6 text-center">
+                <span class="font-cormorant text-brand-primary text-2xl font-medium italic">Středa</span>
+                <div class="font-dm-sans mt-1 text-[11px] tracking-widest text-gray-500 uppercase">22. března</div>
+              </div>
+              <div class="flex w-full flex-col gap-3 p-6">
+                <button
+                  class="font-dm-sans w-full cursor-not-allowed rounded-full bg-gray-200/50 py-2 text-sm text-gray-400 line-through"
+                >
+                  16:00
+                </button>
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  17:00
+                </button>
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  18:00
+                </button>
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  19:00
+                </button>
+              </div>
+            </div>
+            <!-- Day Card 4 -->
+            <div
+              class="bg-brand-light flex min-w-[85%] snap-start flex-col items-center overflow-hidden rounded-xl md:min-w-[31.5%]"
+            >
+              <div class="w-full py-6 text-center">
+                <span class="font-cormorant text-brand-primary text-2xl font-medium italic">Čtvrtek</span>
+                <div class="font-dm-sans mt-1 text-[11px] tracking-widest text-gray-500 uppercase">23. března</div>
+              </div>
+              <div class="flex w-full flex-col gap-3 p-6">
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  15:00
+                </button>
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  16:00
+                </button>
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  17:00
+                </button>
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  18:00
+                </button>
+                <button
+                  class="border-brand-primary text-brand-primary hover:bg-brand-primary font-dm-sans w-full rounded-full border bg-white py-2 text-sm font-medium transition hover:text-white"
+                >
+                  19:00
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Minimalist Arrow Navigation -->
+          <button
+            class="text-brand-dark hover:bg-brand-primary absolute top-1/2 left-0 -ml-5 flex hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white opacity-0 shadow-md transition group-hover:opacity-100 hover:text-white md:flex"
+            onclick="document.getElementById('calendar-slider').scrollBy({left: -400, behavior: 'smooth'})"
+          >
+            <i class="fas fa-chevron-left text-xs"></i>
+          </button>
+          <button
+            class="text-brand-dark hover:bg-brand-primary absolute top-1/2 right-0 -mr-5 flex hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white opacity-0 shadow-md transition group-hover:opacity-100 hover:text-white md:flex"
+            onclick="document.getElementById('calendar-slider').scrollBy({left: 400, behavior: 'smooth'})"
+          >
+            <i class="fas fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+        <div class="mt-12 text-center">
+          <a
+            class="bg-brand-primary hover:bg-brand-primaryDark inline-block rounded-md px-8 py-3 font-medium text-white shadow-md transition"
+            href="#"
+          >
+            <i class="fab fa-whatsapp mr-2"></i> Rezervovat přes WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- END: Booking Calendar Section -->
+    <!-- BEGIN: Contact Section -->
+    <section class="bg-brand-light px-6 py-24">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <h2 class="font-cormorant text-brand-dark mb-2 text-3xl font-semibold md:text-4xl">Kontaktujte mě</h2>
+          <p class="font-dm-sans text-xs tracking-widest text-gray-500 uppercase">Kde mě najdete a jak se spojit</p>
+        </div>
+        <div class="flex flex-col items-stretch gap-16 lg:flex-row">
+          <!-- Left Column: Content -->
+          <div class="flex flex-col lg:w-1/2">
+            <p class="text-brand-primary mb-6 font-medium italic">
+              “Těším se na Vaši návštěvu a ráda Vám pomohu najít ten správný druh relaxace.” — Radka
+            </p>
+            <p class="mb-10 font-light text-gray-600">Ráda zodpovím Vaše dotazy a pomohu vybrat správnou masáž.</p>
+            <div class="mt-auto grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2">
+              <div class="flex items-start">
+                <div
+                  class="text-brand-primary mr-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white shadow-sm"
+                >
+                  <i class="fas fa-phone-alt text-sm"></i>
+                </div>
+                <div>
+                  <h4 class="text-brand-dark mb-1 text-[11px] font-bold tracking-widest uppercase">Telefon</h4>
+                  <p class="text-sm text-gray-700">(+420) 605 579 643</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="text-brand-primary mr-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white shadow-sm"
+                >
+                  <i class="fas fa-envelope text-sm"></i>
+                </div>
+                <div>
+                  <h4 class="text-brand-dark mb-1 text-[11px] font-bold tracking-widest uppercase">Email</h4>
+                  <p class="text-sm text-gray-700">sebestovar@seznam.cz</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="text-brand-primary mr-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white shadow-sm"
+                >
+                  <i class="fas fa-map-marker-alt text-sm"></i>
+                </div>
+                <div>
+                  <h4 class="text-brand-dark mb-1 text-[11px] font-bold tracking-widest uppercase">Adresa</h4>
+                  <p class="text-sm text-gray-700">Národní tř. 383/15, 695 01 Hodonín 1</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="text-brand-primary mr-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white shadow-sm"
+                >
+                  <i class="fas fa-clock text-sm"></i>
+                </div>
+                <div>
+                  <h4 class="text-brand-dark mb-1 text-[11px] font-bold tracking-widest uppercase">Provozní doba</h4>
+                  <p class="text-sm text-gray-700">Po–Pá 15:00–21:00</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Right Column: Map -->
+          <div class="lg:w-1/2">
+            <div class="relative h-full min-h-[400px] w-full overflow-hidden rounded-[12px] bg-gray-200 shadow-sm">
+              <iframe
+                allowfullscreen=""
+                class="absolute inset-0 h-full w-full border-0"
+                loading="lazy"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2616.745672224168!2d17.126488315680197!3d48.85236687928738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4712df8643899f8d%3A0x1d4d8e87d8d7e0a!2zTsOhcm9kbsOtIHTFmS4gMzgzLzE1LCA2OTUgMDEgSG9kb27DrW4sIEN6ZWNoaWE!5e0!3m2!1sen!2sus!4v1647450000000!5m2!1sen!2sus"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: Contact Section -->
+    <!-- BEGIN: Footer -->
+    <footer class="bg-brand-dark relative px-6 pt-16 pb-8 text-white/80 md:px-12">
+      <div class="mx-auto mb-12 grid max-w-7xl grid-cols-1 gap-12 border-b border-white/10 pb-12 md:grid-cols-3">
+        <!-- Footer Left -->
+        <div>
+          <h4 class="font-cursive mb-4 text-3xl text-white">Pohlazení<br />po těle a duši</h4>
+          <p class="text-brand-primary mb-6 text-sm">Masáže a terapie těla</p>
+          <p class="text-sm leading-relaxed">
+            Masáže a terapie těla – prostor pro uvolnění těla i mysli, prevence a regenerace po sportu i náročném
+            pracovném dni.
+          </p>
+        </div>
+        <!-- Footer Middle -->
+        <div>
+          <h4 class="mb-6 font-serif text-xl text-white">Navigace</h4>
+          <ul class="font-dm-sans space-y-3 text-sm">
+            <li><a class="hover:text-brand-primary transition" href="#">Služby</a></li>
+            <li><a class="hover:text-brand-primary transition" href="#">O mně</a></li>
+            <li><a class="hover:text-brand-primary transition" href="#">Termíny</a></li>
+            <li><a class="hover:text-brand-primary transition" href="#">Kontakt</a></li>
+            <li><a class="hover:text-brand-primary transition" href="#">Dárkové poukazy</a></li>
+          </ul>
+        </div>
+        <!-- Footer Right -->
+        <div>
+          <h4 class="mb-6 font-serif text-xl text-white">Kontakt</h4>
+          <ul class="font-dm-sans space-y-4 text-sm">
+            <li class="flex items-center">
+              <i class="fas fa-phone text-brand-primary mr-3 w-5"></i> <strong>Telefon:</strong> +420 605 579 643
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope text-brand-primary mr-3 w-5"></i> <strong>Email:</strong> sebestovar@seznam.cz
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt text-brand-primary mt-1 mr-3 w-5"></i>
+              <span><strong>Adresa:</strong> Národní tř. 383/15<br />695 01 Hodonín 1</span>
+            </li>
+          </ul>
+          <div class="mt-6 flex space-x-4">
+            <a class="hover:text-brand-primary text-xl text-white transition" href="#"
+              ><i class="fab fa-facebook"></i
+            ></a>
+            <a class="hover:text-brand-primary text-xl text-white transition" href="#"
+              ><i class="fab fa-instagram"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+      <div class="font-dm-sans text-center text-[10px] tracking-widest text-white/50 uppercase">
         © 2024 Pohlazení po těle a duši. Všechna práva vyhrazená.
-    </div>
-<!-- Floating Buttons -->
-<a class="fixed bottom-6 left-6 bg-green-500 text-white w-[48px] h-[48px] rounded-full flex items-center justify-center text-2xl shadow-lg hover:bg-green-600 transition z-50" href="#">
-<i class="fab fa-whatsapp"></i>
-</a>
-<button class="fixed bottom-6 right-6 bg-brand-dustyRose hover:bg-brand-primaryDark text-white w-[48px] h-[48px] rounded-full flex items-center justify-center text-lg shadow-lg transition z-50" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-<i class="fas fa-chevron-up"></i>
-</button>
-</footer>
-<!-- END: Footer -->
-<script>
-    // Header scroll effect
-    window.addEventListener('scroll', function() {
-        const header = document.getElementById('main-nav');
+      </div>
+      <!-- Floating Buttons -->
+      <a
+        class="fixed bottom-6 left-6 z-50 flex h-[48px] w-[48px] items-center justify-center rounded-full bg-green-500 text-2xl text-white shadow-lg transition hover:bg-green-600"
+        href="#"
+      >
+        <i class="fab fa-whatsapp"></i>
+      </a>
+      <button
+        class="bg-brand-dustyRose hover:bg-brand-primaryDark fixed right-6 bottom-6 z-50 flex h-[48px] w-[48px] items-center justify-center rounded-full text-lg text-white shadow-lg transition"
+        onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+      >
+        <i class="fas fa-chevron-up"></i>
+      </button>
+    </footer>
+    <!-- END: Footer -->
+    <script>
+      // Header scroll effect
+      window.addEventListener('scroll', function () {
+        const header = document.getElementById('main-nav')
         if (window.scrollY > 50) {
-            header.classList.add('scrolled');
+          header.classList.add('scrolled')
         } else {
-            header.classList.remove('scrolled');
+          header.classList.remove('scrolled')
         }
-    });
-</script>
-</body></html>
+      })
+    </script>
+  </body>
+</html>

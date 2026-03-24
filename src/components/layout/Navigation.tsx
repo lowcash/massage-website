@@ -148,7 +148,7 @@ export default function Navigation() {
                 <button
                   type='button'
                   onClick={() => handleNavigationClick('#hero')}
-                  className='text-left font-dancing text-[1.85rem] leading-none text-[#5f3b36] transition hover:opacity-85 sm:text-3xl'
+                  className='font-dancing text-left text-[1.85rem] leading-none text-[#5f3b36] transition hover:opacity-85 sm:text-3xl'
                   aria-label={siteContent.navigation.homeAriaLabel}
                 >
                   {applyCzechNbsp(siteContent.brand.name)}
@@ -174,7 +174,7 @@ export default function Navigation() {
                       aria-current={activeSection === item.href.replace('#', '') ? 'page' : undefined}
                       className={`cursor-pointer rounded-2xl border bg-white/70 px-4 py-3 text-left text-[13px] tracking-[0.16em] uppercase transition hover:bg-white sm:px-5 sm:py-4 sm:text-sm sm:tracking-[0.2em] ${activeSection === item.href.replace('#', '') ? 'border-[#d8b1a8] bg-[#fff8f6] text-[#be675a]' : 'border-[#e5d0cb] text-[#5f3b36]'}`}
                     >
-                        {applyCzechNbsp(item.label)}
+                      {applyCzechNbsp(item.label)}
                     </button>
                   ))}
                 </div>

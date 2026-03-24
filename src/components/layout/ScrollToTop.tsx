@@ -32,7 +32,7 @@ export default function ScrollToTop() {
       },
       {
         threshold: 0.02,
-      }
+      },
     )
 
     observer.observe(footerElement)
