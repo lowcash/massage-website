@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import { Cormorant_Garamond, Dancing_Script, DM_Sans } from 'next/font/google'
 
+import { siteContent } from '@/lib/content'
 import { 
   DESCRIPTION, 
   TITLE, 
@@ -18,16 +19,19 @@ import { BookingProvider } from '@/src/contexts/BookingContext'
 const dancingScript = Dancing_Script({
   variable: '--font-dancing',
   subsets: ['latin'],
+  display: 'swap',
 })
 
 const cormorantGaramond = Cormorant_Garamond({
   variable: '--font-serif-display',
   subsets: ['latin'],
+  display: 'swap',
 })
 
 const dmSans = DM_Sans({
   variable: '--font-sans-display',
   subsets: ['latin'],
+  display: 'swap',
 })
 
 export const viewport: Viewport = {
@@ -89,6 +93,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const serviceCatalogItems = siteContent.services.items.map((service) => ({
+    '@type': 'Offer',
+    itemOffered: {
+      '@type': 'Service',
+      name: service.name,
+      description: service.description,
+    },
+  }))
+
   // JSON-LD strukturovaná data pro Google (LocalBusiness schema)
   const structuredData = {
     "@context": "https://schema.org",
@@ -123,40 +136,7 @@ export default function RootLayout({
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Masážní služby",
-      "itemListElement": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Ošetření spoušťových bodů",
-            "description": "Terapeutická technika zaměřená na uvolnění svalových uzlů"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Thajská masáž nohou",
-            "description": "Tradiční technika kombinující akupresuru a protahování"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Deep tissue massage",
-            "description": "Hloubková masáž zaměřená na chronické napětí"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Těhotenská masáž",
-            "description": "Jemná masáž pro těhotné ženy"
-          }
-        }
-      ]
+      "itemListElement": serviceCatalogItems
     },
     "employee": {
       "@type": "Person",
@@ -192,8 +172,17 @@ export default function RootLayout({
         />
       </head>
       <body className={`${dancingScript.variable} ${cormorantGaramond.variable} ${dmSans.variable} antialiased min-h-screen`}>
+        <a
+          href='#main-content'
+          className='skip-link sr-only absolute top-4 left-4 z-[100] rounded-md bg-[#2d1d1a] px-4 py-2 text-sm font-medium text-white focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-[#ca6f61] focus:ring-offset-2 focus:ring-offset-[#f6edeb]'
+        >
+          Přeskočit na hlavní obsah
+        </a>
+
         <BookingProvider>
-          {children}
+          <main id='main-content'>
+            {children}
+          </main>
         </BookingProvider>
 
         {/* Google Analytics */}

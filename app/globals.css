@@ -84,6 +84,11 @@ button:disabled {
   cursor: not-allowed;
 }
 
+:where(a, button, input, select, textarea, iframe):focus-visible {
+  outline: 2px solid #ca6f61;
+  outline-offset: 3px;
+}
+
 @layer components {
   .nav-link {
     @apply text-[#de397e] relative font-medium transition-colors duration-300 hover:text-[#9d0e57];

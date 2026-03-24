@@ -145,9 +145,14 @@ export default function Navigation() {
               className='fixed top-0 right-0 bottom-0 z-50 flex h-dvh w-[92%] max-w-sm flex-col border-l border-[#e4cfc9] bg-[#f8ede9]/92 px-4 py-4 backdrop-blur-2xl sm:px-6 sm:py-6'
             >
               <div className='mb-6 flex shrink-0 items-center pr-14 sm:mb-8'>
-                <span className='font-dancing text-[1.85rem] leading-none text-[#5f3b36] sm:text-3xl'>
+                <button
+                  type='button'
+                  onClick={() => handleNavigationClick('#hero')}
+                  className='text-left font-dancing text-[1.85rem] leading-none text-[#5f3b36] transition hover:opacity-85 sm:text-3xl'
+                  aria-label={siteContent.navigation.homeAriaLabel}
+                >
                   {applyCzechNbsp(siteContent.brand.name)}
-                </span>
+                </button>
 
                 <button
                   type='button'
