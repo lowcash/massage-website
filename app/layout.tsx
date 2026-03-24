@@ -161,7 +161,7 @@ export default function RootLayout({
       >
         <a
           href='#main-content'
-          className='skip-link sr-only absolute top-4 left-4 z-[100] rounded-md bg-[#2d1d1a] px-4 py-2 text-sm font-medium text-white focus:not-sr-only focus:ring-2 focus:ring-[#ca6f61] focus:ring-offset-2 focus:ring-offset-[#f6edeb] focus:outline-none'
+          className='skip-link sr-only absolute top-4 left-4 z-100 rounded-md bg-[#2d1d1a] px-4 py-2 text-sm font-medium text-white focus:not-sr-only focus:ring-2 focus:ring-[#ca6f61] focus:ring-offset-2 focus:ring-offset-[#f6edeb] focus:outline-none'
         >
           Přeskočit na hlavní obsah
         </a>
