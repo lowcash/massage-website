@@ -61,7 +61,7 @@ test.describe('BookingCalendar carousel', () => {
     expect(scrollLeft).toBeLessThanOrEqual(maxScrollLeft + 2) // 2px tolerance
   })
 
-  test('touch swipe right advances carousel', async ({ page }) => {
+  test('mouse drag advances carousel', async ({ page }) => {
     const carousel = page.locator('#booking .overflow-x-auto').first()
     const box = await carousel.boundingBox()
     if (!box) throw new Error('Carousel not found in viewport')
@@ -70,28 +70,18 @@ test.describe('BookingCalendar carousel', () => {
     const endX = box.x + box.width * 0.2
     const midY = box.y + box.height / 2
 
-    await page.touchscreen.tap(startX, midY)
-    await page.touchscreen.move(startX, midY)
-
-    // Swipe left (content moves right in view = advancing)
+    // Use page.mouse which triggers pointer events (carousel JS handler is mouse-only)
     await page.mouse.move(startX, midY)
-    await page.evaluate(
-      ({ startX, endX, midY }) => {
-        const el = document.querySelector('#booking .overflow-x-auto') as HTMLElement
-        if (!el) return
-        el.dispatchEvent(new TouchEvent('touchstart', { touches: [new Touch({ identifier: 1, target: el, clientX: startX, clientY: midY })] }))
-        el.dispatchEvent(new TouchEvent('touchmove', { touches: [new Touch({ identifier: 1, target: el, clientX: endX, clientY: midY })] }))
-        el.dispatchEvent(new TouchEvent('touchend', { changedTouches: [new Touch({ identifier: 1, target: el, clientX: endX, clientY: midY })] }))
-      },
-      { startX, endX, midY },
-    )
-    await page.waitForTimeout(500)
+    await page.mouse.down()
+    await page.mouse.move(endX, midY, { steps: 10 })
+    await page.mouse.up()
+    await page.waitForTimeout(600)
 
     const scrollLeft = await carousel.evaluate((el) => el.scrollLeft)
     expect(scrollLeft).toBeGreaterThan(0)
   })
 
-  test('touch swipe left from start does not go past first item', async ({ page }) => {
+  test('mouse drag left from start does not go past first item', async ({ page }) => {
     const carousel = page.locator('#booking .overflow-x-auto').first()
     const box = await carousel.boundingBox()
     if (!box) throw new Error('Carousel not found in viewport')
@@ -100,17 +90,12 @@ test.describe('BookingCalendar carousel', () => {
     const endX = box.x + box.width * 0.8
     const midY = box.y + box.height / 2
 
-    await page.evaluate(
-      ({ startX, endX, midY }) => {
-        const el = document.querySelector('#booking .overflow-x-auto') as HTMLElement
-        if (!el) return
-        el.dispatchEvent(new TouchEvent('touchstart', { touches: [new Touch({ identifier: 1, target: el, clientX: startX, clientY: midY })] }))
-        el.dispatchEvent(new TouchEvent('touchmove', { touches: [new Touch({ identifier: 1, target: el, clientX: endX, clientY: midY })] }))
-        el.dispatchEvent(new TouchEvent('touchend', { changedTouches: [new Touch({ identifier: 1, target: el, clientX: endX, clientY: midY })] }))
-      },
-      { startX, endX, midY },
-    )
-    await page.waitForTimeout(500)
+    // Drag right (scroll left) from start position
+    await page.mouse.move(startX, midY)
+    await page.mouse.down()
+    await page.mouse.move(endX, midY, { steps: 10 })
+    await page.mouse.up()
+    await page.waitForTimeout(600)
 
     const scrollLeft = await carousel.evaluate((el) => el.scrollLeft)
     expect(scrollLeft).toBeGreaterThanOrEqual(0)
