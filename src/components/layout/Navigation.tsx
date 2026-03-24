@@ -93,7 +93,7 @@ export default function Navigation() {
             {applyCzechNbsp(siteContent.brand.name)}
           </button>
 
-          <div className='hidden items-center gap-5 xl:flex xl:gap-7'>
+          <div className='hidden items-center gap-5 lg:flex lg:gap-7'>
             {siteContent.navigation.items.map((item) => (
               <button
                 key={item.id}
@@ -106,7 +106,7 @@ export default function Navigation() {
                     : `cursor-pointer text-[11px] tracking-[0.2em] uppercase transition hover:text-[#ffe4de] ${activeSection === item.href.replace('#', '') ? 'text-[#ffe4de]' : 'text-white'}`
                 }
               >
-                {item.label}
+                {applyCzechNbsp(item.label)}
               </button>
             ))}
           </div>
@@ -116,8 +116,8 @@ export default function Navigation() {
             onClick={() => setIsMobileMenuOpen(true)}
             className={
               isScrolled
-                ? 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#d4b2aa] bg-white/70 text-[#6e4d48] xl:hidden'
-                : 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/70 bg-white/10 text-white xl:hidden'
+                ? 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#d4b2aa] bg-white/70 text-[#6e4d48] lg:hidden'
+                : 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/70 bg-white/10 text-white lg:hidden'
             }
             aria-label={siteContent.navigation.openMenuAriaLabel}
           >
@@ -169,7 +169,7 @@ export default function Navigation() {
                       aria-current={activeSection === item.href.replace('#', '') ? 'page' : undefined}
                       className={`cursor-pointer rounded-2xl border bg-white/70 px-4 py-3 text-left text-[13px] tracking-[0.16em] uppercase transition hover:bg-white sm:px-5 sm:py-4 sm:text-sm sm:tracking-[0.2em] ${activeSection === item.href.replace('#', '') ? 'border-[#d8b1a8] bg-[#fff8f6] text-[#be675a]' : 'border-[#e5d0cb] text-[#5f3b36]'}`}
                     >
-                      {item.label}
+                        {applyCzechNbsp(item.label)}
                     </button>
                   ))}
                 </div>
@@ -201,9 +201,9 @@ export default function Navigation() {
                   >
                     <MapPin className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
                     <span className='leading-snug'>
-                      {siteContent.brand.addressLine1}
+                      {applyCzechNbsp(siteContent.brand.addressLine1)}
                       <br />
-                      {siteContent.brand.addressLine2}
+                      {applyCzechNbsp(siteContent.brand.addressLine2)}
                     </span>
                   </a>
                 </div>

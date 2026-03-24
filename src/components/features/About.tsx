@@ -1,5 +1,6 @@
 'use client'
 
+import type { ReactNode } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 
@@ -13,6 +14,39 @@ import {
   useReducedMotion,
 } from '@/src/hooks/useReducedMotion'
 import profileImage from '@/src/assets/profile.jpg'
+
+const ABOUT_PARAGRAPH_EMPHASIS = [
+  'vykouzlit druhým na tváři úsměv',
+  'zapomněli na každodenní starosti',
+  'jedinečné bytosti',
+]
+
+const ABOUT_CREDENTIAL_EMPHASIS: Record<string, string> = {
+  'Magisterské studium ošetřovatelství na VŠZaSP sv. Alžbety v Bratislavě':
+    'Magisterské studium ošetřovatelství',
+  'Specializace v oboru geriatrie': 'geriatrie',
+  'Dlouholetý masér pro zdravotnictví a terapeut': 'Dlouholetý masér',
+  'Zkušenosti se zařízeními sociální a zdravotní péče': 'sociální a zdravotní péče',
+  'Učitelka zdravotnických předmětů': 'Učitelka',
+  'Lektor v sociální sféře': 'Lektor',
+}
+
+function renderEmphasizedText(text: string, emphasis?: string): ReactNode {
+  if (!emphasis || !text.includes(emphasis)) {
+    return applyCzechNbsp(text)
+  }
+
+  const [before, ...afterParts] = text.split(emphasis)
+  const after = afterParts.join(emphasis)
+
+  return (
+    <>
+      {applyCzechNbsp(before)}
+      <strong className='font-semibold text-[#2f2523]'>{applyCzechNbsp(emphasis)}</strong>
+      {applyCzechNbsp(after)}
+    </>
+  )
+}
 
 export default function About() {
   const shouldReduceMotion = useReducedMotion()
@@ -35,7 +69,7 @@ export default function About() {
           >
             <div className='flex flex-col gap-1'>
               <h3 className='text-[2rem] text-[#2f2523]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
-                {siteContent.brand.therapistName}
+                {applyCzechNbsp(siteContent.brand.therapistName)}
               </h3>
               <p className='text-[15px] tracking-[0.12em] text-[#a46f67] uppercase'>
                 {applyCzechNbsp(siteContent.about.role)}
@@ -43,8 +77,8 @@ export default function About() {
             </div>
 
             <div className='flex flex-col gap-4 text-[15px] leading-relaxed text-[#5d4c48]'>
-              {siteContent.about.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{applyCzechNbsp(paragraph)}</p>
+              {siteContent.about.paragraphs.map((paragraph, index) => (
+                <p key={paragraph}>{renderEmphasizedText(paragraph, ABOUT_PARAGRAPH_EMPHASIS[index])}</p>
               ))}
             </div>
 
@@ -54,7 +88,7 @@ export default function About() {
                   <p className='font-dancing text-4xl text-[#ca6f61] sm:text-5xl'>
                     <CountUpValue value={stat.value} suffix={stat.suffix} />
                   </p>
-                  <p className='text-xs leading-relaxed text-[#74625d] uppercase'>{stat.label}</p>
+                  <p className='text-xs leading-relaxed text-[#74625d] uppercase'>{applyCzechNbsp(stat.label)}</p>
                 </div>
               ))}
             </div>
@@ -63,7 +97,7 @@ export default function About() {
               {siteContent.about.credentials.map((credential) => (
                 <div key={credential} className='flex items-start gap-3 text-[15px] leading-relaxed text-[#5d4c48]'>
                   <span className='mt-2 block h-1.5 w-1.5 shrink-0 rounded-full bg-[#ca6f61]' />
-                  <span>{applyCzechNbsp(credential)}</span>
+                  <span>{renderEmphasizedText(credential, ABOUT_CREDENTIAL_EMPHASIS[credential])}</span>
                 </div>
               ))}
 

@@ -1,5 +1,5 @@
 import './globals.css'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import { Cormorant_Garamond, Dancing_Script, DM_Sans } from 'next/font/google'
 
@@ -29,6 +29,11 @@ const dmSans = DM_Sans({
   variable: '--font-sans-display',
   subsets: ['latin'],
 })
+
+export const viewport: Viewport = {
+  themeColor: '#f6edeb',
+  viewportFit: 'cover',
+}
 
 export const metadata: Metadata = {
   title: TITLE,

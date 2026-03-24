@@ -21,7 +21,7 @@ export default function Footer() {
 
           <div className='flex flex-col gap-3'>
             <h3 className='font-dancing text-2xl text-[#f8e9e5]'>
-              {siteContent.footer.openingHoursHeading}
+              {applyCzechNbsp(siteContent.footer.openingHoursHeading)}
             </h3>
             <div className='flex flex-col gap-1 text-[15px] text-[#ddc8c3]'>
               {siteContent.contact.openingHours.map((item) => (
@@ -34,7 +34,7 @@ export default function Footer() {
           </div>
 
           <div className='flex flex-col gap-3 text-[15px] text-[#ddc8c3]'>
-            <h3 className='font-dancing text-2xl text-[#f8e9e5]'>{siteContent.footer.contactHeading}</h3>
+            <h3 className='font-dancing text-2xl text-[#f8e9e5]'>{applyCzechNbsp(siteContent.footer.contactHeading)}</h3>
             <a href={`mailto:${siteContent.brand.email}`} className='cursor-pointer transition hover:text-white'>
               {siteContent.brand.email}
             </a>
@@ -47,9 +47,9 @@ export default function Footer() {
               rel='noopener noreferrer'
               className='cursor-pointer transition hover:text-white'
             >
-              {siteContent.brand.addressLine1}
+              {applyCzechNbsp(siteContent.brand.addressLine1)}
               <br />
-              {siteContent.brand.addressLine2}
+              {applyCzechNbsp(siteContent.brand.addressLine2)}
             </a>
           </div>
         </div>

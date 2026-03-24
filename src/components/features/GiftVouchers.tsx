@@ -49,7 +49,7 @@ export default function GiftVouchers() {
             className='flex flex-col gap-6 p-8 md:p-10'
           >
             <h3 className='text-4xl leading-tight text-[#2f2523]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
-              {siteContent.vouchers.title}
+              {applyCzechNbsp(siteContent.vouchers.title)}
             </h3>
 
             <p className='text-[15px] leading-relaxed text-[#5d4c48]'>
@@ -73,7 +73,7 @@ export default function GiftVouchers() {
               rel='noopener noreferrer'
               className='mt-2 inline-flex w-full justify-center rounded-md bg-[#ca6f61] px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition hover:bg-[#b45c4f]'
             >
-              {siteContent.vouchers.cta}
+              {applyCzechNbsp(siteContent.vouchers.cta)}
             </a>
           </motion.div>
         </div>

@@ -21,6 +21,11 @@
   --font-sans-display: 'DM Sans', sans-serif;
 }
 
+html {
+  background-color: #2d1d1a;
+  scrollbar-width: none;
+}
+
 * {
   @apply border-border scroll-smooth;
 }
@@ -32,10 +37,6 @@ body {
   line-height: 1.55;
   scrollbar-width: none;
   background-color: #f6edeb;
-}
-
-html {
-  scrollbar-width: none;
 }
 
 /* Hide native scrollbar globally while keeping scroll enabled */

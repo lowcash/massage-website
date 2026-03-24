@@ -59,8 +59,8 @@ export default function Contact() {
                 <MapPin className='h-4 w-4' />
                 <p className='text-xs tracking-[0.14em] uppercase'>{siteContent.contact.cards.addressLabel}</p>
               </div>
-              <p>{siteContent.brand.addressLine1}</p>
-              <p>{siteContent.brand.addressLine2}</p>
+              <p>{applyCzechNbsp(siteContent.brand.addressLine1)}</p>
+              <p>{applyCzechNbsp(siteContent.brand.addressLine2)}</p>
             </a>
 
             <div className={cardClassName}>

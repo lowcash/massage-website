@@ -170,8 +170,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           />
 
           <div className='rounded-2xl border border-[#e2c8c3] bg-white p-10 text-center text-[#6a5752]'>
-            <p className='text-lg'>{siteContent.calendar.unavailableMessage}</p>
-            <p className='mt-2 text-[15px]'>{siteContent.calendar.unavailableHelp}</p>
+            <p className='text-lg'>{applyCzechNbsp(siteContent.calendar.unavailableMessage)}</p>
+            <p className='mt-2 text-[15px]'>{applyCzechNbsp(siteContent.calendar.unavailableHelp)}</p>
           </div>
         </div>
       </section>
@@ -195,8 +195,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             {...getAnimationConfigWithDelay(shouldReduceMotion, 0.08)}
             className='mx-auto w-fit rounded-full border border-[#dab6af] bg-white px-5 py-2 text-[15px] text-[#805d57]'
           >
-            {siteContent.calendar.selectedServiceLabel}:{' '}
-            <span className='font-medium text-[#be675a]'>{selectedService}</span>
+            {applyCzechNbsp(siteContent.calendar.selectedServiceLabel)}:{' '}
+            <span className='font-medium text-[#be675a]'>{applyCzechNbsp(selectedService)}</span>
           </motion.div>
         )}
 
@@ -258,7 +258,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             rel='noopener noreferrer'
             className='inline-flex rounded-md bg-[#ca6f61] px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition hover:bg-[#b45c4f]'
           >
-            {siteContent.calendar.whatsappCta}
+            {applyCzechNbsp(siteContent.calendar.whatsappCta)}
           </a>
         </motion.div>
       </div>

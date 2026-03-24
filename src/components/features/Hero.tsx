@@ -49,7 +49,7 @@ export default function Hero() {
   }
 
   return (
-    <section id='hero' className='relative flex min-h-screen items-center justify-center overflow-hidden'>
+    <section id='hero' className='relative flex min-h-svh items-center justify-center overflow-hidden'>
       <div
         className='absolute inset-0 scale-[1.06]'
         style={{ transform: isDesktop ? `translateY(${scrollY * 0.25}px) scale(1.06)` : 'scale(1.06)' }}
@@ -91,7 +91,7 @@ export default function Hero() {
           onClick={scrollToBooking}
           className='rounded-md bg-[#ca6f61] px-8 py-3 text-sm tracking-widest text-white uppercase transition hover:bg-[#b55d50]'
         >
-          {siteContent.hero.cta}
+          {applyCzechNbsp(siteContent.hero.cta)}
         </button>
       </motion.div>
 
@@ -99,7 +99,7 @@ export default function Hero() {
         <motion.button
           type='button'
           onClick={scrollToBooking}
-          className='absolute bottom-[max(1.5rem,env(safe-area-inset-bottom))] left-1/2 z-20 -translate-x-1/2 text-white/75 transition hover:text-white'
+          className='absolute bottom-16 left-1/2 z-20 -translate-x-1/2 text-white/75 transition hover:text-white sm:bottom-[max(1.5rem,env(safe-area-inset-bottom))]'
           animate={{ y: [0, 12, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           aria-label={siteContent.hero.scrollIndicatorAriaLabel}

@@ -99,9 +99,9 @@ export default function Services() {
 
                 <div className='mt-auto flex items-center justify-between border-t border-[#ecd8d3] pt-4 text-sm'>
                   <span className='text-[#78625d]'>
-                    {service.duration || siteContent.services.defaultDurationLabel}
+                    {applyCzechNbsp(service.duration || siteContent.services.defaultDurationLabel)}
                   </span>
-                  <span className='font-medium text-[#ca6f61]'>{service.price}</span>
+                  <span className='font-medium text-[#ca6f61]'>{applyCzechNbsp(service.price)}</span>
                 </div>
               </motion.div>
             )
