@@ -44,9 +44,9 @@ export const siteContent = {
     addressLine2: '695 01 Hodonín 1',
     facebook: 'https://www.facebook.com/radka6575',
     instagram: 'https://www.instagram.com/radka.sebestova.5?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
-    mapsLink: 'https://maps.app.goo.gl/1X9WnjXbchNxBfwB6',
+    mapsLink: 'https://maps.app.goo.gl/AvXgEjyGb2r9R4qT7',
     mapsEmbed:
-      'https://www.google.com/maps?q=N%C3%A1rodn%C3%AD+t%C5%99.+383%2F15%2C+695+01+Hodon%C3%ADn+1&output=embed',
+      'https://www.google.com/maps?q=Pohlazení+po+těle+a+duši,+Hodonín&output=embed',
   },
   navigation: {
     homeAriaLabel: 'Přejít na úvodní sekci',
@@ -90,7 +90,7 @@ export const siteContent = {
         description:
           'Terapeutická technika zaměřená na uvolnění svalových uzlů a zmírnění bolesti prostřednictvím tlaku na specifické body v těle.',
         duration: '50 min',
-        price: 'od 750,-',
+        price: 'od 800,-',
         icon: 'target',
       },
       {
@@ -108,7 +108,7 @@ export const siteContent = {
         description:
           'Tradiční technika, která kombinuje akupresuru, stimulaci reflexních bodů a protahování pro uvolnění napětí a podporu celkového zdraví.',
         duration: '60 min',
-        price: 'od 850,-',
+        price: 'od 900,-',
         icon: 'footprints',
       },
       {
@@ -156,15 +156,7 @@ export const siteContent = {
         price: '950,-',
         icon: 'baby',
       },
-      {
-        id: 'reflex-back-neck',
-        name: 'Reflexní masáž zad a šíje',
-        description:
-          'Cílená masážní technika, která stimuluje nervové reflexní zóny k uvolnění napětí, zmírnění bolesti a podpoře regenerace v oblasti zad a šíje.',
-        duration: '30 min',
-        price: '500,-',
-        icon: 'hand-metal',
-      },
+
       {
         id: 'pregnancy',
         name: 'Těhotenská masáž',
