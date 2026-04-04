@@ -1,37 +1,22 @@
 import type { MetadataRoute } from 'next'
+
 import { SITE_URL } from '@/const'
 
+import { getProductionSiteUrl, isProductionLikeEnvironment } from './seo-env'
+
 export default function sitemap(): MetadataRoute.Sitemap {
+  if (!isProductionLikeEnvironment()) {
+    return []
+  }
+
+  const siteUrl = getProductionSiteUrl(SITE_URL)
+
   return [
     {
-      url: SITE_URL,
+      url: siteUrl,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
-    },
-    {
-      url: `${SITE_URL}/#services`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/#booking`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/#about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${SITE_URL}/#contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
     },
   ]
 }

@@ -1,13 +1,24 @@
 import type { MetadataRoute } from 'next'
+
 import { SITE_URL } from '@/const'
 
+import { getProductionSiteUrl, isProductionLikeEnvironment } from './seo-env'
+
 export default function robots(): MetadataRoute.Robots {
+  const isProductionLike = isProductionLikeEnvironment()
+  const siteUrl = getProductionSiteUrl(SITE_URL)
+
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: '/admin',
-    },
-    sitemap: `${SITE_URL}/sitemap.xml`,
+    rules: isProductionLike
+      ? {
+          userAgent: '*',
+          allow: '/',
+          disallow: '/admin',
+        }
+      : {
+          userAgent: '*',
+          disallow: '/',
+        },
+    sitemap: `${siteUrl}/sitemap.xml`,
   }
 }

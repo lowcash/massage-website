@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import { Cormorant_Garamond, Dancing_Script, DM_Sans } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 
 import { siteContent } from '@/lib/content'
 import { DESCRIPTION, TITLE, KEYWORDS, SITE_URL, THERAPIST_NAME, EMAIL, FACEBOOK, INSTAGRAM } from '@/const'
@@ -50,9 +51,9 @@ export const metadata: Metadata = {
     siteName: 'Pohlazení po těle a duši',
     images: [
       {
-        url: '/og-image.png',
-        width: 1720,
-        height: 782,
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
         alt: 'Pohlazení po těle a duši - Masáže Hodonín',
       },
     ],
@@ -61,7 +62,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: TITLE,
     description: DESCRIPTION,
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
   },
   robots: {
     index: true,
@@ -84,6 +85,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const gaTrackingId = process.env.NEXT_PUBLIC_GA_TRACKING_ID
+
   const serviceCatalogItems = siteContent.services.items.map((service) => ({
     '@type': 'Offer',
     itemOffered: {
@@ -93,7 +96,6 @@ export default function RootLayout({
     },
   }))
 
-  // JSON-LD strukturovaná data pro Google (LocalBusiness schema)
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
@@ -153,7 +155,6 @@ export default function RootLayout({
   return (
     <html lang='cs'>
       <head>
-        {/* JSON-LD Structured Data */}
         <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       </head>
       <body
@@ -170,19 +171,21 @@ export default function RootLayout({
           <main id='main-content'>{children}</main>
         </BookingProvider>
 
-        {/* Google Analytics */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TRACKING_ID}`}
-          strategy='afterInteractive'
-        />
-        <Script id='gtag-init' strategy='afterInteractive'>
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}');
-          `}
-        </Script>
+        {gaTrackingId ? (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`} strategy='afterInteractive' />
+            <Script id='gtag-init' strategy='afterInteractive'>
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaTrackingId}');
+              `}
+            </Script>
+          </>
+        ) : null}
+
+        <Analytics />
       </body>
     </html>
   )
