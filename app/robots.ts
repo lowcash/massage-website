@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-import { SITE_URL } from '@/const'
+import { SITE_URL } from '@/lib/config/site-metadata'
 
 import { getProductionSiteUrl, isProductionLikeEnvironment } from './seo-env'
 

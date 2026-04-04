@@ -5,7 +5,16 @@ import { Cormorant_Garamond, Dancing_Script, DM_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 
 import { siteContent } from '@/lib/content'
-import { DESCRIPTION, TITLE, KEYWORDS, SITE_URL, THERAPIST_NAME, EMAIL, FACEBOOK, INSTAGRAM } from '@/const'
+import {
+  DESCRIPTION,
+  TITLE,
+  KEYWORDS,
+  SITE_URL,
+  THERAPIST_NAME,
+  EMAIL,
+  FACEBOOK,
+  INSTAGRAM,
+} from '@/lib/config/site-metadata'
 import { BookingProvider } from '@/src/contexts/BookingContext'
 
 const dancingScript = Dancing_Script({

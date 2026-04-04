@@ -1,6 +1,6 @@
 import { SignJWT, jwtVerify } from 'jose'
 
-import { AUTH_JWT_EXPIRE_HOURS } from '@/const'
+import { AUTH_JWT_EXPIRE_HOURS } from '@/lib/security/auth-constants'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret'
 const JWT_SECRET_KEY = new TextEncoder().encode(JWT_SECRET)

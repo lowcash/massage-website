@@ -1,18 +1,23 @@
+import dynamic from 'next/dynamic'
+
 import { getCalendar } from '@/app/actions/calendar'
 import type { CalendarSlot } from '@/src/components/features/Calendar'
 
 import Navigation from '@/src/components/layout/Navigation'
 import Hero from '@/src/components/features/Hero'
-import Services from '@/src/components/features/Services'
-import GiftVouchers from '@/src/components/features/GiftVouchers'
-import About from '@/src/components/features/About'
-import Gallery from '@/src/components/features/Gallery'
-import Calendar from '@/src/components/features/Calendar'
-import Contact from '@/src/components/features/Contact'
-import Footer from '@/src/components/layout/Footer'
-import ScrollToTop from '@/src/components/layout/ScrollToTop'
-import WhatsAppButton from '@/src/components/shared/WhatsAppButton'
-import { Toaster } from '@/src/components/ui/sonner'
+
+// Below-fold sections — loaded asynchronously after hero renders
+const Services = dynamic(() => import('@/src/components/features/Services'))
+const GiftVouchers = dynamic(() => import('@/src/components/features/GiftVouchers'))
+const About = dynamic(() => import('@/src/components/features/About'))
+const Gallery = dynamic(() => import('@/src/components/features/Gallery'))
+const Calendar = dynamic(() => import('@/src/components/features/Calendar'))
+const Contact = dynamic(() => import('@/src/components/features/Contact'))
+const Footer = dynamic(() => import('@/src/components/layout/Footer'))
+
+const ScrollToTop = dynamic(() => import('@/src/components/layout/ScrollToTop'))
+const WhatsAppButton = dynamic(() => import('@/src/components/shared/WhatsAppButton'))
+const Toaster = dynamic(() => import('@/src/components/ui/sonner').then((module) => module.Toaster))
 
 export const revalidate = 60
 

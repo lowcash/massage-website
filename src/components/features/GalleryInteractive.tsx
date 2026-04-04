@@ -1,22 +1,30 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+
 import Image from 'next/image'
-import { AnimatePresence, motion } from 'framer-motion'
+
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
+
 import studioImage1 from '@/src/assets/gallery-1.jpg'
 import studioImage2 from '@/src/assets/gallery-2.jpg'
 import studioImage3 from '@/src/assets/gallery-3.jpg'
 import PeekCarousel from '@/src/components/shared/PeekCarousel'
-import { getAnimationConfigWithDelay, useReducedMotion } from '@/src/hooks/useReducedMotion'
+import { useInView } from '@/src/hooks/useInView'
+import { useReducedMotion } from '@/src/hooks/useReducedMotion'
 
 const studioImages = [studioImage1, studioImage2, studioImage3]
 
 export default function GalleryInteractive() {
   const shouldReduceMotion = useReducedMotion()
+  const carouselRef = useInView()
+  const gridRef = useInView()
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null)
+
+  const fadeIn = 'transition-[opacity,transform] duration-500 ease-out'
+  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-5'
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
 
   useEffect(() => {
@@ -124,7 +132,7 @@ export default function GalleryInteractive() {
 
   return (
     <>
-      <motion.div {...getAnimationConfigWithDelay(shouldReduceMotion, 0.1)} className='lg:hidden'>
+      <div ref={carouselRef.ref} className={`lg:hidden ${fadeIn} ${!carouselRef.inView ? hidden : ''}`}>
         <PeekCarousel
           ariaLabel={siteContent.studio.carouselAriaLabel}
           mobilePeek={false}
@@ -152,12 +160,9 @@ export default function GalleryInteractive() {
             </button>
           ))}
         </PeekCarousel>
-      </motion.div>
+      </div>
 
-      <motion.div
-        {...getAnimationConfigWithDelay(shouldReduceMotion, 0.1)}
-        className='hidden grid-cols-3 gap-4 lg:grid'
-      >
+      <div ref={gridRef.ref} className={`hidden grid-cols-3 gap-4 lg:grid ${fadeIn} ${!gridRef.inView ? hidden : ''}`}>
         {siteContent.studio.images.map((image, index) => (
           <button
             key={image.id}
@@ -177,73 +182,69 @@ export default function GalleryInteractive() {
             </div>
           </button>
         ))}
-      </motion.div>
+      </div>
 
-      <AnimatePresence>
-        {activeImageIndex !== null ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className='fixed inset-0 z-70 flex cursor-default items-center justify-center bg-black/70 p-4 backdrop-blur-md md:p-8'
+      {/* Lightbox — CSS transitions, no framer-motion */}
+      <div
+        role='dialog'
+        aria-modal='true'
+        aria-label='Náhled fotografie'
+        inert={activeImageIndex === null || undefined}
+        className={`fixed inset-0 z-70 flex cursor-default items-center justify-center bg-black/70 p-4 backdrop-blur-md transition-opacity duration-200 md:p-8 ${activeImageIndex !== null ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+        onClick={() => setActiveImageIndex(null)}
+      >
+        <div
+          className={`relative flex w-full max-w-5xl cursor-default items-center justify-center transition-[opacity,transform] duration-200 ease-out ${activeImageIndex !== null ? 'scale-100 opacity-100' : 'scale-[0.96] opacity-0'}`}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <button
+            type='button'
             onClick={() => setActiveImageIndex(null)}
+            className='absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65'
+            aria-label='Zavřít náhled'
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.98, y: 12 }}
-              transition={{ duration: 0.24, ease: 'easeOut' }}
-              className='relative flex w-full max-w-5xl cursor-default items-center justify-center'
-              onClick={(event) => event.stopPropagation()}
-            >
-              <button
-                type='button'
-                onClick={() => setActiveImageIndex(null)}
-                className='absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65'
-                aria-label='Zavřít náhled'
-              >
-                <X className='h-5 w-5' />
-              </button>
+            <X className='h-5 w-5' />
+          </button>
 
-              <button
-                type='button'
-                onClick={showPreviousImage}
-                className='absolute left-3 z-10 hidden h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65 md:flex'
-                aria-label='Předchozí fotografie'
-              >
-                <ChevronLeft className='h-5 w-5' />
-              </button>
+          <button
+            type='button'
+            onClick={showPreviousImage}
+            className='absolute left-3 z-10 hidden h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65 md:flex'
+            aria-label='Předchozí fotografie'
+          >
+            <ChevronLeft className='h-5 w-5' />
+          </button>
 
-              <div
-                className='relative w-full overflow-hidden rounded-2xl'
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-              >
-                <div className='relative aspect-4/3 max-h-[82vh] w-full'>
-                  <Image
-                    src={studioImages[activeImageIndex]}
-                    alt={siteContent.studio.images[activeImageIndex].alt}
-                    fill
-                    quality={90}
-                    className='object-contain'
-                    sizes='(min-width: 1280px) 1200px, 92vw'
-                    priority
-                  />
-                </div>
+          <div
+            className='relative w-full overflow-hidden rounded-2xl'
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            {activeImageIndex !== null && (
+              <div className='relative aspect-4/3 max-h-[82vh] w-full'>
+                <Image
+                  src={studioImages[activeImageIndex]}
+                  alt={siteContent.studio.images[activeImageIndex].alt}
+                  fill
+                  quality={90}
+                  className='object-contain'
+                  sizes='(min-width: 1280px) 1200px, 92vw'
+                  priority
+                />
               </div>
+            )}
+          </div>
 
-              <button
-                type='button'
-                onClick={showNextImage}
-                className='absolute right-3 z-10 hidden h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65 md:flex'
-                aria-label='Další fotografie'
-              >
-                <ChevronRight className='h-5 w-5' />
-              </button>
-            </motion.div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+          <button
+            type='button'
+            onClick={showNextImage}
+            className='absolute right-3 z-10 hidden h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65 md:flex'
+            aria-label='Další fotografie'
+          >
+            <ChevronRight className='h-5 w-5' />
+          </button>
+        </div>
+      </div>
     </>
   )
 }

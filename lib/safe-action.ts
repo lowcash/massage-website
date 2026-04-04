@@ -2,9 +2,9 @@ import 'server-only'
 
 import { cookies } from 'next/headers'
 import { createSafeActionClient } from 'next-safe-action'
-import { getTokenPayload } from '@/lib/jwt'
 
-import { AUTH_JWT_KEY, ERROR_CAUSE } from '@/const'
+import { getTokenPayload } from '@/lib/jwt'
+import { AUTH_JWT_KEY, ERROR_CAUSE } from '@/lib/security/auth-constants'
 
 export const actionClient = createSafeActionClient({})
 

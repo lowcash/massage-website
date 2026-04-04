@@ -1,12 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Pohlazeni po tele a dusi icon">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Pohlazení po těle a duši">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#f6edeb"/>
-      <stop offset="100%" stop-color="#e9d7d0"/>
+      <stop offset="0%" stop-color="#fdf0ec"/>
+      <stop offset="100%" stop-color="#e8d0c8"/>
     </linearGradient>
   </defs>
-  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#bg)" stroke="#b98a7f" stroke-width="1.5"/>
-  <path d="M16 34c0-9.4 7.2-16 16-16s16 6.6 16 16" fill="none" stroke="#2d1d1a" stroke-width="2.4" stroke-linecap="round"/>
-  <path d="M20 35c2.2 8.4 8 13 12 13s9.8-4.6 12-13" fill="none" stroke="#ca6f61" stroke-width="2.4" stroke-linecap="round"/>
-  <circle cx="32" cy="34" r="3.6" fill="#2d1d1a"/>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <!-- Center petal (tallest, darker) -->
+  <path d="M32 12 C27 17 24 24 24 31 C24 37 27 41 32 43 C37 41 40 37 40 31 C40 24 37 17 32 12Z" fill="#b85b4e"/>
+  <!-- Left petal -->
+  <path d="M32 43 C23 40 17 33 16 25 C15 18 17 13 21 11 C26 12 29 19 31 27 C31.5 33 32 38 32 43Z" fill="#ca6f61" opacity="0.88"/>
+  <!-- Right petal -->
+  <path d="M32 43 C41 40 47 33 48 25 C49 18 47 13 43 11 C38 12 35 19 33 27 C32.5 33 32 38 32 43Z" fill="#ca6f61" opacity="0.88"/>
+  <!-- Stem -->
+  <line x1="32" y1="43" x2="32" y2="51" stroke="#9e5449" stroke-width="2" stroke-linecap="round"/>
+  <!-- Water ripple -->
+  <path d="M23 53 Q32 50 41 53" stroke="#b8786e" stroke-width="1.5" stroke-linecap="round" fill="none"/>
 </svg>

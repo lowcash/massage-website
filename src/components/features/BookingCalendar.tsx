@@ -1,14 +1,16 @@
 'use client'
 
 import { useMemo } from 'react'
-import { motion } from 'framer-motion'
 
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp } from '@/lib/utils'
-import { useBooking } from '@/src/contexts/BookingContext'
+
 import PeekCarousel from '@/src/components/shared/PeekCarousel'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
-import { getAnimationConfig, getAnimationConfigWithDelay, useReducedMotion } from '@/src/hooks/useReducedMotion'
+import { useBooking } from '@/src/contexts/BookingContext'
+import { useInView } from '@/src/hooks/useInView'
+import { useReducedMotion } from '@/src/hooks/useReducedMotion'
+
 import type { CalendarSlot } from './Calendar'
 
 interface CalendarDisplaySlot {
@@ -128,6 +130,13 @@ interface BookingCalendarProps {
 export default function BookingCalendar({ data }: BookingCalendarProps) {
   const shouldReduceMotion = useReducedMotion()
   const { selectedService } = useBooking()
+  const intro = useInView()
+  const badge = useInView()
+  const carousel = useInView()
+  const cta = useInView()
+
+  const fadeIn = 'transition-[opacity,transform] duration-500 ease-out'
+  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-5'
 
   const calendarData = useMemo(() => mapApiDataToDisplay(data), [data])
   const whatsappCtaMessage = selectedService
@@ -175,26 +184,31 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   return (
     <section id='booking' className='bg-[#f1e3df] px-5 py-16 md:px-8 md:py-24'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-12'>
-        <motion.div {...getAnimationConfig(shouldReduceMotion)}>
+        <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
           <SectionIntro
             id='booking-heading'
             title={siteContent.calendar.heading}
             subtitle={siteContent.calendar.subtitle}
             description={siteContent.calendar.intro}
           />
-        </motion.div>
+        </div>
 
         {selectedService && (
-          <motion.div
-            {...getAnimationConfigWithDelay(shouldReduceMotion, 0.08)}
-            className='mx-auto w-fit rounded-full border border-[#dab6af] bg-white px-5 py-2 text-[15px] text-[#805d57]'
+          <div
+            ref={badge.ref}
+            className={`mx-auto w-fit rounded-full border border-[#dab6af] bg-white px-5 py-2 text-[15px] text-[#805d57] ${fadeIn} ${!badge.inView ? hidden : ''}`}
+            style={{ transitionDelay: badge.inView ? '80ms' : '0ms' }}
           >
             {applyCzechNbsp(siteContent.calendar.selectedServiceLabel)}:{' '}
             <span className='font-medium text-[#be675a]'>{applyCzechNbsp(selectedService)}</span>
-          </motion.div>
+          </div>
         )}
 
-        <motion.div {...getAnimationConfigWithDelay(shouldReduceMotion, 0.14)} className='mx-auto w-full max-w-6xl'>
+        <div
+          ref={carousel.ref}
+          className={`mx-auto w-full max-w-6xl ${fadeIn} ${!carousel.inView ? hidden : ''}`}
+          style={{ transitionDelay: carousel.inView ? '140ms' : '0ms' }}
+        >
           <PeekCarousel
             ariaLabel={siteContent.calendar.carouselAriaLabel}
             itemClassName='w-[84%] sm:w-[46%] md:w-[32%] lg:w-[19%]'
@@ -240,11 +254,12 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
               </article>
             ))}
           </PeekCarousel>
-        </motion.div>
+        </div>
 
-        <motion.div
-          {...getAnimationConfigWithDelay(shouldReduceMotion, 0.2)}
-          className='flex flex-col items-center gap-4 text-center'
+        <div
+          ref={cta.ref}
+          className={`flex flex-col items-center gap-4 text-center ${fadeIn} ${!cta.inView ? hidden : ''}`}
+          style={{ transitionDelay: cta.inView ? '200ms' : '0ms' }}
         >
           <p className='text-[15px] leading-relaxed text-[#6f5b56]'>
             {applyCzechNbsp(siteContent.calendar.flexibilityNote)}
@@ -257,7 +272,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           >
             {applyCzechNbsp(siteContent.calendar.whatsappCta)}
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

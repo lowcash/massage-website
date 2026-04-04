@@ -15,21 +15,6 @@ test.describe('Desktop navigation', () => {
 
   for (const sectionId of SECTIONS) {
     test(`nav link scrolls to #${sectionId}`, async ({ page }) => {
-      // Desktop nav buttons with aria-current support
-      const navButton = page.locator(`header nav button[onclick*="${sectionId}"]`)
-      // Use evaluate to click the button that triggers handleNavigationClick
-      await page.evaluate((id) => {
-        const buttons = Array.from(document.querySelectorAll('header nav button'))
-        const btn = buttons.find((b) => b.textContent?.toLowerCase().includes(id) || b.getAttribute('aria-current'))
-        // Locate by data — find the visible desktop nav button for this section
-        const all = Array.from(document.querySelectorAll('header .hidden.lg\\:flex button'))
-        for (const b of all) {
-          if ((b as HTMLElement).innerText.trim() !== '') {
-            // We'll click via Playwright locator instead
-          }
-        }
-      }, sectionId)
-
       // Click the desktop nav button (hidden on mobile, visible on lg+) — use viewport 1280px
       await page.setViewportSize({ width: 1280, height: 800 })
       const desktopNav = page.locator('header .hidden.lg\\:flex')

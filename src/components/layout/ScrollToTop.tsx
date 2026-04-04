@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+
 import { ChevronUp } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
@@ -60,16 +60,9 @@ export default function ScrollToTop() {
   return (
     <div className='pointer-events-none fixed inset-x-0 bottom-6 z-40'>
       <div className='mx-auto flex w-full max-w-6xl justify-end px-5 md:px-8'>
-        <motion.button
-          initial={false}
-          animate={{
-            opacity: canShowButton ? 1 : 0,
-            scale: canShowButton ? 1 : 0.88,
-            y: canShowButton ? 0 : 10,
-          }}
-          transition={{ duration: 0.28, ease: 'easeOut' }}
+        <button
           onClick={scrollToTop}
-          className={`pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full bg-[#ca6f61] text-white shadow-lg transition-colors hover:scale-105 hover:bg-[#b55d50] ${canShowButton ? '' : 'pointer-events-none'}`}
+          className={`pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full bg-[#ca6f61] text-white shadow-lg transition-all duration-300 ease-out hover:scale-105 hover:bg-[#b55d50] ${canShowButton ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none translate-y-[10px] scale-[0.88] opacity-0'}`}
           style={{
             marginBottom: 'env(safe-area-inset-bottom)',
             transform: 'translateZ(0)',
@@ -81,7 +74,7 @@ export default function ScrollToTop() {
           tabIndex={canShowButton ? 0 : -1}
         >
           <ChevronUp className='h-5 w-5' />
-        </motion.button>
+        </button>
       </div>
     </div>
   )

@@ -1,7 +1,3 @@
-'use client'
-
-import { motion } from 'framer-motion'
-
 interface WaveDividerProps {
   topColor?: string
   bottomColor?: string
@@ -23,15 +19,9 @@ export default function WaveDivider({ topColor = '#fff', bottomColor = '#fef8fb'
         style={{ height: '80px' }}
         viewBox='0 0 1200 120'
         preserveAspectRatio='none'
+        aria-hidden='true'
       >
-        <motion.path
-          d='M0,0 C150,80 350,80 600,40 C850,0 1050,0 1200,40 L1200,120 L0,120 Z'
-          fill={topColor}
-          initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.5, ease: 'easeInOut' }}
-        />
+        <path d='M0,0 C150,80 350,80 600,40 C850,0 1050,0 1200,40 L1200,120 L0,120 Z' fill={topColor} />
       </svg>
     </div>
   )

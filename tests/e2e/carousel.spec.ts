@@ -108,7 +108,6 @@ test.describe('Hero scroll cue', () => {
   })
 
   test('scroll cue is visible on initial load', async ({ page }) => {
-    const cue = page.getByRole('link', { name: /scroll|přejít/i })
     // Look for the chevron-down anchor in hero
     const heroCue = page.locator('a[href="#services"] svg').first()
     await expect(heroCue).toBeVisible()

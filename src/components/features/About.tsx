@@ -2,13 +2,13 @@
 
 import type { ReactNode } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp } from '@/lib/utils'
 import CountUpValue from '@/src/components/shared/CountUpValue'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
-import { getAnimationConfig, getAnimationConfigWithDelay, useReducedMotion } from '@/src/hooks/useReducedMotion'
+import { useInView } from '@/src/hooks/useInView'
+import { useReducedMotion } from '@/src/hooks/useReducedMotion'
 import profileImage from '@/src/assets/profile.jpg'
 
 const ABOUT_PARAGRAPH_EMPHASIS = [
@@ -45,18 +45,25 @@ function renderEmphasizedText(text: string, emphasis?: string): ReactNode {
 
 export default function About() {
   const shouldReduceMotion = useReducedMotion()
+  const intro = useInView()
+  const content = useInView()
+  const image = useInView()
+
+  const fadeIn = 'transition-[opacity,transform] duration-500 ease-out'
+  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-5'
 
   return (
     <section id='about' className='bg-[#f6edeb] px-5 py-16 md:px-8 md:py-24'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
-        <motion.div {...getAnimationConfig(shouldReduceMotion)}>
+        <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
           <SectionIntro id='about-heading' title={siteContent.about.heading} subtitle={siteContent.about.subtitle} />
-        </motion.div>
+        </div>
 
         <div className='grid items-start gap-7 rounded-2xl border border-[#e6d1cb] bg-white p-6 shadow-[0_20px_45px_rgba(90,60,53,0.1)] md:p-10 lg:grid-cols-2 lg:items-stretch'>
-          <motion.div
-            {...getAnimationConfigWithDelay(shouldReduceMotion, 0.2)}
-            className='order-2 flex h-full flex-col gap-7 md:order-2'
+          <div
+            ref={content.ref}
+            className={`order-2 flex h-full flex-col gap-7 md:order-2 ${fadeIn} ${!content.inView ? hidden : ''}`}
+            style={{ transitionDelay: content.inView ? '200ms' : '0ms' }}
           >
             <div className='flex flex-col gap-1'>
               <h3 className='text-[2rem] text-[#2f2523]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
@@ -96,11 +103,12 @@ export default function About() {
                 {applyCzechNbsp(siteContent.about.closingLine)}
               </p>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            {...getAnimationConfigWithDelay(shouldReduceMotion, 0.3)}
-            className='order-1 md:order-1 md:mx-auto md:w-full md:max-w-2xl lg:h-full lg:max-w-none'
+          <div
+            ref={image.ref}
+            className={`order-1 md:order-1 md:mx-auto md:w-full md:max-w-2xl lg:h-full lg:max-w-none ${fadeIn} ${!image.inView ? hidden : ''}`}
+            style={{ transitionDelay: image.inView ? '300ms' : '0ms' }}
           >
             <div className='overflow-hidden rounded-2xl bg-[#efe6e3] lg:h-full lg:max-h-none'>
               <Image
@@ -110,7 +118,7 @@ export default function About() {
                 priority={false}
               />
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

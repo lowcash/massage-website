@@ -3,7 +3,7 @@
 import { authActionClient } from '@/lib/safe-action'
 import { cookies } from 'next/headers'
 
-import { AUTH_RESET_KEY } from '@/const'
+import { AUTH_RESET_KEY } from '@/lib/security/auth-constants'
 
 export const signOut = authActionClient.action(async () => {
   ;(await cookies()).set({

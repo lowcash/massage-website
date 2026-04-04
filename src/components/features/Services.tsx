@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import {
   Activity,
   AlignCenter,
@@ -15,12 +14,61 @@ import {
   Target,
   Zap,
 } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
+import type { ServiceItem } from '@/lib/content'
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp } from '@/lib/utils'
-import { useBooking } from '@/src/contexts/BookingContext'
-import { getAnimationConfig, getAnimationConfigWithDelay, useReducedMotion } from '@/src/hooks/useReducedMotion'
+
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
+import { useBooking } from '@/src/contexts/BookingContext'
+import { useInView } from '@/src/hooks/useInView'
+import { useReducedMotion } from '@/src/hooks/useReducedMotion'
+
+function ServiceCard({
+  service,
+  Icon,
+  delayMs,
+  isVisible,
+  fadeIn,
+  hidden,
+  onClick,
+}: {
+  service: ServiceItem
+  Icon: LucideIcon
+  delayMs: number
+  isVisible: boolean
+  fadeIn: string
+  hidden: string
+  onClick: () => void
+}) {
+  return (
+    <div
+      className={`flex h-full cursor-pointer flex-col rounded-2xl border border-[#e7d0cb] bg-white p-6 transition-[opacity,transform,box-shadow] duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_35px_rgba(113,73,65,0.12)] ${!isVisible ? hidden : ''} ${fadeIn}`}
+      style={{ transitionDelay: isVisible ? `${delayMs}ms` : '0ms' }}
+      onClick={onClick}
+      role='button'
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onClick()}
+    >
+      <div className='mb-4 flex items-start gap-3'>
+        <Icon className='mt-0.5 h-[18px] w-[18px] shrink-0 text-[#ca6f61]' />
+        <h3 className='text-[1.45rem] leading-[1.2] text-[#342a28]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+          {applyCzechNbsp(service.name)}
+        </h3>
+      </div>
+
+      <p className='min-h-28 text-[15px] leading-relaxed text-[#5f4f4b]'>{applyCzechNbsp(service.description)}</p>
+
+      <div className='mt-auto flex items-center justify-between border-t border-[#ecd8d3] pt-4 text-sm'>
+        <span className='text-[#78625d]'>
+          {applyCzechNbsp(service.duration || siteContent.services.defaultDurationLabel)}
+        </span>
+        <span className='font-medium text-[#ca6f61]'>{applyCzechNbsp(service.price)}</span>
+      </div>
+    </div>
+  )
+}
 
 const iconMap = {
   activity: Activity,
@@ -40,6 +88,11 @@ const iconMap = {
 export default function Services() {
   const { setSelectedService } = useBooking()
   const shouldReduceMotion = useReducedMotion()
+  const intro = useInView()
+  const grid = useInView()
+
+  const fadeIn = 'transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
+  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
   const handleServiceClick = (serviceName: string) => {
     setSelectedService(serviceName)
@@ -49,60 +102,31 @@ export default function Services() {
   return (
     <section id='services' className='bg-[#f6edeb] px-5 py-16 md:px-8 md:py-24'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
-        <motion.div {...getAnimationConfig(shouldReduceMotion)}>
+        <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
           <SectionIntro
             id='services-heading'
             title={siteContent.services.heading}
             subtitle={siteContent.services.subtitle}
             description={siteContent.services.intro}
           />
-        </motion.div>
+        </div>
 
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+        <div ref={grid.ref} className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           {siteContent.services.items.map((service, index) => {
             const Icon = iconMap[service.icon]
-            const animation = getAnimationConfigWithDelay(shouldReduceMotion, (index + 1) * 0.1)
+            const delayMs = shouldReduceMotion ? 0 : (index + 1) * 110
 
             return (
-              <motion.div
+              <ServiceCard
                 key={service.name}
-                initial={shouldReduceMotion ? animation.initial : { opacity: 0, y: 14 }}
-                whileInView={animation.whileInView}
-                whileHover={shouldReduceMotion ? undefined : { y: -4 }}
-                viewport={animation.viewport}
-                transition={
-                  shouldReduceMotion
-                    ? animation.transition
-                    : {
-                        duration: 0.75,
-                        delay: (index + 1) * 0.09,
-                        ease: [0.22, 1, 0.36, 1],
-                      }
-                }
-                className='flex h-full cursor-pointer flex-col rounded-2xl border border-[#e7d0cb] bg-white p-6 transition-shadow duration-300 hover:shadow-[0_16px_35px_rgba(113,73,65,0.12)]'
+                service={service}
+                Icon={Icon}
+                delayMs={delayMs}
+                isVisible={grid.inView}
+                fadeIn={fadeIn}
+                hidden={hidden}
                 onClick={() => handleServiceClick(service.name)}
-              >
-                <div className='mb-4 flex items-start gap-3'>
-                  <Icon className='mt-0.5 h-[18px] w-[18px] shrink-0 text-[#ca6f61]' />
-                  <h3
-                    className='text-[1.45rem] leading-[1.2] text-[#342a28]'
-                    style={{ fontFamily: 'Cormorant Garamond, serif' }}
-                  >
-                    {applyCzechNbsp(service.name)}
-                  </h3>
-                </div>
-
-                <p className='min-h-28 text-[15px] leading-relaxed text-[#5f4f4b]'>
-                  {applyCzechNbsp(service.description)}
-                </p>
-
-                <div className='mt-auto flex items-center justify-between border-t border-[#ecd8d3] pt-4 text-sm'>
-                  <span className='text-[#78625d]'>
-                    {applyCzechNbsp(service.duration || siteContent.services.defaultDurationLabel)}
-                  </span>
-                  <span className='font-medium text-[#ca6f61]'>{applyCzechNbsp(service.price)}</span>
-                </div>
-              </motion.div>
+              />
             )
           })}
         </div>

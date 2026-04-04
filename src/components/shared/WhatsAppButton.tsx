@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+
 import { MessageCircle } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
+
 import { useBooking } from '@/src/contexts/BookingContext'
 
 export default function WhatsAppButton() {
@@ -50,18 +51,11 @@ export default function WhatsAppButton() {
   return (
     <div className='pointer-events-none fixed inset-x-0 bottom-6 z-40'>
       <div className='mx-auto flex w-full max-w-6xl items-center px-5 md:px-8'>
-        <motion.a
+        <a
           href={getWhatsAppUrl()}
           target='_blank'
           rel='noopener noreferrer'
-          initial={false}
-          animate={{
-            opacity: canShowButton ? 1 : 0,
-            scale: canShowButton ? 1 : 0.88,
-            y: canShowButton ? 0 : 10,
-          }}
-          transition={{ duration: 0.28, ease: 'easeOut' }}
-          className={`pointer-events-auto relative flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition hover:scale-105 ${canShowButton ? '' : 'pointer-events-none'}`}
+          className={`pointer-events-auto relative flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-300 ease-out hover:scale-105 ${canShowButton ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none translate-y-[10px] scale-[0.88] opacity-0'}`}
           style={{
             marginBottom: 'env(safe-area-inset-bottom)',
             transform: 'translateZ(0)',
@@ -72,14 +66,13 @@ export default function WhatsAppButton() {
           aria-label={siteContent.floatingButtons.whatsappAriaLabel}
           tabIndex={canShowButton ? 0 : -1}
         >
-          <motion.div
-            animate={canShowButton ? { scale: [1, 1.4, 1], opacity: [0.7, 0, 0.7] } : { scale: 1, opacity: 0 }}
-            transition={canShowButton ? { duration: 2, repeat: Infinity, ease: 'easeInOut' } : { duration: 0.2 }}
-            className='absolute inset-0 rounded-full bg-[#25D366]'
+          <span
+            className={`absolute inset-0 rounded-full bg-[#25D366] ${canShowButton ? 'animate-ping [animation-duration:2s]' : 'opacity-0'}`}
+            aria-hidden='true'
           />
 
           <MessageCircle className='relative z-10 h-5 w-5' />
-        </motion.a>
+        </a>
       </div>
     </div>
   )
