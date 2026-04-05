@@ -76,8 +76,8 @@ test.describe('Mobile menu', () => {
     const closeBtn = page.getByRole('button', { name: /zavřít navigaci/i })
     await closeBtn.click()
     await page.waitForTimeout(400) // exit animation
-
-    await expect(aside).not.toBeVisible()
+    await expect(aside).toHaveClass(/translate-x-full/)
+    await expect(aside).toHaveAttribute('inert', '')
   })
 
   test('closes when backdrop is clicked', async ({ page }) => {
@@ -90,8 +90,8 @@ test.describe('Mobile menu', () => {
     // The backdrop sits behind the aside — click far left of screen
     await page.mouse.click(20, 400)
     await page.waitForTimeout(400)
-
-    await expect(aside).not.toBeVisible()
+    await expect(aside).toHaveClass(/translate-x-full/)
+    await expect(aside).toHaveAttribute('inert', '')
   })
 
   test('nav link inside menu scrolls to section and closes menu', async ({ page }) => {
@@ -107,6 +107,7 @@ test.describe('Mobile menu', () => {
     await page.waitForTimeout(600)
 
     // Menu should close
-    await expect(aside).not.toBeVisible()
+    await expect(aside).toHaveClass(/translate-x-full/)
+    await expect(aside).toHaveAttribute('inert', '')
   })
 })
