@@ -2,6 +2,7 @@ import { Clock, Mail, MapPin, Phone } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp } from '@/lib/utils'
+
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 
 export default function Contact() {

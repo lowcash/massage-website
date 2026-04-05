@@ -30,6 +30,7 @@ function ServiceCard({
   Icon,
   delayMs,
   isVisible,
+  fadeIn,
   hidden,
   onClick,
 }: {
@@ -37,33 +38,36 @@ function ServiceCard({
   Icon: LucideIcon
   delayMs: number
   isVisible: boolean
+  fadeIn: string
   hidden: string
   onClick: () => void
 }) {
   return (
     <div
-      className={`flex h-full cursor-pointer flex-col rounded-2xl border border-[#e7d0cb] bg-white p-6 transition-[opacity,transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_35px_rgba(113,73,65,0.12)] ${!isVisible ? hidden : ''}`}
+      className={`${fadeIn} ${!isVisible ? hidden : ''}`}
       style={{ transitionDelay: isVisible ? `${delayMs}ms` : '0ms' }}
-      onClick={onClick}
-      role='button'
-      tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && onClick()}
     >
-      <div className='mb-4 flex items-start gap-3'>
-        <Icon className='mt-0.5 h-[18px] w-[18px] shrink-0 text-[#ca6f61]' />
-        <h3 className='text-[1.45rem] leading-[1.2] text-[#342a28]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
-          {applyCzechNbsp(service.name)}
-        </h3>
-      </div>
+      <button
+        type='button'
+        onClick={onClick}
+        className='flex h-full w-full cursor-pointer flex-col rounded-2xl border border-[#e7d0cb] bg-white p-6 text-left transition-[translate,box-shadow] duration-[360ms] ease-out hover:-translate-y-1 hover:shadow-[0_16px_35px_rgba(113,73,65,0.12)]'
+      >
+        <div className='mb-4 flex items-start gap-3'>
+          <Icon className='mt-0.5 h-[18px] w-[18px] shrink-0 text-[#ca6f61]' />
+          <h3 className='text-[1.45rem] leading-[1.2] text-[#342a28]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+            {applyCzechNbsp(service.name)}
+          </h3>
+        </div>
 
-      <p className='min-h-28 text-[15px] leading-relaxed text-[#5f4f4b]'>{applyCzechNbsp(service.description)}</p>
+        <p className='min-h-28 text-[15px] leading-relaxed text-[#5f4f4b]'>{applyCzechNbsp(service.description)}</p>
 
-      <div className='mt-auto flex items-center justify-between border-t border-[#ecd8d3] pt-4 text-sm'>
-        <span className='text-[#78625d]'>
-          {applyCzechNbsp(service.duration || siteContent.services.defaultDurationLabel)}
-        </span>
-        <span className='font-medium text-[#ca6f61]'>{applyCzechNbsp(service.price)}</span>
-      </div>
+        <div className='mt-auto flex items-center justify-between border-t border-[#ecd8d3] pt-4 text-sm'>
+          <span className='text-[#78625d]'>
+            {applyCzechNbsp(service.duration || siteContent.services.defaultDurationLabel)}
+          </span>
+          <span className='font-medium text-[#ca6f61]'>{applyCzechNbsp(service.price)}</span>
+        </div>
+      </button>
     </div>
   )
 }
@@ -89,7 +93,7 @@ export default function Services() {
   const intro = useInView()
   const grid = useInView()
 
-  const fadeIn = 'transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
+  const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
   const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
   const handleServiceClick = (serviceName: string) => {
@@ -121,6 +125,7 @@ export default function Services() {
                 Icon={Icon}
                 delayMs={delayMs}
                 isVisible={grid.inView}
+                fadeIn={fadeIn}
                 hidden={hidden}
                 onClick={() => handleServiceClick(service.name)}
               />

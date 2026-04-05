@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
+
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -98,7 +99,11 @@ export default function PeekCarousel({
       const desired = current + step
       const nextOffset = nextOffsets.find((offset) => offset >= desired - tolerance)
       const fallbackNextOffset = nextOffsets.length > 0 ? nextOffsets[0] : maxScrollLeft
-      const target = clampScrollLeft(typeof nextOffset === 'number' ? nextOffset : fallbackNextOffset, minScrollLeft, maxScrollLeft)
+      const target = clampScrollLeft(
+        typeof nextOffset === 'number' ? nextOffset : fallbackNextOffset,
+        minScrollLeft,
+        maxScrollLeft,
+      )
       el.scrollTo({ left: target, behavior: 'smooth' })
       return
     }
@@ -106,7 +111,8 @@ export default function PeekCarousel({
     const previousOffsets = itemOffsets.filter((offset) => offset < current - tolerance)
     const desired = current - step
     const candidates = previousOffsets.filter((offset) => offset <= desired + tolerance)
-    const fallbackPreviousOffset = previousOffsets.length > 0 ? previousOffsets[previousOffsets.length - 1] : minScrollLeft
+    const fallbackPreviousOffset =
+      previousOffsets.length > 0 ? previousOffsets[previousOffsets.length - 1] : minScrollLeft
     const targetOffset = candidates.length > 0 ? candidates[candidates.length - 1] : fallbackPreviousOffset
     const target = clampScrollLeft(targetOffset, minScrollLeft, maxScrollLeft)
     el.scrollTo({ left: target, behavior: 'smooth' })
@@ -193,8 +199,8 @@ export default function PeekCarousel({
         ref={containerRef}
         className={cn(
           mobilePeek
-            ? 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden px-[8%] pb-2 select-none touch-pan-x overscroll-x-contain [-webkit-overflow-scrolling:touch] sm:px-0'
-            : 'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-2 select-none touch-pan-x overscroll-x-contain [-webkit-overflow-scrolling:touch]',
+            ? 'no-scrollbar flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain px-[8%] pb-2 select-none [-webkit-overflow-scrolling:touch] sm:px-0'
+            : 'no-scrollbar flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-2 select-none [-webkit-overflow-scrolling:touch]',
           isDragging ? 'cursor-grabbing' : 'cursor-grab',
         )}
         onPointerDown={onPointerDown}

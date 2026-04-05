@@ -16,7 +16,7 @@ export default function GiftVouchers() {
   const intro = useInView()
   const card = useInView()
 
-  const fadeIn = 'transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
+  const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
   const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
   return (
@@ -32,7 +32,7 @@ export default function GiftVouchers() {
 
         <div
           ref={card.ref}
-          className={`grid gap-0 overflow-hidden rounded-2xl border border-[#e1c1ba] bg-white shadow-[0_14px_40px_rgba(91,58,50,0.08)] transition-[opacity,transform,box-shadow] duration-500 ease-out md:grid-cols-2 ${!card.inView ? hidden : ''}`}
+          className={`grid gap-0 overflow-hidden rounded-2xl border border-[#e1c1ba] bg-white shadow-[0_14px_40px_rgba(91,58,50,0.08)] transition-[opacity,translate,box-shadow] duration-500 ease-out md:grid-cols-2 ${!card.inView ? hidden : ''}`}
           style={{ transitionDelay: card.inView ? '140ms' : '0ms' }}
         >
           <div

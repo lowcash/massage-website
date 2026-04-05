@@ -135,7 +135,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   const carousel = useInView()
   const cta = useInView()
 
-  const fadeIn = 'transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
+  const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
   const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
   const calendarData = useMemo(() => mapApiDataToDisplay(data), [data])

@@ -23,7 +23,7 @@ export default function GalleryInteractive() {
   const gridRef = useInView()
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null)
 
-  const fadeIn = 'transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
+  const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
   const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
 
@@ -194,7 +194,7 @@ export default function GalleryInteractive() {
         onClick={() => setActiveImageIndex(null)}
       >
         <div
-          className={`relative flex w-full max-w-5xl cursor-default items-center justify-center transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${activeImageIndex !== null ? 'scale-100 opacity-100' : 'scale-[0.96] opacity-0'}`}
+          className={`relative flex w-full max-w-5xl cursor-default items-center justify-center transition-[opacity,scale] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${activeImageIndex !== null ? 'scale-100 opacity-100' : 'scale-[0.96] opacity-0'}`}
           onClick={(event) => event.stopPropagation()}
         >
           <button

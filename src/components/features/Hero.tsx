@@ -2,6 +2,7 @@ import Image from 'next/image'
 
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp } from '@/lib/utils'
+
 import heroImage from '@/src/assets/hero.jpg'
 import HeroScrollCue from '@/src/components/features/HeroScrollCue'
 

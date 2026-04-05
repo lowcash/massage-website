@@ -1,15 +1,17 @@
 'use client'
 
 import type { ReactNode } from 'react'
+
 import Image from 'next/image'
 
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp } from '@/lib/utils'
+
+import profileImage from '@/src/assets/profile.jpg'
 import CountUpValue from '@/src/components/shared/CountUpValue'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 import { useInView } from '@/src/hooks/useInView'
 import { useReducedMotion } from '@/src/hooks/useReducedMotion'
-import profileImage from '@/src/assets/profile.jpg'
 
 const ABOUT_PARAGRAPH_EMPHASIS = [
   'vykouzlit druhým na tváři úsměv',
@@ -49,7 +51,7 @@ export default function About() {
   const content = useInView()
   const image = useInView()
 
-  const fadeIn = 'transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
+  const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
   const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
   return (
