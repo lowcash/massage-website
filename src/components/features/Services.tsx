@@ -30,7 +30,6 @@ function ServiceCard({
   Icon,
   delayMs,
   isVisible,
-  fadeIn,
   hidden,
   onClick,
 }: {
@@ -38,13 +37,12 @@ function ServiceCard({
   Icon: LucideIcon
   delayMs: number
   isVisible: boolean
-  fadeIn: string
   hidden: string
   onClick: () => void
 }) {
   return (
     <div
-      className={`flex h-full cursor-pointer flex-col rounded-2xl border border-[#e7d0cb] bg-white p-6 transition-[opacity,transform,box-shadow] duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_35px_rgba(113,73,65,0.12)] ${!isVisible ? hidden : ''} ${fadeIn}`}
+      className={`flex h-full cursor-pointer flex-col rounded-2xl border border-[#e7d0cb] bg-white p-6 transition-[opacity,transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_35px_rgba(113,73,65,0.12)] ${!isVisible ? hidden : ''}`}
       style={{ transitionDelay: isVisible ? `${delayMs}ms` : '0ms' }}
       onClick={onClick}
       role='button'
@@ -123,7 +121,6 @@ export default function Services() {
                 Icon={Icon}
                 delayMs={delayMs}
                 isVisible={grid.inView}
-                fadeIn={fadeIn}
                 hidden={hidden}
                 onClick={() => handleServiceClick(service.name)}
               />

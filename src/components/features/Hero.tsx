@@ -34,7 +34,7 @@ export default function Hero() {
 
         <a
           href='#services'
-          className='rounded-md bg-[#ca6f61] px-8 py-3 text-sm tracking-widest text-white uppercase transition hover:bg-[#b55d50]'
+          className='rounded-md bg-[#ca6f61] px-8 py-3 text-sm tracking-widest text-white uppercase transition-colors duration-300 ease-out hover:bg-[#b55d50]'
         >
           {applyCzechNbsp(siteContent.hero.cta)}
         </a>

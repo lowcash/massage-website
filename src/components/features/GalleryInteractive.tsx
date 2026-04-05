@@ -23,8 +23,8 @@ export default function GalleryInteractive() {
   const gridRef = useInView()
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null)
 
-  const fadeIn = 'transition-[opacity,transform] duration-500 ease-out'
-  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-5'
+  const fadeIn = 'transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
+  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
 
   useEffect(() => {
@@ -190,17 +190,17 @@ export default function GalleryInteractive() {
         aria-modal='true'
         aria-label='Náhled fotografie'
         inert={activeImageIndex === null || undefined}
-        className={`fixed inset-0 z-70 flex cursor-default items-center justify-center bg-black/70 p-4 backdrop-blur-md transition-opacity duration-200 md:p-8 ${activeImageIndex !== null ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+        className={`fixed inset-0 z-70 flex cursor-default items-center justify-center bg-black/70 p-4 backdrop-blur-md transition-opacity duration-300 md:p-8 ${activeImageIndex !== null ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
         onClick={() => setActiveImageIndex(null)}
       >
         <div
-          className={`relative flex w-full max-w-5xl cursor-default items-center justify-center transition-[opacity,transform] duration-200 ease-out ${activeImageIndex !== null ? 'scale-100 opacity-100' : 'scale-[0.96] opacity-0'}`}
+          className={`relative flex w-full max-w-5xl cursor-default items-center justify-center transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${activeImageIndex !== null ? 'scale-100 opacity-100' : 'scale-[0.96] opacity-0'}`}
           onClick={(event) => event.stopPropagation()}
         >
           <button
             type='button'
             onClick={() => setActiveImageIndex(null)}
-            className='absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65'
+            className='absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition-colors duration-300 ease-out hover:bg-black/65'
             aria-label='Zavřít náhled'
           >
             <X className='h-5 w-5' />
@@ -209,7 +209,7 @@ export default function GalleryInteractive() {
           <button
             type='button'
             onClick={showPreviousImage}
-            className='absolute left-3 z-10 hidden h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65 md:flex'
+            className='absolute left-3 z-10 hidden h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition-colors duration-300 ease-out hover:bg-black/65 md:flex'
             aria-label='Předchozí fotografie'
           >
             <ChevronLeft className='h-5 w-5' />
@@ -238,7 +238,7 @@ export default function GalleryInteractive() {
           <button
             type='button'
             onClick={showNextImage}
-            className='absolute right-3 z-10 hidden h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65 md:flex'
+            className='absolute right-3 z-10 hidden h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition-colors duration-300 ease-out hover:bg-black/65 md:flex'
             aria-label='Další fotografie'
           >
             <ChevronRight className='h-5 w-5' />

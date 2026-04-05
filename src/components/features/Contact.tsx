@@ -6,7 +6,7 @@ import { SectionIntro } from '@/src/components/shared/SectionIntro'
 
 export default function Contact() {
   const cardClassName = 'rounded-2xl border border-[#e3ccc7] bg-white p-5 text-[15px] leading-relaxed text-[#5c4b47]'
-  const linkCardClassName = `${cardClassName} cursor-pointer transition hover:border-[#d8b6af] hover:bg-[#fff8f6]`
+  const linkCardClassName = `${cardClassName} cursor-pointer transition-colors duration-300 ease-out hover:border-[#d8b6af] hover:bg-[#fff8f6]`
 
   return (
     <section id='contact' className='bg-[#ecd8d3] px-5 py-16 md:px-8 md:py-24'>

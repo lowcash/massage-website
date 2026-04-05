@@ -37,17 +37,23 @@ export default function Footer() {
             <h3 className='font-dancing text-2xl text-[#f8e9e5]'>
               {applyCzechNbsp(siteContent.footer.contactHeading)}
             </h3>
-            <a href={`mailto:${siteContent.brand.email}`} className='cursor-pointer transition hover:text-white'>
+            <a
+              href={`mailto:${siteContent.brand.email}`}
+              className='cursor-pointer transition-colors duration-300 ease-out hover:text-white'
+            >
               {siteContent.brand.email}
             </a>
-            <a href={`tel:+${siteContent.brand.phoneDigits}`} className='cursor-pointer transition hover:text-white'>
+            <a
+              href={`tel:+${siteContent.brand.phoneDigits}`}
+              className='cursor-pointer transition-colors duration-300 ease-out hover:text-white'
+            >
               {siteContent.brand.phone}
             </a>
             <a
               href={siteContent.brand.mapsLink}
               target='_blank'
               rel='noopener noreferrer'
-              className='cursor-pointer transition hover:text-white'
+              className='cursor-pointer transition-colors duration-300 ease-out hover:text-white'
             >
               {applyCzechNbsp(siteContent.brand.addressLine1)}
               <br />
@@ -64,7 +70,7 @@ export default function Footer() {
               href={siteContent.brand.facebook}
               target='_blank'
               rel='noopener noreferrer'
-              className='rounded-full border border-white/20 p-2.5 transition hover:border-white/40 hover:bg-white/10'
+              className='rounded-full border border-white/20 p-2.5 transition-colors duration-300 ease-out hover:border-white/40 hover:bg-white/10'
               aria-label={siteContent.footer.facebookAriaLabel}
             >
               <Facebook className='h-5 w-5' />
@@ -73,7 +79,7 @@ export default function Footer() {
               href={siteContent.brand.instagram}
               target='_blank'
               rel='noopener noreferrer'
-              className='rounded-full border border-white/20 p-2.5 transition hover:border-white/40 hover:bg-white/10'
+              className='rounded-full border border-white/20 p-2.5 transition-colors duration-300 ease-out hover:border-white/40 hover:bg-white/10'
               aria-label={siteContent.footer.instagramAriaLabel}
             >
               <Instagram className='h-5 w-5' />

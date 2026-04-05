@@ -135,8 +135,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   const carousel = useInView()
   const cta = useInView()
 
-  const fadeIn = 'transition-[opacity,transform] duration-500 ease-out'
-  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-5'
+  const fadeIn = 'transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
+  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
   const calendarData = useMemo(() => mapApiDataToDisplay(data), [data])
   const whatsappCtaMessage = selectedService
@@ -243,7 +243,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                       disabled={!slot.available}
                       className={
                         slot.available
-                          ? 'rounded-full border border-[#c97b6f] bg-white px-4 py-2 text-[15px] text-[#5f4540] transition hover:bg-[#c97b6f] hover:text-white'
+                          ? 'rounded-full border border-[#c97b6f] bg-white px-4 py-2 text-[15px] text-[#5f4540] transition-colors duration-300 ease-out hover:bg-[#c97b6f] hover:text-white'
                           : 'cursor-not-allowed rounded-full border border-[#dadada] bg-[#ececec] px-4 py-2 text-[15px] text-[#9f9f9f] line-through'
                       }
                     >
@@ -268,7 +268,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             href={whatsappCtaUrl}
             target='_blank'
             rel='noopener noreferrer'
-            className='inline-flex rounded-md bg-[#ca6f61] px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition hover:bg-[#b45c4f]'
+            className='inline-flex rounded-md bg-[#ca6f61] px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition-colors duration-300 ease-out hover:bg-[#b45c4f]'
           >
             {applyCzechNbsp(siteContent.calendar.whatsappCta)}
           </a>

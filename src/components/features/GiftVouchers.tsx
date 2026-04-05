@@ -76,7 +76,7 @@ export default function GiftVouchers() {
               href={href}
               target='_blank'
               rel='noopener noreferrer'
-              className='mt-2 inline-flex w-full justify-center rounded-md bg-[#ca6f61] px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition hover:bg-[#b45c4f]'
+              className='mt-2 inline-flex w-full justify-center rounded-md bg-[#ca6f61] px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition-colors duration-300 ease-out hover:bg-[#b45c4f]'
             >
               {applyCzechNbsp(siteContent.vouchers.cta)}
             </a>

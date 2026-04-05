@@ -31,7 +31,7 @@ export default function HeroScrollCue({ href, ariaLabel }: HeroScrollCueProps) {
   return (
     <a
       href={href}
-      className='fixed bottom-6 left-1/2 z-20 -translate-x-1/2 text-white/75 transition hover:text-white motion-safe:animate-bounce'
+      className='fixed bottom-6 left-1/2 z-20 -translate-x-1/2 text-white/75 transition-colors duration-300 ease-out hover:text-white motion-safe:animate-bounce'
       style={{ marginBottom: 'env(safe-area-inset-bottom)' }}
       aria-label={ariaLabel}
     >

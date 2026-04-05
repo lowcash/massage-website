@@ -85,8 +85,8 @@ export default function Navigation() {
             onClick={() => handleNavigationClick('#hero')}
             className={
               isScrolled
-                ? 'font-dancing text-[1.9rem] leading-none text-[#5f3b36] transition sm:text-3xl'
-                : 'font-dancing text-[1.9rem] leading-none text-white transition sm:text-3xl'
+                ? 'font-dancing text-[1.9rem] leading-none text-[#5f3b36] transition-colors duration-300 ease-out sm:text-3xl'
+                : 'font-dancing text-[1.9rem] leading-none text-white transition-colors duration-300 ease-out sm:text-3xl'
             }
             aria-label={siteContent.navigation.homeAriaLabel}
           >
@@ -102,8 +102,8 @@ export default function Navigation() {
                 aria-current={activeSection === item.href.replace('#', '') ? 'page' : undefined}
                 className={
                   isScrolled
-                    ? `cursor-pointer text-[11px] tracking-[0.2em] uppercase transition hover:text-[#b96657] ${activeSection === item.href.replace('#', '') ? 'text-[#b96657]' : 'text-[#6e4d48]'}`
-                    : `cursor-pointer text-[11px] tracking-[0.2em] uppercase transition hover:text-[#ffe4de] ${activeSection === item.href.replace('#', '') ? 'text-[#ffe4de]' : 'text-white'}`
+                    ? `cursor-pointer text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 ease-out hover:text-[#b96657] ${activeSection === item.href.replace('#', '') ? 'text-[#b96657]' : 'text-[#6e4d48]'}`
+                    : `cursor-pointer text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 ease-out hover:text-[#ffe4de] ${activeSection === item.href.replace('#', '') ? 'text-[#ffe4de]' : 'text-white'}`
                 }
               >
                 {applyCzechNbsp(item.label)}
@@ -145,7 +145,7 @@ export default function Navigation() {
           <button
             type='button'
             onClick={() => handleNavigationClick('#hero')}
-            className='font-dancing text-left text-[1.9rem] leading-none text-[#5f3b36] transition hover:opacity-85 sm:text-3xl'
+            className='font-dancing text-left text-[1.9rem] leading-none text-[#5f3b36] transition-opacity duration-300 ease-out hover:opacity-85 sm:text-3xl'
             aria-label={siteContent.navigation.homeAriaLabel}
           >
             {applyCzechNbsp(siteContent.brand.name)}
@@ -169,7 +169,7 @@ export default function Navigation() {
                 type='button'
                 onClick={() => handleNavigationClick(item.href)}
                 aria-current={activeSection === item.href.replace('#', '') ? 'page' : undefined}
-                className={`cursor-pointer rounded-2xl border bg-white/70 px-4 py-3 text-left text-[13px] tracking-[0.16em] uppercase transition hover:bg-white sm:px-5 sm:py-4 sm:text-sm sm:tracking-[0.2em] ${activeSection === item.href.replace('#', '') ? 'border-[#d8b1a8] bg-[#fff8f6] text-[#be675a]' : 'border-[#e5d0cb] text-[#5f3b36]'}`}
+                className={`cursor-pointer rounded-2xl border bg-white/70 px-4 py-3 text-left text-[13px] tracking-[0.16em] uppercase transition-colors duration-300 ease-out hover:bg-white sm:px-5 sm:py-4 sm:text-sm sm:tracking-[0.2em] ${activeSection === item.href.replace('#', '') ? 'border-[#d8b1a8] bg-[#fff8f6] text-[#be675a]' : 'border-[#e5d0cb] text-[#5f3b36]'}`}
               >
                 {applyCzechNbsp(item.label)}
               </button>
@@ -181,7 +181,7 @@ export default function Navigation() {
           <div className='grid gap-2.5 text-sm text-[#6b5551] sm:gap-3'>
             <a
               href={`tel:+${siteContent.brand.phoneDigits}`}
-              className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
+              className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition-colors duration-300 ease-out hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
             >
               <Phone className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
               <span className='leading-snug'>{siteContent.brand.phone}</span>
@@ -189,7 +189,7 @@ export default function Navigation() {
 
             <a
               href={`mailto:${siteContent.brand.email}`}
-              className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
+              className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition-colors duration-300 ease-out hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
             >
               <Mail className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
               <span className='leading-snug'>{siteContent.brand.email}</span>
@@ -199,7 +199,7 @@ export default function Navigation() {
               href={siteContent.brand.mapsLink}
               target='_blank'
               rel='noopener noreferrer'
-              className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
+              className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition-colors duration-300 ease-out hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
             >
               <MapPin className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
               <span className='leading-snug'>

@@ -155,7 +155,7 @@ export default function PeekCarousel({
         type='button'
         onClick={() => scrollByCards(-1)}
         className={cn(
-          'absolute top-1/2 left-2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#dcb7af] bg-white/90 text-[#8b5f58] shadow-sm transition hover:bg-white md:flex',
+          'absolute top-1/2 left-2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#dcb7af] bg-white/90 text-[#8b5f58] shadow-sm transition-colors duration-300 ease-out hover:bg-white md:flex',
           canScrollLeft ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
         aria-label={`Posunout ${ariaLabel} doleva`}
@@ -167,7 +167,7 @@ export default function PeekCarousel({
         type='button'
         onClick={() => scrollByCards(1)}
         className={cn(
-          'absolute top-1/2 right-2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#dcb7af] bg-white/90 text-[#8b5f58] shadow-sm transition hover:bg-white md:flex',
+          'absolute top-1/2 right-2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#dcb7af] bg-white/90 text-[#8b5f58] shadow-sm transition-colors duration-300 ease-out hover:bg-white md:flex',
           canScrollRight ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
         aria-label={`Posunout ${ariaLabel} doprava`}

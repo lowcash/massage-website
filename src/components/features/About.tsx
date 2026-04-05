@@ -49,8 +49,8 @@ export default function About() {
   const content = useInView()
   const image = useInView()
 
-  const fadeIn = 'transition-[opacity,transform] duration-500 ease-out'
-  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-5'
+  const fadeIn = 'transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
+  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
   return (
     <section id='about' className='bg-[#f6edeb] px-5 py-16 md:px-8 md:py-24'>
