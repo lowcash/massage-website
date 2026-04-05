@@ -54,7 +54,10 @@ function ServiceCard({
       >
         <div className='mb-4 flex items-start gap-3'>
           <Icon className='mt-0.5 h-[18px] w-[18px] shrink-0 text-[#ca6f61]' />
-          <h3 className='text-[1.45rem] leading-[1.2] text-[#342a28]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+          <h3
+            className='text-[1.45rem] leading-[1.2] text-[#342a28]'
+            style={{ fontFamily: 'Cormorant Garamond, serif' }}
+          >
             {applyCzechNbsp(service.name)}
           </h3>
         </div>

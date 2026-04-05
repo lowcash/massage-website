@@ -8,19 +8,95 @@ import { siteContent } from '@/lib/content'
 import { applyCzechNbsp } from '@/lib/utils'
 
 export default function Navigation() {
+  const MOBILE_NAVIGATION_OFFSET = 70
+  const DESKTOP_NAVIGATION_OFFSET = 70
+
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('hero')
 
+  const getNavigationOffset = () => {
+    const header = document.querySelector('header')
+    if (header) {
+      return header.getBoundingClientRect().height
+    }
+
+    const offsetValue = getComputedStyle(document.documentElement).getPropertyValue('--navigation-offset').trim()
+    const parsedOffset = Number.parseFloat(offsetValue)
+
+    return Number.isFinite(parsedOffset)
+      ? parsedOffset
+      : window.matchMedia('(min-width: 768px)').matches
+        ? DESKTOP_NAVIGATION_OFFSET
+        : MOBILE_NAVIGATION_OFFSET
+  }
+
+  const getScrollTarget = (sectionId: string) => {
+    return document.getElementById(sectionId)
+  }
+
+  const updateLocationHash = (sectionId: string) => {
+    const nextUrl =
+      sectionId === 'hero'
+        ? `${window.location.pathname}${window.location.search}`
+        : `${window.location.pathname}${window.location.search}#${sectionId}`
+
+    window.history.replaceState(null, '', nextUrl)
+  }
+
   const handleNavigationClick = (href: string) => {
     const sectionId = href.replace('#', '')
-    const element = document.getElementById(sectionId)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (sectionId === 'hero') {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+      setActiveSection(sectionId)
+      updateLocationHash(sectionId)
+      setIsMobileMenuOpen(false)
+      return
+    }
+
+    const element = getScrollTarget(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      const offset = getNavigationOffset()
+      const sectionTop = element.getBoundingClientRect().top + window.scrollY - offset
+      const targetTop = Math.max(0, sectionTop)
+
+      window.scrollTo({ top: targetTop, behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+      updateLocationHash(sectionId)
     }
     setActiveSection(sectionId)
     setIsMobileMenuOpen(false)
   }
+
+  useEffect(() => {
+    const applyHashScroll = () => {
+      const hashId = window.location.hash.replace('#', '')
+      if (!hashId) {
+        return
+      }
+
+      const target = getScrollTarget(hashId)
+      if (!target) {
+        return
+      }
+
+      const offset = getNavigationOffset()
+      const sectionTop = target.getBoundingClientRect().top + window.scrollY - offset
+      const targetTop = Math.max(0, sectionTop)
+
+      window.scrollTo({ top: targetTop, behavior: 'auto' })
+      setActiveSection(hashId)
+    }
+
+    const timerId = window.setTimeout(applyHashScroll, 0)
+    window.addEventListener('hashchange', applyHashScroll)
+
+    return () => {
+      window.clearTimeout(timerId)
+      window.removeEventListener('hashchange', applyHashScroll)
+    }
+  }, [])
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -38,16 +114,18 @@ export default function Navigation() {
     const sectionIds = ['hero', ...siteContent.navigation.items.map((item) => item.href.replace('#', ''))]
 
     const updateActiveSection = () => {
-      const offsetY = window.scrollY + 140
+      const offsetY = window.scrollY + getNavigationOffset()
       let currentSection = 'hero'
 
       sectionIds.forEach((id) => {
-        const section = document.getElementById(id)
+        const section = getScrollTarget(id) ?? document.getElementById(id)
         if (!section) {
           return
         }
 
-        if (offsetY >= section.offsetTop) {
+        const sectionTop = section.getBoundingClientRect().top + window.scrollY
+
+        if (offsetY >= sectionTop) {
           currentSection = id
         }
       })

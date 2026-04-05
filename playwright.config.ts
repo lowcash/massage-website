@@ -9,6 +9,14 @@ export default defineConfig({
     baseURL: 'http://127.0.0.1:3100',
     trace: 'on-first-retry',
   },
+  webServer: {
+    command: 'npm run build && npm run preview:e2e',
+    url: 'http://127.0.0.1:3100',
+    reuseExistingServer: !process.env.CI,
+    stdout: 'ignore',
+    stderr: 'pipe',
+    timeout: 240000,
+  },
   projects: [
     {
       name: 'desktop-chrome',

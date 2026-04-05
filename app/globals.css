@@ -46,13 +46,21 @@
   -ms-overflow-style: none;
 }
 
+:root {
+  --navigation-offset: 70px;
+}
+
 section[id] {
-  scroll-margin-top: 88px;
+  scroll-margin-top: var(--navigation-offset);
+}
+
+[id$='-heading'] {
+  scroll-margin-top: var(--navigation-offset);
 }
 
 @media (min-width: 768px) {
-  section[id] {
-    scroll-margin-top: 96px;
+  :root {
+    --navigation-offset: 70px;
   }
 }
 
@@ -194,6 +202,7 @@ button:disabled {
   html {
     scrollbar-width: none;
     background: #2c2c2c;
+    scroll-padding-top: var(--navigation-offset);
   }
 
   body {
