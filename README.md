@@ -7,7 +7,7 @@ Professional website for a massage therapist with an online reservation system. 
 - **Next.js 16** - React framework
 - **TypeScript** - Type safety
 - **Tailwind CSS** - Styling
-- **Framer Motion** - Animations
+- **CSS Animations + Intersection Observer** - Animations (custom useInView hook, no Framer Motion)
 - **Redis** - Calendar reservation caching
 - **shadcn/ui** - UI components
 - **Sonner** - Toast notifications
