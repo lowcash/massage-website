@@ -1,12 +1,37 @@
 'use server'
 
 import { createClient } from 'redis'
+
 import { actionClient, authActionClient } from '@/lib/safe-action'
 import { calendarUpdateInputSchema } from '@/lib/schemas/calendar'
 
 const CALENDAR_KV_KEY = 'calendar'
 
 let redisClient: ReturnType<typeof createClient> | null = null
+
+function shouldUseLocalFallbackCalendar() {
+  return !process.env.VERCEL && !process.env.VERCEL_ENV
+}
+
+function createLocalFallbackCalendar() {
+  const fallbackSlots = [
+    { dayOffset: 1, hour: 9, minute: 0, reserved: false },
+    { dayOffset: 1, hour: 14, minute: 30, reserved: false },
+    { dayOffset: 2, hour: 10, minute: 0, reserved: false },
+    { dayOffset: 2, hour: 16, minute: 30, reserved: true },
+  ]
+
+  return fallbackSlots.map(({ dayOffset, hour, minute, reserved }) => {
+    const date = new Date()
+    date.setDate(date.getDate() + dayOffset)
+    date.setHours(hour, minute, 0, 0)
+
+    return {
+      date,
+      reserved,
+    }
+  })
+}
 
 async function getRedisClient() {
   if (!redisClient) {
@@ -24,8 +49,7 @@ export const getCalendar = actionClient.action(async () => {
     const fileContent = await redis.get(CALENDAR_KV_KEY)
 
     if (!fileContent) {
-      // Return empty array if no data in Redis
-      return { success: true, data: [] }
+      return { success: true, data: shouldUseLocalFallbackCalendar() ? createLocalFallbackCalendar() : [] }
     }
 
     const parsedContent = JSON.parse(fileContent as string) as any[]
@@ -67,7 +91,11 @@ export const getCalendar = actionClient.action(async () => {
     return { success: true, data: mappedData }
   } catch (error) {
     console.error('Redis connection error:', error)
-    // Return empty array if Redis is not available
+
+    if (shouldUseLocalFallbackCalendar()) {
+      return { success: true, data: createLocalFallbackCalendar() }
+    }
+
     return { success: false, data: [] }
   }
 })

@@ -23,7 +23,9 @@ export default function Contact() {
             <a href={`tel:+${siteContent.brand.phoneDigits}`} className={linkCardClassName}>
               <div className='mb-3 flex items-center gap-2 text-[#ca6f61]'>
                 <Phone className='h-4 w-4' />
-                <p className='text-xs tracking-[0.14em] uppercase'>{siteContent.contact.cards.phoneLabel}</p>
+                <p className='text-xs tracking-[0.14em] text-[#9b4a40] uppercase'>
+                  {siteContent.contact.cards.phoneLabel}
+                </p>
               </div>
               <p className='text-[#463633]'>{siteContent.brand.phone}</p>
             </a>
@@ -31,7 +33,9 @@ export default function Contact() {
             <a href={`mailto:${siteContent.brand.email}`} className={linkCardClassName}>
               <div className='mb-3 flex items-center gap-2 text-[#ca6f61]'>
                 <Mail className='h-4 w-4' />
-                <p className='text-xs tracking-[0.14em] uppercase'>{siteContent.contact.cards.emailLabel}</p>
+                <p className='text-xs tracking-[0.14em] text-[#9b4a40] uppercase'>
+                  {siteContent.contact.cards.emailLabel}
+                </p>
               </div>
               <p className='break-all text-[#463633]'>{siteContent.brand.email}</p>
             </a>
@@ -44,7 +48,9 @@ export default function Contact() {
             >
               <div className='mb-3 flex items-center gap-2 text-[#ca6f61]'>
                 <MapPin className='h-4 w-4' />
-                <p className='text-xs tracking-[0.14em] uppercase'>{siteContent.contact.cards.addressLabel}</p>
+                <p className='text-xs tracking-[0.14em] text-[#9b4a40] uppercase'>
+                  {siteContent.contact.cards.addressLabel}
+                </p>
               </div>
               <p>{applyCzechNbsp(siteContent.brand.addressLine1)}</p>
               <p>{applyCzechNbsp(siteContent.brand.addressLine2)}</p>
@@ -53,7 +59,9 @@ export default function Contact() {
             <div className={cardClassName}>
               <div className='mb-3 flex items-center gap-2 text-[#ca6f61]'>
                 <Clock className='h-4 w-4' />
-                <p className='text-xs tracking-[0.14em] uppercase'>{siteContent.contact.cards.openingHoursLabel}</p>
+                <p className='text-xs tracking-[0.14em] text-[#9b4a40] uppercase'>
+                  {siteContent.contact.cards.openingHoursLabel}
+                </p>
               </div>
 
               <div className='flex flex-col gap-1.5'>
@@ -65,7 +73,7 @@ export default function Contact() {
                 ))}
               </div>
 
-              <p className='mt-3 text-sm text-[#796661]'>{applyCzechNbsp(siteContent.contact.cards.flexibilityNote)}</p>
+              <p className='mt-3 text-sm text-[#5a4340]'>{applyCzechNbsp(siteContent.contact.cards.flexibilityNote)}</p>
             </div>
           </div>
 

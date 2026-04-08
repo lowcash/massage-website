@@ -88,7 +88,7 @@ export default function About() {
                   <p className='font-dancing text-4xl text-[#ca6f61] sm:text-5xl'>
                     <CountUpValue value={stat.value} suffix={stat.suffix} />
                   </p>
-                  <p className='text-xs leading-relaxed text-[#74625d] uppercase'>{applyCzechNbsp(stat.label)}</p>
+                  <p className='text-xs leading-relaxed text-[#4f3f3a] uppercase'>{applyCzechNbsp(stat.label)}</p>
                 </div>
               ))}
             </div>
@@ -101,7 +101,7 @@ export default function About() {
                 </div>
               ))}
 
-              <p className='pt-1 text-sm leading-relaxed text-[#8a706a] italic'>
+              <p className='pt-1 text-sm leading-relaxed text-[#5e4742] italic'>
                 {applyCzechNbsp(siteContent.about.closingLine)}
               </p>
             </div>
@@ -117,6 +117,7 @@ export default function About() {
                 src={profileImage}
                 alt={siteContent.brand.therapistName}
                 className='h-auto w-full object-cover object-top lg:h-full lg:max-h-none'
+                sizes='(min-width: 1024px) 50vw, (min-width: 768px) 42rem, 100vw'
                 priority={false}
               />
             </div>

@@ -1,70 +1,35 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Mail, MapPin, Menu, Phone, X } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
-import { applyCzechNbsp } from '@/lib/utils'
+import { applyCzechNbsp, getNavigationOffset, scrollToSection } from '@/lib/utils'
 
 export default function Navigation() {
-  const MOBILE_NAVIGATION_OFFSET = 70
-  const DESKTOP_NAVIGATION_OFFSET = 70
+  const NAVIGATION_SYNC_LOCK_MS = 1400
 
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('hero')
-
-  const getNavigationOffset = () => {
-    const header = document.querySelector('header')
-    if (header) {
-      return header.getBoundingClientRect().height
-    }
-
-    const offsetValue = getComputedStyle(document.documentElement).getPropertyValue('--navigation-offset').trim()
-    const parsedOffset = Number.parseFloat(offsetValue)
-
-    return Number.isFinite(parsedOffset)
-      ? parsedOffset
-      : window.matchMedia('(min-width: 768px)').matches
-        ? DESKTOP_NAVIGATION_OFFSET
-        : MOBILE_NAVIGATION_OFFSET
-  }
-
-  const getScrollTarget = (sectionId: string) => {
-    return document.getElementById(sectionId)
-  }
-
-  const updateLocationHash = (sectionId: string) => {
-    const nextUrl =
-      sectionId === 'hero'
-        ? `${window.location.pathname}${window.location.search}`
-        : `${window.location.pathname}${window.location.search}#${sectionId}`
-
-    window.history.replaceState(null, '', nextUrl)
-  }
+  const navigationLockRef = useRef<{ sectionId: string; expiresAt: number } | null>(null)
 
   const handleNavigationClick = (href: string) => {
     const sectionId = href.replace('#', '')
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    if (sectionId === 'hero') {
-      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' })
-      setActiveSection(sectionId)
-      updateLocationHash(sectionId)
+    navigationLockRef.current = {
+      sectionId,
+      expiresAt: Date.now() + NAVIGATION_SYNC_LOCK_MS,
+    }
+
+    const didScroll = scrollToSection(sectionId)
+    if (!didScroll) {
+      navigationLockRef.current = null
       setIsMobileMenuOpen(false)
       return
     }
 
-    const element = getScrollTarget(sectionId)
-    if (element) {
-      const offset = getNavigationOffset()
-      const sectionTop = element.getBoundingClientRect().top + window.scrollY - offset
-      const targetTop = Math.max(0, sectionTop)
-
-      window.scrollTo({ top: targetTop, behavior: prefersReducedMotion ? 'auto' : 'smooth' })
-      updateLocationHash(sectionId)
-    }
     setActiveSection(sectionId)
     setIsMobileMenuOpen(false)
   }
@@ -76,16 +41,11 @@ export default function Navigation() {
         return
       }
 
-      const target = getScrollTarget(hashId)
-      if (!target) {
+      const didScroll = scrollToSection(hashId, { behavior: 'auto', updateHash: false })
+      if (!didScroll) {
         return
       }
 
-      const offset = getNavigationOffset()
-      const sectionTop = target.getBoundingClientRect().top + window.scrollY - offset
-      const targetTop = Math.max(0, sectionTop)
-
-      window.scrollTo({ top: targetTop, behavior: 'auto' })
       setActiveSection(hashId)
     }
 
@@ -114,21 +74,33 @@ export default function Navigation() {
     const sectionIds = ['hero', ...siteContent.navigation.items.map((item) => item.href.replace('#', ''))]
 
     const updateActiveSection = () => {
+      const lock = navigationLockRef.current
+      if (lock && Date.now() <= lock.expiresAt) {
+        setActiveSection(lock.sectionId)
+        return
+      }
+
+      if (lock) {
+        navigationLockRef.current = null
+      }
+
       const offsetY = window.scrollY + getNavigationOffset()
       let currentSection = 'hero'
 
-      sectionIds.forEach((id) => {
-        const section = getScrollTarget(id) ?? document.getElementById(id)
+      for (let index = sectionIds.length - 1; index >= 0; index -= 1) {
+        const id = sectionIds[index]
+        const section = document.getElementById(id)
         if (!section) {
-          return
+          continue
         }
 
         const sectionTop = section.getBoundingClientRect().top + window.scrollY
 
         if (offsetY >= sectionTop) {
           currentSection = id
+          break
         }
-      })
+      }
 
       setActiveSection(currentSection)
     }

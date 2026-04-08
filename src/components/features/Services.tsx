@@ -18,7 +18,7 @@ import type { LucideIcon } from 'lucide-react'
 
 import type { ServiceItem } from '@/lib/content'
 import { siteContent } from '@/lib/content'
-import { applyCzechNbsp } from '@/lib/utils'
+import { applyCzechNbsp, scrollToSection } from '@/lib/utils'
 
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 import { useBooking } from '@/src/contexts/BookingContext'
@@ -101,7 +101,7 @@ export default function Services() {
 
   const handleServiceClick = (serviceName: string) => {
     setSelectedService(serviceName)
-    document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' })
+    scrollToSection('booking')
   }
 
   return (

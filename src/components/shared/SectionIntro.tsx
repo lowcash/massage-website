@@ -23,7 +23,7 @@ export function SectionIntro({ id, title, subtitle, description, light = false }
         className={
           light
             ? 'text-sm tracking-[0.2em] text-white/80 uppercase'
-            : 'text-sm tracking-[0.2em] text-[#8b706c] uppercase'
+            : 'text-sm tracking-[0.2em] text-[#6d4f48] uppercase'
         }
       >
         {applyCzechNbsp(subtitle)}

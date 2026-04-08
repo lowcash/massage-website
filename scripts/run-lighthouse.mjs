@@ -12,6 +12,40 @@ const port = mode === 'mobile' ? 9223 : 9222
 const outputDir = path.resolve(process.cwd(), 'test-results')
 const outputPath = path.join(outputDir, `lighthouse-${mode}.html`)
 const summaryPath = path.join(outputDir, `lighthouse-${mode}.json`)
+const reportPath = path.join(outputDir, `lighthouse-${mode}.report.json`)
+
+function getCategoryIssues(lhr, categoryId, maxItems = 8) {
+  const category = lhr.categories[categoryId]
+  if (!category) {
+    return []
+  }
+
+  return category.auditRefs
+    .map((ref) => {
+      const audit = lhr.audits[ref.id]
+      if (!audit || typeof audit.score !== 'number') {
+        return null
+      }
+
+      return {
+        id: ref.id,
+        title: audit.title,
+        score: audit.score,
+        weight: ref.weight,
+        displayValue: audit.displayValue ?? null,
+      }
+    })
+    .filter((audit) => audit && audit.score < 1)
+    .sort((a, b) => {
+      const weightDelta = b.weight - a.weight
+      if (weightDelta !== 0) {
+        return weightDelta
+      }
+
+      return a.score - b.score
+    })
+    .slice(0, maxItems)
+}
 
 const chromeProcess = spawn(
   chromium.executablePath(),
@@ -79,6 +113,7 @@ try {
   }
 
   await fs.writeFile(outputPath, runnerResult.report)
+  await fs.writeFile(reportPath, JSON.stringify(runnerResult.lhr, null, 2))
 
   const categories = runnerResult.lhr.categories
   const formatScore = (key) => Math.round((categories[key]?.score ?? 0) * 100)
@@ -87,11 +122,18 @@ try {
     url,
     outputPath,
     generatedAt: new Date().toISOString(),
+    reportPath,
     scores: {
       performance: formatScore('performance'),
       accessibility: formatScore('accessibility'),
       bestPractices: formatScore('best-practices'),
       seo: formatScore('seo'),
+    },
+    topIssues: {
+      performance: getCategoryIssues(runnerResult.lhr, 'performance'),
+      accessibility: getCategoryIssues(runnerResult.lhr, 'accessibility'),
+      bestPractices: getCategoryIssues(runnerResult.lhr, 'best-practices'),
+      seo: getCategoryIssues(runnerResult.lhr, 'seo'),
     },
   }
 

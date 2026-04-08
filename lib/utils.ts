@@ -1,4 +1,4 @@
-import { clsx, type ClassValue } from 'clsx'
+import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
@@ -32,6 +32,74 @@ export function applyCzechNbsp(text: string) {
 
   // Keep numeric values together with short units.
   return withPostalCodes.replace(/(\d+)\s+(%|°C|kg|g|km|m|cm|mm|min|h)\b/gi, '$1\u00A0$2')
+}
+
+const MOBILE_NAVIGATION_OFFSET = 70
+const DESKTOP_NAVIGATION_OFFSET = 70
+
+function updateLocationHash(sectionId: string) {
+  const nextUrl =
+    sectionId === 'hero'
+      ? `${window.location.pathname}${window.location.search}`
+      : `${window.location.pathname}${window.location.search}#${sectionId}`
+
+  window.history.replaceState(null, '', nextUrl)
+}
+
+export function getNavigationOffset() {
+  if (typeof window === 'undefined') {
+    return DESKTOP_NAVIGATION_OFFSET
+  }
+
+  const header = document.querySelector('header')
+  if (header) {
+    return header.getBoundingClientRect().height
+  }
+
+  const offsetValue = getComputedStyle(document.documentElement).getPropertyValue('--navigation-offset').trim()
+  const parsedOffset = Number.parseFloat(offsetValue)
+
+  return Number.isFinite(parsedOffset)
+    ? parsedOffset
+    : window.matchMedia('(min-width: 768px)').matches
+      ? DESKTOP_NAVIGATION_OFFSET
+      : MOBILE_NAVIGATION_OFFSET
+}
+
+export function scrollToSection(sectionId: string, options: { behavior?: ScrollBehavior; updateHash?: boolean } = {}) {
+  if (typeof window === 'undefined') {
+    return false
+  }
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const requestedBehavior = options.behavior ?? 'smooth'
+  const behavior = requestedBehavior === 'smooth' && prefersReducedMotion ? 'auto' : requestedBehavior
+  const shouldUpdateHash = options.updateHash ?? true
+
+  if (sectionId === 'hero') {
+    window.scrollTo({ top: 0, behavior })
+    if (shouldUpdateHash) {
+      updateLocationHash(sectionId)
+    }
+    return true
+  }
+
+  const element = document.getElementById(sectionId)
+  if (!element) {
+    return false
+  }
+
+  const offset = getNavigationOffset()
+  const sectionTop = element.getBoundingClientRect().top + window.scrollY - offset
+  const targetTop = Math.max(0, sectionTop)
+
+  window.scrollTo({ top: targetTop, behavior })
+
+  if (shouldUpdateHash) {
+    updateLocationHash(sectionId)
+  }
+
+  return true
 }
 
 // Czech timezone formatter

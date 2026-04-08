@@ -1,21 +1,24 @@
-import './globals.css'
 import type { Metadata, Viewport } from 'next'
+import { Cormorant_Garamond, DM_Sans, Dancing_Script } from 'next/font/google'
 import Script from 'next/script'
-import { Cormorant_Garamond, Dancing_Script, DM_Sans } from 'next/font/google'
+
 import { Analytics } from '@vercel/analytics/next'
 
-import { siteContent } from '@/lib/content'
 import {
   DESCRIPTION,
-  TITLE,
-  KEYWORDS,
-  SITE_URL,
-  THERAPIST_NAME,
   EMAIL,
   FACEBOOK,
   INSTAGRAM,
+  KEYWORDS,
+  SITE_URL,
+  THERAPIST_NAME,
+  TITLE,
 } from '@/lib/config/site-metadata'
+import { siteContent } from '@/lib/content'
+
 import { BookingProvider } from '@/src/contexts/BookingContext'
+
+import './globals.css'
 
 const dancingScript = Dancing_Script({
   variable: '--font-dancing',
@@ -95,6 +98,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   const gaTrackingId = process.env.NEXT_PUBLIC_GA_TRACKING_ID
+  const enableVercelAnalytics = Boolean(process.env.VERCEL || process.env.VERCEL_ENV || process.env.VERCEL_URL)
 
   const serviceCatalogItems = siteContent.services.items.map((service) => ({
     '@type': 'Offer',
@@ -182,8 +186,8 @@ export default function RootLayout({
 
         {gaTrackingId ? (
           <>
-            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`} strategy='afterInteractive' />
-            <Script id='gtag-init' strategy='afterInteractive'>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`} strategy='lazyOnload' />
+            <Script id='gtag-init' strategy='lazyOnload'>
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
@@ -194,7 +198,7 @@ export default function RootLayout({
           </>
         ) : null}
 
-        <Analytics />
+        {enableVercelAnalytics ? <Analytics /> : null}
       </body>
     </html>
   )
