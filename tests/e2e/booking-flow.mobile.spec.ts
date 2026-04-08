@@ -2,7 +2,10 @@ import { expect, test } from '@playwright/test'
 
 test.describe('Booking flow mobile', () => {
   test.beforeEach(async ({ page }) => {
-    test.skip(!test.info().project.name.startsWith('mobile-'), 'Mobile booking flow coverage runs only on mobile projects.')
+    test.skip(
+      !test.info().project.name.startsWith('mobile-'),
+      'Mobile booking flow coverage runs only on mobile projects.',
+    )
 
     await page.goto('/', { waitUntil: 'domcontentloaded' })
     await expect(page.locator('#hero')).toBeVisible()

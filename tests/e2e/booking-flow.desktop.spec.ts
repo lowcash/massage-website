@@ -2,7 +2,10 @@ import { expect, test } from '@playwright/test'
 
 test.describe('Booking flow', () => {
   test.beforeEach(async ({ page }) => {
-    test.skip(test.info().project.name !== 'desktop-chrome', 'Desktop booking flow coverage runs only on the desktop project.')
+    test.skip(
+      test.info().project.name !== 'desktop-chrome',
+      'Desktop booking flow coverage runs only on the desktop project.',
+    )
 
     await page.setViewportSize({ width: 1280, height: 800 })
     await page.goto('/', { waitUntil: 'domcontentloaded' })
