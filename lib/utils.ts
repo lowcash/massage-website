@@ -46,6 +46,8 @@ function updateLocationHash(sectionId: string) {
   window.history.replaceState(null, '', nextUrl)
 }
 
+export { updateLocationHash }
+
 export function getNavigationOffset() {
   if (typeof window === 'undefined') {
     return DESKTOP_NAVIGATION_OFFSET

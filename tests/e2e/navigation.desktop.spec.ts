@@ -176,4 +176,33 @@ test.describe('Desktop navigation', () => {
         .toBe('page')
     }
   })
+
+  test('URL hash updates to match the active section on scroll', async ({ page }) => {
+    await page.evaluate((targetId) => {
+      const section = document.getElementById(targetId)
+      const header = document.querySelector('header') as HTMLElement | null
+      if (!section || !header) return
+      const offset = header.getBoundingClientRect().height
+      const sectionTop = section.getBoundingClientRect().top + window.scrollY - offset + 4
+      window.scrollTo({ top: Math.max(0, sectionTop), behavior: 'auto' })
+    }, 'booking')
+
+    await expect.poll(() => page.evaluate(() => window.location.hash), { timeout: 3000 }).toBe('#booking')
+  })
+
+  test('URL hash clears when scrolled back to hero', async ({ page }) => {
+    // First scroll into a named section to set a hash
+    await page.evaluate(() => {
+      const section = document.getElementById('services')
+      const header = document.querySelector('header') as HTMLElement | null
+      if (!section || !header) return
+      const offset = header.getBoundingClientRect().height
+      window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY - offset + 4, behavior: 'auto' })
+    })
+    await expect.poll(() => page.evaluate(() => window.location.hash), { timeout: 3000 }).toBe('#services')
+
+    // Scroll back to very top
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
+    await expect.poll(() => page.evaluate(() => window.location.hash), { timeout: 3000 }).toBe('')
+  })
 })

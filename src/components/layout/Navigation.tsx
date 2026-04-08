@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Mail, MapPin, Menu, Phone, X } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
-import { applyCzechNbsp, getNavigationOffset, scrollToSection } from '@/lib/utils'
+import { applyCzechNbsp, getNavigationOffset, scrollToSection, updateLocationHash } from '@/lib/utils'
 
 export default function Navigation() {
   const NAVIGATION_SYNC_LOCK_MS = 1400
@@ -103,6 +103,7 @@ export default function Navigation() {
       }
 
       setActiveSection(currentSection)
+      updateLocationHash(currentSection)
     }
 
     const handleScroll = () => {
