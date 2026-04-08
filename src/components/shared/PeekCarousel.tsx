@@ -33,6 +33,14 @@ export default function PeekCarousel({
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(false)
 
+  const isInteractiveTarget = (target: EventTarget | null) => {
+    if (!(target instanceof HTMLElement)) {
+      return false
+    }
+
+    return target.closest('a, button, input, textarea, select, label, summary, [role="button"], [role="link"]') !== null
+  }
+
   const getItemOffsets = (el: HTMLDivElement) => {
     return Array.from(el.children)
       .map((child) => (child as HTMLElement).offsetLeft)
@@ -120,6 +128,10 @@ export default function PeekCarousel({
 
   const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.pointerType !== 'mouse' || event.button !== 0) {
+      return
+    }
+
+    if (isInteractiveTarget(event.target)) {
       return
     }
 

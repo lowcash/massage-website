@@ -131,7 +131,6 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   const shouldReduceMotion = useReducedMotion()
   const { selectedService } = useBooking()
   const intro = useInView()
-  const badge = useInView()
   const carousel = useInView()
   const cta = useInView()
 
@@ -144,11 +143,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
     : siteContent.floatingButtons.whatsappDefaultMessage
   const whatsappCtaUrl = `https://wa.me/${siteContent.brand.phoneDigits}?text=${encodeURIComponent(whatsappCtaMessage)}`
 
-  const handleSlotClick = (date: string, time: string, available: boolean) => {
-    if (!available) {
-      return
-    }
-
+  const getSlotWhatsAppUrl = (date: string, time: string) => {
     let message = siteContent.calendar.whatsappDefaultTemplate.replace('{date}', date).replace('{time}', time)
 
     if (selectedService) {
@@ -158,8 +153,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
         .replace('{time}', time)
     }
 
-    const whatsappUrl = `https://wa.me/${siteContent.brand.phoneDigits}?text=${encodeURIComponent(message)}`
-    window.open(whatsappUrl, '_blank')
+    return `https://wa.me/${siteContent.brand.phoneDigits}?text=${encodeURIComponent(message)}`
   }
 
   if (calendarData.length === 0) {
@@ -171,6 +165,13 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             title={siteContent.calendar.heading}
             subtitle={siteContent.calendar.subtitle}
           />
+
+          {selectedService && (
+            <div className='mx-auto w-fit rounded-full border border-[#dab6af] bg-white px-5 py-2 text-[15px] text-[#805d57]'>
+              {applyCzechNbsp(siteContent.calendar.selectedServiceLabel)}:{' '}
+              <span className='font-medium text-[#be675a]'>{applyCzechNbsp(selectedService)}</span>
+            </div>
+          )}
 
           <div className='rounded-2xl border border-[#e2c8c3] bg-white p-10 text-center text-[#6a5752]'>
             <p className='text-lg'>{applyCzechNbsp(siteContent.calendar.unavailableMessage)}</p>
@@ -194,11 +195,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
         </div>
 
         {selectedService && (
-          <div
-            ref={badge.ref}
-            className={`mx-auto w-fit rounded-full border border-[#dab6af] bg-white px-5 py-2 text-[15px] text-[#805d57] ${fadeIn} ${!badge.inView ? hidden : ''}`}
-            style={{ transitionDelay: badge.inView ? '80ms' : '0ms' }}
-          >
+          <div className='mx-auto w-fit rounded-full border border-[#dab6af] bg-white px-5 py-2 text-[15px] text-[#805d57]'>
             {applyCzechNbsp(siteContent.calendar.selectedServiceLabel)}:{' '}
             <span className='font-medium text-[#be675a]'>{applyCzechNbsp(selectedService)}</span>
           </div>
@@ -235,21 +232,27 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                 </div>
 
                 <div className='flex flex-col gap-2'>
-                  {dayData.slots.map((slot) => (
-                    <button
-                      key={slot.time}
-                      type='button'
-                      onClick={() => handleSlotClick(dayData.date, slot.time, slot.available)}
-                      disabled={!slot.available}
-                      className={
-                        slot.available
-                          ? 'rounded-full border border-[#c97b6f] bg-white px-4 py-2 text-[15px] text-[#5f4540] transition-colors duration-300 ease-out hover:bg-[#c97b6f] hover:text-white'
-                          : 'cursor-not-allowed rounded-full border border-[#dadada] bg-[#ececec] px-4 py-2 text-[15px] text-[#9f9f9f] line-through'
-                      }
-                    >
-                      {slot.time}
-                    </button>
-                  ))}
+                  {dayData.slots.map((slot) =>
+                    slot.available ? (
+                      <a
+                        key={slot.time}
+                        href={getSlotWhatsAppUrl(dayData.date, slot.time)}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='rounded-full border border-[#c97b6f] bg-white px-4 py-2 text-center text-[15px] text-[#5f4540] transition-colors duration-300 ease-out hover:bg-[#c97b6f] hover:text-white'
+                      >
+                        {slot.time}
+                      </a>
+                    ) : (
+                      <span
+                        key={slot.time}
+                        aria-disabled='true'
+                        className='cursor-not-allowed rounded-full border border-[#dadada] bg-[#ececec] px-4 py-2 text-center text-[15px] text-[#9f9f9f] line-through'
+                      >
+                        {slot.time}
+                      </span>
+                    ),
+                  )}
                 </div>
               </article>
             ))}
