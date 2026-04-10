@@ -28,10 +28,7 @@ test.describe('Booking flow', () => {
     const date = ((await dayCard.locator('p').first().textContent()) ?? '').trim()
 
     // Verify the link actually opens when clicked (catches pointer-event suppression bugs)
-    const [popup] = await Promise.all([
-      page.waitForEvent('popup'),
-      firstAvailableSlot.click(),
-    ])
+    const [popup] = await Promise.all([page.waitForEvent('popup'), firstAvailableSlot.click()])
 
     const openedUrl = popup.url()
     await popup.close()

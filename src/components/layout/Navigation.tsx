@@ -6,7 +6,8 @@ import { Mail, MapPin, Menu, Phone, X } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp, scrollToSection, updateLocationHash } from '@/lib/utils'
-import { resolveActiveSection, isProgrammaticScrollActive } from '@/src/lib/navigation-core-adapter'
+
+import { isProgrammaticScrollActive, resolveActiveSection } from '@/src/lib/navigation-core-adapter'
 
 export default function Navigation() {
   const NAVIGATION_SYNC_LOCK_MS = 1400
@@ -94,29 +95,27 @@ export default function Navigation() {
       }
     }
 
-    const handleScroll = () => {
+    const runNavigationSync = () => {
+      frameId = null
       setIsScrolled(window.scrollY > 18)
       updateActiveSection()
     }
 
-    const scheduleResizeSync = () => {
+    const scheduleNavigationSync = () => {
       if (frameId !== null) {
         return
       }
 
-      frameId = window.requestAnimationFrame(() => {
-        frameId = null
-        updateActiveSection()
-      })
+      frameId = window.requestAnimationFrame(runNavigationSync)
     }
 
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', scheduleResizeSync)
+    runNavigationSync()
+    window.addEventListener('scroll', scheduleNavigationSync, { passive: true })
+    window.addEventListener('resize', scheduleNavigationSync)
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', scheduleResizeSync)
+      window.removeEventListener('scroll', scheduleNavigationSync)
+      window.removeEventListener('resize', scheduleNavigationSync)
 
       if (frameId !== null) {
         window.cancelAnimationFrame(frameId)
