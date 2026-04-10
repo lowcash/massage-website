@@ -2,17 +2,13 @@ import { expect, test } from '@playwright/test'
 
 test.describe('Booking flow mobile', () => {
   test.beforeEach(async ({ page }) => {
-    test.skip(
-      !test.info().project.name.startsWith('mobile-'),
-      'Mobile booking flow coverage runs only on mobile projects.',
-    )
-
     await page.goto('/', { waitUntil: 'domcontentloaded' })
     await expect(page.locator('#hero')).toBeVisible()
   })
 
   test('service selection is reflected in booking badge and WhatsApp reservation link on mobile', async ({ page }) => {
     const serviceCard = page.locator('#services button').first()
+    await expect(serviceCard).toBeAttached({ timeout: 10000 })
     await serviceCard.scrollIntoViewIfNeeded()
     await expect(serviceCard).toBeVisible()
 
@@ -30,25 +26,21 @@ test.describe('Booking flow mobile', () => {
     const dayCard = firstAvailableSlot.locator('xpath=ancestor::article[1]')
     const date = ((await dayCard.locator('p').first().textContent()) ?? '').trim()
 
-    const openedUrl = (await firstAvailableSlot.getAttribute('href')) ?? ''
-    await expect(firstAvailableSlot).toHaveAttribute('target', '_blank')
+    // Verify the link actually opens when clicked (catches pointer-event suppression bugs)
+    const [popup] = await Promise.all([
+      page.waitForEvent('popup'),
+      firstAvailableSlot.click(),
+    ])
 
-    expect(openedUrl).toMatch(/^https:\/\/wa\.me\//)
+    const openedUrl = popup.url()
+    await popup.close()
+
+    // wa.me redirects to api.whatsapp.com — accept either form
+    expect(openedUrl).toMatch(/^https:\/\/(wa\.me|api\.whatsapp\.com)\//)
 
     const message = new URL(openedUrl).searchParams.get('text') ?? ''
     expect(message).toContain(serviceName)
     expect(message).toContain(date)
     expect(message).toContain(time)
-
-    await firstAvailableSlot.evaluate((element) => {
-      element.setAttribute('target', '_self')
-    })
-
-    await Promise.all([
-      page.waitForURL(/(wa\.me|api\.whatsapp\.com)/, { waitUntil: 'domcontentloaded' }),
-      firstAvailableSlot.click(),
-    ])
-
-    await expect(page).toHaveURL(/text=/)
   })
 })

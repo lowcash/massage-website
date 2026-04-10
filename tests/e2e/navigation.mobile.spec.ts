@@ -93,6 +93,8 @@ test.describe('Mobile menu', () => {
 
   test('service card click scrolls to #booking with selected service badge on mobile', async ({ page }) => {
     const serviceCard = page.locator('#services button').first()
+    // Wait for the dynamically-imported Services chunk to be fully hydrated
+    await expect(serviceCard).toBeAttached({ timeout: 10000 })
     await serviceCard.scrollIntoViewIfNeeded()
     await expect(serviceCard).toBeVisible()
 

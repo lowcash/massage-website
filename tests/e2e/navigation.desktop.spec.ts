@@ -101,6 +101,8 @@ test.describe('Desktop navigation', () => {
 
   test('service card click scrolls to #booking with selected service badge', async ({ page }) => {
     const serviceCard = page.locator('#services button').first()
+    // Wait for the dynamically-imported Services chunk to be fully hydrated
+    await expect(serviceCard).toBeAttached({ timeout: 10000 })
     await serviceCard.scrollIntoViewIfNeeded()
     await expect(serviceCard).toBeVisible()
 
@@ -112,7 +114,7 @@ test.describe('Desktop navigation', () => {
     await expect(page.locator('#booking span.font-medium')).toContainText(serviceName ?? '')
   })
 
-  test('navbar remains the top layer above light sections and gallery overlay', async ({ page }) => {
+  test('gallery overlay is above navigation and floating controls when lightbox is open', async ({ page }) => {
     const desktopNav = page.locator('header .hidden.lg\\:flex')
     await expect(desktopNav).toBeVisible()
 
@@ -140,13 +142,29 @@ test.describe('Desktop navigation', () => {
     const zIndexValues = await page.evaluate(() => {
       const header = document.querySelector('header')
       const modal = document.querySelector('[role="dialog"][aria-label="Náhled fotografie"]')
+      const scrollTopButton = document.querySelector('[aria-label="Zpět nahoru"]')
+      const whatsappButton = document.querySelector('[aria-label="Kontaktujte nás na WhatsApp"]')
+
+      const toNumber = (element: Element | null) => {
+        if (!element) {
+          return 0
+        }
+
+        const parsed = Number.parseInt(getComputedStyle(element).zIndex || '0', 10)
+        return Number.isFinite(parsed) ? parsed : 0
+      }
+
       return {
-        header: Number.parseInt(getComputedStyle(header as Element).zIndex || '0', 10),
-        modal: Number.parseInt(getComputedStyle(modal as Element).zIndex || '0', 10),
+        header: toNumber(header),
+        modal: toNumber(modal),
+        scrollTop: toNumber(scrollTopButton),
+        whatsapp: toNumber(whatsappButton),
       }
     })
 
-    expect(zIndexValues.header).toBeGreaterThan(zIndexValues.modal)
+    expect(zIndexValues.modal).toBeGreaterThan(zIndexValues.header)
+    expect(zIndexValues.modal).toBeGreaterThan(zIndexValues.scrollTop)
+    expect(zIndexValues.modal).toBeGreaterThan(zIndexValues.whatsapp)
   })
 
   test('active nav updates correctly during manual scroll', async ({ page }) => {
@@ -178,6 +196,7 @@ test.describe('Desktop navigation', () => {
   })
 
   test('URL hash updates to match the active section on scroll', async ({ page }) => {
+    await page.waitForLoadState('load')
     await page.evaluate((targetId) => {
       const section = document.getElementById(targetId)
       const header = document.querySelector('header') as HTMLElement | null
@@ -204,5 +223,24 @@ test.describe('Desktop navigation', () => {
     // Scroll back to very top
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
     await expect.poll(() => page.evaluate(() => window.location.hash), { timeout: 3000 }).toBe('')
+  })
+
+  test('URL hash sync on scroll does not grow browser history', async ({ page }) => {
+    await page.waitForLoadState('load')
+    const historyLengthBefore = await page.evaluate(() => window.history.length)
+
+    await page.evaluate(() => {
+      const section = document.getElementById('studio')
+      const header = document.querySelector('header') as HTMLElement | null
+      if (!section || !header) return
+      const offset = header.getBoundingClientRect().height
+      const targetTop = section.getBoundingClientRect().top + window.scrollY - offset + 4
+      window.scrollTo({ top: Math.max(0, targetTop), behavior: 'auto' })
+    })
+
+    await expect.poll(() => page.evaluate(() => window.location.hash), { timeout: 3000 }).toBe('#studio')
+
+    const historyLengthAfter = await page.evaluate(() => window.history.length)
+    expect(historyLengthAfter).toBe(historyLengthBefore)
   })
 })

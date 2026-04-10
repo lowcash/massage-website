@@ -29,17 +29,12 @@ export default function PeekCarousel({
   const containerRef = useRef<HTMLDivElement>(null)
   const dragStartXRef = useRef(0)
   const dragStartScrollLeftRef = useRef(0)
+  const isDraggingRef = useRef(false)
+  const dragDidMoveRef = useRef(false)
+  const DRAG_THRESHOLD = 5
   const [isDragging, setIsDragging] = useState(false)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(false)
-
-  const isInteractiveTarget = (target: EventTarget | null) => {
-    if (!(target instanceof HTMLElement)) {
-      return false
-    }
-
-    return target.closest('a, button, input, textarea, select, label, summary, [role="button"], [role="link"]') !== null
-  }
 
   const getItemOffsets = (el: HTMLDivElement) => {
     return Array.from(el.children)
@@ -131,28 +126,49 @@ export default function PeekCarousel({
       return
     }
 
-    if (isInteractiveTarget(event.target)) {
-      return
-    }
-
     const el = containerRef.current
     if (!el) {
       return
     }
 
-    setIsDragging(true)
+    dragDidMoveRef.current = false
     dragStartXRef.current = event.clientX
     dragStartScrollLeftRef.current = el.scrollLeft
-    event.currentTarget.setPointerCapture(event.pointerId)
+    // Mark as tracking (not yet dragging — drag starts after threshold)
+    isDraggingRef.current = false
+    // Only capture pointer when NOT starting on a link or button.
+    // setPointerCapture redirects all subsequent mouse events (including click)
+    // to the capturing element, which prevents <a> href navigation from firing.
+    const isInteractable = (event.target as Element).closest('a, button') !== null
+    if (!isInteractable) {
+      try {
+        event.currentTarget.setPointerCapture(event.pointerId)
+      } catch {
+        // setPointerCapture not supported in all environments (e.g. some mobile browsers)
+      }
+    }
   }
 
   const onPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!isDragging || event.pointerType !== 'mouse' || !containerRef.current) {
+    if (event.pointerType !== 'mouse' || !containerRef.current) {
+      return
+    }
+
+    // Only track if left button is held (buttons bitmask 1 = primary)
+    if ((event.buttons & 1) === 0) {
       return
     }
 
     const dx = event.clientX - dragStartXRef.current
-    containerRef.current.scrollLeft = dragStartScrollLeftRef.current - dx
+    if (!isDraggingRef.current && Math.abs(dx) >= DRAG_THRESHOLD) {
+      isDraggingRef.current = true
+      dragDidMoveRef.current = true
+      setIsDragging(true)
+    }
+
+    if (isDraggingRef.current) {
+      containerRef.current.scrollLeft = dragStartScrollLeftRef.current - dx
+    }
   }
 
   const onPointerEnd = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -164,7 +180,17 @@ export default function PeekCarousel({
       event.currentTarget.releasePointerCapture(event.pointerId)
     }
 
+    isDraggingRef.current = false
     setIsDragging(false)
+  }
+
+  const onClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
+    // Suppress link/button clicks that fire after a drag gesture
+    if (dragDidMoveRef.current) {
+      event.stopPropagation()
+      event.preventDefault()
+      dragDidMoveRef.current = false
+    }
   }
 
   return (
@@ -219,6 +245,7 @@ export default function PeekCarousel({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerEnd}
         onPointerCancel={onPointerEnd}
+        onClickCapture={onClickCapture}
       >
         {children.map((child, index) => (
           <div

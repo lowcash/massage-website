@@ -190,7 +190,7 @@ export default function GalleryInteractive() {
         aria-modal='true'
         aria-label='Náhled fotografie'
         inert={activeImageIndex === null || undefined}
-        className={`fixed inset-0 z-[60] flex cursor-default items-center justify-center bg-black/70 p-4 backdrop-blur-md transition-opacity duration-300 md:p-8 ${activeImageIndex !== null ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+        className={`fixed inset-0 z-80 flex cursor-default items-center justify-center bg-black/70 p-4 backdrop-blur-md transition-opacity duration-300 md:p-8 ${activeImageIndex !== null ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
         onClick={() => setActiveImageIndex(null)}
       >
         <div

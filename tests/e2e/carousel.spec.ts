@@ -1,17 +1,17 @@
 import { test, expect } from '@playwright/test'
 
 /**
- * PeekCarousel boundary tests.
- * Run against a live dev server: npm run dev
- * Then: npx playwright test carousel --project=mobile-safari
+ * PeekCarousel boundary tests — runs on all projects.
+ * Mouse-drag tests live in carousel.desktop.spec.ts.
  */
 
 test.describe('BookingCalendar carousel', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
-    // Scroll to the booking calendar section
+    // Scroll to the carousel within the booking section
     await page.evaluate(() => {
-      document.getElementById('booking')?.scrollIntoView({ behavior: 'instant' })
+      const carousel = document.querySelector('#booking .overflow-x-auto')
+      carousel?.scrollIntoView({ behavior: 'instant', block: 'center' })
     })
     await page.waitForTimeout(400)
   })
@@ -59,46 +59,6 @@ test.describe('BookingCalendar carousel', () => {
 
     const scrollLeft = await carousel.evaluate((el) => el.scrollLeft)
     expect(scrollLeft).toBeLessThanOrEqual(maxScrollLeft + 2) // 2px tolerance
-  })
-
-  test('mouse drag advances carousel', async ({ page }) => {
-    const carousel = page.locator('#booking .overflow-x-auto').first()
-    const box = await carousel.boundingBox()
-    if (!box) throw new Error('Carousel not found in viewport')
-
-    const startX = box.x + box.width * 0.7
-    const endX = box.x + box.width * 0.2
-    const midY = box.y + box.height / 2
-
-    // Use page.mouse which triggers pointer events (carousel JS handler is mouse-only)
-    await page.mouse.move(startX, midY)
-    await page.mouse.down()
-    await page.mouse.move(endX, midY, { steps: 10 })
-    await page.mouse.up()
-    await page.waitForTimeout(600)
-
-    const scrollLeft = await carousel.evaluate((el) => el.scrollLeft)
-    expect(scrollLeft).toBeGreaterThan(0)
-  })
-
-  test('mouse drag left from start does not go past first item', async ({ page }) => {
-    const carousel = page.locator('#booking .overflow-x-auto').first()
-    const box = await carousel.boundingBox()
-    if (!box) throw new Error('Carousel not found in viewport')
-
-    const startX = box.x + box.width * 0.3
-    const endX = box.x + box.width * 0.8
-    const midY = box.y + box.height / 2
-
-    // Drag right (scroll left) from start position
-    await page.mouse.move(startX, midY)
-    await page.mouse.down()
-    await page.mouse.move(endX, midY, { steps: 10 })
-    await page.mouse.up()
-    await page.waitForTimeout(600)
-
-    const scrollLeft = await carousel.evaluate((el) => el.scrollLeft)
-    expect(scrollLeft).toBeGreaterThanOrEqual(0)
   })
 })
 

@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Mail, MapPin, Menu, Phone, X } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
-import { applyCzechNbsp, getNavigationOffset, scrollToSection, updateLocationHash } from '@/lib/utils'
+import { applyCzechNbsp, scrollToSection, updateLocationHash } from '@/lib/utils'
+import { resolveActiveSection, isProgrammaticScrollActive } from '@/src/lib/navigation-core-adapter'
 
 export default function Navigation() {
   const NAVIGATION_SYNC_LOCK_MS = 1400
@@ -72,6 +73,7 @@ export default function Navigation() {
 
   useEffect(() => {
     const sectionIds = ['hero', ...siteContent.navigation.items.map((item) => item.href.replace('#', ''))]
+    let frameId: number | null = null
 
     const updateActiveSection = () => {
       const lock = navigationLockRef.current
@@ -84,26 +86,12 @@ export default function Navigation() {
         navigationLockRef.current = null
       }
 
-      const offsetY = window.scrollY + getNavigationOffset()
-      let currentSection = 'hero'
-
-      for (let index = sectionIds.length - 1; index >= 0; index -= 1) {
-        const id = sectionIds[index]
-        const section = document.getElementById(id)
-        if (!section) {
-          continue
-        }
-
-        const sectionTop = section.getBoundingClientRect().top + window.scrollY
-
-        if (offsetY >= sectionTop) {
-          currentSection = id
-          break
-        }
-      }
+      const currentSection = resolveActiveSection(sectionIds) ?? 'hero'
 
       setActiveSection(currentSection)
-      updateLocationHash(currentSection)
+      if (!isProgrammaticScrollActive()) {
+        updateLocationHash(currentSection)
+      }
     }
 
     const handleScroll = () => {
@@ -111,13 +99,28 @@ export default function Navigation() {
       updateActiveSection()
     }
 
+    const scheduleResizeSync = () => {
+      if (frameId !== null) {
+        return
+      }
+
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null
+        updateActiveSection()
+      })
+    }
+
     handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', updateActiveSection)
+    window.addEventListener('resize', scheduleResizeSync)
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', updateActiveSection)
+      window.removeEventListener('resize', scheduleResizeSync)
+
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId)
+      }
     }
   }, [])
 

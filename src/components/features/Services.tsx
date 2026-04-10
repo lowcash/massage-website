@@ -50,7 +50,7 @@ function ServiceCard({
       <button
         type='button'
         onClick={onClick}
-        className='flex h-full w-full cursor-pointer flex-col rounded-2xl border border-[#e7d0cb] bg-white p-6 text-left transition-[translate,box-shadow] duration-[360ms] ease-out hover:-translate-y-1 hover:shadow-[0_16px_35px_rgba(113,73,65,0.12)]'
+        className='flex h-full w-full cursor-pointer flex-col rounded-2xl border border-[#e7d0cb] bg-white p-6 text-left transition-[translate,box-shadow] duration-360 ease-out hover:-translate-y-1 hover:shadow-[0_16px_35px_rgba(113,73,65,0.12)]'
       >
         <div className='mb-4 flex items-start gap-3'>
           <Icon className='mt-0.5 h-[18px] w-[18px] shrink-0 text-[#ca6f61]' />

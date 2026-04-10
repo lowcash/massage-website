@@ -6,16 +6,16 @@ const outputDir = path.resolve(process.cwd(), 'test-results')
 
 const thresholds = {
   desktop: {
-    performance: 40,
-    accessibility: 90,
-    bestPractices: 90,
-    seo: 65,
+    performance: 60,
+    accessibility: 100,
+    bestPractices: 100,
+    seo: 90,
   },
   mobile: {
     performance: 20,
-    accessibility: 90,
-    bestPractices: 90,
-    seo: 65,
+    accessibility: 100,
+    bestPractices: 100,
+    seo: 90,
   },
 }
 

@@ -29,7 +29,8 @@ const dancingScript = Dancing_Script({
 const cormorantGaramond = Cormorant_Garamond({
   variable: '--font-serif-display',
   subsets: ['latin'],
-  display: 'swap',
+  weight: ['400', '500', '700'],
+  display: 'optional',
 })
 
 const dmSans = DM_Sans({
