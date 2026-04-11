@@ -1,0 +1,11 @@
+{
+  "entry": ["scripts/run-lighthouse.mjs"],
+  "project": [
+    "app/**/*.{ts,tsx}",
+    "src/**/*.{ts,tsx}",
+    "lib/**/*.ts",
+    "types/**/*.ts",
+    "tests/**/*.ts",
+    "scripts/**/*.mjs"
+  ]
+}
