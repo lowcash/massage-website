@@ -1,108 +1,100 @@
-# Massage Website - Mgr. Radka Šebestová
+# Massage Website — Mgr. Radka Šebestová
 
-Professional website for a massage therapist with an online reservation system. Built with Next.js using a component structure compatible with Vite.
+Professional website for a massage therapist with an integrated online booking system.
 
-## 🚀 Technologies
+## Tech Stack
 
-- **Next.js 16** - React framework
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **CSS Animations + Intersection Observer** - Animations (custom useInView hook, no Framer Motion)
-- **Redis** - Calendar reservation caching
-- **shadcn/ui** - UI components
-- **Sonner** - Toast notifications
+| Tool             | Version | Purpose                                 |
+| ---------------- | ------- | --------------------------------------- |
+| Next.js          | 16      | SSR framework (App Router)              |
+| React            | 19      | UI layer (React Compiler enabled)       |
+| TypeScript       | 5       | Type safety                             |
+| Tailwind CSS     | 4       | Utility-first styling                   |
+| CSS Transitions  | —       | Animations via custom `useInView` hook  |
+| shadcn/ui        | latest  | Headless component primitives           |
+| Radix UI         | latest  | Accessible dialog, separator primitives |
+| Redis            | —       | Calendar reservation caching            |
+| Zod              | 3       | Schema validation                       |
+| next-safe-action | 8       | Type-safe server actions                |
+| Sonner           | 2       | Toast notifications                     |
+| Playwright       | 1       | End-to-end tests                        |
+| Lighthouse       | 12      | Performance baseline                    |
 
-## 📁 Project Structure
-
-See `ARCHITECTURE.md` for a detailed description. Brief overview:
+## Project Structure
 
 ```
-/src/components/features   → Domain-specific components (Hero, Admin, etc.)
-/src/components/layout     → Layout components (Header, Footer, Navigation)
-/src/components/shared     → Shared reusable components
-/src/components/ui         → Base UI components (shadcn/ui)
-/app                       → Next.js app router (pages, layouts, actions)
+app/                    # Next.js App Router (pages, layouts, server actions)
+  actions/              # Server Actions (booking, calendar)
+  admin/                # Admin panel route
+src/
+  components/
+    features/           # Page-section components (Hero, Services, Booking …)
+    layout/             # Header, Footer, Navigation
+    shared/             # Reusable components
+    ui/                 # Base UI primitives (shadcn/ui)
+  contexts/             # React context providers
+  hooks/                # Custom React hooks (useInView, useBooking …)
+lib/                    # Utilities, config, schemas, security helpers
+tests/e2e/              # Playwright end-to-end tests
 ```
 
-## 🏗️ Design Architecture
-
-All components live in `/src/components` and are organized by category:
-
-```typescript
-import Hero from '@/src/components/features/Hero'
-import { Button } from '@/src/components/ui/button'
-```
-
-## 🛠️ Development
-
-### Setup
+## Development Setup
 
 ```bash
-# Install dependencies
+cp .env.example .env.local   # fill in REDIS_URL, AUTH_USERNAME, AUTH_PASSWORD
 npm install
-
-# Set up environment variables
-cp .env.example .env.local
-# Edit .env.local with your API key, Redis URL, etc.
-
-# Run dev server
-npm run dev
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+## Environment Variables
 
-### Build
+Copy `.env.example` to `.env.local` for local development.
+
+### Google Analytics
+
+Set `NEXT_PUBLIC_GA_TRACKING_ID` in Vercel.
+If the key is not set, GA scripts are not loaded.
+
+### Admin Panel
+
+Basic-auth credentials protect `/admin`. Set in Vercel environment variables:
+
+- `AUTH_USERNAME` – admin username
+- `AUTH_PASSWORD` – admin password
+
+### Booking / Redis
+
+- `REDIS_URL` – Redis connection string (e.g. from Upstash)
+
+## Commands
+
+| Command                            | Purpose                                 |
+| ---------------------------------- | --------------------------------------- |
+| `npm run dev`                      | Start dev server (Turbopack, port 3000) |
+| `npm run build`                    | Production build                        |
+| `npm run preview`                  | Serve production build locally          |
+| `npm run lint`                     | ESLint                                  |
+| `npm run typecheck`                | TypeScript check                        |
+| `npm run format`                   | Prettier                                |
+| `npm run test:e2e`                 | Run all Playwright tests                |
+| `npm run test:e2e:baseline`        | Smoke + a11y tests (CI subset)          |
+| `npm run perf:lighthouse:baseline` | Build + Lighthouse + threshold check    |
+
+## Testing
+
+Three Playwright projects: `desktop-chrome`, `mobile-safari`, `mobile-chrome`.
+Tests run against a production preview build on port 3100 to avoid port conflicts.
 
 ```bash
-npm run build
-npm run start
+npm run test:e2e
+npm run test:e2e:ui   # interactive UI mode
 ```
 
-## 📝 Key Files
+## Deployment
 
-- `app/page.tsx` - Main page
-- `app/admin/page.tsx` - Admin panel
-- `app/layout.tsx` - Root layout with BookingProvider
-- `src/contexts/BookingContext.tsx` - State management
-- `app/actions/calendar.ts` - Server actions for reservations
-
-## 📱 Pages
-
-- `/` - Main page with hero, services, about me, booking, contact
-- `/admin` - Admin panel for reservation management
-- `/robots.txt`, `/sitemap.xml` - SEO
-
-## 🎨 Styling
-
-- Global styles in `app/globals.css`
-- Component styles inline with Tailwind
-- Font: Dancing Script (headings), system font (text)
-
-## 🚀 Deployment
-
-Deploy to Vercel:
-
-```bash
-git push origin main
-```
-
-Vercel automatically detects Next.js and deploys.
-
-Or manually:
-
-```bash
-npm run build
-npm start
-```
-
-## 📚 More Info
-
-- ARCHITECTURE.md - Detailed project structure description
-- TypeScript config in `tsconfig.json`
-- Tailwind config in `tailwind.config.ts`
-- Next.js config in `next.config.ts`
+Deployed on Vercel. Push to `main` triggers automatic deployment.
 
 ---
 
-**Author**: Radka Šebestová  
-**Web**: https://masaze-hodonin.cz
+**Author**: Lowcash  
+**License**: MIT
