@@ -34,7 +34,7 @@ export function setSectionHash(sectionId: string) {
   window.history.replaceState(null, '', nextUrl)
 }
 
-export function getNavigationOffset() {
+function getNavigationOffset() {
   if (typeof window === 'undefined') {
     return DESKTOP_NAVIGATION_OFFSET
   }

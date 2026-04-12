@@ -1,4 +1,4 @@
-export interface NavigationItem {
+interface NavigationItem {
   id: string
   label: string
   href: string
@@ -25,7 +25,7 @@ export interface ServiceItem {
     | 'scissors'
 }
 
-export interface AboutStat {
+interface AboutStat {
   id: string
   value: number
   suffix: string
@@ -45,8 +45,7 @@ export const siteContent = {
     facebook: 'https://www.facebook.com/radka6575',
     instagram: 'https://www.instagram.com/radka.sebestova.5?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
     mapsLink: 'https://maps.app.goo.gl/AvXgEjyGb2r9R4qT7',
-    mapsEmbed:
-      'https://www.google.com/maps?q=Pohlazení+po+těle+a+duši,+Hodonín&output=embed',
+    mapsEmbed: 'https://www.google.com/maps?q=Pohlazení+po+těle+a+duši,+Hodonín&output=embed',
   },
   navigation: {
     homeAriaLabel: 'Přejít na úvodní sekci',

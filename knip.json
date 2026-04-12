@@ -7,5 +7,6 @@
     "types/**/*.ts",
     "tests/**/*.ts",
     "scripts/**/*.mjs"
-  ]
+  ],
+  "ignoreDependencies": ["tw-animate-css"]
 }

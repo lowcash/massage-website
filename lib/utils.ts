@@ -1,11 +1,7 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
-import {
-  getNavigationOffset,
-  scrollToSection,
-  setSectionHash,
-} from '@/src/lib/navigation-core-adapter'
+import { scrollToSection, setSectionHash } from '@/src/lib/navigation-core-adapter'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -42,7 +38,7 @@ export function applyCzechNbsp(text: string) {
 
 export const updateLocationHash = setSectionHash
 
-export { getNavigationOffset, scrollToSection }
+export { scrollToSection }
 
 // Czech timezone formatter
 const PRAGUE_TZ = 'Europe/Prague'

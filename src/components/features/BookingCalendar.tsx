@@ -1,7 +1,5 @@
 'use client'
 
-import { useMemo } from 'react'
-
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp } from '@/lib/utils'
 
@@ -137,7 +135,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
   const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
-  const calendarData = useMemo(() => mapApiDataToDisplay(data), [data])
+  const calendarData = mapApiDataToDisplay(data)
   const whatsappCtaMessage = selectedService
     ? siteContent.floatingButtons.whatsappSelectedServiceMessage.replace('{service}', selectedService)
     : siteContent.floatingButtons.whatsappDefaultMessage
