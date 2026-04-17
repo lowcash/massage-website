@@ -20,23 +20,9 @@ Professional website for a massage therapist with an integrated online booking s
 | Playwright       | 1       | End-to-end tests                        |
 | Lighthouse       | 12      | Performance baseline                    |
 
-## Project Structure
+## Architecture
 
-```
-app/                    # Next.js App Router (pages, layouts, server actions)
-  actions/              # Server Actions (booking, calendar)
-  admin/                # Admin panel route
-src/
-  components/
-    features/           # Page-section components (Hero, Services, Booking …)
-    layout/             # Header, Footer, Navigation
-    shared/             # Reusable components
-    ui/                 # Base UI primitives (shadcn/ui)
-  contexts/             # React context providers
-  hooks/                # Custom React hooks (useInView, useBooking …)
-lib/                    # Utilities, config, schemas, security helpers
-tests/e2e/              # Playwright end-to-end tests
-```
+High-level structure, component ownership, and system design live in [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md).
 
 ## Development Setup
 
@@ -52,7 +38,7 @@ Copy `.env.example` to `.env.local` for local development.
 
 ### Admin Panel
 
-Basic-auth credentials protect `/admin`. Set in Vercel environment variables:
+Basic-auth credentials protect `/admin`:
 
 - `AUTH_USERNAME` – admin username
 - `AUTH_PASSWORD` – admin password
@@ -85,9 +71,10 @@ npm run test:e2e
 npm run test:e2e:ui   # interactive UI mode
 ```
 
-## Deployment
+## Production
 
-Deployed on Vercel. Push to `main` triggers automatic deployment.
+Production URL: [https://pohlazenipoteleadusi.cz](https://pohlazenipoteleadusi.cz)  
+Current deployment target: Vercel
 
 ---
 
