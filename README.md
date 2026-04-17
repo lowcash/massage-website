@@ -10,19 +10,18 @@ Professional website for a massage therapist with an integrated online booking s
 | React            | 19      | UI layer (React Compiler enabled)       |
 | TypeScript       | 5       | Type safety                             |
 | Tailwind CSS     | 4       | Utility-first styling                   |
-| CSS Transitions  | —       | Animations via custom `useInView` hook  |
-| shadcn/ui        | latest  | Headless component primitives           |
-| Radix UI         | latest  | Accessible dialog, separator primitives |
-| Redis            | —       | Calendar reservation caching            |
+| shadcn/ui        | 0.29    | Headless component primitives           |
+| Radix UI         | 1.1     | Accessible dialog, separator primitives |
 | Zod              | 3       | Schema validation                       |
 | next-safe-action | 8       | Type-safe server actions                |
 | Sonner           | 2       | Toast notifications                     |
+| Redis            | 5       | Calendar reservation caching            |
 | Playwright       | 1       | End-to-end tests                        |
 | Lighthouse       | 12      | Performance baseline                    |
 
 ## Architecture
 
-High-level structure, component ownership, and system design live in [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md).
+High-level structure, key systems, and architectural decisions live in [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md).
 
 ## Development Setup
 
@@ -70,6 +69,13 @@ Tests run against a production preview build on port 3100 to avoid port conflict
 npm run test:e2e
 npm run test:e2e:ui   # interactive UI mode
 ```
+
+## Security Baseline
+
+- JWT authentication stored in HTTP-only cookies
+- Admin panel (`/admin`) protected by basic auth
+- Form validation with Zod on server and client
+- Redis caching reduces database calls
 
 ## Production
 
