@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, DM_Sans, Dancing_Script } from 'next/font/google'
-import Script from 'next/script'
 
 import { Analytics } from '@vercel/analytics/next'
 
@@ -98,7 +97,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const gaTrackingId = process.env.NEXT_PUBLIC_GA_TRACKING_ID
   const enableVercelAnalytics = Boolean(process.env.VERCEL || process.env.VERCEL_ENV || process.env.VERCEL_URL)
 
   const serviceCatalogItems = siteContent.services.items.map((service) => ({
@@ -184,20 +182,6 @@ export default function RootLayout({
         <BookingProvider>
           <main id='main-content'>{children}</main>
         </BookingProvider>
-
-        {gaTrackingId ? (
-          <>
-            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`} strategy='lazyOnload' />
-            <Script id='gtag-init' strategy='lazyOnload'>
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaTrackingId}');
-              `}
-            </Script>
-          </>
-        ) : null}
 
         {enableVercelAnalytics ? <Analytics /> : null}
       </body>

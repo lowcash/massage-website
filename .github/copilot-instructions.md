@@ -28,3 +28,4 @@ Current versions in use (update line items as your project upgrades):
 - React Compiler is enabled (`reactCompiler: true` in `next.config.ts`); `babel-plugin-react-compiler` must stay in devDependencies.
 - Animations use CSS Transitions + Intersection Observer via custom `useInView` hook (`src/hooks/useInView.ts`); do not re-introduce Framer Motion.
 - Use `transition-[translate]` / `transition-[scale]` (not `transition-[transform]`) so individual transform properties animate correctly.
+- This is intentionally a lean site-level instruction stack. Do not pull in larger fullstack data or persistence guidance unless the repository actually grows into those concerns.

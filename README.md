@@ -50,11 +50,6 @@ npm run dev                  # http://localhost:3000
 
 Copy `.env.example` to `.env.local` for local development.
 
-### Google Analytics
-
-Set `NEXT_PUBLIC_GA_TRACKING_ID` in Vercel.
-If the key is not set, GA scripts are not loaded.
-
 ### Admin Panel
 
 Basic-auth credentials protect `/admin`. Set in Vercel environment variables:
@@ -65,6 +60,11 @@ Basic-auth credentials protect `/admin`. Set in Vercel environment variables:
 ### Booking / Redis
 
 - `REDIS_URL` – Redis connection string (e.g. from Upstash)
+
+### Vercel Analytics
+
+Basic traffic visibility is handled through Vercel Web Analytics when the project runs on Vercel.
+Google Search Console remains the preferred source for search-query visibility.
 
 ## Commands
 
