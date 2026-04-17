@@ -61,11 +61,6 @@ Basic-auth credentials protect `/admin`. Set in Vercel environment variables:
 
 - `REDIS_URL` – Redis connection string (e.g. from Upstash)
 
-### Vercel Analytics
-
-Basic traffic visibility is handled through Vercel Web Analytics when the project runs on Vercel.
-Google Search Console remains the preferred source for search-query visibility.
-
 ## Commands
 
 | Command                            | Purpose                                 |
