@@ -86,6 +86,10 @@ export default function Footer() {
             </a>
           </div>
         </div>
+
+        <p className='max-w-3xl text-xs leading-relaxed text-[#b89f9a]'>
+          {applyCzechNbsp(siteContent.footer.analyticsDisclosure)}
+        </p>
       </div>
     </footer>
   )

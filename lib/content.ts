@@ -273,6 +273,8 @@ export const siteContent = {
     cityLabel: 'Hodonín',
     description: 'Masáže a terapie těla',
     rights: 'Všechna práva vyhrazena.',
+    analyticsDisclosure:
+      'Web používá anonymní Vercel Analytics pro souhrnné statistiky návštěvnosti. Bez reklamních cookies.',
     facebookAriaLabel: 'Facebook',
     instagramAriaLabel: 'Instagram',
   },
