@@ -142,7 +142,7 @@ Next.js with `jsx: "react-jsx"` in `tsconfig.json` does **not** require `import 
 **Correct**:
 
 ```tsx
-import { ReactNode, FormEvent } from 'react'
+import { FormEvent, ReactNode } from 'react'
 
 export function MyComponent({ children }: { children: ReactNode }) {
   return <div>{children}</div>
@@ -152,7 +152,9 @@ export function MyComponent({ children }: { children: ReactNode }) {
 **Incorrect**:
 
 ```tsx
-import React, { ReactNode } from 'react' // React is unused for JSX
+import React, { ReactNode } from 'react'
+
+// React is unused for JSX
 
 export function MyComponent({ children }: { children: ReactNode }) {
   return <div>{children}</div>

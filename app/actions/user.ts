@@ -1,8 +1,8 @@
 'use server'
 
-import { authActionClient } from '@/lib/safe-action'
 import { cookies } from 'next/headers'
 
+import { authActionClient } from '@/lib/safe-action'
 import { AUTH_RESET_KEY } from '@/lib/security/auth-constants'
 
 export const signOut = authActionClient.action(async () => {

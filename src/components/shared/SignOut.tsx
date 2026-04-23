@@ -1,8 +1,8 @@
 'use client'
 
-import { signOut } from '@/app/actions/user'
-
 import { LogOut } from 'lucide-react'
+
+import { signOut } from '@/app/actions/user'
 
 export default function SignOut() {
   const handleSignOut = async () => {

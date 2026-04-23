@@ -1,9 +1,11 @@
 'use client'
 
-import { CalendarItem } from '@/types/calendar'
 import { formatDateTime } from '@/lib/utils'
-import { Checkbox } from '@/src/components/ui/checkbox'
 import { cn } from '@/lib/utils'
+
+import { Checkbox } from '@/src/components/ui/checkbox'
+
+import { CalendarItem } from '@/types/calendar'
 
 interface CalendarListItemProps {
   item: CalendarItem

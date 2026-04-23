@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { ROUTE } from '@/lib/config/routes'
 import { getSignedToken, getTokenPayload } from '@/lib/jwt'
-import { AUTH_JWT_EXPIRE_HOURS, AUTH_BASIC_KEY, AUTH_JWT_KEY, AUTH_RESET_KEY } from '@/lib/security/auth-constants'
+import { AUTH_BASIC_KEY, AUTH_JWT_EXPIRE_HOURS, AUTH_JWT_KEY, AUTH_RESET_KEY } from '@/lib/security/auth-constants'
 
 export async function proxy(req: NextRequest) {
   if (req.nextUrl.pathname !== ROUTE.ADMIN) {

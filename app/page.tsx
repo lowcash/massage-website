@@ -1,10 +1,10 @@
 import dynamic from 'next/dynamic'
 
-import { getCalendar } from '@/app/actions/calendar'
 import type { CalendarSlot } from '@/src/components/features/Calendar'
-
-import Navigation from '@/src/components/layout/Navigation'
 import Hero from '@/src/components/features/Hero'
+import Navigation from '@/src/components/layout/Navigation'
+
+import { getCalendar } from '@/app/actions/calendar'
 
 // Below-fold sections — loaded asynchronously after hero renders
 const Services = dynamic(() => import('@/src/components/features/Services'))

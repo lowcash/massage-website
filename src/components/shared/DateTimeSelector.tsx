@@ -1,10 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { useCalendarManager } from '@/src/components/features/admin/hooks/useCalendarManager'
+
+import { PlusCircle, Trash2 } from 'lucide-react'
+import { toast } from 'sonner'
+
+import { formatDateTime } from '@/lib/utils'
+
 import { CalendarForm } from '@/src/components/features/admin/CalendarForm'
 import { CalendarList } from '@/src/components/features/admin/CalendarList'
-import { Button } from '@/src/components/ui/button'
+import { useCalendarManager } from '@/src/components/features/admin/hooks/useCalendarManager'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,10 +20,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/src/components/ui/alert-dialog'
+import { Button } from '@/src/components/ui/button'
+
 import { type CalendarItem } from '@/types/calendar'
-import { Trash2, PlusCircle } from 'lucide-react'
-import { toast } from 'sonner'
-import { formatDateTime } from '@/lib/utils'
 
 interface DateTimeSelectorProps {
   data: CalendarItem[]

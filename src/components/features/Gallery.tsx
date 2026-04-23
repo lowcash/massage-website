@@ -1,6 +1,7 @@
 import { siteContent } from '@/lib/content'
-import { SectionIntro } from '@/src/components/shared/SectionIntro'
+
 import GalleryInteractive from '@/src/components/features/GalleryInteractive'
+import { SectionIntro } from '@/src/components/shared/SectionIntro'
 
 export default function Gallery() {
   return (
