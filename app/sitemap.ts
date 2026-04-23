@@ -1,21 +1,20 @@
 import type { MetadataRoute } from 'next'
 
-import { SITE_URL } from '@/lib/config/site-metadata'
+import { SITE_IDENTITY } from '@/lib/config/site-config'
 
-import { getProductionSiteUrl, isProductionLikeEnvironment } from './seo-env'
+import { getCanonicalSiteUrl, isProductionLikeEnvironment } from './seo-env'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   if (!isProductionLikeEnvironment()) {
     return []
   }
 
-  const siteUrl = getProductionSiteUrl(SITE_URL)
+  const siteUrl = getCanonicalSiteUrl(SITE_IDENTITY.url)
 
   return [
     {
       url: siteUrl,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
       priority: 1,
     },
   ]

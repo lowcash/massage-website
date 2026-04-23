@@ -1,12 +1,13 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Pohlazení po těle a duši - Masáže Hodonín'
-export const size = {
-  width: 1200,
-  height: 630,
-}
+import { OPEN_GRAPH_IMAGE, SITE_IDENTITY } from '@/lib/config/site-config'
+
+export const alt = OPEN_GRAPH_IMAGE.alt
+export const size = OPEN_GRAPH_IMAGE.size
 
 export const contentType = 'image/png'
+
+const SITE_HOST = new URL(SITE_IDENTITY.url).host
 
 export default function OpenGraphImage() {
   return new ImageResponse(
@@ -50,24 +51,24 @@ export default function OpenGraphImage() {
           }}
         >
           <div style={{ fontSize: 32, letterSpacing: 2, textTransform: 'uppercase', opacity: 0.82 }}>
-            Masaze Hodonin
+            {OPEN_GRAPH_IMAGE.eyebrow}
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div style={{ fontSize: 76, lineHeight: 1.04, fontWeight: 700, maxWidth: '88%' }}>
-              Pohlazeni po tele a dusi
+              {OPEN_GRAPH_IMAGE.headline}
             </div>
             <div style={{ fontSize: 30, lineHeight: 1.35, maxWidth: '88%', opacity: 0.86 }}>
-              Dotek, ktery ulevi. Pece, ktera obnovi.
+              {OPEN_GRAPH_IMAGE.description}
             </div>
           </div>
 
-          <div style={{ fontSize: 26, opacity: 0.78 }}>pohlazenipoteleadusi.cz</div>
+          <div style={{ fontSize: 26, opacity: 0.78 }}>{SITE_HOST}</div>
         </div>
       </div>
     ),
     {
       ...size,
-    }
+    },
   )
 }

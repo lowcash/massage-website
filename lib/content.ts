@@ -1,3 +1,5 @@
+import { BUSINESS, PRACTITIONER, SITE_IDENTITY } from '@/lib/config/site-config'
+
 interface NavigationItem {
   id: string
   label: string
@@ -34,18 +36,18 @@ interface AboutStat {
 
 export const siteContent = {
   brand: {
-    name: 'Pohlazení po těle a duši',
+    name: SITE_IDENTITY.name,
     subtitle: 'Masáže v Hodoníně',
-    therapistName: 'Mgr. Radka Šebestová',
-    phone: '(+420) 605 579 643',
-    phoneDigits: '420605579643',
-    email: 'sebestovar@seznam.cz',
+    therapistName: PRACTITIONER.name,
+    phone: BUSINESS.phoneDisplay,
+    phoneDigits: BUSINESS.phoneE164.replace('+', ''),
+    email: BUSINESS.email,
     addressLine1: 'Národní tř. 383/15',
     addressLine2: '695 01 Hodonín 1',
-    facebook: 'https://www.facebook.com/radka6575',
-    instagram: 'https://www.instagram.com/radka.sebestova.5?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
-    mapsLink: 'https://maps.app.goo.gl/AvXgEjyGb2r9R4qT7',
-    mapsEmbed: 'https://www.google.com/maps?q=Pohlazení+po+těle+a+duši,+Hodonín&output=embed',
+    facebook: BUSINESS.socialProfiles[0],
+    instagram: BUSINESS.socialProfiles[1],
+    mapsLink: BUSINESS.mapsLink,
+    mapsEmbed: BUSINESS.mapsEmbed,
   },
   navigation: {
     homeAriaLabel: 'Přejít na úvodní sekci',
