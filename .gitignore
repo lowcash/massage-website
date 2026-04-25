@@ -37,3 +37,4 @@ logs/
 *.log
 tmp/
 temp/
+.audit.json
