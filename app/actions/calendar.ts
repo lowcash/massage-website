@@ -19,6 +19,14 @@ function createLocalFallbackCalendar() {
     { dayOffset: 1, hour: 14, minute: 30, reserved: false },
     { dayOffset: 2, hour: 10, minute: 0, reserved: false },
     { dayOffset: 2, hour: 16, minute: 30, reserved: true },
+    { dayOffset: 3, hour: 8, minute: 30, reserved: false },
+    { dayOffset: 3, hour: 13, minute: 0, reserved: false },
+    { dayOffset: 4, hour: 11, minute: 0, reserved: false },
+    { dayOffset: 4, hour: 17, minute: 0, reserved: true },
+    { dayOffset: 5, hour: 9, minute: 30, reserved: false },
+    { dayOffset: 5, hour: 15, minute: 0, reserved: false },
+    { dayOffset: 6, hour: 10, minute: 30, reserved: false },
+    { dayOffset: 6, hour: 18, minute: 0, reserved: true },
   ]
 
   return fallbackSlots.map(({ dayOffset, hour, minute, reserved }) => {
