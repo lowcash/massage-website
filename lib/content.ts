@@ -25,6 +25,7 @@ export interface ServiceItem {
     | 'hand-metal'
     | 'heart'
     | 'scissors'
+    | 'circle-dot'
 }
 
 interface AboutStat {
@@ -133,6 +134,15 @@ const servicesItems: ServiceItem[] = [
     duration: '',
     price: '100,- (+2,- cm)',
     icon: 'scissors',
+  },
+  {
+    id: 'acupuncture',
+    name: 'Akupunktura',
+    description:
+      'Tradiční terapie jemným vpichem jehel do specifických bodů na těle, která podporuje uvolnění, zmírnění bolesti a obnovení rovnováhy organismu.',
+    duration: '',
+    price: 'dle dohody',
+    icon: 'circle-dot',
   },
 ]
 
