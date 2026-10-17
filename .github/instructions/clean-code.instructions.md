@@ -33,4 +33,4 @@ This document enforces implementation discipline. Architecture ownership lives i
 
 - Logic that is used once does not need a helper or abstraction.
 - Do not add docstrings, comments, or type annotations to code you did not change.
-- Run `npm run format` before commit when touching multiple files.
+- Run `pnpm run format` before commit when touching multiple files.

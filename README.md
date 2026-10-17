@@ -27,8 +27,8 @@ High-level structure, key systems, and architectural decisions live in [docs/ARC
 
 ```bash
 cp .env.example .env.local   # fill in REDIS_URL, AUTH_USERNAME, AUTH_PASSWORD
-npm install
-npm run dev                  # http://localhost:3000
+pnpm install
+pnpm run dev                  # http://localhost:3000
 ```
 
 ## Environment Variables
@@ -48,10 +48,10 @@ Basic-auth credentials protect `/admin`:
 
 ## Commands
 
-- `npm run dev` starts the local development server.
-- `npm run lint` runs ESLint.
-- `npm run test:e2e` runs the Playwright end-to-end suite.
-- `npm run perf:lighthouse` runs local desktop and mobile Lighthouse audits.
+- `pnpm run dev` starts the local development server.
+- `pnpm run lint` runs ESLint.
+- `pnpm run test:e2e` runs the Playwright end-to-end suite.
+- `pnpm run perf:lighthouse` runs local desktop and mobile Lighthouse audits.
 
 For the full script list, see `package.json`.
 

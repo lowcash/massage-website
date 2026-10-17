@@ -57,7 +57,7 @@ applyTo: 'app/**/*.{ts,tsx},src/components/**/*.{ts,tsx},lib/**/*.{ts,tsx}'
 - Keep client JavaScript minimal; default to server components.
 - Avoid duplicate global listeners for the same signal (scroll/resize/pointer).
 - Respect `prefers-reduced-motion` and avoid unnecessary animation work.
-- Measure performance in production mode (`npm run build` + `npm run start`) before diagnosing regressions.
+- Measure performance in production mode (`pnpm run build` + `pnpm run start`) before diagnosing regressions.
 
 ## Imports
 

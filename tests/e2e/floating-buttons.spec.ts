@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 /**
  * Floating button tests — ScrollToTop and WhatsApp button visibility behaviour.
- * Run against a live dev server: npm run dev
+ * Run against a live dev server: pnpm run dev
  */
 
 test.describe('ScrollToTop button', () => {
