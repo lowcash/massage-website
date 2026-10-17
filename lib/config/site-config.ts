@@ -132,7 +132,7 @@ export const SITE_CONFIG = {
       'Sportovní masáž',
       'Lymfatická masáž',
       'Terapeutické masáže',
-      'Akupunktura',
+      'Akupunktura - metodou TČM',
       'Reflexní terapie',
       'Wellness procedury',
       'Zdravotní dozor na akcích',
