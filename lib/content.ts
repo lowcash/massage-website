@@ -137,7 +137,7 @@ const servicesItems: ServiceItem[] = [
   },
   {
     id: 'acupuncture',
-    name: 'Akupunktura',
+    name: 'Akupunktura - metodou TČM',
     description:
       'Tradiční terapie jemným vpichem jehel do specifických bodů na těle, která podporuje uvolnění, zmírnění bolesti a obnovení rovnováhy organismu.',
     duration: '',
