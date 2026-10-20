@@ -12,11 +12,11 @@ export default function SignOut() {
 
   return (
     <button
-      className='ml-auto flex items-center gap-2 rounded bg-blue-400 px-4 py-2 text-white hover:bg-blue-500'
+      className='border-line text-body hover:bg-surface-alt focus-visible:ring-brand/30 ml-auto flex h-11 cursor-pointer items-center gap-2 rounded-full border bg-white px-5 text-sm transition-colors outline-none focus-visible:ring-4'
       onClick={handleSignOut}
     >
       <span>Odhlásit</span>
-      <LogOut className='h-5 w-5' />
+      <LogOut className='h-4 w-4' />
     </button>
   )
 }

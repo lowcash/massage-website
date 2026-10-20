@@ -58,11 +58,11 @@ export default function ScrollToTop() {
   const canShowButton = isVisible && !isFooterVisible
 
   return (
-    <div className='pointer-events-none fixed inset-x-0 bottom-6 z-40'>
-      <div className='mx-auto flex w-full max-w-6xl justify-end px-5 md:px-8'>
+    <div className='pointer-events-none fixed inset-x-0 bottom-6 z-40 px-5 min-[1380px]:px-6 md:px-8'>
+      <div className='mx-auto flex w-full max-w-6xl justify-end min-[1380px]:max-w-none'>
         <button
           onClick={scrollToTop}
-          className={`pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full bg-[#ca6f61] text-white shadow-lg transition-all duration-300 ease-out hover:scale-105 hover:bg-[#b55d50] ${canShowButton ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none translate-y-[10px] scale-[0.88] opacity-0'}`}
+          className={`bg-brand hover:bg-brand-hover pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg transition-all duration-300 ease-out hover:scale-105 ${canShowButton ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none translate-y-[10px] scale-[0.88] opacity-0'}`}
           style={{
             marginBottom: 'env(safe-area-inset-bottom)',
             transform: 'translateZ(0)',

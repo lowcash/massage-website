@@ -38,3 +38,6 @@ logs/
 tmp/
 temp/
 .audit.json
+
+# local calendar dumps (may contain customer booking data)
+calendar-backups/

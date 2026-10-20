@@ -1,13 +1,9 @@
 'use server'
 
-import { createClient } from 'redis'
-
+import { CALENDAR_KV_KEY, backupCalendarBeforeWrite } from '@/lib/calendar-backup'
+import { getRedisClient } from '@/lib/redis'
 import { actionClient, authActionClient } from '@/lib/safe-action'
 import { calendarUpdateInputSchema } from '@/lib/schemas/calendar'
-
-const CALENDAR_KV_KEY = 'calendar'
-
-let redisClient: ReturnType<typeof createClient> | null = null
 
 function shouldUseLocalFallbackCalendar() {
   return !process.env.VERCEL && !process.env.VERCEL_ENV
@@ -39,16 +35,6 @@ function createLocalFallbackCalendar() {
       reserved,
     }
   })
-}
-
-async function getRedisClient() {
-  if (!redisClient) {
-    redisClient = createClient({
-      url: process.env.REDIS_URL || 'redis://localhost:6379',
-    })
-    await redisClient.connect()
-  }
-  return redisClient
 }
 
 export const getCalendar = actionClient.action(async () => {
@@ -111,6 +97,8 @@ export const getCalendar = actionClient.action(async () => {
 export const updateCalendar = authActionClient.schema(calendarUpdateInputSchema).action(async ({ parsedInput }) => {
   try {
     const redis = await getRedisClient()
+    // No backup, no overwrite: a failed snapshot throws and leaves the live calendar untouched.
+    await backupCalendarBeforeWrite(redis)
     await redis.set(CALENDAR_KV_KEY, JSON.stringify(parsedInput, null, 2))
   } catch (error) {
     console.error('Redis connection error:', error)

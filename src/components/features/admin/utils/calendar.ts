@@ -1,5 +1,3 @@
-import { dateToInput, timeToInput } from '@/lib/utils'
-
 import { CalendarItem } from '@/types/calendar'
 
 export function combineDateTime(dateStr: string, timeStr: string): Date | null {
@@ -20,15 +18,6 @@ export function combineDateTime(dateStr: string, timeStr: string): Date | null {
 export function isDateTimeInFuture(dateObj: Date | null): boolean {
   if (!dateObj) return false
   return dateObj.getTime() > Date.now()
-}
-
-export function getDefaultDateString(date: Date) {
-  return dateToInput(date)
-}
-
-export function getDefaultTimeString(date: Date) {
-  // Zobrazí čas v Prague timezone
-  return timeToInput(date)
 }
 
 export function sortCalendarList(input: CalendarItem[]): CalendarItem[] {

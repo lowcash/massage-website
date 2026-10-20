@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --port 3000 --turbopack",
+    "dev:local": "node scripts/dev-local.mjs",
     "dev:ip": "next dev --hostname 0.0.0.0 --port 3000 --turbopack",
     "build": "next build",
     "start": "next start",
@@ -24,14 +25,12 @@
     "perf:lighthouse": "pnpm run perf:lighthouse:desktop && pnpm run perf:lighthouse:mobile",
     "perf:lighthouse:desktop": "start-server-and-test \"pnpm run preview\" http://127.0.0.1:3000 \"node ./scripts/run-lighthouse.mjs desktop\"",
     "perf:lighthouse:mobile": "start-server-and-test \"pnpm run preview\" http://127.0.0.1:3000 \"node ./scripts/run-lighthouse.mjs mobile\"",
-    "perf:lighthouse:baseline": "pnpm run build && pnpm run perf:lighthouse && node ./scripts/verify-lighthouse-thresholds.mjs"
+    "perf:lighthouse:baseline": "pnpm run build && pnpm run perf:lighthouse && node ./scripts/verify-lighthouse-thresholds.mjs",
+    "calendar:backup": "node --env-file=.env.local scripts/calendar-backup.mjs"
   },
   "dependencies": {
-    "@radix-ui/react-alert-dialog": "^1.1.15",
-    "@radix-ui/react-slot": "^1.2.4",
     "@vercel/analytics": "^2.0.1",
     "babel-plugin-react-compiler": "^1.0.0",
-    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "jose": "^6.1.2",
     "lucide-react": "^0.553.0",

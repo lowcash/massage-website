@@ -1,4 +1,7 @@
-import { applyCzechNbsp } from '@/lib/utils'
+import { applyCzechNbsp, bindTail } from '@/lib/typography'
+import { cn } from '@/lib/utils'
+
+import { DrawnLine } from '@/src/components/shared/DrawnLine'
 
 interface SectionIntroProps {
   id: string
@@ -6,37 +9,34 @@ interface SectionIntroProps {
   subtitle: string
   description?: string
   light?: boolean
+  align?: 'center' | 'left'
 }
 
-export function SectionIntro({ id, title, subtitle, description, light = false }: SectionIntroProps) {
+export function SectionIntro({ id, title, subtitle, description, light = false, align = 'center' }: SectionIntroProps) {
+  const isCentered = align === 'center'
+
   return (
-    <div className='mx-auto flex max-w-3xl flex-col items-center gap-3 text-center'>
-      <h2
-        id={id}
-        className={
-          light ? 'font-dancing text-4xl text-white md:text-5xl' : 'font-dancing text-4xl text-[#2f2523] md:text-5xl'
-        }
-      >
-        {applyCzechNbsp(title)}
-      </h2>
-      <p
-        className={
-          light
-            ? 'text-sm tracking-[0.2em] text-white/80 uppercase'
-            : 'text-sm tracking-[0.2em] text-[#6d4f48] uppercase'
-        }
-      >
+    <div
+      className={cn('flex max-w-3xl flex-col gap-4', isCentered ? 'mx-auto items-center text-center' : 'items-start')}
+    >
+      <p className={cn('text-xs tracking-[0.22em] text-balance uppercase', light ? 'text-white/80' : 'text-brand')}>
         {applyCzechNbsp(subtitle)}
       </p>
 
+      <h2
+        id={id}
+        className={cn(
+          'font-display text-[2.5rem] leading-[1.05] font-medium md:text-5xl',
+          light ? 'text-white' : 'text-ink',
+        )}
+      >
+        {bindTail(applyCzechNbsp(title))}
+      </h2>
+
+      <DrawnLine light={light} />
+
       {description ? (
-        <p
-          className={
-            light
-              ? 'max-w-2xl text-[15px] leading-relaxed text-white/90'
-              : 'max-w-2xl text-[15px] leading-relaxed text-[#6f5b56]'
-          }
-        >
+        <p className={cn('max-w-xl leading-relaxed', light ? 'text-white/90' : 'text-body')}>
           {applyCzechNbsp(description)}
         </p>
       ) : null}

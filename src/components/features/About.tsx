@@ -5,7 +5,7 @@ import type { ReactNode } from 'react'
 import Image from 'next/image'
 
 import { siteContent } from '@/lib/content'
-import { applyCzechNbsp } from '@/lib/utils'
+import { applyCzechNbsp, bindTail } from '@/lib/typography'
 
 import profileImage from '@/src/assets/profile.jpg'
 import CountUpValue from '@/src/components/shared/CountUpValue'
@@ -40,7 +40,7 @@ function renderEmphasizedText(text: string, emphasis?: string): ReactNode {
   return (
     <>
       {applyCzechNbsp(before)}
-      <strong className='font-semibold text-[#2f2523]'>{applyCzechNbsp(emphasis)}</strong>
+      <strong className='text-ink font-semibold'>{applyCzechNbsp(emphasis)}</strong>
       {applyCzechNbsp(after)}
     </>
   )
@@ -56,54 +56,52 @@ export default function About() {
   const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
   return (
-    <section id='about' className='bg-[#f6edeb] px-5 py-16 md:px-8 md:py-24'>
+    <section id='about' className='bg-surface px-5 py-16 md:px-8 md:py-24'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
         <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
           <SectionIntro id='about-heading' title={siteContent.about.heading} subtitle={siteContent.about.subtitle} />
         </div>
 
-        <div className='grid items-start gap-7 rounded-2xl border border-[#e6d1cb] bg-white p-6 shadow-[0_20px_45px_rgba(90,60,53,0.1)] md:p-10 lg:grid-cols-2 lg:items-stretch'>
+        <div className='bg-paper shadow-soft grid items-start gap-7 rounded-3xl p-6 md:p-10 lg:grid-cols-2 lg:items-stretch'>
           <div
             ref={content.ref}
             className={`order-2 flex h-full flex-col gap-7 md:order-2 ${fadeIn} ${!content.inView ? hidden : ''}`}
             style={{ transitionDelay: content.inView ? '200ms' : '0ms' }}
           >
             <div className='flex flex-col gap-1'>
-              <h3 className='text-[2rem] text-[#2f2523]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
-                {applyCzechNbsp(siteContent.brand.therapistName)}
-              </h3>
-              <p className='text-[15px] tracking-[0.12em] text-[#a46f67] uppercase'>
+              <h3 className='font-display text-ink text-[2rem]'>{applyCzechNbsp(siteContent.brand.therapistName)}</h3>
+              <p className='text-brand text-base tracking-[0.12em] uppercase'>
                 {applyCzechNbsp(siteContent.about.role)}
               </p>
             </div>
 
-            <div className='flex flex-col gap-4 text-[15px] leading-relaxed text-[#5d4c48]'>
+            <div className='text-body flex flex-col gap-4 text-base leading-relaxed'>
               {siteContent.about.paragraphs.map((paragraph, index) => (
                 <p key={paragraph}>{renderEmphasizedText(paragraph, ABOUT_PARAGRAPH_EMPHASIS[index])}</p>
               ))}
             </div>
 
-            <div className='grid grid-cols-3 gap-2 border-t border-[#ecd8d3] pt-5 sm:gap-4'>
+            <div className='border-line grid grid-cols-3 gap-2 border-t pt-5 sm:gap-4'>
               {siteContent.about.stats.map((stat) => (
                 <div key={stat.id} className='flex flex-col items-center text-center'>
-                  <p className='font-dancing text-4xl text-[#ca6f61] sm:text-5xl'>
+                  <p className='font-dancing text-brand text-4xl sm:text-5xl'>
                     <CountUpValue value={stat.value} suffix={stat.suffix} />
                   </p>
-                  <p className='text-xs leading-relaxed text-[#4f3f3a] uppercase'>{applyCzechNbsp(stat.label)}</p>
+                  <p className='text-body text-xs leading-relaxed uppercase'>{applyCzechNbsp(stat.label)}</p>
                 </div>
               ))}
             </div>
 
-            <div className='flex flex-col gap-3 border-t border-[#ecd8d3] pt-5'>
+            <div className='border-line flex flex-col gap-3 border-t pt-5'>
               {siteContent.about.credentials.map((credential) => (
-                <div key={credential} className='flex items-start gap-3 text-[15px] leading-relaxed text-[#5d4c48]'>
-                  <span className='mt-2 block h-1.5 w-1.5 shrink-0 rounded-full bg-[#ca6f61]' />
+                <div key={credential} className='text-body flex items-start gap-3 text-base leading-relaxed'>
+                  <span className='bg-brand mt-2 block h-1.5 w-1.5 shrink-0 rounded-full' />
                   <span>{renderEmphasizedText(credential, ABOUT_CREDENTIAL_EMPHASIS[credential])}</span>
                 </div>
               ))}
 
-              <p className='pt-1 text-sm leading-relaxed text-[#5e4742] italic'>
-                {applyCzechNbsp(siteContent.about.closingLine)}
+              <p className='font-dancing text-brand pt-3 text-3xl leading-snug text-balance'>
+                {bindTail(applyCzechNbsp(siteContent.about.closingLine))}
               </p>
             </div>
           </div>
@@ -113,7 +111,9 @@ export default function About() {
             className={`order-1 md:order-1 md:mx-auto md:w-full md:max-w-2xl lg:h-full lg:max-w-none ${fadeIn} ${!image.inView ? hidden : ''}`}
             style={{ transitionDelay: image.inView ? '300ms' : '0ms' }}
           >
-            <div className='overflow-hidden rounded-2xl bg-[#efe6e3] lg:h-full lg:max-h-none'>
+            <div
+              className={`bg-surface-alt overflow-hidden rounded-3xl transition-[clip-path] duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] lg:h-full lg:max-h-none ${image.inView || shouldReduceMotion ? '[clip-path:inset(0_0_0_0_round_1.5rem)]' : '[clip-path:inset(0_0_100%_0_round_1.5rem)]'}`}
+            >
               <Image
                 src={profileImage}
                 alt={siteContent.brand.therapistName}

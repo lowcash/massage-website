@@ -15,6 +15,7 @@ const Calendar = dynamic(() => import('@/src/components/features/Calendar'))
 const Contact = dynamic(() => import('@/src/components/features/Contact'))
 const Footer = dynamic(() => import('@/src/components/layout/Footer'))
 
+const SectionDots = dynamic(() => import('@/src/components/layout/SectionDots'))
 const ScrollToTop = dynamic(() => import('@/src/components/layout/ScrollToTop'))
 const WhatsAppButton = dynamic(() => import('@/src/components/shared/WhatsAppButton'))
 const Toaster = dynamic(() => import('@/src/components/ui/sonner').then((module) => module.Toaster))
@@ -42,6 +43,7 @@ export default async function Page() {
       <Calendar data={calendarData} />
       <Contact />
       <Footer />
+      <SectionDots />
       <ScrollToTop />
       <WhatsAppButton />
       <Toaster />

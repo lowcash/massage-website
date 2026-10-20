@@ -156,7 +156,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
 
   if (calendarData.length === 0) {
     return (
-      <section id='booking' className='bg-[#f1e3df] px-5 py-16 md:px-8 md:py-24'>
+      <section id='booking' className='bg-surface-alt px-5 py-16 md:px-8 md:py-24'>
         <div className='mx-auto flex w-full max-w-6xl flex-col gap-10'>
           <SectionIntro
             id='booking-heading'
@@ -165,15 +165,15 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           />
 
           {selectedService && (
-            <div className='mx-auto w-fit rounded-full border border-[#dab6af] bg-white px-5 py-2 text-[15px] text-[#805d57]'>
+            <div className='border-line text-muted-ink mx-auto w-fit rounded-full border bg-white px-5 py-2 text-base'>
               {applyCzechNbsp(siteContent.calendar.selectedServiceLabel)}:{' '}
-              <span className='font-medium text-[#be675a]'>{applyCzechNbsp(selectedService)}</span>
+              <span className='text-brand-hover font-medium'>{applyCzechNbsp(selectedService)}</span>
             </div>
           )}
 
-          <div className='rounded-2xl border border-[#e2c8c3] bg-white p-10 text-center text-[#6a5752]'>
+          <div className='border-line text-body rounded-2xl border bg-white p-10 text-center'>
             <p className='text-lg'>{applyCzechNbsp(siteContent.calendar.unavailableMessage)}</p>
-            <p className='mt-2 text-[15px]'>{applyCzechNbsp(siteContent.calendar.unavailableHelp)}</p>
+            <p className='mt-2 text-base'>{applyCzechNbsp(siteContent.calendar.unavailableHelp)}</p>
           </div>
         </div>
       </section>
@@ -181,7 +181,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   }
 
   return (
-    <section id='booking' className='bg-[#f1e3df] px-5 py-16 md:px-8 md:py-24'>
+    <section id='booking' className='bg-surface-alt px-5 py-16 md:px-8 md:py-24'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-12'>
         <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
           <SectionIntro
@@ -193,9 +193,9 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
         </div>
 
         {selectedService && (
-          <div className='mx-auto w-fit rounded-full border border-[#dab6af] bg-white px-5 py-2 text-[15px] text-[#805d57]'>
+          <div className='border-line text-muted-ink mx-auto w-fit rounded-full border bg-white px-5 py-2 text-base'>
             {applyCzechNbsp(siteContent.calendar.selectedServiceLabel)}:{' '}
-            <span className='font-medium text-[#be675a]'>{applyCzechNbsp(selectedService)}</span>
+            <span className='text-brand-hover font-medium'>{applyCzechNbsp(selectedService)}</span>
           </div>
         )}
 
@@ -208,25 +208,19 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             ariaLabel={siteContent.calendar.carouselAriaLabel}
             itemClassName='w-[84%] sm:w-[46%] md:w-[32%] lg:w-[19%]'
             fadeEdges={true}
-            fadeColor='rgb(241 227 223)'
           >
             {calendarData.map((dayData) => (
               <article
                 key={`${dayData.day}-${dayData.date}`}
                 className={
                   dayData.isToday
-                    ? 'h-full rounded-xl border-2 border-[#c97b6f] bg-[#fff7f5] p-4 shadow-[0_8px_26px_rgba(201,123,111,0.18)]'
-                    : 'h-full rounded-xl border border-[#e0c7c1] bg-white p-4'
+                    ? 'border-brand-hover bg-paper h-full rounded-2xl border-2 p-4 shadow-[0_8px_26px_rgba(201,123,111,0.18)]'
+                    : 'border-line h-full rounded-2xl border bg-white p-4'
                 }
               >
-                <div className='mb-5 border-b border-[#ecd9d5] pb-4 text-center'>
-                  <h3
-                    className='text-3xl leading-none text-[#412f2b] lg:text-[2rem]'
-                    style={{ fontFamily: 'Cormorant Garamond, serif' }}
-                  >
-                    {dayData.day}
-                  </h3>
-                  <p className='mt-2 text-sm tracking-[0.14em] text-[#8a6963] uppercase'>{dayData.date}</p>
+                <div className='border-line mb-5 border-b pb-4 text-center'>
+                  <h3 className='font-display text-ink text-3xl leading-none lg:text-[2rem]'>{dayData.day}</h3>
+                  <p className='text-muted-ink mt-2 text-sm tracking-[0.14em] uppercase'>{dayData.date}</p>
                 </div>
 
                 <div className='flex flex-col gap-2'>
@@ -237,7 +231,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                         href={getSlotWhatsAppUrl(dayData.date, slot.time)}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='rounded-md border border-[#c97b6f] bg-white px-4 py-2 text-center text-[15px] text-[#5f4540] transition-colors duration-300 ease-out hover:bg-[#c97b6f] hover:text-white'
+                        className='border-brand-hover text-body hover:bg-brand-hover rounded-xl border bg-white px-4 py-2 text-center text-base transition-colors duration-300 ease-out hover:text-white'
                       >
                         {slot.time}
                       </a>
@@ -245,7 +239,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                       <span
                         key={slot.time}
                         aria-disabled='true'
-                        className='cursor-not-allowed rounded-md border border-[#dadada] bg-[#ececec] px-4 py-2 text-center text-[15px] text-[#9f9f9f] line-through'
+                        className='cursor-not-allowed rounded-xl border border-[#dadada] bg-[#ececec] px-4 py-2 text-center text-base text-[#9f9f9f] line-through'
                       >
                         {slot.time}
                       </span>
@@ -262,14 +256,14 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           className={`flex flex-col items-center gap-4 text-center ${fadeIn} ${!cta.inView ? hidden : ''}`}
           style={{ transitionDelay: cta.inView ? '200ms' : '0ms' }}
         >
-          <p className='text-[15px] leading-relaxed text-[#6f5b56]'>
+          <p className='text-body text-base leading-relaxed text-balance'>
             {applyCzechNbsp(siteContent.calendar.flexibilityNote)}
           </p>
           <a
             href={whatsappCtaUrl}
             target='_blank'
             rel='noopener noreferrer'
-            className='inline-flex rounded-md bg-[#ca6f61] px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition-colors duration-300 ease-out hover:bg-[#b45c4f]'
+            className='bg-brand hover:bg-brand-hover inline-flex rounded-full px-7 py-3.5 text-xs tracking-[0.16em] text-white uppercase transition-colors duration-300 ease-out'
           >
             {applyCzechNbsp(siteContent.calendar.whatsappCta)}
           </a>

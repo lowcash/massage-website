@@ -4,20 +4,76 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-foreground: 222.2 84% 4.9%;
-  --color-bc6290: rgb(188 98 144);
-  --color-studio-beige: rgb(245 240 234);
-  --color-studio-light-beige: rgb(250 247 242);
-  --color-studio-gold: rgb(196 167 95);
-  --color-studio-dark-green: rgb(46 62 54);
-  --color-studio-dark-gray: rgb(109 110 113);
-  --color-studio-pink: rgb(222 57 126);
-  --color-border: hsl(214.3 31.8% 91.4%);
-  --color-opacity-10: rgb(222 57 126 / 0.1);
-  --color-opacity-20: rgb(222 57 126 / 0.2);
+  --color-ink: #2b211f;
+  --color-body: #54443f;
+  --color-muted-ink: #6b554e;
+  --color-brand: #a24d3f;
+  --color-brand-hover: #8a4033;
+  --color-surface: #f8f2ef;
+  --color-surface-alt: #f0e3de;
+  --color-paper: #fffdfb;
+  --color-line: #e8d6d0;
+  --color-night: #2b1d1a;
+
+  /*
+   * Radius scale: buttons and CTAs are pills (rounded-full); chips, inputs and list rows use rounded-xl;
+   * tiles, images and inner cards use rounded-2xl; large panels use rounded-3xl. Keep new UI on these four.
+   */
+
+  /* Two elevation levels used everywhere: resting cards and lifted/hovered elements. */
+  --shadow-soft: 0 18px 50px rgb(70 40 32 / 0.07);
+  --shadow-lift: 0 14px 36px rgb(70 40 32 / 0.13);
 
   --font-dancing: 'Dancing Script', cursive;
-  --font-serif-display: 'Cormorant Garamond', serif;
+  --animate-hero-zoom: hero-zoom 28s ease-out forwards;
+
+  @keyframes hero-zoom {
+    from {
+      scale: 1.06;
+    }
+    to {
+      scale: 1.14;
+    }
+  }
+
+  --animate-glow-a: glow-a 18s ease-in-out infinite alternate;
+  --animate-glow-b: glow-b 22s ease-in-out infinite alternate;
+  --animate-glow-c: glow-c 26s ease-in-out infinite alternate;
+
+  @keyframes glow-a {
+    from {
+      translate: -6vw 3vh;
+      scale: 1;
+    }
+    to {
+      translate: 14vw -10vh;
+      scale: 1.25;
+    }
+  }
+
+  @keyframes glow-b {
+    from {
+      translate: 10vw 6vh;
+      scale: 1.15;
+    }
+    to {
+      translate: -14vw -8vh;
+      scale: 0.9;
+    }
+  }
+
+  @keyframes glow-c {
+    from {
+      translate: -6vw 8vh;
+      scale: 0.9;
+    }
+    to {
+      translate: 12vw -12vh;
+      scale: 1.2;
+    }
+  }
+
+  --font-display: 'EB Garamond', Georgia, serif;
   --font-sans-display: 'DM Sans', sans-serif;
 }
 
@@ -75,12 +131,16 @@ button:disabled {
 }
 
 :where(a, button, input, select, textarea, iframe):focus-visible {
-  outline: 2px solid #ca6f61;
+  outline: 2px solid var(--color-brand);
   outline-offset: 3px;
 }
 
 .font-dancing {
   font-family: var(--font-dancing);
+}
+
+.font-display {
+  font-family: var(--font-display);
 }
 
 .text-shadow {
@@ -202,15 +262,67 @@ button:disabled {
   html {
     scrollbar-width: none;
     background: #2c2c2c;
-    scroll-padding-top: var(--navigation-offset);
   }
 
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans-display);
-    font-size: 15px;
-    line-height: 1.55;
+    font-size: 1.0625rem;
+    line-height: 1.65;
     scrollbar-width: none;
     padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/*
+ * Czech typography. Non-breaking spaces (lib/typography.ts) bind short words; these rules handle the
+ * rest, because where a line breaks depends on the viewport: balanced headings, no one-word last line.
+ */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  .text-balance-all {
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  blockquote {
+    text-wrap: pretty;
+  }
+}
+
+/*
+ * Hero scroll effects, driven by the scroll position (no JavaScript). Browsers without scroll-driven
+ * animations, and visitors who asked for reduced motion, simply get the static hero.
+ */
+@keyframes hero-parallax {
+  to {
+    translate: 0 16vh;
+  }
+}
+
+@keyframes hero-content-out {
+  to {
+    opacity: 0;
+    translate: 0 -5vh;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-parallax {
+      animation: hero-parallax linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+
+    .hero-content-out {
+      animation: hero-content-out linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 55vh;
+    }
   }
 }

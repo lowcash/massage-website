@@ -9,6 +9,30 @@ import { applyCzechNbsp, scrollToSection, updateLocationHash } from '@/lib/utils
 
 import { isProgrammaticScrollActive, resolveActiveSection } from '@/src/lib/navigation-core-adapter'
 
+const drawerContacts = [
+  {
+    Icon: Phone,
+    label: siteContent.contact.cards.phoneLabel,
+    href: `tel:+${siteContent.brand.phoneDigits}`,
+    external: false,
+    lines: [siteContent.brand.phone],
+  },
+  {
+    Icon: Mail,
+    label: siteContent.contact.cards.emailLabel,
+    href: `mailto:${siteContent.brand.email}`,
+    external: false,
+    lines: [siteContent.brand.email],
+  },
+  {
+    Icon: MapPin,
+    label: siteContent.contact.cards.addressLabel,
+    href: siteContent.brand.mapsLink,
+    external: true,
+    lines: [siteContent.brand.addressLine1, siteContent.brand.addressLine2],
+  },
+]
+
 export default function Navigation() {
   const NAVIGATION_SYNC_LOCK_MS = 1400
 
@@ -16,6 +40,7 @@ export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('hero')
   const navigationLockRef = useRef<{ sectionId: string; expiresAt: number } | null>(null)
+  const progressRef = useRef<HTMLDivElement>(null)
 
   const handleNavigationClick = (href: string) => {
     const sectionId = href.replace('#', '')
@@ -95,9 +120,19 @@ export default function Navigation() {
       }
     }
 
+    const updateScrollProgress = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight
+      const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0
+
+      if (progressRef.current) {
+        progressRef.current.style.scale = `${progress} 1`
+      }
+    }
+
     const runNavigationSync = () => {
       frameId = null
       setIsScrolled(window.scrollY > 18)
+      updateScrollProgress()
       updateActiveSection()
     }
 
@@ -126,20 +161,20 @@ export default function Navigation() {
   return (
     <>
       <header
-        className={
+        className={`fixed top-0 right-0 left-0 z-50 border-b px-5 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 md:px-8 ${
           isScrolled
-            ? 'fixed top-0 right-0 left-0 z-50 bg-[#f6edeb]/88 transition-colors duration-300'
-            : 'fixed top-0 right-0 left-0 z-50 bg-transparent transition-colors duration-300'
-        }
+            ? 'bg-surface/95 border-line/70 shadow-[0_8px_28px_rgba(60,35,28,0.07)] backdrop-blur-lg'
+            : 'border-transparent bg-transparent'
+        }`}
       >
-        <nav className='mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5 md:px-8'>
+        <nav className='mx-auto flex w-full max-w-6xl items-center justify-between py-5'>
           <button
             type='button'
             onClick={() => handleNavigationClick('#hero')}
             className={
               isScrolled
-                ? 'font-dancing text-[1.9rem] leading-none text-[#5f3b36] transition-colors duration-300 ease-out sm:text-3xl'
-                : 'font-dancing text-[1.9rem] leading-none text-white transition-colors duration-300 ease-out sm:text-3xl'
+                ? 'font-dancing text-ink text-[1.4rem] leading-none whitespace-nowrap transition-colors duration-300 ease-out min-[360px]:text-[1.7rem] sm:text-[2rem] lg:text-[2.1rem]'
+                : 'font-dancing text-[1.4rem] leading-none whitespace-nowrap text-white transition-colors duration-300 ease-out min-[360px]:text-[1.7rem] sm:text-[2rem] lg:text-[2.1rem]'
             }
             aria-label={siteContent.navigation.homeAriaLabel}
           >
@@ -155,8 +190,8 @@ export default function Navigation() {
                 aria-current={activeSection === item.href.replace('#', '') ? 'page' : undefined}
                 className={
                   isScrolled
-                    ? `cursor-pointer text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 ease-out hover:text-[#b96657] ${activeSection === item.href.replace('#', '') ? 'text-[#b96657]' : 'text-[#6e4d48]'}`
-                    : `cursor-pointer text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 ease-out hover:text-[#ffe4de] ${activeSection === item.href.replace('#', '') ? 'text-[#ffe4de]' : 'text-white'}`
+                    ? `hover:text-brand-hover cursor-pointer text-[13px] tracking-[0.18em] uppercase transition-colors duration-300 ease-out ${activeSection === item.href.replace('#', '') ? 'text-brand-hover' : 'text-muted-ink'}`
+                    : `cursor-pointer text-[13px] tracking-[0.18em] uppercase transition-colors duration-300 ease-out hover:text-white ${activeSection === item.href.replace('#', '') ? 'text-[#ffe4de]' : 'text-white'}`
                 }
               >
                 {applyCzechNbsp(item.label)}
@@ -169,7 +204,7 @@ export default function Navigation() {
             onClick={() => setIsMobileMenuOpen(true)}
             className={
               isScrolled
-                ? 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#d4b2aa] bg-white/70 text-[#6e4d48] lg:hidden'
+                ? 'border-line text-muted-ink flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border bg-white/70 lg:hidden'
                 : 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/70 bg-white/10 text-white lg:hidden'
             }
             aria-label={siteContent.navigation.openMenuAriaLabel}
@@ -177,6 +212,13 @@ export default function Navigation() {
             <Menu className='h-5 w-5' />
           </button>
         </nav>
+
+        <div
+          aria-hidden='true'
+          className={`absolute inset-x-0 bottom-[-1px] h-0.5 transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-0'}`}
+        >
+          <div ref={progressRef} className='bg-brand h-full w-full origin-left' />
+        </div>
       </header>
 
       {/* Mobile drawer — CSS transitions, no framer-motion */}
@@ -191,14 +233,14 @@ export default function Navigation() {
         aria-label={siteContent.navigation.openMenuAriaLabel}
         aria-modal='true'
         inert={!isMobileMenuOpen || undefined}
-        className={`fixed top-0 right-0 bottom-0 z-50 flex h-dvh w-[92%] max-w-sm flex-col border-l border-[#e4cfc9] bg-[#f8ede9]/92 backdrop-blur-2xl transition-transform duration-300 ease-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`border-line bg-surface/92 fixed top-0 right-0 bottom-0 z-50 flex h-dvh w-[92%] max-w-sm flex-col border-l backdrop-blur-2xl transition-transform duration-300 ease-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         {/* Mirrors the exact navbar layout: px-5 py-5 */}
         <div className='flex shrink-0 items-center justify-between px-5 py-5'>
           <button
             type='button'
             onClick={() => handleNavigationClick('#hero')}
-            className='font-dancing text-left text-[1.9rem] leading-none text-[#5f3b36] transition-opacity duration-300 ease-out hover:opacity-85 sm:text-3xl'
+            className='font-dancing text-ink text-left text-[1.4rem] leading-none whitespace-nowrap transition-opacity duration-300 ease-out hover:opacity-85 min-[360px]:text-[1.9rem]'
             aria-label={siteContent.navigation.homeAriaLabel}
           >
             {applyCzechNbsp(siteContent.brand.name)}
@@ -207,7 +249,7 @@ export default function Navigation() {
           <button
             type='button'
             onClick={() => setIsMobileMenuOpen(false)}
-            className='flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#d5b6ae] bg-white/70 text-[#6e4d48]'
+            className='border-line text-muted-ink flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border bg-white/70'
             aria-label={siteContent.navigation.closeMenuAriaLabel}
           >
             <X className='h-5 w-5' />
@@ -222,46 +264,43 @@ export default function Navigation() {
                 type='button'
                 onClick={() => handleNavigationClick(item.href)}
                 aria-current={activeSection === item.href.replace('#', '') ? 'page' : undefined}
-                className={`cursor-pointer rounded-2xl border bg-white/70 px-4 py-3 text-left text-[13px] tracking-[0.16em] uppercase transition-colors duration-300 ease-out hover:bg-white sm:px-5 sm:py-4 sm:text-sm sm:tracking-[0.2em] ${activeSection === item.href.replace('#', '') ? 'border-[#d8b1a8] bg-[#fff8f6] text-[#be675a]' : 'border-[#e5d0cb] text-[#5f3b36]'}`}
+                className={`font-display flex cursor-pointer items-center justify-between rounded-2xl px-5 py-3.5 text-left text-[1.7rem] leading-none transition-colors duration-300 ease-out ${activeSection === item.href.replace('#', '') ? 'bg-paper text-brand shadow-[0_6px_20px_rgba(70,40,32,0.08)]' : 'text-ink hover:bg-white/70'}`}
               >
                 {applyCzechNbsp(item.label)}
+                {activeSection === item.href.replace('#', '') ? (
+                  <span aria-hidden='true' className='bg-brand h-2 w-2 rounded-full' />
+                ) : null}
               </button>
             ))}
           </div>
         </div>
 
-        <div className='mt-auto border-t border-[#e8d5d0] px-4 pt-5 pb-4 sm:px-6 sm:pb-6'>
-          <div className='grid gap-2.5 text-sm text-[#6b5551] sm:gap-3'>
-            <a
-              href={`tel:+${siteContent.brand.phoneDigits}`}
-              className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition-colors duration-300 ease-out hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
-            >
-              <Phone className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
-              <span className='leading-snug'>{siteContent.brand.phone}</span>
-            </a>
-
-            <a
-              href={`mailto:${siteContent.brand.email}`}
-              className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition-colors duration-300 ease-out hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
-            >
-              <Mail className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
-              <span className='leading-snug'>{siteContent.brand.email}</span>
-            </a>
-
-            <a
-              href={siteContent.brand.mapsLink}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='flex items-start gap-3 rounded-2xl border border-[#e3ccc7] bg-white px-4 py-2.5 transition-colors duration-300 ease-out hover:border-[#d8b6af] hover:bg-[#fff8f6] sm:py-3'
-            >
-              <MapPin className='mt-0.5 h-4 w-4 text-[#ca6f61]' />
-              <span className='leading-snug'>
-                {applyCzechNbsp(siteContent.brand.addressLine1)}
-                <br />
-                {applyCzechNbsp(siteContent.brand.addressLine2)}
-              </span>
-            </a>
-          </div>
+        <div className='border-line mt-auto border-t px-4 pt-5 pb-5 sm:px-6 sm:pb-6'>
+          <ul className='grid gap-2.5'>
+            {drawerContacts.map(({ Icon, label, href, external, lines }) => (
+              <li key={label}>
+                <a
+                  href={href}
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className='hover:bg-paper flex items-center gap-4 rounded-2xl bg-white/80 px-4 py-3 transition-colors duration-300 ease-out'
+                >
+                  <span className='bg-brand/10 text-brand flex h-11 w-11 shrink-0 items-center justify-center rounded-full'>
+                    <Icon aria-hidden='true' className='h-5 w-5' />
+                  </span>
+                  <span className='flex min-w-0 flex-col'>
+                    <span className='text-brand text-xs tracking-[0.14em] uppercase'>{label}</span>
+                    <span className='text-ink text-base leading-snug break-words'>
+                      {lines.map((line) => (
+                        <span key={line} className='block'>
+                          {applyCzechNbsp(line)}
+                        </span>
+                      ))}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </aside>
     </>
