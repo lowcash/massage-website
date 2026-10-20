@@ -55,7 +55,7 @@ export default function WhatsAppButton() {
         href={getWhatsAppUrl()}
         target='_blank'
         rel='noopener noreferrer'
-        className={`pointer-events-auto relative flex h-11 w-11 items-center justify-center rounded-full bg-[#25d366] text-white shadow-lg transition-all duration-300 ease-out hover:scale-105 ${canShowButton ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none translate-y-[10px] scale-[0.88] opacity-0'}`}
+        className={`pointer-events-auto relative flex h-11 w-11 items-center justify-center rounded-full bg-[#25d366] text-white shadow-lg transition-all duration-300 ease-out hover:bg-[#1fb856] ${canShowButton ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none translate-y-[10px] scale-[0.88] opacity-0'}`}
         style={{
           marginBottom: 'env(safe-area-inset-bottom)',
           transform: 'translateZ(0)',
