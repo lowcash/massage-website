@@ -9,6 +9,30 @@ import { applyCzechNbsp, scrollToSection, updateLocationHash } from '@/lib/utils
 
 import { isProgrammaticScrollActive, resolveActiveSection } from '@/src/lib/navigation-core-adapter'
 
+const drawerContacts = [
+  {
+    Icon: Phone,
+    label: siteContent.contact.cards.phoneLabel,
+    href: `tel:+${siteContent.brand.phoneDigits}`,
+    external: false,
+    lines: [siteContent.brand.phone],
+  },
+  {
+    Icon: Mail,
+    label: siteContent.contact.cards.emailLabel,
+    href: `mailto:${siteContent.brand.email}`,
+    external: false,
+    lines: [siteContent.brand.email],
+  },
+  {
+    Icon: MapPin,
+    label: siteContent.contact.cards.addressLabel,
+    href: siteContent.brand.mapsLink,
+    external: true,
+    lines: [siteContent.brand.addressLine1, siteContent.brand.addressLine2],
+  },
+]
+
 export default function Navigation() {
   const NAVIGATION_SYNC_LOCK_MS = 1400
 
@@ -251,38 +275,32 @@ export default function Navigation() {
           </div>
         </div>
 
-        <div className='border-line mt-auto border-t px-4 pt-5 pb-4 sm:px-6 sm:pb-6'>
-          <div className='text-body grid gap-2.5 text-sm sm:gap-3'>
-            <a
-              href={`tel:+${siteContent.brand.phoneDigits}`}
-              className='border-line hover:border-line hover:bg-paper flex items-start gap-3 rounded-2xl border bg-white px-4 py-2.5 transition-colors duration-300 ease-out sm:py-3'
-            >
-              <Phone className='text-brand mt-0.5 h-4 w-4' />
-              <span className='leading-snug'>{siteContent.brand.phone}</span>
-            </a>
-
-            <a
-              href={`mailto:${siteContent.brand.email}`}
-              className='border-line hover:border-line hover:bg-paper flex items-start gap-3 rounded-2xl border bg-white px-4 py-2.5 transition-colors duration-300 ease-out sm:py-3'
-            >
-              <Mail className='text-brand mt-0.5 h-4 w-4' />
-              <span className='leading-snug'>{siteContent.brand.email}</span>
-            </a>
-
-            <a
-              href={siteContent.brand.mapsLink}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='border-line hover:border-line hover:bg-paper flex items-start gap-3 rounded-2xl border bg-white px-4 py-2.5 transition-colors duration-300 ease-out sm:py-3'
-            >
-              <MapPin className='text-brand mt-0.5 h-4 w-4' />
-              <span className='leading-snug'>
-                {applyCzechNbsp(siteContent.brand.addressLine1)}
-                <br />
-                {applyCzechNbsp(siteContent.brand.addressLine2)}
-              </span>
-            </a>
-          </div>
+        <div className='border-line mt-auto border-t px-4 pt-5 pb-5 sm:px-6 sm:pb-6'>
+          <ul className='grid gap-2.5'>
+            {drawerContacts.map(({ Icon, label, href, external, lines }) => (
+              <li key={label}>
+                <a
+                  href={href}
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className='hover:bg-paper flex items-center gap-4 rounded-2xl bg-white/80 px-4 py-3 transition-colors duration-300 ease-out'
+                >
+                  <span className='bg-brand/10 text-brand flex h-11 w-11 shrink-0 items-center justify-center rounded-full'>
+                    <Icon aria-hidden='true' className='h-5 w-5' />
+                  </span>
+                  <span className='flex min-w-0 flex-col'>
+                    <span className='text-brand text-xs tracking-[0.14em] uppercase'>{label}</span>
+                    <span className='text-ink text-base leading-snug break-words'>
+                      {lines.map((line) => (
+                        <span key={line} className='block'>
+                          {applyCzechNbsp(line)}
+                        </span>
+                      ))}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </aside>
     </>
