@@ -20,6 +20,8 @@ test.describe('applyCzechNbsp', () => {
     ['Národní tř. 383/15', `Národní tř.${NBSP}383/15`],
     ['695 01 Hodonín', `695${NBSP}01 Hodonín`],
     ['od 800 Kč', `od${NBSP}800${NBSP}Kč`],
+    ['od 1 200 Kč', `od${NBSP}1${NBSP}200${NBSP}Kč`],
+    ['a užili si chvíli', `a${NBSP}užili si${NBSP}chvíli`],
     ['60 min', `60${NBSP}min`],
     ['Akupunktura – metodou TČM', `Akupunktura${NBSP}– metodou TČM`],
   ]
@@ -35,6 +37,12 @@ test.describe('applyCzechNbsp', () => {
       visible(`Ideální dárek pro každou příležitost${NBSP}dnes`),
     )
     expect(visible(applyCzechNbsp('Rezervace přes WhatsApp'))).toBe('Rezervace přes WhatsApp')
+  })
+
+  test('keeps a trailing "v Bratislavě" together with the word before it', () => {
+    expect(visible(applyCzechNbsp('Magisterské studium ošetřovatelství na VŠZaSP sv. Alžbety v Bratislavě'))).toBe(
+      visible(`Magisterské studium ošetřovatelství na${NBSP}VŠZaSP sv.${NBSP}Alžbety${NBSP}v${NBSP}Bratislavě`),
+    )
   })
 
   test('is idempotent and leaves empty text alone', () => {

@@ -89,6 +89,15 @@ const servicesItems: ServiceItem[] = [
     price: 'od 900 Kč',
   },
   {
+    id: 'sensory-tactile',
+    category: 'relax',
+    name: 'Senzorická a taktilní stimulace svalů',
+    description:
+      'Senzorická stimulace jemným přikusováním svalů hluboce prokrvuje tkáně, pomáhá uvolnit zatuhlé svalové snopce a přináší úlevu od nahromaděného stresu.',
+    duration: '60 min',
+    price: 'od 1 200 Kč',
+  },
+  {
     id: 'ayurvedic-head',
     category: 'relax',
     name: 'Ájurvédská masáž hlavy',
