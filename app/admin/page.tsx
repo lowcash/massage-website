@@ -43,17 +43,16 @@ export default async function Admin() {
     }))
 
   return (
-    <div className='mx-auto flex h-screen w-full max-w-4xl flex-col gap-4 p-4'>
-      <div className='flex shrink-0 items-center justify-between'>
-        <h1 className='text-2xl font-semibold text-[#de397e]' style={{ fontFamily: 'Dancing Script' }}>
-          Administrace
-        </h1>
+    <div className='mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-6 px-4 py-6 md:px-6 md:py-10'>
+      <header className='flex items-center justify-between gap-4'>
+        <div>
+          <p className='text-brand text-xs tracking-[0.22em] uppercase'>Administrace</p>
+          <h1 className='font-display text-ink text-4xl'>Správa termínů</h1>
+        </div>
         <SignOut />
-      </div>
+      </header>
 
-      <div className='flex-1 overflow-hidden'>
-        <DateTimeSelector data={calendarData} />
-      </div>
+      <DateTimeSelector data={calendarData} />
     </div>
   )
 }

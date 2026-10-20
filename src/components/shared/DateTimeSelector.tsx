@@ -2,25 +2,14 @@
 
 import { useState } from 'react'
 
-import { PlusCircle, Trash2 } from 'lucide-react'
+import { PlusCircle, Trash2, Undo2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { formatDateTime } from '@/lib/utils'
 
-import { CalendarForm } from '@/src/components/features/admin/CalendarForm'
 import { CalendarList } from '@/src/components/features/admin/CalendarList'
+import { MonthCalendar } from '@/src/components/features/admin/MonthCalendar'
 import { useCalendarManager } from '@/src/components/features/admin/hooks/useCalendarManager'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/src/components/ui/alert-dialog'
-import { Button } from '@/src/components/ui/button'
 
 import { type CalendarItem } from '@/types/calendar'
 
@@ -28,128 +17,123 @@ interface DateTimeSelectorProps {
   data: CalendarItem[]
 }
 
+// One shared id: a new change replaces the previous message, so "Vrátit zpět" always means the last change only.
+const CHANGE_TOAST_ID = 'calendar-change'
+const UNDO_VISIBLE_MS = 12_000
+
+const saveFailedMessage = 'Uložení se nezdařilo, změna nebyla provedena. Zkuste to prosím znovu.'
+
+const dayKeyFormatter = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Prague' })
+
+/** Opens on the nearest day that has slots, or on today when the calendar is empty. */
+function initialDay(items: CalendarItem[]) {
+  const today = dayKeyFormatter.format(new Date())
+  const upcoming = items.map((item) => dayKeyFormatter.format(item.date)).filter((key) => key >= today)
+
+  return upcoming.sort()[0] ?? today
+}
+
 export default function DateTimeSelector({ data }: DateTimeSelectorProps) {
-  const {
-    list,
-    selectedIndex,
-    setSelectedIndex,
-    isLoading,
-    handleAdd,
-    handleRemove,
-    handleToggleReserved,
-    handleUpdate,
-  } = useCalendarManager(data)
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const { list, isLoading, handleAdd, handleRemoveAt, handleToggleReserved, handleRestore } = useCalendarManager(data)
+  const [selectedDay, setSelectedDay] = useState(() => initialDay(data))
+  const [query, setQuery] = useState('')
 
-  const handleAddWithToast = async (dateStr: string, timeStr: string) => {
+  const announceChange = (message: string, previousList: CalendarItem[], icon: React.ReactNode) => {
+    toast.success(message, {
+      id: CHANGE_TOAST_ID,
+      icon,
+      duration: UNDO_VISIBLE_MS,
+      action: {
+        label: 'Vrátit zpět',
+        onClick: async () => {
+          const restored = await handleRestore(previousList)
+          if (restored) {
+            toast.success('Poslední změna byla vrácena zpět.', {
+              id: CHANGE_TOAST_ID,
+              icon: <Undo2 className='h-5 w-5' />,
+            })
+          } else {
+            toast.error(saveFailedMessage, { id: CHANGE_TOAST_ID })
+          }
+        },
+      },
+    })
+  }
+
+  const handleAddTime = async (dateStr: string, timeStr: string) => {
     const result = await handleAdd(dateStr, timeStr)
-    if (result?.success && result.date) {
-      toast.success(`Termín ${formatDateTime(result.date)} úspěšně přidán`, {
-        icon: <PlusCircle className='h-5 w-5' />,
-      })
+
+    if (!result) {
+      toast.error('Zadejte čas, který ještě nenastal.')
+      return false
+    }
+    if (result.success && result.date && result.previousList) {
+      announceChange(
+        `Termín ${formatDateTime(result.date)} byl přidán.`,
+        result.previousList,
+        <PlusCircle className='h-5 w-5' />,
+      )
+      return true
+    }
+    toast.error('saveFailed' in result && result.saveFailed ? saveFailedMessage : 'Tento termín už existuje.')
+    return false
+  }
+
+  const handleToggle = async (index: number) => {
+    const result = await handleToggleReserved(index)
+
+    if (result.success && result.date && result.previousList) {
+      announceChange(
+        result.reserved
+          ? `Termín ${formatDateTime(result.date)} je nově rezervovaný.`
+          : `Rezervace termínu ${formatDateTime(result.date)} byla zrušena, termín je opět volný.`,
+        result.previousList,
+        <PlusCircle className='h-5 w-5' />,
+      )
+    } else {
+      toast.error(saveFailedMessage)
     }
   }
 
-  const handleUpdateWithToast = async (dateStr: string, timeStr: string) => {
-    const result = await handleUpdate(dateStr, timeStr)
-    if (result?.success && result.date) {
-      toast.success(`Termín ${formatDateTime(result.date)} úspěšně aktualizován`, {
-        icon: <PlusCircle className='h-5 w-5' />,
-      })
-      // Keep selection on the updated item for further editing
-      if (result.newIndex !== undefined) {
-        setSelectedIndex(result.newIndex)
-      }
-    } else if (result?.conflict) {
-      toast.error('Tento termín již existuje')
-    } else if (result && !result.success) {
-      toast.error('Nepodařilo se aktualizovat termín')
+  const handleDelete = async (index: number) => {
+    const result = await handleRemoveAt(index)
+
+    if (result.success && result.date && result.previousList) {
+      announceChange(
+        `Termín ${formatDateTime(result.date)} byl smazán.`,
+        result.previousList,
+        <Trash2 className='h-5 w-5' />,
+      )
+    } else if ('saveFailed' in result && result.saveFailed) {
+      toast.error(saveFailedMessage)
     }
   }
-
-  const handleRemoveWithToast = async () => {
-    const result = await handleRemove()
-    if (result?.success && result.date) {
-      toast.success(`Termín ${formatDateTime(result.date)} odstraněn`, {
-        icon: <Trash2 className='h-5 w-5' />,
-      })
-    }
-    setShowDeleteDialog(false)
-  }
-
-  const selectedDate = selectedIndex !== null ? list[selectedIndex]?.date : null
-  const selectedItem = selectedIndex !== null ? list[selectedIndex] : null
 
   return (
-    <div className='flex h-full w-full flex-col gap-4 overflow-hidden rounded-lg border bg-white/90 p-6 shadow-lg backdrop-blur-sm'>
-      {/* Action buttons - sticky header */}
-      {selectedIndex !== null && (
-        <div className='flex shrink-0 gap-2 border-b border-zinc-200 pb-4'>
-          <Button
-            onClick={() => setShowDeleteDialog(true)}
-            disabled={isLoading}
-            variant='destructive'
-            className='flex-1 gap-2'
-          >
-            <Trash2 className='h-4 w-4' />
-            Smazat vybraný termín
-          </Button>
-          <Button
-            onClick={() => {
-              setSelectedIndex(null)
-            }}
-            variant='outline'
-            className='flex-1'
-          >
-            Zrušit výběr
-          </Button>
-        </div>
-      )}
-
-      {/* Form section */}
-      <div className='shrink-0 space-y-4'>
-        <h2 className='text-lg font-semibold text-zinc-900'>Správa dostupných termínů</h2>
-        <CalendarForm
-          onAdd={handleAddWithToast}
-          onUpdate={handleUpdateWithToast}
-          isLoading={isLoading}
-          selectedDate={selectedDate}
+    <div className='grid items-start gap-6 lg:grid-cols-[22rem_1fr]'>
+      <section aria-label='Kalendář' className='border-line bg-paper shadow-soft rounded-3xl border p-5'>
+        <MonthCalendar
+          items={list}
+          selectedDay={selectedDay}
+          onSelectDay={(dayKey) => {
+            setSelectedDay(dayKey)
+            setQuery('')
+          }}
         />
-      </div>
+      </section>
 
-      {/* Scrollable calendar list */}
-      <div className='flex min-h-0 flex-1 flex-col overflow-hidden'>
+      <section className='border-line bg-paper shadow-soft rounded-3xl border p-5'>
         <CalendarList
           items={list}
-          selectedIndex={selectedIndex}
-          onSelect={setSelectedIndex}
-          onToggleReserved={handleToggleReserved}
+          selectedDay={selectedDay}
+          query={query}
+          onQueryChange={setQuery}
+          isLoading={isLoading}
+          onToggleReserved={handleToggle}
+          onDelete={handleDelete}
+          onAddTime={handleAddTime}
         />
-      </div>
-
-      {/* Delete confirmation dialog */}
-      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Opravdu chcete smazat tento termín?</AlertDialogTitle>
-            <AlertDialogDescription>
-              {selectedItem && (
-                <span className='mt-2 block font-semibold text-zinc-900'>
-                  {formatDateTime(selectedItem.date)}
-                  {selectedItem.reserved && <span className='ml-2 text-red-600'>(Rezervováno)</span>}
-                </span>
-              )}
-              <span className='mt-2 block'>Tato akce je nevratná. Termín bude trvale odstraněn z databáze.</span>
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Zrušit</AlertDialogCancel>
-            <AlertDialogAction onClick={handleRemoveWithToast} disabled={isLoading}>
-              Smazat termín
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      </section>
     </div>
   )
 }

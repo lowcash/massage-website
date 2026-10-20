@@ -8,14 +8,42 @@ import type { CalendarItem } from '@/types/calendar'
 
 import { combineDateTime, filterFutureCalendarItems, isDateTimeInFuture, sortCalendarList } from '../utils/calendar'
 
+/** The server action reports failures in its result instead of throwing, so check both. */
+async function saveCalendar(items: CalendarItem[]) {
+  try {
+    const result = await updateCalendar(items)
+    return !result?.serverError && !result?.validationErrors
+  } catch {
+    return false
+  }
+}
+
 export function useCalendarManager(initialData: CalendarItem[]) {
   const [list, setList] = useState<CalendarItem[]>(sortCalendarList(initialData))
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     setList(sortCalendarList(initialData))
   }, [initialData])
+
+  /** Optimistic update: show the change now, put the previous list back if saving fails. */
+  const commit = async (nextList: CalendarItem[]) => {
+    const previousList = list
+    setList(nextList)
+    setIsLoading(true)
+
+    try {
+      const saved = await saveCalendar(nextList)
+
+      if (!saved) {
+        setList(previousList)
+      }
+
+      return saved
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleAdd = async (dateStr: string, timeStr: string) => {
     const selected = combineDateTime(dateStr, timeStr)
@@ -27,89 +55,57 @@ export function useCalendarManager(initialData: CalendarItem[]) {
       const updatedList = [...list, { date: selected, reserved: false }]
       const futureList = filterFutureCalendarItems(updatedList)
       const newList = sortCalendarList(futureList)
-      setList(newList)
-      setIsLoading(true)
-      try {
-        await updateCalendar(newList)
-      } finally {
-        setIsLoading(false)
+
+      const previousList = list
+
+      if (!(await commit(newList))) {
+        return { success: false, saveFailed: true }
       }
 
-      return { success: true, date: selected }
+      return { success: true, date: selected, previousList }
     }
 
     return { success: false }
   }
 
-  const handleRemove = async () => {
-    if (selectedIndex !== null && list[selectedIndex]) {
-      const removedItem = list[selectedIndex]
-      const newList = list.filter((_, idx) => idx !== selectedIndex)
-      setList(newList)
-      setSelectedIndex(null)
-      setIsLoading(true)
-      try {
-        await updateCalendar(newList)
-        return { success: true, date: removedItem.date }
-      } finally {
-        setIsLoading(false)
-      }
+  const handleRemoveAt = async (index: number) => {
+    const removedItem = list[index]
+    if (!removedItem) {
+      return { success: false }
     }
 
-    return { success: false }
+    const previousList = list
+
+    if (!(await commit(list.filter((_, idx) => idx !== index)))) {
+      return { success: false, saveFailed: true }
+    }
+
+    return { success: true, date: removedItem.date, previousList }
   }
 
   const handleToggleReserved = async (idx: number) => {
     const newList = sortCalendarList(list.map((item, i) => (i === idx ? { ...item, reserved: !item.reserved } : item)))
-    setList(newList)
-    setIsLoading(true)
-    try {
-      await updateCalendar(newList)
-    } finally {
-      setIsLoading(false)
+
+    const previousList = list
+
+    if (!(await commit(newList))) {
+      return { success: false, saveFailed: true }
     }
+
+    return { success: true, date: list[idx].date, reserved: !list[idx].reserved, previousList }
   }
 
-  const handleUpdate = async (dateStr: string, timeStr: string) => {
-    if (selectedIndex === null) {
-      return { success: false }
-    }
-
-    const newDate = combineDateTime(dateStr, timeStr)
-    if (!newDate) {
-      return { success: false }
-    }
-
-    if (list.some((item, idx) => idx !== selectedIndex && item.date.getTime() === newDate.getTime())) {
-      return { success: false, conflict: true }
-    }
-
-    const oldItem = list[selectedIndex]
-    const newList = list.map((item, idx) => (idx === selectedIndex ? { ...item, date: newDate } : item))
-    const sortedList = sortCalendarList(newList)
-    setList(sortedList)
-
-    const newIndex = sortedList.findIndex(
-      (item) => item.date.getTime() === newDate.getTime() && item.reserved === oldItem.reserved,
-    )
-
-    setIsLoading(true)
-    try {
-      await updateCalendar(sortedList)
-      return { success: true, date: newDate, newIndex }
-    } finally {
-      setIsLoading(false)
-    }
+  /** Puts back an earlier list (the "undo" of the last change) and saves it like any other change. */
+  const handleRestore = async (previousList: CalendarItem[]) => {
+    return commit(previousList)
   }
 
   return {
     list,
-    selectedIndex,
-    setSelectedIndex,
     isLoading,
     handleAdd,
-    handleRemove,
+    handleRemoveAt,
     handleToggleReserved,
-    handleUpdate,
+    handleRestore,
   }
 }
