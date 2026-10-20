@@ -33,11 +33,11 @@ export default function Hero() {
       <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(52,32,26,0.22),rgba(30,18,14,0.66))]' />
       <div className='absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-[rgba(30,18,14,0.55)] to-transparent' />
 
-      {/* Slow, soft light drifting through the photo; above the dark overlay so it is clearly visible; kept to the edges and low opacity so the text keeps its contrast. */}
-      <div aria-hidden='true' className='pointer-events-none absolute inset-0 overflow-hidden'>
-        <div className='motion-safe:animate-glow-a absolute -top-[15%] -left-[12%] size-[70vmin] rounded-full bg-[#ffb48f]/30 mix-blend-screen blur-[80px]' />
-        <div className='motion-safe:animate-glow-b absolute top-[30%] -right-[14%] size-[75vmin] rounded-full bg-[#f59f8a]/28 mix-blend-screen blur-[90px]' />
-        <div className='motion-safe:animate-glow-c absolute -bottom-[20%] left-[22%] size-[65vmin] rounded-full bg-[#ffd9a8]/25 mix-blend-screen blur-[80px]' />
+      {/* Slow, soft light drifting through the photo; above the dark overlay, low opacity so the photo is not washed out and the text keeps its contrast. Hidden for reduced motion: a static haze would only brighten the photo. */}
+      <div aria-hidden='true' className='pointer-events-none absolute inset-0 overflow-hidden motion-reduce:hidden'>
+        <div className='motion-safe:animate-glow-a absolute -top-[15%] -left-[12%] size-[70vmin] rounded-full bg-[#ffb48f]/16 mix-blend-screen blur-[80px]' />
+        <div className='motion-safe:animate-glow-b absolute top-[30%] -right-[14%] size-[75vmin] rounded-full bg-[#f59f8a]/14 mix-blend-screen blur-[90px]' />
+        <div className='motion-safe:animate-glow-c absolute -bottom-[20%] left-[22%] size-[65vmin] rounded-full bg-[#ffd9a8]/12 mix-blend-screen blur-[80px]' />
       </div>
 
       <div className='hero-content-out relative z-20 w-full'>
