@@ -361,6 +361,14 @@ test.describe('admin access control', () => {
     ).toBe(200)
   })
 
+  test('failed logins without a client address are not counted or stored', async ({ baseURL }) => {
+    for (let attempt = 0; attempt < 10; attempt++) {
+      expect((await request(baseURL, { Authorization: basic(ADMIN_USER, `guess-${attempt}`) })).status).toBe(401)
+    }
+    expect(await redis.keys('admin:auth-fail:*')).toEqual([])
+    expect((await request(baseURL, { Authorization: basic(ADMIN_USER, ADMIN_PASSWORD) })).status).toBe(200)
+  })
+
   test('a successful login resets the failure counter', async ({ baseURL }) => {
     const user = { 'x-real-ip': '203.0.113.60' }
 
@@ -370,4 +378,23 @@ test.describe('admin access control', () => {
     expect((await request(baseURL, { ...user, Authorization: basic(ADMIN_USER, ADMIN_PASSWORD) })).status).toBe(200)
     expect(await redis.exists('admin:auth-fail:203.0.113.60')).toBe(0)
   })
+})
+
+test('opening /admin with credentials in the URL ends on a clean URL where saving works', async ({
+  browser,
+  baseURL,
+}) => {
+  const context = await browser.newContext({ httpCredentials: undefined })
+  const page = await context.newPage()
+  const url = new URL('/admin', baseURL)
+  url.username = ADMIN_USER
+  url.password = ADMIN_PASSWORD
+
+  await page.goto(url.toString())
+  await expect(page).toHaveURL(`${baseURL}/admin`)
+  await expect(page.getByRole('heading', { name: 'Správa termínů' })).toBeVisible()
+
+  await page.getByRole('switch', { name: 'Rezervováno 10:00' }).click()
+  await expect.poll(async () => (await readCalendar()).filter((slot) => slot.reserved).length).toBe(2)
+  await context.close()
 })

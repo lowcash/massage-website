@@ -21,9 +21,19 @@ function safeEqual(received: string, expected: string) {
   return timingSafeEqual(receivedHash, expectedHash)
 }
 
+let placeholderWarningShown = false
+
 function credentialsAreValid(username: string, password: string) {
   const expectedUser = process.env.AUTH_USERNAME
   const expectedPassword = process.env.AUTH_PASSWORD
+
+  if (expectedPassword && PLACEHOLDER_PASSWORDS.has(expectedPassword) && !placeholderWarningShown) {
+    placeholderWarningShown = true
+    console.warn(
+      'Admin login is disabled: AUTH_PASSWORD is still the placeholder from .env.example. ' +
+        'Set a real password in .env.local, or start the app with `pnpm dev:local`.',
+    )
+  }
 
   if (!expectedUser || !expectedPassword || PLACEHOLDER_PASSWORDS.has(expectedPassword)) {
     return false
@@ -47,8 +57,13 @@ function parseBasicAuth(header: string) {
   return separator === -1 ? null : { username: decoded.slice(0, separator), password: decoded.slice(separator + 1) }
 }
 
+/**
+ * Only `x-real-ip` is trusted: Vercel sets it (and overwrites anything a client sends), while Next.js adds an
+ * `x-forwarded-for` with the local socket address even in development. Without it there is no reliable
+ * address to count failures against, so local runs are not throttled.
+ */
 function clientAddress(req: NextRequest) {
-  return req.headers.get('x-real-ip') ?? req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+  return req.headers.get('x-real-ip')
 }
 
 export async function proxy(req: NextRequest) {

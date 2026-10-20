@@ -1,4 +1,5 @@
 import type { CalendarSlot } from '@/src/components/features/Calendar'
+import CleanUrl from '@/src/components/features/admin/CleanUrl'
 import DateTimeSelector from '@/src/components/shared/DateTimeSelector'
 import SignOut from '@/src/components/shared/SignOut'
 
@@ -44,6 +45,8 @@ export default async function Admin() {
 
   return (
     <div className='mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-6 px-4 py-6 md:px-6 md:py-10'>
+      <CleanUrl />
+
       <header className='flex items-center justify-between gap-4'>
         <div>
           <p className='text-brand text-xs tracking-[0.22em] uppercase'>Administrace</p>

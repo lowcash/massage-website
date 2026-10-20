@@ -6,10 +6,15 @@ const KEY_PREFIX = 'admin:auth-fail:'
 
 /**
  * Failed admin logins per client address, kept in Redis for 15 minutes. After 8 failures the address
- * is blocked until the counter expires. It only touches its own `admin:auth-fail:*` keys and fails
+ * is blocked until the counter expires. Requests without a client address (local development, no proxy in
+ * front) are not counted at all, so running the app locally never writes to Redis here. It only touches its own `admin:auth-fail:*` keys and fails
  * open: if Redis is unreachable the normal password check still applies, nobody gets locked out by an outage.
  */
-export async function getLoginBlock(ip: string) {
+export async function getLoginBlock(ip: string | null) {
+  if (!ip) {
+    return null
+  }
+
   try {
     const redis = await getRedisClient()
     const failures = Number((await redis.get(`${KEY_PREFIX}${ip}`)) ?? 0)
@@ -26,7 +31,11 @@ export async function getLoginBlock(ip: string) {
 }
 
 /** Returns true when this failure pushed the address over the limit. */
-export async function registerLoginFailure(ip: string) {
+export async function registerLoginFailure(ip: string | null) {
+  if (!ip) {
+    return false
+  }
+
   try {
     const redis = await getRedisClient()
     const key = `${KEY_PREFIX}${ip}`
@@ -43,7 +52,11 @@ export async function registerLoginFailure(ip: string) {
   }
 }
 
-export async function clearLoginFailures(ip: string) {
+export async function clearLoginFailures(ip: string | null) {
+  if (!ip) {
+    return
+  }
+
   try {
     const redis = await getRedisClient()
     await redis.del(`${KEY_PREFIX}${ip}`)
