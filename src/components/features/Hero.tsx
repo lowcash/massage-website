@@ -30,11 +30,17 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(52,32,26,0.3),rgba(30,18,14,0.68))]' />
+      <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(52,32,26,0.16),rgba(30,18,14,0.62))]' />
       <div className='absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-[rgba(30,18,14,0.66)] to-transparent' />
 
       <div className='hero-content-out relative z-20 w-full'>
         <div className='animate-in slide-in-from-bottom-4 relative z-20 mx-auto flex w-full max-w-5xl flex-col items-center gap-6 px-6 pt-24 pb-28 text-center text-white duration-700 md:gap-7 md:pb-44 [@media(max-height:520px)]:pt-28 [@media(max-height:520px)]:pb-20'>
+          {/* A soft frosted veil behind the text: the busy photo is blurred and warmed locally, with no visible edge. */}
+          <div
+            aria-hidden='true'
+            className='pointer-events-none absolute inset-x-0 top-10 bottom-14 -z-10 mx-auto max-w-4xl bg-[radial-gradient(ellipse_closest-side,rgba(62,38,30,0.5),rgba(62,38,30,0.26)_62%,transparent)] [mask-image:radial-gradient(ellipse_closest-side,black_58%,transparent)] backdrop-blur-[10px] [-webkit-mask-image:radial-gradient(ellipse_closest-side,black_58%,transparent)] md:bottom-32'
+          />
+
           <p className='font-dancing text-shadow text-3xl text-white/90 md:text-4xl'>
             {applyCzechNbsp(siteContent.brand.subtitle)}
           </p>
@@ -47,7 +53,7 @@ export default function Hero() {
             {benefits.map((benefit) => (
               <li
                 key={benefit}
-                className='rounded-full border border-white/30 bg-black/25 px-3 py-1 text-[13px] text-white/95 backdrop-blur-sm md:px-4 md:py-1.5 md:text-base'
+                className='rounded-full border border-white/30 bg-[rgba(62,38,30,0.42)] px-3 py-1 text-[13px] text-white/95 backdrop-blur-sm md:px-4 md:py-1.5 md:text-base'
               >
                 {applyCzechNbsp(benefit)}
               </li>
@@ -71,7 +77,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <ul className='absolute inset-x-5 bottom-20 z-20 mx-auto hidden w-fit items-center divide-x divide-white/25 rounded-full border border-white/25 bg-black/30 px-2 py-3 text-sm text-white backdrop-blur-md md:flex'>
+      <ul className='absolute inset-x-5 bottom-20 z-20 mx-auto hidden w-fit items-center divide-x divide-white/25 rounded-full border border-white/25 bg-[rgba(62,38,30,0.5)] px-2 py-3 text-sm text-white backdrop-blur-md md:flex'>
         {facts.map((fact) => (
           <li key={fact} className='px-6 whitespace-nowrap'>
             {applyCzechNbsp(fact)}
