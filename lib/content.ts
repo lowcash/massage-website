@@ -160,7 +160,10 @@ export const siteContent = {
     mapsEmbed: BUSINESS.mapsEmbed,
   },
   navigation: {
-    homeAriaLabel: 'Přejít na úvodní sekci',
+    // Short visible label (tooltip of the first section dot), like the other section names.
+    homeLabel: 'Úvod',
+    // Accessible name of the logo button: starts with its visible text so voice control can use it.
+    homeAriaLabel: `${SITE_IDENTITY.name} – úvodní sekce`,
     openMenuAriaLabel: 'Otevřít navigaci',
     closeMenuAriaLabel: 'Zavřít navigaci',
     items: [

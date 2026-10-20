@@ -11,7 +11,7 @@ import { resolveActiveSection } from '@/src/lib/navigation-core-adapter'
 const SHOW_AFTER_SCROLL = 360
 
 const sections = [
-  { id: 'hero', label: siteContent.navigation.homeAriaLabel },
+  { id: 'hero', label: siteContent.navigation.homeLabel },
   ...siteContent.navigation.items.map((item) => ({ id: item.href.replace('#', ''), label: item.label })),
 ]
 
