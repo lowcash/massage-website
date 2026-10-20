@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   {
-    ignores: ['.next', 'next-env.d.ts', 'playwright-report', 'test-results'],
+    ignores: ['.next', '.next-*', 'next-env.d.ts', 'playwright-report', 'test-results'],
   },
   {
     files: ['**/*.{ts,tsx}'],
