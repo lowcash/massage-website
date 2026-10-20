@@ -30,15 +30,8 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(52,32,26,0.22),rgba(30,18,14,0.66))]' />
-      <div className='absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-[rgba(30,18,14,0.55)] to-transparent' />
-
-      {/* Slow, soft light drifting through the photo; above the dark overlay, low opacity so the photo is not washed out and the text keeps its contrast. Hidden for reduced motion: a static haze would only brighten the photo. */}
-      <div aria-hidden='true' className='pointer-events-none absolute inset-0 overflow-hidden motion-reduce:hidden'>
-        <div className='motion-safe:animate-glow-a absolute -top-[15%] -left-[12%] size-[70vmin] rounded-full bg-[#ffb48f]/16 mix-blend-screen blur-[80px]' />
-        <div className='motion-safe:animate-glow-b absolute top-[30%] -right-[14%] size-[75vmin] rounded-full bg-[#f59f8a]/14 mix-blend-screen blur-[90px]' />
-        <div className='motion-safe:animate-glow-c absolute -bottom-[20%] left-[22%] size-[65vmin] rounded-full bg-[#ffd9a8]/12 mix-blend-screen blur-[80px]' />
-      </div>
+      <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(52,32,26,0.3),rgba(30,18,14,0.68))]' />
+      <div className='absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-[rgba(30,18,14,0.66)] to-transparent' />
 
       <div className='hero-content-out relative z-20 w-full'>
         <div className='animate-in slide-in-from-bottom-4 relative z-20 mx-auto flex w-full max-w-5xl flex-col items-center gap-6 px-6 pt-24 pb-28 text-center text-white duration-700 md:gap-7 md:pb-44 [@media(max-height:520px)]:pt-28 [@media(max-height:520px)]:pb-20'>
@@ -54,7 +47,7 @@ export default function Hero() {
             {benefits.map((benefit) => (
               <li
                 key={benefit}
-                className='rounded-full border border-white/30 bg-white/10 px-3 py-1 text-[13px] text-white/95 backdrop-blur-sm md:px-4 md:py-1.5 md:text-base'
+                className='rounded-full border border-white/30 bg-black/25 px-3 py-1 text-[13px] text-white/95 backdrop-blur-sm md:px-4 md:py-1.5 md:text-base'
               >
                 {applyCzechNbsp(benefit)}
               </li>
@@ -64,7 +57,7 @@ export default function Hero() {
           <div className='mt-2 flex flex-col items-center gap-3 sm:flex-row sm:gap-4'>
             <a
               href='#services'
-              className='bg-brand hover:bg-brand-hover rounded-full px-9 py-3.5 text-sm tracking-widest text-white uppercase shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-[background-color,translate] duration-300 ease-out hover:-translate-y-0.5'
+              className='bg-brand hover:bg-brand-hover rounded-full px-9 py-3.5 text-sm tracking-widest text-white uppercase shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-colors duration-300 ease-out'
             >
               {applyCzechNbsp(siteContent.hero.cta)}
             </a>
@@ -78,7 +71,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <ul className='absolute inset-x-5 bottom-20 z-20 mx-auto hidden w-fit items-center divide-x divide-white/25 rounded-full border border-white/25 bg-white/10 px-2 py-3 text-sm text-white/90 backdrop-blur-md md:flex'>
+      <ul className='absolute inset-x-5 bottom-20 z-20 mx-auto hidden w-fit items-center divide-x divide-white/25 rounded-full border border-white/25 bg-black/30 px-2 py-3 text-sm text-white backdrop-blur-md md:flex'>
         {facts.map((fact) => (
           <li key={fact} className='px-6 whitespace-nowrap'>
             {applyCzechNbsp(fact)}

@@ -36,43 +36,6 @@
     }
   }
 
-  --animate-glow-a: glow-a 18s ease-in-out infinite alternate;
-  --animate-glow-b: glow-b 22s ease-in-out infinite alternate;
-  --animate-glow-c: glow-c 26s ease-in-out infinite alternate;
-
-  @keyframes glow-a {
-    from {
-      translate: -6vw 3vh;
-      scale: 1;
-    }
-    to {
-      translate: 14vw -10vh;
-      scale: 1.25;
-    }
-  }
-
-  @keyframes glow-b {
-    from {
-      translate: 10vw 6vh;
-      scale: 1.15;
-    }
-    to {
-      translate: -14vw -8vh;
-      scale: 0.9;
-    }
-  }
-
-  @keyframes glow-c {
-    from {
-      translate: -6vw 8vh;
-      scale: 0.9;
-    }
-    to {
-      translate: 12vw -12vh;
-      scale: 1.2;
-    }
-  }
-
   --font-display: 'EB Garamond', Georgia, serif;
   --font-sans-display: 'DM Sans', sans-serif;
 }
