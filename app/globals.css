@@ -15,6 +15,11 @@
   --color-line: #e8d6d0;
   --color-night: #2b1d1a;
 
+  /*
+   * Radius scale: buttons and CTAs are pills (rounded-full); chips, inputs and list rows use rounded-xl;
+   * tiles, images and inner cards use rounded-2xl; large panels use rounded-3xl. Keep new UI on these four.
+   */
+
   /* Two elevation levels used everywhere: resting cards and lifted/hovered elements. */
   --shadow-soft: 0 18px 50px rgb(70 40 32 / 0.07);
   --shadow-lift: 0 14px 36px rgb(70 40 32 / 0.13);

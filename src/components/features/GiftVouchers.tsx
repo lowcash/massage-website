@@ -39,7 +39,7 @@ export default function GiftVouchers() {
             className={`${fadeIn} bg-surface-alt relative min-h-72 p-10 ${!card.inView ? hidden : ''}`}
             style={{ transitionDelay: card.inView ? '220ms' : '0ms' }}
           >
-            <div className='absolute inset-8 rounded-xl border border-white/50' />
+            <div className='absolute inset-8 rounded-2xl border border-white/50' />
             <Image
               src={giftVoucherImage}
               alt={siteContent.vouchers.imageAlt}
@@ -70,7 +70,7 @@ export default function GiftVouchers() {
               href={href}
               target='_blank'
               rel='noopener noreferrer'
-              className='bg-brand hover:bg-brand-hover mt-2 inline-flex w-full justify-center rounded-md px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition-colors duration-300 ease-out'
+              className='bg-brand hover:bg-brand-hover mt-2 inline-flex w-full justify-center rounded-full px-6 py-3.5 text-xs tracking-[0.16em] text-white uppercase transition-colors duration-300 ease-out'
             >
               {applyCzechNbsp(siteContent.vouchers.cta)}
             </a>

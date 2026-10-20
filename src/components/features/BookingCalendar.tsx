@@ -214,8 +214,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                 key={`${dayData.day}-${dayData.date}`}
                 className={
                   dayData.isToday
-                    ? 'border-brand-hover bg-paper h-full rounded-xl border-2 p-4 shadow-[0_8px_26px_rgba(201,123,111,0.18)]'
-                    : 'border-line h-full rounded-xl border bg-white p-4'
+                    ? 'border-brand-hover bg-paper h-full rounded-2xl border-2 p-4 shadow-[0_8px_26px_rgba(201,123,111,0.18)]'
+                    : 'border-line h-full rounded-2xl border bg-white p-4'
                 }
               >
                 <div className='border-line mb-5 border-b pb-4 text-center'>
@@ -231,7 +231,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                         href={getSlotWhatsAppUrl(dayData.date, slot.time)}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='border-brand-hover text-body hover:bg-brand-hover rounded-md border bg-white px-4 py-2 text-center text-base transition-colors duration-300 ease-out hover:text-white'
+                        className='border-brand-hover text-body hover:bg-brand-hover rounded-xl border bg-white px-4 py-2 text-center text-base transition-colors duration-300 ease-out hover:text-white'
                       >
                         {slot.time}
                       </a>
@@ -239,7 +239,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                       <span
                         key={slot.time}
                         aria-disabled='true'
-                        className='cursor-not-allowed rounded-md border border-[#dadada] bg-[#ececec] px-4 py-2 text-center text-base text-[#9f9f9f] line-through'
+                        className='cursor-not-allowed rounded-xl border border-[#dadada] bg-[#ececec] px-4 py-2 text-center text-base text-[#9f9f9f] line-through'
                       >
                         {slot.time}
                       </span>
@@ -263,7 +263,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             href={whatsappCtaUrl}
             target='_blank'
             rel='noopener noreferrer'
-            className='bg-brand hover:bg-brand-hover inline-flex rounded-md px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition-colors duration-300 ease-out'
+            className='bg-brand hover:bg-brand-hover inline-flex rounded-full px-7 py-3.5 text-xs tracking-[0.16em] text-white uppercase transition-colors duration-300 ease-out'
           >
             {applyCzechNbsp(siteContent.calendar.whatsappCta)}
           </a>

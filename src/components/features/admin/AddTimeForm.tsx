@@ -139,7 +139,7 @@ export function AddTimeForm({ dayKey, takenTimes, isLoading, onAdd }: AddTimeFor
             <button
               type='submit'
               disabled={isLoading}
-              className='bg-brand hover:bg-brand-hover focus-visible:ring-brand/30 flex h-12 cursor-pointer items-center gap-2 rounded-xl px-6 text-sm font-medium text-white transition-colors outline-none focus-visible:ring-4 disabled:cursor-not-allowed disabled:opacity-60'
+              className='bg-brand hover:bg-brand-hover focus-visible:ring-brand/30 flex h-12 cursor-pointer items-center gap-2 rounded-full px-7 text-sm font-medium text-white transition-colors outline-none focus-visible:ring-4 disabled:cursor-not-allowed disabled:opacity-60'
             >
               Přidat
             </button>

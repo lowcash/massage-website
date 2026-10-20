@@ -144,7 +144,7 @@ export default function GalleryInteractive() {
               key={image.id}
               type='button'
               onClick={() => setActiveImageIndex(index)}
-              className='border-line w-full cursor-pointer overflow-hidden rounded-xl border bg-white text-left shadow-sm'
+              className='border-line w-full cursor-pointer overflow-hidden rounded-2xl border bg-white text-left shadow-sm'
               aria-label={`Zobrazit fotografii: ${image.alt}`}
             >
               <div className='relative aspect-4/3 w-full'>
@@ -168,7 +168,7 @@ export default function GalleryInteractive() {
             key={image.id}
             type='button'
             onClick={() => setActiveImageIndex(index)}
-            className='border-line w-full cursor-pointer overflow-hidden rounded-xl border bg-white text-left shadow-sm'
+            className='border-line w-full cursor-pointer overflow-hidden rounded-2xl border bg-white text-left shadow-sm'
             aria-label={`Zobrazit fotografii: ${image.alt}`}
           >
             <div className='relative aspect-4/3 w-full'>
