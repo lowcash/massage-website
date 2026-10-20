@@ -20,7 +20,7 @@ export default function GiftVouchers() {
   const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
   return (
-    <section id='vouchers' className='bg-[#ecd8d3] px-5 py-20 md:px-8 md:py-28'>
+    <section id='vouchers' className='bg-surface-alt px-5 py-20 md:px-8 md:py-28'>
       <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
         <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
           <SectionIntro
@@ -32,11 +32,11 @@ export default function GiftVouchers() {
 
         <div
           ref={card.ref}
-          className={`grid gap-0 overflow-hidden rounded-2xl border border-[#e1c1ba] bg-white shadow-[0_14px_40px_rgba(91,58,50,0.08)] transition-[opacity,translate,box-shadow] duration-500 ease-out md:grid-cols-2 ${!card.inView ? hidden : ''}`}
+          className={`border-line shadow-soft grid gap-0 overflow-hidden rounded-2xl border bg-white transition-[opacity,translate,box-shadow] duration-500 ease-out md:grid-cols-2 ${!card.inView ? hidden : ''}`}
           style={{ transitionDelay: card.inView ? '140ms' : '0ms' }}
         >
           <div
-            className={`${fadeIn} relative min-h-72 bg-[#f1ddd7] p-10 ${!card.inView ? hidden : ''}`}
+            className={`${fadeIn} bg-surface-alt relative min-h-72 p-10 ${!card.inView ? hidden : ''}`}
             style={{ transitionDelay: card.inView ? '220ms' : '0ms' }}
           >
             <div className='absolute inset-8 rounded-xl border border-white/50' />
@@ -53,21 +53,15 @@ export default function GiftVouchers() {
             className={`flex flex-col gap-6 p-8 ${fadeIn} md:p-10 ${!card.inView ? hidden : ''}`}
             style={{ transitionDelay: card.inView ? '320ms' : '0ms' }}
           >
-            <h3 className='text-4xl leading-tight text-[#2f2523]' style={{ fontFamily: 'Cormorant Garamond, serif' }}>
-              {applyCzechNbsp(siteContent.vouchers.title)}
-            </h3>
+            <p className='text-body text-base leading-relaxed'>{applyCzechNbsp(siteContent.vouchers.description)}</p>
 
-            <p className='text-[15px] leading-relaxed text-[#5d4c48]'>
-              {applyCzechNbsp(siteContent.vouchers.description)}
-            </p>
-
-            <ul className='flex flex-col gap-3 text-[15px] text-[#5d4c48]'>
+            <ul className='text-body flex flex-col gap-3 text-base'>
               {siteContent.vouchers.benefits.map((benefit) => (
                 <li key={benefit} className='flex items-center gap-3'>
-                  <span className='inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#ca6f61] text-xs text-white'>
+                  <span className='bg-brand inline-flex h-5 w-5 items-center justify-center rounded-full text-xs text-white'>
                     ✓
                   </span>
-                  <span>{applyCzechNbsp(benefit)}</span>
+                  <span className='text-balance'>{applyCzechNbsp(benefit)}</span>
                 </li>
               ))}
             </ul>
@@ -76,7 +70,7 @@ export default function GiftVouchers() {
               href={href}
               target='_blank'
               rel='noopener noreferrer'
-              className='mt-2 inline-flex w-full justify-center rounded-md bg-[#ca6f61] px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition-colors duration-300 ease-out hover:bg-[#b45c4f]'
+              className='bg-brand hover:bg-brand-hover mt-2 inline-flex w-full justify-center rounded-md px-6 py-3 text-xs tracking-[0.16em] text-white uppercase transition-colors duration-300 ease-out'
             >
               {applyCzechNbsp(siteContent.vouchers.cta)}
             </a>

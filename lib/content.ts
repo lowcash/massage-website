@@ -6,26 +6,15 @@ interface NavigationItem {
   href: string
 }
 
+export type ServiceCategory = 'relax' | 'therapy' | 'family'
+
 export interface ServiceItem {
   id: string
+  category: ServiceCategory
   name: string
   description: string
   duration: string
   price: string
-  icon:
-    | 'sparkles'
-    | 'target'
-    | 'align-center'
-    | 'footprints'
-    | 'droplet'
-    | 'zap'
-    | 'brain'
-    | 'activity'
-    | 'baby'
-    | 'hand-metal'
-    | 'heart'
-    | 'scissors'
-    | 'circle-dot'
 }
 
 interface AboutStat {
@@ -37,112 +26,112 @@ interface AboutStat {
 
 const servicesItems: ServiceItem[] = [
   {
-    id: 'ayurvedic-head',
-    name: 'Ájurvédská masáž hlavy',
-    description:
-      'Jemná, hluboce uvolňující technika s teplým olejem, harmonizující mysl, nervový systém i tok energie v těle.',
-    duration: '50 min',
-    price: 'od 800,-',
-    icon: 'sparkles',
-  },
-  {
     id: 'trigger-points',
+    category: 'therapy',
     name: 'Ošetření spoušťových bodů',
     description:
       'Terapeutická technika zaměřená na uvolnění svalových uzlů a zmírnění bolesti prostřednictvím tlaku na specifické body v těle.',
     duration: '50 min',
-    price: 'od 800,-',
-    icon: 'target',
+    price: 'od 800 Kč',
   },
   {
     id: 'mbs-chiro',
+    category: 'therapy',
     name: 'Náprava a korekce metodou z MBS s prvky chiropraxe',
     description:
       'Terapeutická technika, která pomocí cílených manuálních zásahů obnovuje správné postavení těla a pohybový aparát.',
     duration: '50 min',
-    price: 'od 750,-',
-    icon: 'align-center',
-  },
-  {
-    id: 'thai-feet',
-    name: 'Thajská masáž nohou',
-    description:
-      'Tradiční technika, která kombinuje akupresuru, stimulaci reflexních bodů a protahování pro uvolnění napětí a podporu celkového zdraví.',
-    duration: '60 min',
-    price: 'od 900,-',
-    icon: 'footprints',
-  },
-  {
-    id: 'honey-detox',
-    name: 'Medová detoxikační masáž',
-    description:
-      'Relaxační technika, při které se pomocí teplého medu a speciálních hmatů odstraňují toxiny z těla a zlepšuje se prokrvení pokožky.',
-    duration: '60 min',
-    price: 'od 800,-',
-    icon: 'droplet',
+    price: 'od 750 Kč',
   },
   {
     id: 'deep-tissue',
+    category: 'therapy',
     name: 'Deep tissue massage',
     description:
       'Hloubková masáž zaměřená na uvolnění chronického napětí ve svalech a pojivových tkáních pomocí pomalých, intenzivních tahů.',
     duration: '60 min',
-    price: 'od 850,-',
-    icon: 'zap',
-  },
-  {
-    id: 'anti-migraine',
-    name: 'Protimigrénová masáž',
-    description:
-      'Cílená relaxační technika zaměřená na uvolnění napětí v oblasti hlavy, krku a ramen s cílem zmírnit nebo předejít migrénám.',
-    duration: '50 min',
-    price: 'od 700,-',
-    icon: 'brain',
+    price: 'od 850 Kč',
   },
   {
     id: 'spinal',
+    category: 'therapy',
     name: 'Spinální masáž',
     description:
       'Terapeutická masáž zaměřená na oblast páteře, která uvolňuje svalové napětí, podporuje správné držení těla a zlepšuje funkci nervového systému.',
     duration: '60 min',
-    price: 'od 800,-',
-    icon: 'activity',
-  },
-  {
-    id: 'baby',
-    name: 'Baby masáže (3x)',
-    description:
-      'Jemné dotykové techniky určené pro miminka, které podporují jejich zdravý vývoj, zlepšují spánek a posilují vazbu mezi rodičem a dítětem.',
-    duration: '45 min',
-    price: '950,-',
-    icon: 'baby',
-  },
-  {
-    id: 'pregnancy',
-    name: 'Těhotenská masáž',
-    description:
-      'Jemná masáž určená těhotným ženám, která pomáhá uvolnit napětí, zlepšit prokrvení a zmírnit bolesti spojené s těhotenstvím.',
-    duration: '60 min',
-    price: 'od 850,-',
-    icon: 'heart',
+    price: 'od 800 Kč',
   },
   {
     id: 'kinesio',
+    category: 'therapy',
     name: 'Kineziotaping',
     description:
       'Terapeutická metoda, při které se na pokožku aplikují elastické pásky s cílem podpořit hojení, zmírnit bolest a zlepšit funkci svalů a kloubů.',
     duration: '',
-    price: '100,- (+2,- cm)',
-    icon: 'scissors',
+    price: '100 Kč + 2 Kč/cm',
   },
   {
     id: 'acupuncture',
-    name: 'Akupunktura - metodou TČM',
+    category: 'therapy',
+    name: 'Akupunktura – metodou TČM',
     description:
       'Tradiční terapie jemným vpichem jehel do specifických bodů na těle, která podporuje uvolnění, zmírnění bolesti a obnovení rovnováhy organismu.',
     duration: '',
     price: 'dle dohody',
-    icon: 'circle-dot',
+  },
+  {
+    id: 'thai-feet',
+    category: 'relax',
+    name: 'Thajská masáž nohou',
+    description:
+      'Tradiční technika, která kombinuje akupresuru, stimulaci reflexních bodů a protahování pro uvolnění napětí a podporu celkového zdraví.',
+    duration: '60 min',
+    price: 'od 900 Kč',
+  },
+  {
+    id: 'ayurvedic-head',
+    category: 'relax',
+    name: 'Ájurvédská masáž hlavy',
+    description:
+      'Jemná, hluboce uvolňující technika s teplým olejem, harmonizující mysl, nervový systém i tok energie v těle.',
+    duration: '50 min',
+    price: 'od 800 Kč',
+  },
+  {
+    id: 'honey-detox',
+    category: 'relax',
+    name: 'Medová detoxikační masáž',
+    description:
+      'Relaxační technika, při které se pomocí teplého medu a speciálních hmatů odstraňují toxiny z těla a zlepšuje se prokrvení pokožky.',
+    duration: '60 min',
+    price: 'od 800 Kč',
+  },
+  {
+    id: 'anti-migraine',
+    category: 'relax',
+    name: 'Protimigrénová masáž',
+    description:
+      'Cílená relaxační technika zaměřená na uvolnění napětí v oblasti hlavy, krku a ramen s cílem zmírnit nebo předejít migrénám.',
+    duration: '50 min',
+    price: 'od 700 Kč',
+  },
+  {
+    id: 'baby',
+    category: 'family',
+    name: 'Baby masáže (3×)',
+    description:
+      'Jemné dotykové techniky určené pro miminka, které podporují jejich zdravý vývoj, zlepšují spánek a posilují vazbu mezi rodičem a dítětem.',
+    duration: '45 min',
+    price: '950 Kč',
+  },
+  {
+    id: 'pregnancy',
+    category: 'family',
+    name: 'Těhotenská masáž',
+    description:
+      'Jemná masáž určená těhotným ženám, která pomáhá uvolnit napětí, zlepšit prokrvení a zmírnit bolesti spojené s těhotenstvím.',
+    duration: '60 min',
+    price: 'od 850 Kč',
   },
 ]
 
@@ -178,6 +167,7 @@ export const siteContent = {
     title: 'Dotek, který uleví a obnoví.',
     subtitle: 'Uvolnění ztuhlých svalů • Regenerace po sportu • Hluboká relaxace mysli.',
     cta: 'Vyberte si masáž',
+    secondaryCta: 'Volné termíny',
     imageAlt: 'Masážní studio Pohlazení po těle a duši',
     scrollIndicatorAriaLabel: 'Posunout na další sekci',
   },
@@ -186,13 +176,17 @@ export const siteContent = {
     subtitle: 'Široká nabídka masáží pro vaše tělo i mysl',
     intro:
       'Nabízím širokou škálu masáží a terapií přizpůsobených vašim individuálním potřebám pro dosažení harmonie těla i mysli.',
-    defaultDurationLabel: 'dle dohody',
+    selectHint: 'Klepnutím na službu přejdete rovnou na výběr volného termínu.',
+    groups: [
+      { id: 'therapy', title: 'Terapeutické ošetření' },
+      { id: 'relax', title: 'Relaxace a regenerace' },
+      { id: 'family', title: 'Pro maminky a miminka' },
+    ] as { id: ServiceCategory; title: string }[],
     items: servicesItems,
   },
   vouchers: {
     heading: 'Dárkové poukazy',
     subtitle: 'Darujte radost z uvolnění',
-    title: 'Darujte chvíle klidu',
     description: 'Darujte svým blízkým chvíle plné relaxace a pohody. Ideální dárek pro každou příležitost.',
     benefits: [
       'Libovolná hodnota poukazu',
@@ -235,24 +229,24 @@ export const siteContent = {
     images: [
       {
         id: 'studio-1',
-        alt: 'Interiér studia - detail',
+        alt: 'Interiér studia – detail',
         asset: '529868a68c329f2cd79b11f95989565412c07b61',
       },
       {
         id: 'studio-2',
-        alt: 'Interiér studia - prostor',
+        alt: 'Interiér studia – prostor',
         asset: '2d115fb3cb1c74e407bde90bbf7d740b4c3604f2',
       },
       {
         id: 'studio-3',
-        alt: 'Interiér studia - atmosféra',
+        alt: 'Interiér studia – atmosféra',
         asset: '669702bfa59a3e8017fcb4cb9cbf4fe49cedcddf',
       },
     ],
   },
   calendar: {
     heading: 'Volné termíny',
-    subtitle: 'Najděte si termín, který vám vyhovuje',
+    subtitle: 'Rezervace',
     intro: 'Vyberte si termín, který vám vyhovuje, a rezervujte si masáž přes WhatsApp.',
     selectedServiceLabel: 'Vybraná služba',
     unavailableMessage: 'Kalendář není aktuálně dostupný.',
@@ -272,23 +266,19 @@ export const siteContent = {
       emailLabel: 'Email',
       addressLabel: 'Adresa',
       openingHoursLabel: 'Otevírací doba',
-      flexibilityNote: 'Termíny jsou flexibilní a přizpůsobím se vašim potřebám',
     },
     openingHours: [
       { day: 'Po–Pá', hours: '15:00–21:00' },
       { day: 'So', hours: 'Dle objednání' },
       { day: 'Ne', hours: 'Zavřeno' },
     ],
-    mapTitle: 'Pohlazení po těle a duši - mapa',
+    mapTitle: 'Pohlazení po těle a duši – mapa',
   },
   footer: {
-    openingHoursHeading: 'Otevírací doba',
-    contactHeading: 'Kontakt',
     cityLabel: 'Hodonín',
     description: 'Masáže a terapie těla',
     rights: 'Všechna práva vyhrazena.',
-    analyticsDisclosure:
-      'Web používá anonymní Vercel Analytics pro souhrnné statistiky návštěvnosti. Bez reklamních cookies.',
+    analyticsDisclosure: 'Anonymní statistiky návštěvnosti, bez cookies.',
     facebookAriaLabel: 'Facebook',
     instagramAriaLabel: 'Instagram',
   },

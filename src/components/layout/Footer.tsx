@@ -8,62 +8,13 @@ export default function Footer() {
   const brandName = applyCzechNbsp(siteContent.brand.name)
 
   return (
-    <footer className='bg-[#2d1d1a] text-[#f6ece9]'>
-      <div className='mx-auto flex w-full max-w-6xl flex-col gap-10 px-5 py-14 md:px-8'>
-        <div className='grid gap-8 md:grid-cols-3 lg:grid-cols-3 lg:gap-8'>
-          <div className='flex flex-col gap-3'>
+    <footer className='bg-night text-surface px-5 md:px-8'>
+      <div className='mx-auto flex w-full max-w-6xl flex-col gap-8 py-12'>
+        <div className='flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between'>
+          <div className='flex flex-col gap-1'>
             <p className='font-dancing text-3xl'>{brandName}</p>
-            <p className='text-[15px] text-[#e4d4d0]'>{applyCzechNbsp(siteContent.footer.description)}</p>
-            <p className='text-sm text-[#cdb8b3]'>
-              © {currentYear} {brandName}. {applyCzechNbsp(siteContent.footer.rights)}
-            </p>
+            <p className='text-base text-white/80'>{applyCzechNbsp(siteContent.footer.description)}</p>
           </div>
-
-          <div className='flex flex-col gap-3'>
-            <h3 className='font-dancing text-2xl text-[#f8e9e5]'>
-              {applyCzechNbsp(siteContent.footer.openingHoursHeading)}
-            </h3>
-            <div className='flex flex-col gap-1 text-[15px] text-[#ddc8c3]'>
-              {siteContent.contact.openingHours.map((item) => (
-                <p key={item.day} className='flex justify-between'>
-                  <span>{item.day}:</span>
-                  <span>{item.hours}</span>
-                </p>
-              ))}
-            </div>
-          </div>
-
-          <div className='flex flex-col gap-3 text-[15px] text-[#ddc8c3]'>
-            <h3 className='font-dancing text-2xl text-[#f8e9e5]'>
-              {applyCzechNbsp(siteContent.footer.contactHeading)}
-            </h3>
-            <a
-              href={`mailto:${siteContent.brand.email}`}
-              className='cursor-pointer transition-colors duration-300 ease-out hover:text-white'
-            >
-              {siteContent.brand.email}
-            </a>
-            <a
-              href={`tel:+${siteContent.brand.phoneDigits}`}
-              className='cursor-pointer transition-colors duration-300 ease-out hover:text-white'
-            >
-              {siteContent.brand.phone}
-            </a>
-            <a
-              href={siteContent.brand.mapsLink}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='cursor-pointer transition-colors duration-300 ease-out hover:text-white'
-            >
-              {applyCzechNbsp(siteContent.brand.addressLine1)}
-              <br />
-              {applyCzechNbsp(siteContent.brand.addressLine2)}
-            </a>
-          </div>
-        </div>
-
-        <div className='flex items-center justify-between border-t border-white/10 pt-7'>
-          <p className='text-xs tracking-[0.16em] text-[#b89f9a] uppercase'>{siteContent.footer.cityLabel}</p>
 
           <div className='flex items-center gap-3'>
             <a
@@ -87,9 +38,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <p className='max-w-3xl text-xs leading-relaxed text-[#b89f9a]'>
-          {applyCzechNbsp(siteContent.footer.analyticsDisclosure)}
-        </p>
+        <div className='flex flex-col gap-1 border-t border-white/10 pt-6 text-xs leading-relaxed text-white/65 sm:flex-row sm:justify-between sm:gap-6'>
+          <p>
+            © {currentYear} {brandName}. {applyCzechNbsp(siteContent.footer.rights)}
+          </p>
+          <p>{applyCzechNbsp(siteContent.footer.analyticsDisclosure)}</p>
+        </div>
       </div>
     </footer>
   )

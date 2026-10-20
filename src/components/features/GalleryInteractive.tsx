@@ -138,14 +138,13 @@ export default function GalleryInteractive() {
           mobilePeek={false}
           itemClassName='w-full sm:w-[46%]'
           fadeEdges
-          fadeColor='#f1e3df'
         >
           {siteContent.studio.images.map((image, index) => (
             <button
               key={image.id}
               type='button'
               onClick={() => setActiveImageIndex(index)}
-              className='w-full cursor-pointer overflow-hidden rounded-xl border border-[#e0c5bf] bg-white text-left shadow-sm'
+              className='border-line w-full cursor-pointer overflow-hidden rounded-xl border bg-white text-left shadow-sm'
               aria-label={`Zobrazit fotografii: ${image.alt}`}
             >
               <div className='relative aspect-4/3 w-full'>
@@ -153,6 +152,7 @@ export default function GalleryInteractive() {
                   src={studioImages[index]}
                   alt={image.alt}
                   fill
+                  placeholder='blur'
                   className='object-cover transition duration-300 hover:scale-[1.02]'
                   sizes='(min-width: 1024px) 35vw, (min-width: 640px) 46vw, 84vw'
                 />
@@ -168,7 +168,7 @@ export default function GalleryInteractive() {
             key={image.id}
             type='button'
             onClick={() => setActiveImageIndex(index)}
-            className='w-full cursor-pointer overflow-hidden rounded-xl border border-[#e0c5bf] bg-white text-left shadow-sm'
+            className='border-line w-full cursor-pointer overflow-hidden rounded-xl border bg-white text-left shadow-sm'
             aria-label={`Zobrazit fotografii: ${image.alt}`}
           >
             <div className='relative aspect-4/3 w-full'>
@@ -176,6 +176,7 @@ export default function GalleryInteractive() {
                 src={studioImages[index]}
                 alt={image.alt}
                 fill
+                placeholder='blur'
                 className='object-cover transition duration-300 hover:scale-[1.02]'
                 sizes='(min-width: 1024px) 31vw, 100vw'
               />
@@ -226,6 +227,7 @@ export default function GalleryInteractive() {
                   src={studioImages[activeImageIndex]}
                   alt={siteContent.studio.images[activeImageIndex].alt}
                   fill
+                  placeholder='blur'
                   quality={90}
                   className='object-contain'
                   sizes='(min-width: 1280px) 1200px, 92vw'

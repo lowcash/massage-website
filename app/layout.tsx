@@ -1,4 +1,4 @@
-import { Cormorant_Garamond, DM_Sans, Dancing_Script } from 'next/font/google'
+import { DM_Sans, Dancing_Script, EB_Garamond } from 'next/font/google'
 
 import { Analytics } from '@vercel/analytics/next'
 
@@ -10,20 +10,19 @@ import './globals.css'
 
 const dancingScript = Dancing_Script({
   variable: '--font-dancing',
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   display: 'swap',
 })
 
-const cormorantGaramond = Cormorant_Garamond({
-  variable: '--font-serif-display',
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  display: 'optional',
+const ebGaramond = EB_Garamond({
+  variable: '--font-display',
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
 })
 
 const dmSans = DM_Sans({
   variable: '--font-sans-display',
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   display: 'swap',
 })
 
@@ -46,12 +45,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_JSON_LD) }}
         />
       </head>
-      <body
-        className={`${dancingScript.variable} ${cormorantGaramond.variable} ${dmSans.variable} min-h-screen antialiased`}
-      >
+      <body className={`${dancingScript.variable} ${ebGaramond.variable} ${dmSans.variable} min-h-screen antialiased`}>
         <a
           href='#main-content'
-          className='skip-link sr-only absolute top-4 left-4 z-100 rounded-md bg-[#2d1d1a] px-4 py-2 text-sm font-medium text-white focus:not-sr-only focus:ring-2 focus:ring-[#ca6f61] focus:ring-offset-2 focus:ring-offset-[#f6edeb] focus:outline-none'
+          className='skip-link bg-night focus:ring-brand sr-only absolute top-4 left-4 z-100 rounded-md px-4 py-2 text-sm font-medium text-white focus:not-sr-only focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#f6edeb] focus:outline-none'
         >
           Přeskočit na hlavní obsah
         </a>

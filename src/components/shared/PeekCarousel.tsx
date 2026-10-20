@@ -1,6 +1,6 @@
 'use client'
 
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
@@ -13,8 +13,20 @@ interface PeekCarouselProps {
   itemClassName?: string
   className?: string
   fadeEdges?: boolean
-  fadeColor?: string
   mobilePeek?: boolean
+}
+
+const EDGE_FADE = '56px'
+
+// A mask fades the cards themselves, so it works on any background and has no colour to keep in sync.
+function edgeFadeStyle(fadeLeft: boolean, fadeRight: boolean): CSSProperties | undefined {
+  if (!fadeLeft && !fadeRight) {
+    return undefined
+  }
+
+  const mask = `linear-gradient(to right, ${fadeLeft ? 'transparent' : '#000'} 0, #000 ${fadeLeft ? EDGE_FADE : '0px'}, #000 calc(100% - ${fadeRight ? EDGE_FADE : '0px'}), ${fadeRight ? 'transparent' : '#000'} 100%)`
+
+  return { maskImage: mask, WebkitMaskImage: mask }
 }
 
 export default function PeekCarousel({
@@ -23,7 +35,6 @@ export default function PeekCarousel({
   itemClassName,
   className,
   fadeEdges = false,
-  fadeColor,
   mobilePeek = true,
 }: PeekCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -35,6 +46,7 @@ export default function PeekCarousel({
   const [isDragging, setIsDragging] = useState(false)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(false)
+  const [track, setTrack] = useState({ size: 100, position: 0 })
 
   const getItemOffsets = (el: HTMLDivElement) => {
     return Array.from(el.children)
@@ -72,6 +84,11 @@ export default function PeekCarousel({
 
       setCanScrollLeft(hasOverflow && clampedScrollLeft > minScrollLeft + 2)
       setCanScrollRight(hasOverflow && clampedScrollLeft < maxScrollLeft - 2)
+
+      // Quantised to whole percents so a scroll gesture does not re-render on every pixel.
+      const size = hasOverflow ? Math.round((el.clientWidth / el.scrollWidth) * 100) : 100
+      const position = hasOverflow ? Math.round((clampedScrollLeft / maxScrollLeft) * (100 - size)) : 0
+      setTrack((previous) => (previous.size === size && previous.position === position ? previous : { size, position }))
     }
 
     updateScrollState()
@@ -199,7 +216,7 @@ export default function PeekCarousel({
         type='button'
         onClick={() => scrollByCards(-1)}
         className={cn(
-          'absolute top-1/2 left-2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#dcb7af] bg-white/90 text-[#8b5f58] shadow-sm transition-colors duration-300 ease-out hover:bg-white md:flex',
+          'border-line text-muted-ink absolute top-1/2 left-2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border bg-white/90 shadow-sm transition-colors duration-300 ease-out hover:bg-white md:flex',
           canScrollLeft ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
         aria-label={`Posunout ${ariaLabel} doleva`}
@@ -211,27 +228,13 @@ export default function PeekCarousel({
         type='button'
         onClick={() => scrollByCards(1)}
         className={cn(
-          'absolute top-1/2 right-2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#dcb7af] bg-white/90 text-[#8b5f58] shadow-sm transition-colors duration-300 ease-out hover:bg-white md:flex',
+          'border-line text-muted-ink absolute top-1/2 right-2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border bg-white/90 shadow-sm transition-colors duration-300 ease-out hover:bg-white md:flex',
           canScrollRight ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
         aria-label={`Posunout ${ariaLabel} doprava`}
       >
         <ChevronRight className='h-5 w-5' />
       </button>
-
-      {fadeEdges && fadeColor && canScrollLeft ? (
-        <div
-          className='pointer-events-none absolute top-0 left-0 z-10 h-full w-4 md:w-6'
-          style={{ backgroundImage: `linear-gradient(to right, ${fadeColor} 16%, transparent 100%)` }}
-        />
-      ) : null}
-
-      {fadeEdges && fadeColor && canScrollRight ? (
-        <div
-          className='pointer-events-none absolute top-0 right-0 z-10 h-full w-4 md:w-6'
-          style={{ backgroundImage: `linear-gradient(to left, ${fadeColor} 16%, transparent 100%)` }}
-        />
-      ) : null}
 
       <div
         ref={containerRef}
@@ -241,6 +244,7 @@ export default function PeekCarousel({
             : 'no-scrollbar flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-2 select-none [-webkit-overflow-scrolling:touch]',
           isDragging ? 'cursor-grabbing' : 'cursor-grab',
         )}
+        style={fadeEdges ? edgeFadeStyle(canScrollLeft, canScrollRight) : undefined}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerEnd}
@@ -256,6 +260,15 @@ export default function PeekCarousel({
           </div>
         ))}
       </div>
+
+      {track.size < 100 ? (
+        <div aria-hidden='true' className='bg-line/80 mx-auto mt-4 h-1 w-28 overflow-hidden rounded-full'>
+          <div
+            className='bg-brand/80 h-full rounded-full transition-[margin-left] duration-150 ease-out'
+            style={{ width: `${track.size}%`, marginLeft: `${track.position}%` }}
+          />
+        </div>
+      ) : null}
     </div>
   )
 }
