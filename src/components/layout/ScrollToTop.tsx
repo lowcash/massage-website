@@ -6,6 +6,8 @@ import { ChevronUp } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
 
+import { FloatingContainer } from '@/src/components/layout/FloatingContainer'
+
 const SHOW_SCROLL_THRESHOLD = 320
 const HIDE_SCROLL_THRESHOLD = 220
 
@@ -58,24 +60,22 @@ export default function ScrollToTop() {
   const canShowButton = isVisible && !isFooterVisible
 
   return (
-    <div className='pointer-events-none fixed inset-x-0 bottom-6 z-40 px-5 min-[1380px]:px-6 md:px-8'>
-      <div className='mx-auto flex w-full max-w-6xl justify-end min-[1380px]:max-w-none'>
-        <button
-          onClick={scrollToTop}
-          className={`bg-brand hover:bg-brand-hover pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg transition-all duration-300 ease-out hover:scale-105 ${canShowButton ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none translate-y-[10px] scale-[0.88] opacity-0'}`}
-          style={{
-            marginBottom: 'env(safe-area-inset-bottom)',
-            transform: 'translateZ(0)',
-            WebkitBackfaceVisibility: 'hidden',
-            backfaceVisibility: 'hidden',
-            willChange: 'transform, opacity',
-          }}
-          aria-label={siteContent.floatingButtons.scrollTopLabel}
-          tabIndex={canShowButton ? 0 : -1}
-        >
-          <ChevronUp className='h-5 w-5' />
-        </button>
-      </div>
-    </div>
+    <FloatingContainer className='bottom-6 z-40' innerClassName='justify-end'>
+      <button
+        onClick={scrollToTop}
+        className={`bg-brand hover:bg-brand-hover pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg transition-all duration-300 ease-out hover:scale-105 ${canShowButton ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none translate-y-[10px] scale-[0.88] opacity-0'}`}
+        style={{
+          marginBottom: 'env(safe-area-inset-bottom)',
+          transform: 'translateZ(0)',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
+          willChange: 'transform, opacity',
+        }}
+        aria-label={siteContent.floatingButtons.scrollTopLabel}
+        tabIndex={canShowButton ? 0 : -1}
+      >
+        <ChevronUp className='h-5 w-5' />
+      </button>
+    </FloatingContainer>
   )
 }

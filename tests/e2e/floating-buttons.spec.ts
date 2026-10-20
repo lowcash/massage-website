@@ -68,3 +68,36 @@ test.describe('WhatsApp button', () => {
     await expect(waLink).toBeVisible()
   })
 })
+
+/**
+ * On very wide screens the floating elements sit in the same centered column as the page (84rem = 1344px) instead of
+ * sticking to the far window edges.
+ */
+test.describe('Floating elements on wide screens', () => {
+  const COLUMN = 1344
+
+  for (const width of [1440, 1920, 2560]) {
+    test(`stay inside the centered column at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto('/')
+      await page.waitForLoadState('networkidle')
+      await page.evaluate(() => window.scrollTo({ top: 600, behavior: 'instant' }))
+      await page.waitForTimeout(500)
+
+      const columnLeft = (width - COLUMN) / 2
+      const columnRight = columnLeft + COLUMN
+      const tolerance = 2
+
+      const whatsapp = await page.getByRole('link', { name: 'Kontaktujte nás na WhatsApp' }).boundingBox()
+      const scrollTop = await page.getByRole('button', { name: 'Zpět nahoru' }).boundingBox()
+      const dots = await page.locator('nav[aria-hidden="true"]').last().boundingBox()
+
+      expect(whatsapp!.x).toBeGreaterThanOrEqual(columnLeft - tolerance)
+      expect(whatsapp!.x).toBeLessThanOrEqual(columnLeft + 60)
+      expect(scrollTop!.x + scrollTop!.width).toBeLessThanOrEqual(columnRight + tolerance)
+      expect(scrollTop!.x + scrollTop!.width).toBeGreaterThanOrEqual(columnRight - 60)
+      expect(dots!.x + dots!.width).toBeLessThanOrEqual(columnRight + tolerance)
+      expect(dots!.x + dots!.width).toBeGreaterThanOrEqual(columnRight - 60)
+    })
+  }
+})
