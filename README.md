@@ -47,7 +47,8 @@ Copy `.env.example` to `.env.local` for local development.
 Basic-auth credentials protect `/admin`:
 
 - `AUTH_USERNAME` – admin username
-- `AUTH_PASSWORD` – admin password (the placeholder from `.env.example` is rejected)
+- `AUTH_PASSWORD` – admin password. The placeholder from `.env.example` works in `next dev` only and is refused in
+  every production build
 - `JWT_SECRET` – random secret that signs the login cookie, e.g. `openssl rand -base64 48`; in production the
   admin refuses to log in without it
 

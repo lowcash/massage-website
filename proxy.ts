@@ -1,48 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { createHash, timingSafeEqual } from 'node:crypto'
-
 import { ROUTE } from '@/lib/config/routes'
 import { getSignedToken, getTokenPayload } from '@/lib/jwt'
+import { credentialsAreValid, isAdminPasswordPlaceholder } from '@/lib/security/admin-credentials'
 import { AUTH_BASIC_KEY, AUTH_JWT_EXPIRE_HOURS, AUTH_JWT_KEY, AUTH_RESET_KEY } from '@/lib/security/auth-constants'
 import { clearLoginFailures, getLoginBlock, registerLoginFailure } from '@/lib/security/login-throttle'
-
-// The value from .env.example must never be accepted as a real password.
-const PLACEHOLDER_PASSWORDS = new Set(['your_admin_password_here'])
 
 function isAdminPath(pathname: string) {
   return pathname === ROUTE.ADMIN || pathname.startsWith(`${ROUTE.ADMIN}/`)
 }
 
-/** Hashing first makes the comparison constant-time regardless of the input lengths. */
-function safeEqual(received: string, expected: string) {
-  const receivedHash = createHash('sha256').update(received).digest()
-  const expectedHash = createHash('sha256').update(expected).digest()
-  return timingSafeEqual(receivedHash, expectedHash)
-}
-
 let placeholderWarningShown = false
 
-function credentialsAreValid(username: string, password: string) {
-  const expectedUser = process.env.AUTH_USERNAME
-  const expectedPassword = process.env.AUTH_PASSWORD
-
-  if (expectedPassword && PLACEHOLDER_PASSWORDS.has(expectedPassword) && !placeholderWarningShown) {
-    placeholderWarningShown = true
-    console.warn(
-      'Admin login is disabled: AUTH_PASSWORD is still the placeholder from .env.example. ' +
-        'Set a real password in .env.local, or start the app with `pnpm dev:local`.',
-    )
+function warnAboutPlaceholderPassword() {
+  if (placeholderWarningShown || !isAdminPasswordPlaceholder()) {
+    return
   }
 
-  if (!expectedUser || !expectedPassword || PLACEHOLDER_PASSWORDS.has(expectedPassword)) {
-    return false
-  }
-
-  // Both are always evaluated so the response time does not reveal which one was wrong.
-  const userMatches = safeEqual(username, expectedUser)
-  const passwordMatches = safeEqual(password, expectedPassword)
-  return userMatches && passwordMatches
+  placeholderWarningShown = true
+  console.warn(
+    process.env.NODE_ENV === 'production'
+      ? 'Admin login is disabled: AUTH_PASSWORD is still the placeholder from .env.example. Set a real password.'
+      : 'Admin login uses the placeholder password from .env.example. That works locally only; production refuses it.',
+  )
 }
 
 function parseBasicAuth(header: string) {
@@ -103,6 +83,8 @@ export async function proxy(req: NextRequest) {
     if (!basicAuth) {
       return httpBasicRes
     }
+
+    warnAboutPlaceholderPassword()
 
     const credentials = parseBasicAuth(basicAuth)
     if (!credentials || !credentialsAreValid(credentials.username, credentials.password)) {
