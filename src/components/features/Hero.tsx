@@ -24,7 +24,7 @@ export default function Hero() {
   return (
     <section id='hero' className='relative flex min-h-svh items-center justify-center overflow-hidden'>
       {/* Taller than the section so it can drift down slower than the page without showing an edge. */}
-      <div className='hero-parallax absolute inset-x-0 -top-[16vh] bottom-0'>
+      <div className='hero-parallax absolute inset-x-0 -top-[16svh] bottom-0'>
         <div className='motion-safe:animate-hero-zoom absolute inset-0 scale-[1.06]'>
           <Image src={heroImage} alt={siteContent.hero.imageAlt} fill priority className='object-cover' sizes='100vw' />
         </div>

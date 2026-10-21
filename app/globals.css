@@ -66,21 +66,17 @@
 }
 
 :root {
-  --navigation-offset: 70px;
+  /* Include the notch/status-bar inset so hash targets clear the fixed header on iOS. */
+  --navigation-offset: calc(70px + env(safe-area-inset-top, 0px));
 }
 
-section[id] {
+/* Hero sits at the document top — scroll-margin would leave a dead zone when scrolling back to #hero. */
+section[id]:not(#hero) {
   scroll-margin-top: var(--navigation-offset);
 }
 
 [id$='-heading'] {
   scroll-margin-top: var(--navigation-offset);
-}
-
-@media (min-width: 768px) {
-  :root {
-    --navigation-offset: 70px;
-  }
 }
 
 button:not(:disabled),
@@ -219,12 +215,20 @@ button:disabled {
 
 @layer base {
   * {
-    @apply border-border outline-ring/50 scroll-smooth;
+    @apply border-border outline-ring/50;
   }
 
   html {
     scrollbar-width: none;
     background: #2c2c2c;
+    /* Only on the root scroller — scroll-smooth on * fights iOS momentum and hash navigation. */
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   body {
@@ -258,34 +262,40 @@ button:disabled {
 }
 
 /*
- * Hero scroll effects, driven by the scroll position (no JavaScript). Browsers without scroll-driven
- * animations, and visitors who asked for reduced motion, simply get the static hero.
+ * Hero scroll effects, driven by the scroll position (no JavaScript).
+ * Use svh everywhere so the range matches min-h-svh and stays stable while the mobile URL bar
+ * shows/hides. Skip on coarse pointers: Safari iOS scroll-driven animations are still jittery and
+ * were causing the hero to jump / refuse a full scroll back to the top.
  */
 @keyframes hero-parallax {
   to {
-    translate: 0 16vh;
+    translate: 0 16svh;
   }
 }
 
 @keyframes hero-content-out {
   to {
     opacity: 0;
-    translate: 0 -5vh;
+    translate: 0 -5svh;
   }
 }
 
+#hero {
+  overflow-anchor: none;
+}
+
 @supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
     .hero-parallax {
       animation: hero-parallax linear both;
       animation-timeline: scroll(root);
-      animation-range: 0 100vh;
+      animation-range: 0 100svh;
     }
 
     .hero-content-out {
       animation: hero-content-out linear both;
       animation-timeline: scroll(root);
-      animation-range: 0 55vh;
+      animation-range: 0 55svh;
     }
   }
 }

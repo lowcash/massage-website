@@ -40,7 +40,8 @@ export default function Footer() {
 
         <div className='flex flex-col gap-1 border-t border-white/10 pt-6 text-xs leading-relaxed text-white/65 sm:flex-row sm:justify-between sm:gap-6'>
           <p>
-            © {currentYear} {brandName}. {applyCzechNbsp(siteContent.footer.rights)}
+            © {currentYear} {brandName}. {siteContent.footer.icoLabel}&nbsp;{siteContent.footer.ico}.{' '}
+            {applyCzechNbsp(siteContent.footer.rights)}
           </p>
           <p>{applyCzechNbsp(siteContent.footer.analyticsDisclosure)}</p>
         </div>

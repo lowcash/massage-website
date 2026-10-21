@@ -71,7 +71,8 @@ export function scrollToSection(sectionId: string, options: { behavior?: ScrollB
   const shouldUpdateHash = options.updateHash ?? true
 
   if (sectionId === HERO_SECTION_ID) {
-    window.scrollTo({ top: 0, behavior })
+    // left: 0 avoids iOS restoring a stray horizontal offset; top must be exactly 0 (no scroll-margin).
+    window.scrollTo({ top: 0, left: 0, behavior })
     if (shouldUpdateHash) {
       setSectionHash(sectionId)
     }

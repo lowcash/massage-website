@@ -86,14 +86,29 @@ export default function Navigation() {
   }, [])
 
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
+    if (!isMobileMenuOpen) {
+      return
     }
 
+    // iOS Safari ignores overflow:hidden on body during touch scroll; lock with position:fixed instead.
+    const scrollY = window.scrollY
+    const { body } = document
+    const previousOverflow = body.style.overflow
+    const previousPosition = body.style.position
+    const previousTop = body.style.top
+    const previousWidth = body.style.width
+
+    body.style.overflow = 'hidden'
+    body.style.position = 'fixed'
+    body.style.top = `-${scrollY}px`
+    body.style.width = '100%'
+
     return () => {
-      document.body.style.overflow = ''
+      body.style.overflow = previousOverflow
+      body.style.position = previousPosition
+      body.style.top = previousTop
+      body.style.width = previousWidth
+      window.scrollTo(0, scrollY)
     }
   }, [isMobileMenuOpen])
 
@@ -161,7 +176,7 @@ export default function Navigation() {
   return (
     <>
       <header
-        className={`fixed top-0 right-0 left-0 z-50 border-b px-5 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 md:px-8 ${
+        className={`fixed top-0 right-0 left-0 z-50 border-b px-5 pt-[env(safe-area-inset-top,0px)] transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 md:px-8 ${
           isScrolled
             ? 'bg-surface/95 border-line/70 shadow-[0_8px_28px_rgba(60,35,28,0.07)] backdrop-blur-lg'
             : 'border-transparent bg-transparent'
@@ -233,7 +248,7 @@ export default function Navigation() {
         aria-label={siteContent.navigation.openMenuAriaLabel}
         aria-modal='true'
         inert={!isMobileMenuOpen || undefined}
-        className={`border-line bg-surface/92 fixed top-0 right-0 bottom-0 z-50 flex h-dvh w-[92%] max-w-sm flex-col border-l backdrop-blur-2xl transition-transform duration-300 ease-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`border-line bg-surface/92 fixed top-0 right-0 bottom-0 z-50 flex h-dvh w-[92%] max-w-sm flex-col border-l pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-2xl transition-transform duration-300 ease-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         {/* Mirrors the exact navbar layout: px-5 py-5 */}
         <div className='flex shrink-0 items-center justify-between px-5 py-5'>

@@ -125,15 +125,6 @@ const servicesItems: ServiceItem[] = [
     price: 'od 700 Kč',
   },
   {
-    id: 'baby',
-    category: 'family',
-    name: 'Baby masáže (3×)',
-    description:
-      'Jemné dotykové techniky určené pro miminka, které podporují jejich zdravý vývoj, zlepšují spánek a posilují vazbu mezi rodičem a dítětem.',
-    duration: '45 min',
-    price: '950 Kč',
-  },
-  {
     id: 'pregnancy',
     category: 'family',
     name: 'Těhotenská masáž',
@@ -141,6 +132,15 @@ const servicesItems: ServiceItem[] = [
       'Jemná masáž určená těhotným ženám, která pomáhá uvolnit napětí, zlepšit prokrvení a zmírnit bolesti spojené s těhotenstvím.',
     duration: '60 min',
     price: 'od 850 Kč',
+  },
+  {
+    id: 'baby',
+    category: 'family',
+    name: 'Baby masáže (3×)',
+    description:
+      'Jemné dotykové techniky určené pro miminka, které podporují jejich zdravý vývoj, zlepšují spánek a posilují vazbu mezi rodičem a dítětem.',
+    duration: '45 min',
+    price: '950 Kč',
   },
 ]
 
@@ -289,6 +289,8 @@ export const siteContent = {
   footer: {
     cityLabel: 'Hodonín',
     description: 'Masáže a terapie těla',
+    icoLabel: 'IČO',
+    ico: BUSINESS.ico,
     rights: 'Všechna práva vyhrazena.',
     analyticsDisclosure: 'Anonymní statistiky návštěvnosti, bez cookies.',
     facebookAriaLabel: 'Facebook',

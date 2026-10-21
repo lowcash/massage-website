@@ -24,6 +24,8 @@ export type MassageSiteConfig = {
       readonly streetAddress: string
     }
     readonly areaServedCity: string
+    /** Czech company registration number (IČO). */
+    readonly ico: string
     readonly email: string
     readonly geo: {
       readonly latitude: string
@@ -95,6 +97,7 @@ export const SITE_CONFIG = {
     description: 'Profesionální masérka s dlouholetou praxí v oblasti léčebných a relaxačních masáží.',
   },
   business: {
+    ico: '05132819',
     email: 'sebestovar@seznam.cz',
     phoneDisplay: '(+420) 605 579 643',
     phoneE164: '+420605579643',

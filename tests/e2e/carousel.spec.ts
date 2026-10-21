@@ -73,14 +73,13 @@ test.describe('Hero scroll cue', () => {
     await expect(heroCue).toBeVisible()
   })
 
-  test('scroll cue disappears after scrolling down', async ({ page }) => {
-    // Find the scroll cue link (it's position:fixed, z-20, links to #services)
-    const cueLink = page.locator('a[href="#services"].fixed')
+  test('scroll cue leaves the viewport after scrolling down', async ({ page }) => {
+    const cueLink = page.locator('#hero a[href="#services"][aria-label]')
     await expect(cueLink).toBeVisible()
 
     await page.evaluate(() => window.scrollBy(0, 200))
     await page.waitForTimeout(300)
 
-    await expect(cueLink).not.toBeVisible()
+    await expect(cueLink).not.toBeInViewport()
   })
 })

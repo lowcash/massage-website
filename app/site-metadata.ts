@@ -90,6 +90,7 @@ export const LOCAL_BUSINESS_JSON_LD: WithContext<LocalBusiness> = {
   url: SITE_IDENTITY.url,
   telephone: BUSINESS.phoneE164,
   email: BUSINESS.email,
+  taxID: BUSINESS.ico,
   priceRange: BUSINESS.priceRange,
   address: {
     '@type': 'PostalAddress',
