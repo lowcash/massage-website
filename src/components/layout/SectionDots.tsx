@@ -22,6 +22,7 @@ const sections = [
 export default function SectionDots() {
   const [activeSection, setActiveSection] = useState('hero')
   const [isVisible, setIsVisible] = useState(false)
+  const [isFooterVisible, setIsFooterVisible] = useState(false)
 
   useEffect(() => {
     let frameId: number | null = null
@@ -52,17 +53,40 @@ export default function SectionDots() {
     }
   }, [])
 
+  useEffect(() => {
+    const footerElement = document.querySelector('footer')
+
+    if (!footerElement) {
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFooterVisible(entry.isIntersecting)
+      },
+      {
+        threshold: 0,
+        rootMargin: '0px 0px -20px 0px',
+      },
+    )
+
+    observer.observe(footerElement)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
+
+  const canShowDots = isVisible && !isFooterVisible
+
   return (
-    <FloatingContainer
-      variant='edge'
-      className='top-1/2 z-30 hidden -translate-y-1/2 xl:block'
-      innerClassName='justify-end'
-    >
+    <FloatingContainer className='top-1/2 z-30 hidden -translate-y-1/2 xl:block' innerClassName='justify-end'>
       <nav
         aria-hidden='true'
         className={cn(
-          'flex flex-col gap-3 transition-opacity duration-500',
-          isVisible ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
+          // w-11 matches ScrollToTop so dots sit on its horizontal center line.
+          'flex w-11 flex-col items-center gap-3 transition-opacity duration-500',
+          canShowDots ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         )}
       >
         {sections.map((section) => {

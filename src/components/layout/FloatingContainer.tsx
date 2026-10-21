@@ -8,34 +8,17 @@ interface FloatingContainerProps {
   className?: string
   /** Alignment of the children inside the container, e.g. "justify-end". */
   innerClassName?: string
-  /**
-   * "content": same width as the page content (it only widens on screens of 1380px and more, where there is room
-   * beside the content). "edge": always one step wider than the content, for elements that must stay clear of it.
-   */
-  variant?: 'content' | 'edge'
 }
 
 /**
- * Fixed-position elements (WhatsApp, scroll to top, section dots) are laid out inside the same centered column as
- * the page, so on very wide screens they stay near the content instead of sticking to the far window edge.
+ * Fixed chrome (WhatsApp, scroll-to-top, section dots) uses the same centered column and
+ * horizontal padding as the header nav and footer (max-w-6xl). Section bodies use
+ * CONTENT_SHELL (extra px-6) so copy clears these controls without shifting the chrome rail.
  */
-export function FloatingContainer({
-  children,
-  className,
-  innerClassName,
-  variant = 'content',
-}: FloatingContainerProps) {
+export function FloatingContainer({ children, className, innerClassName }: FloatingContainerProps) {
   return (
-    <div className={cn('pointer-events-none fixed inset-x-0 px-5 min-[1380px]:px-6 md:px-8', className)}>
-      <div
-        className={cn(
-          'mx-auto flex w-full',
-          variant === 'edge' ? 'max-w-[84rem]' : 'max-w-6xl min-[1380px]:max-w-[84rem]',
-          innerClassName,
-        )}
-      >
-        {children}
-      </div>
+    <div className={cn('pointer-events-none fixed inset-x-0 px-5 md:px-8', className)}>
+      <div className={cn('mx-auto flex w-full max-w-6xl', innerClassName)}>{children}</div>
     </div>
   )
 }

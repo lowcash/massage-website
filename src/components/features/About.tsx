@@ -8,8 +8,10 @@ import { X } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp, bindTail } from '@/lib/typography'
+import { cn } from '@/lib/utils'
 
 import profileImage from '@/src/assets/profile.jpg'
+import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
 import CountUpValue from '@/src/components/shared/CountUpValue'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 import { useInView } from '@/src/hooks/useInView'
@@ -86,7 +88,7 @@ export default function About() {
 
   return (
     <section id='about' className='bg-surface px-5 py-16 md:px-8 md:py-24'>
-      <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
+      <div className={cn(CONTENT_SHELL, 'flex flex-col gap-14')}>
         <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
           <SectionIntro id='about-heading' title={siteContent.about.heading} subtitle={siteContent.about.subtitle} />
         </div>

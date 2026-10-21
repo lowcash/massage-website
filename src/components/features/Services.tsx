@@ -2,8 +2,9 @@
 
 import type { ServiceItem } from '@/lib/content'
 import { siteContent } from '@/lib/content'
-import { applyCzechNbsp, scrollToSection } from '@/lib/utils'
+import { applyCzechNbsp, cn, scrollToSection } from '@/lib/utils'
 
+import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 import { useBooking } from '@/src/contexts/BookingContext'
 import { useInView } from '@/src/hooks/useInView'
@@ -80,7 +81,7 @@ export default function Services() {
 
   return (
     <section id='services' className='bg-surface px-5 py-20 md:px-8 md:py-28'>
-      <div className='mx-auto grid w-full max-w-6xl gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20'>
+      <div className={cn(CONTENT_SHELL, 'grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20')}>
         <div ref={intro.ref} className={`${fadeIn} lg:sticky lg:top-28 lg:self-start ${!intro.inView ? hidden : ''}`}>
           <SectionIntro
             id='services-heading'

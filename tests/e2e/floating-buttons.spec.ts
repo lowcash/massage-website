@@ -70,34 +70,53 @@ test.describe('WhatsApp button', () => {
 })
 
 /**
- * On very wide screens the floating elements sit in the same centered column as the page (84rem = 1344px) instead of
- * sticking to the far window edges.
+ * On wide screens floating chrome shares the nav/footer content column (max-w-6xl = 1152px).
+ * Section body content is inset separately (CONTENT_SHELL px-6). Dots share ScrollToTop's center.
  */
 test.describe('Floating elements on wide screens', () => {
-  const COLUMN = 1344
+  const CONTENT_COLUMN = 1152
 
   for (const width of [1440, 1920, 2560]) {
-    test(`stay inside the centered column at ${width}px`, async ({ page }) => {
+    test(`align with the nav content column at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 })
       await page.goto('/')
       await page.waitForLoadState('networkidle')
       await page.evaluate(() => window.scrollTo({ top: 600, behavior: 'instant' }))
       await page.waitForTimeout(500)
 
-      const columnLeft = (width - COLUMN) / 2
-      const columnRight = columnLeft + COLUMN
+      const contentLeft = (width - CONTENT_COLUMN) / 2
+      const contentRight = contentLeft + CONTENT_COLUMN
       const tolerance = 2
 
       const whatsapp = await page.getByRole('link', { name: 'Kontaktujte nás na WhatsApp' }).boundingBox()
       const scrollTop = await page.getByRole('button', { name: 'Zpět nahoru' }).boundingBox()
       const dots = await page.locator('nav[aria-hidden="true"]').last().boundingBox()
 
-      expect(whatsapp!.x).toBeGreaterThanOrEqual(columnLeft - tolerance)
-      expect(whatsapp!.x).toBeLessThanOrEqual(columnLeft + 60)
-      expect(scrollTop!.x + scrollTop!.width).toBeLessThanOrEqual(columnRight + tolerance)
-      expect(scrollTop!.x + scrollTop!.width).toBeGreaterThanOrEqual(columnRight - 60)
-      expect(dots!.x + dots!.width).toBeLessThanOrEqual(columnRight + tolerance)
-      expect(dots!.x + dots!.width).toBeGreaterThanOrEqual(columnRight - 60)
+      expect(whatsapp!.x).toBeGreaterThanOrEqual(contentLeft - tolerance)
+      expect(whatsapp!.x).toBeLessThanOrEqual(contentLeft + 60)
+
+      expect(scrollTop!.x + scrollTop!.width).toBeLessThanOrEqual(contentRight + tolerance)
+      expect(scrollTop!.x + scrollTop!.width).toBeGreaterThanOrEqual(contentRight - 60)
+
+      const scrollCenter = scrollTop!.x + scrollTop!.width / 2
+      const dotsCenter = dots!.x + dots!.width / 2
+      expect(Math.abs(dotsCenter - scrollCenter)).toBeLessThanOrEqual(tolerance)
     })
   }
+
+  test('hides WhatsApp, scroll-up and section dots when footer is in view', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/')
+    await page.waitForLoadState('networkidle')
+    await page.locator('footer').scrollIntoViewIfNeeded()
+    await page.waitForTimeout(400)
+
+    const waLink = page.getByRole('link', { name: 'Kontaktujte nás na WhatsApp' })
+    const scrollTop = page.getByRole('button', { name: 'Zpět nahoru' })
+    const dots = page.locator('nav[aria-hidden="true"]').last()
+
+    await expect(waLink).toHaveAttribute('tabindex', '-1')
+    await expect(scrollTop).toHaveAttribute('tabindex', '-1')
+    await expect(dots).toHaveClass(/opacity-0/)
+  })
 })

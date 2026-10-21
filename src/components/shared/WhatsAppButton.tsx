@@ -50,7 +50,7 @@ export default function WhatsAppButton() {
   const canShowButton = !isFooterVisible
 
   return (
-    <FloatingContainer className='bottom-6 z-40' innerClassName='items-center'>
+    <FloatingContainer className='bottom-6 z-40' innerClassName='justify-start'>
       <a
         href={getWhatsAppUrl()}
         target='_blank'

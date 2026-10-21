@@ -3,9 +3,10 @@
 import Image from 'next/image'
 
 import { siteContent } from '@/lib/content'
-import { applyCzechNbsp } from '@/lib/utils'
+import { applyCzechNbsp, cn } from '@/lib/utils'
 
 import giftVoucherImage from '@/src/assets/voucher.jpg'
+import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 import { useInView } from '@/src/hooks/useInView'
 import { useReducedMotion } from '@/src/hooks/useReducedMotion'
@@ -21,7 +22,7 @@ export default function GiftVouchers() {
 
   return (
     <section id='vouchers' className='bg-surface-alt px-5 py-20 md:px-8 md:py-28'>
-      <div className='mx-auto flex w-full max-w-6xl flex-col gap-14'>
+      <div className={cn(CONTENT_SHELL, 'flex flex-col gap-14')}>
         <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
           <SectionIntro
             id='vouchers-heading'

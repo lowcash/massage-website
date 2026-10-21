@@ -1,8 +1,9 @@
 'use client'
 
 import { siteContent } from '@/lib/content'
-import { applyCzechNbsp } from '@/lib/utils'
+import { applyCzechNbsp, cn } from '@/lib/utils'
 
+import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
 import PeekCarousel from '@/src/components/shared/PeekCarousel'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 import { useBooking } from '@/src/contexts/BookingContext'
@@ -157,7 +158,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   if (calendarData.length === 0) {
     return (
       <section id='booking' className='bg-surface-alt px-5 py-10 md:px-8 md:py-24'>
-        <div className='mx-auto flex w-full max-w-6xl flex-col gap-10'>
+        <div className={cn(CONTENT_SHELL, 'flex flex-col gap-10')}>
           <SectionIntro
             id='booking-heading'
             title={siteContent.calendar.heading}
@@ -182,7 +183,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
 
   return (
     <section id='booking' className='bg-surface-alt px-5 py-10 md:px-8 md:py-24'>
-      <div className='mx-auto flex w-full max-w-6xl flex-col gap-6 md:gap-12'>
+      <div className={cn(CONTENT_SHELL, 'flex flex-col gap-6 md:gap-12')}>
         <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
           <SectionIntro
             id='booking-heading'
