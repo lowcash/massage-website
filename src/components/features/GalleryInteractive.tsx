@@ -153,7 +153,7 @@ export default function GalleryInteractive() {
                   alt={image.alt}
                   fill
                   placeholder='blur'
-                  className='object-cover transition duration-300 hover:scale-[1.02]'
+                  className='object-cover transition duration-700 ease-out hover:scale-[1.03]'
                   sizes='(min-width: 1024px) 35vw, (min-width: 640px) 46vw, 84vw'
                 />
               </div>
@@ -177,7 +177,7 @@ export default function GalleryInteractive() {
                 alt={image.alt}
                 fill
                 placeholder='blur'
-                className='object-cover transition duration-300 hover:scale-[1.02]'
+                className='object-cover transition duration-700 ease-out hover:scale-[1.03]'
                 sizes='(min-width: 1024px) 31vw, 100vw'
               />
             </div>
@@ -222,7 +222,10 @@ export default function GalleryInteractive() {
             onTouchEnd={handleTouchEnd}
           >
             {activeImageIndex !== null && (
-              <div className='relative aspect-4/3 max-h-[82vh] w-full'>
+              <div
+                key={activeImageIndex}
+                className='animate-in fade-in relative aspect-4/3 max-h-[82vh] w-full duration-500 ease-out motion-reduce:animate-none'
+              >
                 <Image
                   src={studioImages[activeImageIndex]}
                   alt={siteContent.studio.images[activeImageIndex].alt}

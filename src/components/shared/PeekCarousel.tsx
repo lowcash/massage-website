@@ -240,8 +240,8 @@ export default function PeekCarousel({
         ref={containerRef}
         className={cn(
           mobilePeek
-            ? 'no-scrollbar flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain px-[8%] pb-2 select-none [-webkit-overflow-scrolling:touch] sm:px-0'
-            : 'no-scrollbar flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-2 select-none [-webkit-overflow-scrolling:touch]',
+            ? 'no-scrollbar flex gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain px-[8%] pb-2 select-none [-webkit-overflow-scrolling:touch] sm:px-0'
+            : 'no-scrollbar flex gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-2 select-none [-webkit-overflow-scrolling:touch]',
           isDragging ? 'cursor-grabbing' : 'cursor-grab',
         )}
         style={fadeEdges ? edgeFadeStyle(canScrollLeft, canScrollRight) : undefined}
@@ -252,10 +252,7 @@ export default function PeekCarousel({
         onClickCapture={onClickCapture}
       >
         {children.map((child, index) => (
-          <div
-            key={index}
-            className={cn('w-[84%] shrink-0 snap-center sm:w-[46%] sm:snap-start lg:w-[31%]', itemClassName)}
-          >
+          <div key={index} className={cn('w-[84%] shrink-0 sm:w-[46%] lg:w-[31%]', itemClassName)}>
             {child}
           </div>
         ))}

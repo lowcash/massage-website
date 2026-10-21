@@ -156,7 +156,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
 
   if (calendarData.length === 0) {
     return (
-      <section id='booking' className='bg-surface-alt px-5 py-16 md:px-8 md:py-24'>
+      <section id='booking' className='bg-surface-alt px-5 py-10 md:px-8 md:py-24'>
         <div className='mx-auto flex w-full max-w-6xl flex-col gap-10'>
           <SectionIntro
             id='booking-heading'
@@ -181,8 +181,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   }
 
   return (
-    <section id='booking' className='bg-surface-alt px-5 py-16 md:px-8 md:py-24'>
-      <div className='mx-auto flex w-full max-w-6xl flex-col gap-12'>
+    <section id='booking' className='bg-surface-alt px-5 py-10 md:px-8 md:py-24'>
+      <div className='mx-auto flex w-full max-w-6xl flex-col gap-6 md:gap-12'>
         <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
           <SectionIntro
             id='booking-heading'
@@ -199,31 +199,28 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
           </div>
         )}
 
-        <div
-          ref={carousel.ref}
-          className={`mx-auto w-full max-w-6xl ${fadeIn} ${!carousel.inView ? hidden : ''}`}
-          style={{ transitionDelay: carousel.inView ? '140ms' : '0ms' }}
-        >
+        <div ref={carousel.ref} className='mx-auto w-full max-w-6xl'>
           <PeekCarousel
             ariaLabel={siteContent.calendar.carouselAriaLabel}
-            itemClassName='w-[84%] sm:w-[46%] md:w-[32%] lg:w-[19%]'
+            itemClassName='w-[78%] sm:w-[44%] md:w-[30%] lg:w-[16%]'
             fadeEdges={true}
           >
-            {calendarData.map((dayData) => (
+            {calendarData.map((dayData, dayIndex) => (
               <article
                 key={`${dayData.day}-${dayData.date}`}
-                className={
+                className={`${fadeIn} ${!carousel.inView ? hidden : ''} ${
                   dayData.isToday
-                    ? 'border-brand-hover bg-paper h-full rounded-2xl border-2 p-4 shadow-[0_8px_26px_rgba(201,123,111,0.18)]'
-                    : 'border-line h-full rounded-2xl border bg-white p-4'
-                }
+                    ? 'border-brand-hover bg-paper h-full rounded-2xl border-2 p-3 shadow-[0_8px_26px_rgba(201,123,111,0.18)] md:p-4'
+                    : 'border-line h-full rounded-2xl border bg-white p-3 md:p-4'
+                }`}
+                style={{ transitionDelay: carousel.inView ? `${Math.min(dayIndex, 5) * 90}ms` : '0ms' }}
               >
-                <div className='border-line mb-5 border-b pb-4 text-center'>
-                  <h3 className='font-display text-ink text-3xl leading-none lg:text-[2rem]'>{dayData.day}</h3>
+                <div className='border-line mb-3 border-b pb-3 text-center md:mb-5 md:pb-4'>
+                  <h3 className='font-display text-ink text-3xl leading-none lg:text-[1.75rem]'>{dayData.day}</h3>
                   <p className='text-muted-ink mt-2 text-sm tracking-[0.14em] uppercase'>{dayData.date}</p>
                 </div>
 
-                <div className='flex flex-col gap-2'>
+                <div className='grid grid-cols-2 gap-2 lg:grid-cols-1'>
                   {dayData.slots.map((slot) =>
                     slot.available ? (
                       <a
@@ -231,7 +228,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                         href={getSlotWhatsAppUrl(dayData.date, slot.time)}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='border-brand-hover text-body hover:bg-brand-hover rounded-xl border bg-white px-4 py-2 text-center text-base transition-colors duration-300 ease-out hover:text-white'
+                        className='border-brand-hover/40 bg-paper text-body hover:border-brand-hover hover:bg-brand-hover rounded-xl border px-3 py-2.5 text-center text-base transition-colors duration-500 ease-out hover:text-white'
                       >
                         {slot.time}
                       </a>
@@ -239,7 +236,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                       <span
                         key={slot.time}
                         aria-disabled='true'
-                        className='cursor-not-allowed rounded-xl border border-[#dadada] bg-[#ececec] px-4 py-2 text-center text-base text-[#9f9f9f] line-through'
+                        className='text-muted-ink/45 cursor-not-allowed rounded-xl px-3 py-2.5 text-center text-base line-through decoration-1'
                       >
                         {slot.time}
                       </span>
