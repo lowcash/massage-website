@@ -13,7 +13,7 @@ interface FloatingContainerProps {
 /**
  * Fixed chrome (WhatsApp, scroll-to-top, section dots) uses the same centered column and
  * horizontal padding as the header nav and footer (max-w-6xl). Section bodies use
- * CONTENT_SHELL (extra px-6) so copy clears these controls without shifting the chrome rail.
+ * CONTENT_SHELL (px-2 md:px-6) so copy clears these controls without shifting the chrome rail.
  */
 export function FloatingContainer({ children, className, innerClassName }: FloatingContainerProps) {
   return (

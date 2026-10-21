@@ -71,7 +71,7 @@ test.describe('WhatsApp button', () => {
 
 /**
  * On wide screens floating chrome shares the nav/footer content column (max-w-6xl = 1152px).
- * Section body content is inset separately (CONTENT_SHELL px-6). Dots share ScrollToTop's center.
+ * Section body content is inset separately (CONTENT_SHELL px-2 md:px-6). Dots share ScrollToTop's center.
  */
 test.describe('Floating elements on wide screens', () => {
   const CONTENT_COLUMN = 1152
