@@ -44,7 +44,8 @@ function getNavigationOffset() {
     return header.getBoundingClientRect().height
   }
 
-  const offsetValue = getComputedStyle(document.documentElement).getPropertyValue('--navigation-offset').trim()
+  // Custom properties return their specified value (e.g. calc(...)), so read the plain bar height.
+  const offsetValue = getComputedStyle(document.documentElement).getPropertyValue('--navigation-bar-height').trim()
   const parsedOffset = Number.parseFloat(offsetValue)
 
   return Number.isFinite(parsedOffset)

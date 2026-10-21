@@ -73,11 +73,15 @@ test.describe('Hero scroll cue', () => {
     await expect(heroCue).toBeVisible()
   })
 
-  test('scroll cue leaves the viewport after scrolling down', async ({ page }) => {
+  test('scroll cue leaves the viewport after scrolling past the hero', async ({ page }) => {
     const cueLink = page.locator('#hero a[href="#services"][aria-label]')
     await expect(cueLink).toBeVisible()
 
-    await page.evaluate(() => window.scrollBy(0, 200))
+    // Cue is absolute inside the full-viewport hero — scroll past the hero, not just a few hundred px.
+    await page.evaluate(() => {
+      const hero = document.getElementById('hero')
+      window.scrollTo({ top: (hero?.offsetHeight ?? window.innerHeight) + 40, behavior: 'instant' })
+    })
     await page.waitForTimeout(300)
 
     await expect(cueLink).not.toBeInViewport()

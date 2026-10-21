@@ -68,11 +68,22 @@ test.describe('Desktop navigation', () => {
 
   test('desktop navigation offset variable stays in expected range', async ({ page }) => {
     const offset = await page.evaluate(() => {
-      const offsetValue = getComputedStyle(document.documentElement).getPropertyValue('--navigation-offset').trim()
-      return Number.parseFloat(offsetValue)
+      const barHeight = Number.parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue('--navigation-bar-height').trim(),
+      )
+
+      // Resolve --navigation-offset (may be a calc()) via a probe — custom props stay uncomputed otherwise.
+      const probe = document.createElement('div')
+      probe.style.scrollMarginTop = 'var(--navigation-offset)'
+      document.body.appendChild(probe)
+      const resolvedOffset = Number.parseFloat(getComputedStyle(probe).scrollMarginTop)
+      probe.remove()
+
+      return { barHeight, resolvedOffset }
     })
 
-    expect(offset).toBe(70)
+    expect(offset.barHeight).toBe(70)
+    expect(offset.resolvedOffset).toBe(70)
   })
 
   test('hero CTA button scrolls to #services', async ({ page }) => {

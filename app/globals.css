@@ -66,8 +66,9 @@
 }
 
 :root {
-  /* Include the notch/status-bar inset so hash targets clear the fixed header on iOS. */
-  --navigation-offset: calc(70px + env(safe-area-inset-top, 0px));
+  /* Plain length so JS/tests can parseFloat it; offset below adds the iOS notch inset. */
+  --navigation-bar-height: 70px;
+  --navigation-offset: calc(var(--navigation-bar-height) + env(safe-area-inset-top, 0px));
 }
 
 /* Hero sits at the document top — scroll-margin would leave a dead zone when scrolling back to #hero. */
