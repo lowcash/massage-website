@@ -1,8 +1,9 @@
 'use client'
 
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 
 import Image from 'next/image'
+import { X } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp, bindTail } from '@/lib/typography'
@@ -51,9 +52,36 @@ export default function About() {
   const intro = useInView()
   const content = useInView()
   const image = useInView()
+  const [isPortraitOpen, setIsPortraitOpen] = useState(false)
 
   const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
   const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
+
+  useEffect(() => {
+    if (!isPortraitOpen) {
+      return
+    }
+
+    const previousBodyOverflow = document.body.style.overflow
+    const previousHtmlOverflow = document.documentElement.style.overflow
+
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsPortraitOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow
+      document.documentElement.style.overflow = previousHtmlOverflow
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [isPortraitOpen])
 
   return (
     <section id='about' className='bg-surface px-5 py-16 md:px-8 md:py-24'>
@@ -111,17 +139,58 @@ export default function About() {
             className={`order-1 md:order-1 md:mx-auto md:w-full md:max-w-2xl lg:h-full lg:max-w-none ${fadeIn} ${!image.inView ? hidden : ''}`}
             style={{ transitionDelay: image.inView ? '300ms' : '0ms' }}
           >
-            <div
-              className={`bg-surface-alt overflow-hidden rounded-3xl transition-[clip-path] duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] lg:h-full lg:max-h-none ${image.inView || shouldReduceMotion ? '[clip-path:inset(0_0_0_0_round_1.5rem)]' : '[clip-path:inset(0_0_100%_0_round_1.5rem)]'}`}
+            <button
+              type='button'
+              onClick={() => setIsPortraitOpen(true)}
+              aria-label={`Zvětšit portrét: ${siteContent.brand.therapistName}`}
+              className={`bg-surface-alt group block w-full cursor-zoom-in overflow-hidden rounded-3xl text-left transition-[clip-path] duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] lg:h-full lg:max-h-none ${image.inView || shouldReduceMotion ? '[clip-path:inset(0_0_0_0_round_1.5rem)]' : '[clip-path:inset(0_0_100%_0_round_1.5rem)]'}`}
             >
               <Image
                 src={profileImage}
                 alt={siteContent.brand.therapistName}
-                className='h-auto w-full object-cover object-top lg:h-full lg:max-h-none'
+                className='h-auto w-full object-cover object-top transition-[filter] duration-500 ease-out group-hover:brightness-[1.03] lg:h-full lg:max-h-none'
                 sizes='(min-width: 1024px) 50vw, (min-width: 768px) 42rem, 100vw'
                 priority={false}
               />
-            </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        role='dialog'
+        aria-modal='true'
+        aria-label={`Portrét: ${siteContent.brand.therapistName}`}
+        inert={!isPortraitOpen || undefined}
+        className={`fixed inset-0 z-80 flex cursor-default items-center justify-center bg-black/70 p-4 backdrop-blur-md transition-opacity duration-300 md:p-8 ${isPortraitOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+        onClick={() => setIsPortraitOpen(false)}
+      >
+        <div
+          className={`relative flex max-h-[90vh] w-full max-w-lg cursor-default items-center justify-center transition-[opacity,scale] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${isPortraitOpen ? 'scale-100 opacity-100' : 'scale-[0.96] opacity-0'}`}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <button
+            type='button'
+            onClick={() => setIsPortraitOpen(false)}
+            className='absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition-colors duration-300 ease-out hover:bg-black/65'
+            aria-label='Zavřít náhled'
+          >
+            <X className='h-5 w-5' />
+          </button>
+
+          <div className='relative aspect-3/4 max-h-[90vh] w-full overflow-hidden rounded-2xl'>
+            {isPortraitOpen && (
+              <Image
+                src={profileImage}
+                alt={siteContent.brand.therapistName}
+                fill
+                placeholder='blur'
+                quality={90}
+                className='object-cover object-top'
+                sizes='(min-width: 512px) 32rem, 92vw'
+                priority
+              />
+            )}
           </div>
         </div>
       </div>

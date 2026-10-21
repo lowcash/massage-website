@@ -4,7 +4,10 @@ const LEAD = '(^|[\\s(„"\'\u00A0])'
 const GAP = '[^\\S\u00A0]+'
 
 const SINGLE_LETTER = new RegExp(`${LEAD}([AaIiKkOoSsUuVvZz])${GAP}`, 'g')
-const SHORT_WORD = new RegExp(`${LEAD}(do|na|od|po|za|ve|ze|ke|se|si|či|že)${GAP}`, 'gi')
+const SHORT_WORD = new RegExp(
+  `${LEAD}(do|na|od|po|za|ve|ze|ke|se|si|či|že|pro|při|před|přes|pod|nad|bez|je|to|by|co|až|už)${GAP}`,
+  'gi',
+)
 const ABBREVIATION = new RegExp(
   `${LEAD}((?:Mgr|Ing|Bc|DiS|MUDr|PhDr|JUDr|RNDr|MVDr|PharmDr|doc|prof|akad|sv|tř|ul|nám|č|čl|např|tj|tzv|atd|apod))\\.${GAP}`,
   'giu',
@@ -17,7 +20,7 @@ const DASH = /(\S)\s+([–—])(\s)/g
 
 /**
  * Keeps Czech short words, abbreviations and numbers glued to their neighbours so a line never
- * ends with "v", "a", "Mgr." or a dangling unit. Static rules only: how the last line of a
+ * ends with "v", "a", "pro", "Mgr." or a dangling unit. Static rules only: how the last line of a
  * paragraph breaks depends on the viewport, which is handled in CSS with `text-wrap: pretty`.
  */
 export function applyCzechNbsp(text: string) {

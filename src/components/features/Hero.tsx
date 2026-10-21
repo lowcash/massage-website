@@ -31,6 +31,7 @@ export default function Hero() {
             alt={siteContent.hero.imageAlt}
             fill
             priority
+            placeholder='blur'
             className='object-cover object-[62%_42%] brightness-[0.88] contrast-[0.96] saturate-[0.9] md:object-[68%_40%]'
             sizes='100vw'
           />
@@ -53,15 +54,22 @@ export default function Hero() {
             {applyCzechNbsp(siteContent.brand.subtitle)}
           </p>
 
-          <h1 className='text-shadow-hero font-display max-w-xl text-[clamp(2.55rem,12vw,3.35rem)] leading-[1.04] font-medium md:max-w-2xl md:text-7xl lg:text-8xl [@media(max-height:520px)]:text-5xl'>
-            {applyCzechNbsp(siteContent.hero.title)}
-          </h1>
+          <div className='flex max-w-xl flex-col gap-4 md:max-w-2xl md:gap-5'>
+            <h1 className='text-shadow-hero font-display text-[clamp(2.55rem,12vw,3.35rem)] leading-[1.04] font-medium md:text-7xl lg:text-8xl [@media(max-height:520px)]:text-5xl'>
+              {applyCzechNbsp(siteContent.hero.title)}
+            </h1>
 
-          <p className='text-shadow-hero max-w-md text-[15px] leading-relaxed text-white/88 md:max-w-lg md:text-lg'>
-            {applyCzechNbsp(benefits.join(' · '))}
-          </p>
+            <div className='flex flex-col items-center gap-3 md:items-start'>
+              <span aria-hidden='true' className='h-px w-12 bg-white/40' />
+              <p className='text-shadow-hero font-display flex max-w-[17rem] flex-col gap-1.5 text-center text-[1.15rem] leading-snug text-white/86 italic md:max-w-md md:gap-2 md:text-left md:text-[1.35rem]'>
+                {benefits.map((benefit) => (
+                  <span key={benefit}>{applyCzechNbsp(benefit)}</span>
+                ))}
+              </p>
+            </div>
+          </div>
 
-          <div className='mt-1 flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:items-center sm:justify-center md:justify-start md:gap-4'>
+          <div className='flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:items-center sm:justify-center md:justify-start md:gap-4'>
             <a
               href='#services'
               className='bg-brand hover:bg-brand-hover rounded-full px-9 py-3.5 text-center text-sm tracking-widest text-white uppercase shadow-[0_10px_30px_rgba(0,0,0,0.28)] transition-colors duration-300 ease-out'

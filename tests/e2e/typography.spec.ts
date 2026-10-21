@@ -24,6 +24,13 @@ test.describe('applyCzechNbsp', () => {
     ['a užili si chvíli', `a${NBSP}užili si${NBSP}chvíli`],
     ['60 min', `60${NBSP}min`],
     ['Akupunktura – metodou TČM', `Akupunktura${NBSP}– metodou TČM`],
+    ['Ideální dárek pro každou příležitost', `Ideální dárek pro${NBSP}každou příležitost`],
+    ['masáže pro vaše tělo', `masáže pro${NBSP}vaše tělo`],
+    ['při které se na pokožku', `při${NBSP}které se${NBSP}na${NBSP}pokožku`],
+    ['Rezervovat přes WhatsApp', `Rezervovat přes${NBSP}WhatsApp`],
+    ['bez cookies.', `bez${NBSP}cookies.`],
+    ['posláním je vykouzlit', `posláním je${NBSP}vykouzlit`],
+    ['ráda je přizpůsobím', `ráda je${NBSP}přizpůsobím`],
   ]
 
   for (const [input, expected] of cases) {
@@ -34,9 +41,11 @@ test.describe('applyCzechNbsp', () => {
 
   test('glues the tail of paragraph-length text but not of short labels', () => {
     expect(visible(applyCzechNbsp('Ideální dárek pro každou příležitost dnes'))).toBe(
-      visible(`Ideální dárek pro každou příležitost${NBSP}dnes`),
+      visible(`Ideální dárek pro${NBSP}každou příležitost${NBSP}dnes`),
     )
-    expect(visible(applyCzechNbsp('Rezervace přes WhatsApp'))).toBe('Rezervace přes WhatsApp')
+    expect(visible(applyCzechNbsp('Rezervace přes WhatsApp'))).toBe(
+      visible(`Rezervace přes${NBSP}WhatsApp`),
+    )
   })
 
   test('keeps a trailing "v Bratislavě" together with the word before it', () => {
