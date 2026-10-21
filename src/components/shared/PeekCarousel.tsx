@@ -16,7 +16,7 @@ interface PeekCarouselProps {
   mobilePeek?: boolean
 }
 
-const EDGE_FADE = '56px'
+const EDGE_FADE = '36px'
 
 // A mask fades the cards themselves, so it works on any background and has no colour to keep in sync.
 function edgeFadeStyle(fadeLeft: boolean, fadeRight: boolean): CSSProperties | undefined {
