@@ -91,6 +91,64 @@ test.describe('Mobile menu', () => {
     await expectSectionAlignedUnderHeader(page, getScrollTargetSelector('services'))
   })
 
+  test('open menu mid-page does not force Kontakt active', async ({ page }) => {
+    await page.evaluate(() => {
+      const section = document.getElementById('services')
+      const header = document.querySelector('header') as HTMLElement | null
+      if (!section || !header) return
+      const offset = header.getBoundingClientRect().height
+      const top = section.getBoundingClientRect().top + window.scrollY - offset + 4
+      window.scrollTo({ top: Math.max(0, top), left: 0, behavior: 'instant' })
+    })
+
+    await expect
+      .poll(async () => page.locator('aside div.flex-1 button[type="button"]').nth(0).getAttribute('aria-current'), {
+        timeout: 3000,
+      })
+      .toBe('page')
+
+    await page.getByRole('button', { name: /otevřít navigaci/i }).click()
+    const aside = page.locator('aside')
+    await expect(aside).toBeVisible()
+
+    await expect(aside.locator('div.flex-1 button[type="button"]').nth(0)).toHaveAttribute('aria-current', 'page')
+    await expect(aside.locator('div.flex-1 button[type="button"]').nth(5)).not.toHaveAttribute('aria-current', 'page')
+  })
+
+  test('menu link scrolls from current position not from page top', async ({ page }) => {
+    await page.evaluate(() => {
+      const section = document.getElementById('about')
+      const header = document.querySelector('header') as HTMLElement | null
+      if (!section || !header) return
+      const offset = header.getBoundingClientRect().height
+      const top = section.getBoundingClientRect().top + window.scrollY - offset + 4
+      window.scrollTo({ top: Math.max(0, top), left: 0, behavior: 'instant' })
+    })
+
+    const startY = await page.evaluate(() => window.scrollY)
+    expect(startY).toBeGreaterThan(200)
+
+    await page.getByRole('button', { name: /otevřít navigaci/i }).click()
+    const aside = page.locator('aside')
+    await expect(aside).toBeVisible()
+
+    // Studio is after About — should animate from the mid-page offset, not restart at 0.
+    await aside.locator('div.flex-1 button[type="button"]').nth(3).click()
+
+    const minYDuringScroll = await page.evaluate(async () => {
+      let minY = window.scrollY
+      const start = performance.now()
+      while (performance.now() - start < 500) {
+        minY = Math.min(minY, window.scrollY)
+        await new Promise((resolve) => requestAnimationFrame(resolve))
+      }
+      return minY
+    })
+
+    expect(minYDuringScroll).toBeGreaterThan(startY * 0.5)
+    await expectSectionAlignedUnderHeader(page, getScrollTargetSelector('studio'))
+  })
+
   test('service card click scrolls to #booking with selected service badge on mobile', async ({ page }) => {
     const serviceCard = page.locator('#services button').first()
     // Wait for the dynamically-imported Services chunk to be fully hydrated

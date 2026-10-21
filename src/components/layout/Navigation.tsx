@@ -40,6 +40,8 @@ export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('hero')
   const navigationLockRef = useRef<{ sectionId: string; expiresAt: number } | null>(null)
+  const pendingMenuScrollRef = useRef<string | null>(null)
+  const isMenuScrollLockedRef = useRef(false)
   const progressRef = useRef<HTMLDivElement>(null)
 
   const handleNavigationClick = (href: string) => {
@@ -49,16 +51,20 @@ export default function Navigation() {
       sectionId,
       expiresAt: Date.now() + NAVIGATION_SYNC_LOCK_MS,
     }
+    setActiveSection(sectionId)
 
-    const didScroll = scrollToSection(sectionId)
-    if (!didScroll) {
-      navigationLockRef.current = null
+    // Body is position:fixed while the drawer is open. Scrolling now uses wrong rects, and the
+    // unlock cleanup would also restore the pre-open scrollY and wipe the navigation target.
+    if (isMobileMenuOpen) {
+      pendingMenuScrollRef.current = sectionId
       setIsMobileMenuOpen(false)
       return
     }
 
-    setActiveSection(sectionId)
-    setIsMobileMenuOpen(false)
+    const didScroll = scrollToSection(sectionId)
+    if (!didScroll) {
+      navigationLockRef.current = null
+    }
   }
 
   useEffect(() => {
@@ -98,17 +104,38 @@ export default function Navigation() {
     const previousTop = body.style.top
     const previousWidth = body.style.width
 
+    isMenuScrollLockedRef.current = true
     body.style.overflow = 'hidden'
     body.style.position = 'fixed'
     body.style.top = `-${scrollY}px`
     body.style.width = '100%'
 
     return () => {
+      const pendingSectionId = pendingMenuScrollRef.current
+      pendingMenuScrollRef.current = null
+
       body.style.overflow = previousOverflow
       body.style.position = previousPosition
       body.style.top = previousTop
       body.style.width = previousWidth
+
+      // Instant restore — html { scroll-behavior: smooth } would otherwise animate from y=0
+      // and make every drawer link look like it scrolls from the top of the page.
+      const root = document.documentElement
+      const previousScrollBehavior = root.style.scrollBehavior
+      root.style.scrollBehavior = 'auto'
       window.scrollTo(0, scrollY)
+      root.style.scrollBehavior = previousScrollBehavior
+      isMenuScrollLockedRef.current = false
+
+      if (!pendingSectionId) {
+        return
+      }
+
+      const didScroll = scrollToSection(pendingSectionId)
+      if (!didScroll) {
+        navigationLockRef.current = null
+      }
     }
   }, [isMobileMenuOpen])
 
@@ -149,6 +176,12 @@ export default function Navigation() {
 
       if (lock) {
         navigationLockRef.current = null
+      }
+
+      // While the drawer locks body with position:fixed, scroll metrics collapse and the
+      // resolver falsely picks the last section — keep the highlight frozen until unlock.
+      if (isMenuScrollLockedRef.current) {
+        return
       }
 
       const currentSection = resolveActiveSection(sectionIds) ?? 'hero'
@@ -284,12 +317,12 @@ export default function Navigation() {
         inert={!isMobileMenuOpen || undefined}
         className={`border-line bg-surface/92 fixed top-0 right-0 bottom-0 z-50 flex h-dvh w-[92%] max-w-sm flex-col border-l pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-2xl transition-transform duration-300 ease-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
-        {/* Mirrors the exact navbar layout: px-5 py-5 */}
-        <div className='flex shrink-0 items-center justify-between px-5 py-5'>
+        {/* Keep the chrome compact so the six links fit without scrolling on common phone heights. */}
+        <div className='flex shrink-0 items-center justify-between px-5 py-4 [@media(max-height:700px)]:py-3'>
           <button
             type='button'
             onClick={() => handleNavigationClick('#hero')}
-            className='font-dancing text-ink text-left text-[1.4rem] leading-none whitespace-nowrap transition-opacity duration-300 ease-out hover:opacity-85 min-[360px]:text-[1.9rem]'
+            className='font-dancing text-ink text-left text-[1.4rem] leading-none whitespace-nowrap transition-opacity duration-300 ease-out hover:opacity-85 min-[360px]:text-[1.7rem] [@media(max-height:700px)]:min-[360px]:text-[1.5rem]'
             aria-label={siteContent.navigation.homeAriaLabel}
           >
             {applyCzechNbsp(siteContent.brand.name)}
@@ -298,22 +331,22 @@ export default function Navigation() {
           <button
             type='button'
             onClick={() => setIsMobileMenuOpen(false)}
-            className='border-line text-muted-ink flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border bg-white/70'
+            className='border-line text-muted-ink flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border bg-white/70'
             aria-label={siteContent.navigation.closeMenuAriaLabel}
           >
             <X className='h-5 w-5' />
           </button>
         </div>
 
-        <div className='flex-1 overflow-y-auto overscroll-contain px-4 pb-4 sm:px-6'>
-          <div className='flex flex-col gap-2.5 sm:gap-3'>
+        <div className='min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-3 sm:px-5'>
+          <div className='flex flex-col gap-1.5 [@media(max-height:700px)]:gap-1'>
             {siteContent.navigation.items.map((item) => (
               <button
                 key={item.id}
                 type='button'
                 onClick={() => handleNavigationClick(item.href)}
                 aria-current={activeSection === item.href.replace('#', '') ? 'page' : undefined}
-                className={`font-display flex cursor-pointer items-center justify-between rounded-2xl px-5 py-3.5 text-left text-[1.7rem] leading-none transition-colors duration-300 ease-out ${activeSection === item.href.replace('#', '') ? 'bg-paper text-brand shadow-[0_6px_20px_rgba(70,40,32,0.08)]' : 'text-ink hover:bg-white/70'}`}
+                className={`font-display flex cursor-pointer items-center justify-between rounded-xl px-4 py-2.5 text-left text-[1.35rem] leading-none transition-colors duration-300 ease-out [@media(max-height:700px)]:py-2 [@media(max-height:700px)]:text-[1.25rem] ${activeSection === item.href.replace('#', '') ? 'bg-paper text-brand shadow-[0_6px_20px_rgba(70,40,32,0.08)]' : 'text-ink hover:bg-white/70'}`}
               >
                 {applyCzechNbsp(item.label)}
                 {activeSection === item.href.replace('#', '') ? (
@@ -324,21 +357,21 @@ export default function Navigation() {
           </div>
         </div>
 
-        <div className='border-line mt-auto border-t px-4 pt-5 pb-5 sm:px-6 sm:pb-6'>
-          <ul className='grid gap-2.5'>
+        <div className='border-line mt-auto shrink-0 border-t px-4 pt-3 pb-4 sm:px-5 [@media(max-height:700px)]:pt-2.5 [@media(max-height:700px)]:pb-3'>
+          <ul className='grid gap-1.5 [@media(max-height:700px)]:gap-1'>
             {drawerContacts.map(({ Icon, label, href, external, lines }) => (
               <li key={label}>
                 <a
                   href={href}
                   {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  className='hover:bg-paper flex items-center gap-4 rounded-2xl bg-white/80 px-4 py-3 transition-colors duration-300 ease-out'
+                  className='hover:bg-paper flex items-center gap-3 rounded-xl bg-white/80 px-3 py-2 transition-colors duration-300 ease-out [@media(max-height:700px)]:py-1.5'
                 >
-                  <span className='bg-brand/10 text-brand flex h-11 w-11 shrink-0 items-center justify-center rounded-full'>
-                    <Icon aria-hidden='true' className='h-5 w-5' />
+                  <span className='bg-brand/10 text-brand flex h-9 w-9 shrink-0 items-center justify-center rounded-full'>
+                    <Icon aria-hidden='true' className='h-4 w-4' />
                   </span>
                   <span className='flex min-w-0 flex-col'>
-                    <span className='text-brand text-xs tracking-[0.14em] uppercase'>{label}</span>
-                    <span className='text-ink text-base leading-snug break-words'>
+                    <span className='text-brand text-[11px] tracking-[0.14em] uppercase'>{label}</span>
+                    <span className='text-ink text-sm leading-snug break-words'>
                       {lines.map((line) => (
                         <span key={line} className='block'>
                           {applyCzechNbsp(line)}

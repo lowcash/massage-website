@@ -48,9 +48,12 @@ export function computeActiveSection({
     return null
   }
 
+  // Require a real scroll range. A position:fixed body lock collapses scrollHeight ≈ innerHeight
+  // and would otherwise always report the last section (Kontakt) as active.
   if (
     typeof innerHeight === 'number' &&
     typeof documentHeight === 'number' &&
+    documentHeight > innerHeight + bottomEpsilon &&
     innerHeight + scrollY >= documentHeight - bottomEpsilon
   ) {
     return getBottomSection(boundaries)?.id ?? null
