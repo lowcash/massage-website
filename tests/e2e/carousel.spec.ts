@@ -78,12 +78,16 @@ test.describe('Hero scroll cue', () => {
     await expect(cueLink).toBeVisible()
 
     // Cue is absolute inside the full-viewport hero — scroll past the hero, not just a few hundred px.
-    await page.evaluate(() => {
+    // Two-arg scrollTo bypasses html { scroll-behavior: smooth }; options.behavior "instant"/"auto"
+    // still follows CSS smooth scrolling and leaves the cue in view within a short wait.
+    const targetTop = await page.evaluate(() => {
       const hero = document.getElementById('hero')
-      window.scrollTo({ top: (hero?.offsetHeight ?? window.innerHeight) + 40, behavior: 'instant' })
+      const top = (hero?.offsetHeight ?? window.innerHeight) + 40
+      window.scrollTo(0, top)
+      return top
     })
-    await page.waitForTimeout(300)
 
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThanOrEqual(targetTop - 1)
     await expect(cueLink).not.toBeInViewport()
   })
 })
