@@ -5,6 +5,7 @@ import { applyCzechNbsp } from '@/lib/utils'
 
 import heroImage from '@/src/assets/hero.jpg'
 import HeroScrollCue from '@/src/components/features/HeroScrollCue'
+import SectionAnchor from '@/src/components/shared/SectionAnchor'
 
 const benefits = siteContent.hero.subtitle
   .split('•')
@@ -70,18 +71,18 @@ export default function Hero() {
           </div>
 
           <div className='flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:items-center sm:justify-center md:justify-start md:gap-4'>
-            <a
-              href='#services'
+            <SectionAnchor
+              sectionId='services'
               className='bg-brand hover:bg-brand-hover rounded-full px-9 py-3.5 text-center text-sm tracking-widest text-white uppercase shadow-[0_10px_30px_rgba(0,0,0,0.28)] transition-colors duration-300 ease-out'
             >
               {applyCzechNbsp(siteContent.hero.cta)}
-            </a>
-            <a
-              href='#booking'
+            </SectionAnchor>
+            <SectionAnchor
+              sectionId='booking'
               className='rounded-full border border-white/55 bg-white/8 px-9 py-3.5 text-center text-sm tracking-widest text-white uppercase backdrop-blur-sm transition-colors duration-300 ease-out hover:bg-white/16'
             >
               {applyCzechNbsp(siteContent.hero.secondaryCta)}
-            </a>
+            </SectionAnchor>
           </div>
 
           <ul className='mt-3 hidden divide-x divide-white/25 text-sm text-white/80 md:flex'>

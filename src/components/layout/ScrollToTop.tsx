@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { ChevronUp } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
+import { scrollToSection } from '@/lib/utils'
 
 import { FloatingContainer } from '@/src/components/layout/FloatingContainer'
 
@@ -51,10 +52,7 @@ export default function ScrollToTop() {
   }, [])
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
+    scrollToSection('hero')
   }
 
   const canShowButton = isVisible && !isFooterVisible

@@ -43,9 +43,7 @@ test.describe('applyCzechNbsp', () => {
     expect(visible(applyCzechNbsp('Ideální dárek pro každou příležitost dnes'))).toBe(
       visible(`Ideální dárek pro${NBSP}každou příležitost${NBSP}dnes`),
     )
-    expect(visible(applyCzechNbsp('Rezervace přes WhatsApp'))).toBe(
-      visible(`Rezervace přes${NBSP}WhatsApp`),
-    )
+    expect(visible(applyCzechNbsp('Rezervace přes WhatsApp'))).toBe(visible(`Rezervace přes${NBSP}WhatsApp`))
   })
 
   test('keeps a trailing "v Bratislavě" together with the word before it', () => {

@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useState, type ReactNode } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 
 import Image from 'next/image'
+
 import { X } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
