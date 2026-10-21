@@ -46,7 +46,7 @@ export default function Hero() {
         <div className='animate-in slide-in-from-bottom-4 relative z-20 mx-auto flex w-full max-w-6xl flex-col items-center gap-5 px-6 pt-28 pb-32 text-center text-white duration-700 md:items-start md:gap-6 md:px-10 md:pt-32 md:pb-40 md:text-left lg:px-14 [@media(max-height:520px)]:pt-28 [@media(max-height:520px)]:pb-20'>
           <div
             aria-hidden='true'
-            className='pointer-events-none absolute inset-x-4 top-16 bottom-20 -z-10 mx-auto max-w-3xl bg-[radial-gradient(ellipse_closest-side,rgba(22,12,10,0.55),rgba(22,12,10,0.22)_58%,transparent)] [mask-image:radial-gradient(ellipse_closest-side,black_52%,transparent)] backdrop-blur-[14px] [-webkit-mask-image:radial-gradient(ellipse_closest-side,black_52%,transparent)] md:inset-x-0 md:mx-0 md:max-w-xl md:bg-[radial-gradient(ellipse_closest-side,rgba(22,12,10,0.5),rgba(22,12,10,0.18)_60%,transparent)] md:bottom-28 md:[mask-image:radial-gradient(ellipse_at_left,black_48%,transparent_78%)] md:[-webkit-mask-image:radial-gradient(ellipse_at_left,black_48%,transparent_78%)]'
+            className='pointer-events-none absolute inset-x-4 top-16 bottom-20 -z-10 mx-auto max-w-3xl bg-[radial-gradient(ellipse_closest-side,rgba(22,12,10,0.55),rgba(22,12,10,0.22)_58%,transparent)] [mask-image:radial-gradient(ellipse_closest-side,black_52%,transparent)] backdrop-blur-[14px] [-webkit-mask-image:radial-gradient(ellipse_closest-side,black_52%,transparent)] md:inset-x-0 md:bottom-28 md:mx-0 md:max-w-xl md:bg-[radial-gradient(ellipse_closest-side,rgba(22,12,10,0.5),rgba(22,12,10,0.18)_60%,transparent)] md:[mask-image:radial-gradient(ellipse_at_left,black_48%,transparent_78%)] md:[-webkit-mask-image:radial-gradient(ellipse_at_left,black_48%,transparent_78%)]'
           />
 
           <p className='font-dancing text-shadow-hero text-3xl text-white/92 md:text-4xl'>
@@ -78,7 +78,7 @@ export default function Hero() {
 
           <ul className='mt-3 hidden divide-x divide-white/25 text-sm text-white/80 md:flex'>
             {facts.map((fact) => (
-              <li key={fact} className='px-4 first:pl-0 last:pr-0 whitespace-nowrap'>
+              <li key={fact} className='px-4 whitespace-nowrap first:pl-0 last:pr-0'>
                 {applyCzechNbsp(fact)}
               </li>
             ))}

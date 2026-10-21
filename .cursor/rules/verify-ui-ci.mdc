@@ -1,0 +1,29 @@
+---
+description: After UI/layout changes, verify format + desktop E2E before finishing
+alwaysApply: true
+---
+
+# Verify UI changes against CI
+
+GitHub `Test` runs `format:check` then `test:e2e --project=desktop-chrome`. Do not finish a UI/layout/scroll/nav change until both pass locally.
+
+## Before you stop
+
+1. `pnpm exec prettier --write` on touched files (or `pnpm run format:check`).
+2. Run the relevant Playwright specs; if unsure, run full desktop Chrome:
+
+```bash
+pnpm exec playwright test --project=desktop-chrome
+```
+
+Hero / scroll / sticky nav → at least:
+
+```bash
+pnpm exec playwright test tests/e2e/carousel.spec.ts tests/e2e/navigation.desktop.spec.ts --project=desktop-chrome
+```
+
+## Scroll assertions
+
+- Prefer two-arg `window.scrollTo(0, y)` — `html { scroll-behavior: smooth }` ignores `behavior: 'instant'|'auto'` in Chromium.
+- Prefer `expect.poll` on `scrollY` over fixed `waitForTimeout`.
+- Hero scroll cue is `absolute` inside `#hero`; scroll past `hero.offsetHeight`, not a fixed pixel delta.

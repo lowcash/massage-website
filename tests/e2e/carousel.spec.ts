@@ -82,12 +82,18 @@ test.describe('Hero scroll cue', () => {
     // still follows CSS smooth scrolling and leaves the cue in view within a short wait.
     const targetTop = await page.evaluate(() => {
       const hero = document.getElementById('hero')
-      const top = (hero?.offsetHeight ?? window.innerHeight) + 40
+      const top = (hero?.offsetHeight ?? window.innerHeight) + 80
       window.scrollTo(0, top)
       return top
     })
 
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThanOrEqual(targetTop - 1)
-    await expect(cueLink).not.toBeInViewport()
+    await expect
+      .poll(async () => {
+        const box = await cueLink.boundingBox()
+        if (!box) return Number.POSITIVE_INFINITY
+        return box.y + box.height
+      })
+      .toBeLessThanOrEqual(0)
   })
 })
