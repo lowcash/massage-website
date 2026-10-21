@@ -115,6 +115,30 @@ export default function Navigation() {
   useEffect(() => {
     const sectionIds = ['hero', ...siteContent.navigation.items.map((item) => item.href.replace('#', ''))]
     let frameId: number | null = null
+    let hashSyncTimerId: number | null = null
+    let pendingHashSectionId: string | null = null
+
+    const flushLocationHash = () => {
+      hashSyncTimerId = null
+      if (pendingHashSectionId === null || isProgrammaticScrollActive()) {
+        return
+      }
+
+      updateLocationHash(pendingHashSectionId)
+      pendingHashSectionId = null
+    }
+
+    // Defer hash writes until scrolling stops. Writing #section during momentum (esp. iOS)
+    // can trigger fragment re-alignment and makes the fixed header look like it jumps up.
+    const scheduleLocationHashSync = (sectionId: string) => {
+      pendingHashSectionId = sectionId
+
+      if (hashSyncTimerId !== null) {
+        window.clearTimeout(hashSyncTimerId)
+      }
+
+      hashSyncTimerId = window.setTimeout(flushLocationHash, 120)
+    }
 
     const updateActiveSection = () => {
       const lock = navigationLockRef.current
@@ -131,7 +155,7 @@ export default function Navigation() {
 
       setActiveSection(currentSection)
       if (!isProgrammaticScrollActive()) {
-        updateLocationHash(currentSection)
+        scheduleLocationHashSync(currentSection)
       }
     }
 
@@ -159,16 +183,26 @@ export default function Navigation() {
       frameId = window.requestAnimationFrame(runNavigationSync)
     }
 
+    const handleScrollEnd = () => {
+      flushLocationHash()
+    }
+
     runNavigationSync()
     window.addEventListener('scroll', scheduleNavigationSync, { passive: true })
+    window.addEventListener('scrollend', handleScrollEnd)
     window.addEventListener('resize', scheduleNavigationSync)
 
     return () => {
       window.removeEventListener('scroll', scheduleNavigationSync)
+      window.removeEventListener('scrollend', handleScrollEnd)
       window.removeEventListener('resize', scheduleNavigationSync)
 
       if (frameId !== null) {
         window.cancelAnimationFrame(frameId)
+      }
+
+      if (hashSyncTimerId !== null) {
+        window.clearTimeout(hashSyncTimerId)
       }
     }
   }, [])

@@ -31,7 +31,28 @@ export function setSectionHash(sectionId: string) {
     return
   }
 
-  window.history.replaceState(null, '', nextUrl)
+  // Writing a live #id via History API can trigger scroll-to-fragment (Safari/WebKit),
+  // which fights organic scroll and makes the fixed nav look like it jumps up.
+  // Detach the id for the replaceState call so there is no fragment target, then pin scroll.
+  const { scrollX, scrollY } = window
+  const fragmentId = sectionId === HERO_SECTION_ID ? null : sectionId
+  const fragmentTarget = fragmentId ? document.getElementById(fragmentId) : null
+  if (fragmentTarget) {
+    fragmentTarget.removeAttribute('id')
+  }
+
+  try {
+    window.history.replaceState(null, '', nextUrl)
+  } finally {
+    if (fragmentTarget && fragmentId) {
+      fragmentTarget.id = fragmentId
+    }
+  }
+
+  if (window.scrollX !== scrollX || window.scrollY !== scrollY) {
+    // scrollTop assignment is ignored on this document; two-arg/instant scrollTo sticks.
+    window.scrollTo({ top: scrollY, left: scrollX, behavior: 'instant' })
+  }
 }
 
 function getNavigationOffset() {

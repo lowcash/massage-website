@@ -220,6 +220,37 @@ test.describe('Desktop navigation', () => {
     await expect.poll(() => page.evaluate(() => window.location.hash), { timeout: 3000 }).toBe('#booking')
   })
 
+  test('URL hash sync on scroll does not jump the viewport', async ({ page }) => {
+    await page.waitForLoadState('load')
+
+    // Sit well below the section start so a fragment scroll-to-hash would jump upward.
+    // behavior:"instant" bypasses html { scroll-behavior: smooth }.
+    const targetTop = await page.evaluate(() => {
+      const section = document.getElementById('services')
+      const header = document.querySelector('header') as HTMLElement | null
+      if (!section || !header) {
+        return null
+      }
+
+      const offset = header.getBoundingClientRect().height
+      const pastStart = section.getBoundingClientRect().top + window.scrollY - offset + 240
+      const top = Math.max(0, pastStart)
+      window.scrollTo({ top, left: 0, behavior: 'instant' })
+      return top
+    })
+
+    expect(targetTop).not.toBeNull()
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThanOrEqual((targetTop as number) - 1)
+
+    const scrollBefore = await page.evaluate(() => window.scrollY)
+    await expect.poll(() => page.evaluate(() => window.location.hash), { timeout: 3000 }).toBe('#services')
+
+    // Hash sync is deferred until scroll settles; wait a beat for the write + any fragment side-effect.
+    await page.waitForTimeout(200)
+    const scrollAfter = await page.evaluate(() => window.scrollY)
+    expect(Math.abs(scrollAfter - scrollBefore)).toBeLessThan(8)
+  })
+
   test('URL hash clears when scrolled back to hero', async ({ page }) => {
     // First scroll into a named section to set a hash
     await page.evaluate(() => {
