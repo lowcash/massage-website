@@ -41,7 +41,7 @@ const servicesItems: ServiceItem[] = [
     description:
       'Terapeutická technika, která pomocí cílených manuálních zásahů obnovuje správné postavení těla a pohybový aparát.',
     duration: '50 min',
-    price: 'od 750 Kč',
+    price: 'od 800 Kč',
   },
   {
     id: 'deep-tissue',
