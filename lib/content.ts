@@ -269,6 +269,14 @@ export const siteContent = {
     whatsappServiceTemplate: 'Dobrý den, mám zájem o: {service}\n\nRezervace na {date} v {time}',
     flexibilityNote: 'Termíny jsou flexibilní a ráda je přizpůsobím vašim možnostem.',
     whatsappCta: 'Rezervovat přes WhatsApp',
+    goodToKnow: {
+      heading: 'Dobré vědět',
+      items: [
+        'Termín lze zrušit či změnit nejpozději 24 hodin předem.',
+        'Pokud se neomluvíte včas, budu vám termín účtovat při další návštěvě.',
+        'Přijďte prosím včas, zpoždění se odečítá z času masáže.',
+      ],
+    },
   },
   contact: {
     heading: 'Kontaktujte mě',

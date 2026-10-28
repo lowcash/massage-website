@@ -122,6 +122,29 @@ const mapApiDataToDisplay = (apiData?: CalendarSlot[] | unknown): CalendarDispla
     })
 }
 
+function GoodToKnow() {
+  const { heading, items } = siteContent.calendar.goodToKnow
+
+  return (
+    <aside
+      aria-labelledby='booking-good-to-know-heading'
+      className='border-brand/40 mx-auto w-full max-w-xl border-l-2 pl-5 text-left'
+    >
+      <p id='booking-good-to-know-heading' className='text-brand text-xs font-medium tracking-[0.22em] uppercase'>
+        {applyCzechNbsp(heading)}
+      </p>
+      <ul className='text-muted-ink mt-3 flex flex-col gap-2.5 text-sm leading-relaxed'>
+        {items.map((item) => (
+          <li key={item} className='flex gap-2.5'>
+            <span aria-hidden='true' className='bg-brand/70 mt-2 h-1 w-1 shrink-0 rounded-full' />
+            <span>{applyCzechNbsp(item)}</span>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  )
+}
+
 interface BookingCalendarProps {
   data?: CalendarSlot[]
 }
@@ -176,6 +199,8 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
             <p className='text-lg'>{applyCzechNbsp(siteContent.calendar.unavailableMessage)}</p>
             <p className='mt-2 text-base'>{applyCzechNbsp(siteContent.calendar.unavailableHelp)}</p>
           </div>
+
+          <GoodToKnow />
         </div>
       </section>
     )
@@ -251,12 +276,13 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
 
         <div
           ref={cta.ref}
-          className={`flex flex-col items-center gap-4 text-center ${fadeIn} ${!cta.inView ? hidden : ''}`}
+          className={`flex flex-col items-center gap-6 text-center ${fadeIn} ${!cta.inView ? hidden : ''}`}
           style={{ transitionDelay: cta.inView ? '200ms' : '0ms' }}
         >
           <p className='text-body text-base leading-relaxed text-balance'>
             {applyCzechNbsp(siteContent.calendar.flexibilityNote)}
           </p>
+          <GoodToKnow />
           <a
             href={whatsappCtaUrl}
             target='_blank'
