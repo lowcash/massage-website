@@ -140,7 +140,7 @@ const servicesItems: ServiceItem[] = [
     description:
       'Jemné dotykové techniky určené pro miminka, které podporují jejich zdravý vývoj, zlepšují spánek a posilují vazbu mezi rodičem a dítětem.',
     duration: '45 min',
-    price: '950 Kč',
+    price: '950 Kč za 3 sezení',
   },
 ]
 
@@ -153,7 +153,7 @@ export const siteContent = {
     phoneDigits: BUSINESS.phoneE164.replace('+', ''),
     email: BUSINESS.email,
     addressLine1: 'Národní tř. 383/15',
-    addressLine2: '695 01 Hodonín 1',
+    addressLine2: '695 01 Hodonín',
     facebook: BUSINESS.socialProfiles[0],
     instagram: BUSINESS.socialProfiles[1],
     mapsLink: BUSINESS.mapsLink,
@@ -283,7 +283,7 @@ export const siteContent = {
     subtitle: 'Ráda zodpovím všechny Vaše dotazy',
     cards: {
       phoneLabel: 'Telefon',
-      emailLabel: 'Email',
+      emailLabel: 'e-mail',
       addressLabel: 'Adresa',
       openingHoursLabel: 'Otevírací doba',
     },
@@ -299,6 +299,7 @@ export const siteContent = {
     description: 'Masáže a terapie těla',
     icoLabel: 'IČO',
     ico: BUSINESS.ico,
+    vatNote: 'Nejsem plátce DPH.',
     rights: 'Všechna práva vyhrazena.',
     analyticsDisclosure: 'Anonymní statistiky návštěvnosti, bez cookies.',
     facebookAriaLabel: 'Facebook',

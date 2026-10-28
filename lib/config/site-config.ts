@@ -99,7 +99,7 @@ export const SITE_CONFIG = {
   business: {
     ico: '05132819',
     email: 'sebestovar@seznam.cz',
-    phoneDisplay: '(+420) 605 579 643',
+    phoneDisplay: '+420 605 579 643',
     phoneE164: '+420605579643',
     address: {
       streetAddress: 'Národní tř. 383/15',
