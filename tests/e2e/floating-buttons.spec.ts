@@ -48,14 +48,14 @@ test.describe('WhatsApp button', () => {
 
   test('WhatsApp link is present and has correct href', async ({ page }) => {
     // Use aria-label to target only the floating WhatsApp button (not inline links)
-    const waLink = page.getByRole('link', { name: 'Kontaktujte nás na WhatsApp' })
+    const waLink = page.getByRole('link', { name: 'Kontaktujte mě na WhatsApp' })
     await expect(waLink).toHaveCount(1)
     const href = await waLink.getAttribute('href')
     expect(href).toMatch(/wa\.me\/\d+/)
   })
 
   test('WhatsApp link opens in new tab', async ({ page }) => {
-    const waLink = page.getByRole('link', { name: 'Kontaktujte nás na WhatsApp' })
+    const waLink = page.getByRole('link', { name: 'Kontaktujte mě na WhatsApp' })
     await expect(waLink).toHaveAttribute('target', '_blank')
     await expect(waLink).toHaveAttribute('rel', 'noopener noreferrer')
   })
@@ -64,7 +64,7 @@ test.describe('WhatsApp button', () => {
     await page.evaluate(() => window.scrollTo({ top: 400, behavior: 'instant' }))
     await page.waitForTimeout(300)
 
-    const waLink = page.getByRole('link', { name: 'Kontaktujte nás na WhatsApp' })
+    const waLink = page.getByRole('link', { name: 'Kontaktujte mě na WhatsApp' })
     await expect(waLink).toBeVisible()
   })
 })
@@ -88,7 +88,7 @@ test.describe('Floating elements on wide screens', () => {
       const contentRight = contentLeft + CONTENT_COLUMN
       const tolerance = 2
 
-      const whatsapp = await page.getByRole('link', { name: 'Kontaktujte nás na WhatsApp' }).boundingBox()
+      const whatsapp = await page.getByRole('link', { name: 'Kontaktujte mě na WhatsApp' }).boundingBox()
       const scrollTop = await page.getByRole('button', { name: 'Zpět nahoru' }).boundingBox()
       const dots = await page.locator('nav[aria-hidden="true"]').last().boundingBox()
 
@@ -111,7 +111,7 @@ test.describe('Floating elements on wide screens', () => {
     await page.locator('footer').scrollIntoViewIfNeeded()
     await page.waitForTimeout(400)
 
-    const waLink = page.getByRole('link', { name: 'Kontaktujte nás na WhatsApp' })
+    const waLink = page.getByRole('link', { name: 'Kontaktujte mě na WhatsApp' })
     const scrollTop = page.getByRole('button', { name: 'Zpět nahoru' })
     const dots = page.locator('nav[aria-hidden="true"]').last()
 

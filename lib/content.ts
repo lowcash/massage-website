@@ -184,10 +184,10 @@ export const siteContent = {
     scrollIndicatorAriaLabel: 'Posunout na další sekci',
   },
   services: {
-    heading: 'Jak Vám můžu pomoci?',
-    subtitle: 'Široká nabídka masáží pro vaše tělo i mysl',
+    heading: 'Jak Vám mohu pomoci?',
+    subtitle: 'Široká nabídka masáží pro Vaše tělo i mysl',
     intro:
-      'Nabízím širokou škálu masáží a terapií přizpůsobených vašim individuálním potřebám pro dosažení harmonie těla i mysli.',
+      'Nabízím širokou škálu masáží a terapií přizpůsobených Vašim individuálním potřebám pro dosažení harmonie těla i mysli.',
     selectHint: 'Klepnutím na službu přejdete rovnou na výběr volného termínu.',
     groups: [
       { id: 'therapy', title: 'Terapeutické ošetření' },
@@ -215,7 +215,7 @@ export const siteContent = {
     role: 'Terapeutka a masérka',
     paragraphs: [
       'Jsem mladá žena s chutí žít život naplno. Cítím, že mým posláním je vykouzlit druhým na tváři úsměv.',
-      'Ráda bych, abyste se mnou zapomněli na každodenní starosti a užili si chvíli určenou jen a jen vám.',
+      'Ráda bych, abyste se mnou zapomněli na každodenní starosti a užili si chvíli určenou jen a jen Vám.',
       'Ke každému člověku se snažím přistupovat jako k jedinečné bytosti.',
     ],
     stats: [
@@ -259,28 +259,28 @@ export const siteContent = {
   calendar: {
     heading: 'Volné termíny',
     subtitle: 'Rezervace',
-    intro: 'Vyberte si termín, který vám vyhovuje, a rezervujte si masáž přes WhatsApp.',
+    intro: 'Vyberte si termín, který Vám vyhovuje, a rezervujte si masáž přes WhatsApp.',
     selectedServiceLabel: 'Vybraná služba',
     unavailableMessage: 'Kalendář není aktuálně dostupný.',
-    unavailableHelp: 'Pro rezervaci mě prosím kontaktujte přímo.',
+    unavailableHelp: 'Pro rezervaci mě, prosím, kontaktujte přímo.',
     carouselAriaLabel: 'termíny',
     dayNames: ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle'],
     whatsappDefaultTemplate: 'Dobrý den, chtěl(a) bych si rezervovat masáž na {date} v čase {time}.',
     whatsappServiceTemplate: 'Dobrý den, mám zájem o: {service}\n\nRezervace na {date} v {time}',
-    flexibilityNote: 'Termíny jsou flexibilní a ráda je přizpůsobím vašim možnostem.',
+    flexibilityNote: 'Termíny jsou flexibilní a ráda je přizpůsobím Vašim možnostem.',
     whatsappCta: 'Rezervovat přes WhatsApp',
     goodToKnow: {
       heading: 'Dobré vědět',
       items: [
         'Termín lze zrušit či změnit nejpozději 24 hodin předem.',
-        'Pokud se neomluvíte včas, budu vám termín účtovat při další návštěvě.',
-        'Přijďte prosím včas, zpoždění se odečítá z času masáže.',
+        'Pokud se neomluvíte včas, budu Vám termín účtovat při další návštěvě.',
+        'Přijďte, prosím, včas – zpoždění se odečítá z času masáže.',
       ],
     },
   },
   contact: {
     heading: 'Kontaktujte mě',
-    subtitle: 'Ráda zodpovím všechny vaše dotazy',
+    subtitle: 'Ráda zodpovím všechny Vaše dotazy',
     cards: {
       phoneLabel: 'Telefon',
       emailLabel: 'Email',
@@ -310,7 +310,7 @@ export const siteContent = {
       'Dobrý den, chtěl(a) bych se informovat o masáži.\n\nMoje jméno: [Vyplňte prosím]\nTelefon: [Vyplňte prosím]',
     whatsappSelectedServiceMessage:
       'Dobrý den, mám zájem o: {service}\n\nMoje jméno: [Vyplňte prosím]\nTelefon: [Vyplňte prosím]',
-    whatsappAriaLabel: 'Kontaktujte nás na WhatsApp',
+    whatsappAriaLabel: 'Kontaktujte mě na WhatsApp',
     scrollTopLabel: 'Zpět nahoru',
   },
 }

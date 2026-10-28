@@ -154,7 +154,7 @@ test.describe('Desktop navigation', () => {
       const header = document.querySelector('header')
       const modal = document.querySelector('[role="dialog"][aria-label="Náhled fotografie"]')
       const scrollTopButton = document.querySelector('[aria-label="Zpět nahoru"]')
-      const whatsappButton = document.querySelector('[aria-label="Kontaktujte nás na WhatsApp"]')
+      const whatsappButton = document.querySelector('[aria-label="Kontaktujte mě na WhatsApp"]')
 
       const toNumber = (element: Element | null) => {
         if (!element) {

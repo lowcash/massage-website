@@ -25,7 +25,7 @@ test.describe('applyCzechNbsp', () => {
     ['60 min', `60${NBSP}min`],
     ['Akupunktura – metodou TČM', `Akupunktura${NBSP}– metodou TČM`],
     ['Ideální dárek pro každou příležitost', `Ideální dárek pro${NBSP}každou příležitost`],
-    ['masáže pro vaše tělo', `masáže pro${NBSP}vaše tělo`],
+    ['masáže pro Vaše tělo', `masáže pro${NBSP}Vaše tělo`],
     ['při které se na pokožku', `při${NBSP}které se${NBSP}na${NBSP}pokožku`],
     ['Rezervovat přes WhatsApp', `Rezervovat přes${NBSP}WhatsApp`],
     ['bez cookies.', `bez${NBSP}cookies.`],
@@ -61,7 +61,7 @@ test.describe('applyCzechNbsp', () => {
 
 test.describe('bindTail', () => {
   test('glues the last two words of a short text', () => {
-    expect(visible(bindTail('Jak Vám můžu pomoci?'))).toBe('Jak Vám můžu⍽pomoci?')
+    expect(visible(bindTail('Jak Vám mohu pomoci?'))).toBe('Jak Vám mohu⍽pomoci?')
   })
 
   test('leaves long tails and single words alone', () => {
