@@ -1,22 +1,22 @@
 ---
-description: After UI/layout changes, verify format + desktop E2E before finishing
+description: Before commit/push, verify format + desktop E2E (same as GitHub Test)
 alwaysApply: true
 ---
 
-# Verify UI changes against CI
+# Verify against CI before finishing
 
-GitHub `Test` runs `format:check` then `test:e2e --project=desktop-chrome`. Do not finish a UI/layout/scroll/nav change until both pass locally.
+GitHub `Test` runs `format:check` then `test:e2e --project=desktop-chrome`. Do not finish a change that will be committed or pushed until both pass locally — including copy/content edits. Flaky scroll/nav failures often show up only under CI load; skip this and CI keeps failing.
 
-## Before you stop
+## Before you stop (commit / push / “hotovo”)
 
 1. `pnpm exec prettier --write` on touched files (or `pnpm run format:check`).
-2. Run the relevant Playwright specs; if unsure, run full desktop Chrome:
+2. Run full desktop Chrome E2E (not only “related” specs) when pushing to `main`:
 
 ```bash
 pnpm exec playwright test --project=desktop-chrome
 ```
 
-Hero / scroll / sticky nav → at least:
+During iteration on hero / scroll / sticky nav, at least:
 
 ```bash
 pnpm exec playwright test tests/e2e/carousel.spec.ts tests/e2e/navigation.desktop.spec.ts --project=desktop-chrome
@@ -25,5 +25,5 @@ pnpm exec playwright test tests/e2e/carousel.spec.ts tests/e2e/navigation.deskto
 ## Scroll assertions
 
 - Prefer two-arg `window.scrollTo(0, y)` — `html { scroll-behavior: smooth }` ignores `behavior: 'instant'|'auto'` in Chromium.
-- Prefer `expect.poll` on `scrollY` over fixed `waitForTimeout`.
+- Prefer `expect.poll` on `scrollY` / `aria-current` over fixed `waitForTimeout`.
 - Hero scroll cue is `absolute` inside `#hero`; scroll past `hero.offsetHeight`, not a fixed pixel delta.
