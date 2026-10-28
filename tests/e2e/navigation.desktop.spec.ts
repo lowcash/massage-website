@@ -185,20 +185,21 @@ test.describe('Desktop navigation', () => {
     for (const sectionId of SECTIONS) {
       const sectionIndex = SECTIONS.indexOf(sectionId)
 
-      const didScroll = await page.evaluate((targetId) => {
+      const targetTop = await page.evaluate((targetId) => {
         const section = document.getElementById(targetId)
         const header = document.querySelector('header') as HTMLElement | null
         if (!section || !header) {
-          return false
+          return null
         }
 
         const offset = header.getBoundingClientRect().height
-        const sectionTop = section.getBoundingClientRect().top + window.scrollY - offset + 4
-        window.scrollTo({ top: Math.max(0, sectionTop), behavior: 'auto' })
-        return true
+        const top = Math.max(0, section.getBoundingClientRect().top + window.scrollY - offset + 4)
+        window.scrollTo(0, top)
+        return top
       }, sectionId)
 
-      expect(didScroll).toBe(true)
+      expect(targetTop).not.toBeNull()
+      await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThanOrEqual((targetTop as number) - 1)
 
       await expect
         .poll(async () => desktopNavButtons.nth(sectionIndex).getAttribute('aria-current'), { timeout: 3000 })
@@ -208,15 +209,19 @@ test.describe('Desktop navigation', () => {
 
   test('URL hash updates to match the active section on scroll', async ({ page }) => {
     await page.waitForLoadState('load')
-    await page.evaluate((targetId) => {
+    // Two-arg scrollTo: html { scroll-behavior: smooth } ignores behavior: 'auto'|'instant' in Chromium.
+    const targetTop = await page.evaluate((targetId) => {
       const section = document.getElementById(targetId)
       const header = document.querySelector('header') as HTMLElement | null
-      if (!section || !header) return
+      if (!section || !header) return null
       const offset = header.getBoundingClientRect().height
-      const sectionTop = section.getBoundingClientRect().top + window.scrollY - offset + 4
-      window.scrollTo({ top: Math.max(0, sectionTop), behavior: 'auto' })
+      const top = Math.max(0, section.getBoundingClientRect().top + window.scrollY - offset + 4)
+      window.scrollTo(0, top)
+      return top
     }, 'booking')
 
+    expect(targetTop).not.toBeNull()
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThanOrEqual((targetTop as number) - 1)
     await expect.poll(() => page.evaluate(() => window.location.hash), { timeout: 3000 }).toBe('#booking')
   })
 
@@ -224,7 +229,6 @@ test.describe('Desktop navigation', () => {
     await page.waitForLoadState('load')
 
     // Sit well below the section start so a fragment scroll-to-hash would jump upward.
-    // behavior:"instant" bypasses html { scroll-behavior: smooth }.
     const targetTop = await page.evaluate(() => {
       const section = document.getElementById('services')
       const header = document.querySelector('header') as HTMLElement | null
@@ -235,7 +239,7 @@ test.describe('Desktop navigation', () => {
       const offset = header.getBoundingClientRect().height
       const pastStart = section.getBoundingClientRect().top + window.scrollY - offset + 240
       const top = Math.max(0, pastStart)
-      window.scrollTo({ top, left: 0, behavior: 'instant' })
+      window.scrollTo(0, top)
       return top
     })
 
@@ -252,18 +256,23 @@ test.describe('Desktop navigation', () => {
   })
 
   test('URL hash clears when scrolled back to hero', async ({ page }) => {
-    // First scroll into a named section to set a hash
-    await page.evaluate(() => {
+    await page.waitForLoadState('load')
+
+    const servicesTop = await page.evaluate(() => {
       const section = document.getElementById('services')
       const header = document.querySelector('header') as HTMLElement | null
-      if (!section || !header) return
+      if (!section || !header) return null
       const offset = header.getBoundingClientRect().height
-      window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY - offset + 4, behavior: 'auto' })
+      const top = Math.max(0, section.getBoundingClientRect().top + window.scrollY - offset + 4)
+      window.scrollTo(0, top)
+      return top
     })
+    expect(servicesTop).not.toBeNull()
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThanOrEqual((servicesTop as number) - 1)
     await expect.poll(() => page.evaluate(() => window.location.hash), { timeout: 3000 }).toBe('#services')
 
-    // Scroll back to very top
-    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
+    await page.evaluate(() => window.scrollTo(0, 0))
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
     await expect.poll(() => page.evaluate(() => window.location.hash), { timeout: 3000 }).toBe('')
   })
 
@@ -271,15 +280,18 @@ test.describe('Desktop navigation', () => {
     await page.waitForLoadState('load')
     const historyLengthBefore = await page.evaluate(() => window.history.length)
 
-    await page.evaluate(() => {
+    const targetTop = await page.evaluate(() => {
       const section = document.getElementById('studio')
       const header = document.querySelector('header') as HTMLElement | null
-      if (!section || !header) return
+      if (!section || !header) return null
       const offset = header.getBoundingClientRect().height
-      const targetTop = section.getBoundingClientRect().top + window.scrollY - offset + 4
-      window.scrollTo({ top: Math.max(0, targetTop), behavior: 'auto' })
+      const top = Math.max(0, section.getBoundingClientRect().top + window.scrollY - offset + 4)
+      window.scrollTo(0, top)
+      return top
     })
 
+    expect(targetTop).not.toBeNull()
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThanOrEqual((targetTop as number) - 1)
     await expect.poll(() => page.evaluate(() => window.location.hash), { timeout: 3000 }).toBe('#studio')
 
     const historyLengthAfter = await page.evaluate(() => window.history.length)
