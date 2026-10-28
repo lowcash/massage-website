@@ -68,7 +68,7 @@ const servicesItems: ServiceItem[] = [
     description:
       'Terapeutická metoda, při které se na pokožku aplikují elastické pásky s cílem podpořit hojení, zmírnit bolest a zlepšit funkci svalů a kloubů.',
     duration: '',
-    price: '100 Kč + 2 Kč/cm',
+    price: '100 Kč + 2 Kč za cm',
   },
   {
     id: 'acupuncture',
@@ -136,7 +136,7 @@ const servicesItems: ServiceItem[] = [
   {
     id: 'baby',
     category: 'family',
-    name: 'Baby masáže (3×)',
+    name: 'Baby masáže',
     description:
       'Jemné dotykové techniky určené pro miminka, které podporují jejich zdravý vývoj, zlepšují spánek a posilují vazbu mezi rodičem a dítětem.',
     duration: '45 min',
