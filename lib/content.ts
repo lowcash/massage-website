@@ -299,7 +299,6 @@ export const siteContent = {
     description: 'Masáže a terapie těla',
     icoLabel: 'IČO',
     ico: BUSINESS.ico,
-    vatNote: 'Nejsem plátce DPH.',
     rights: 'Všechna práva vyhrazena.',
     analyticsDisclosure: 'Anonymní statistiky návštěvnosti, bez cookies.',
     facebookAriaLabel: 'Facebook',
