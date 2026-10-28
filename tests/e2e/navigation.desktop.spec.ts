@@ -49,8 +49,8 @@ test.describe('Desktop navigation', () => {
       const targetBtn = sectionIndex < btnCount ? desktopNav.locator('button').nth(sectionIndex) : btn
 
       await targetBtn.click()
-      await page.waitForTimeout(1000)
-      await expect(targetBtn).toHaveAttribute('aria-current', 'page')
+      // Smooth scroll to #contact (and other far sections) can exceed a fixed 1s wait on CI.
+      await expect.poll(async () => targetBtn.getAttribute('aria-current'), { timeout: 8000 }).toBe('page')
       await expectSectionAlignedUnderHeader(page, getScrollTargetSelector(sectionId))
     })
   }
@@ -62,7 +62,7 @@ test.describe('Desktop navigation', () => {
     const vouchersButton = desktopNav.locator('button').nth(SECTIONS.indexOf('vouchers'))
     await vouchersButton.click()
 
-    await expect(vouchersButton).toHaveAttribute('aria-current', 'page')
+    await expect.poll(async () => vouchersButton.getAttribute('aria-current'), { timeout: 8000 }).toBe('page')
     await expectSectionAlignedUnderHeader(page, getScrollTargetSelector('vouchers'))
   })
 
