@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const calendarUpdateItemSchema = z.object({
+const calendarUpdateItemSchema = z.object({
   date: z.date(),
   reserved: z.boolean(),
 })

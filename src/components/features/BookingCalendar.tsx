@@ -1,6 +1,7 @@
 'use client'
 
 import { siteContent } from '@/lib/content'
+import { mapApiDataToDisplay } from '@/lib/prague-time'
 import { applyCzechNbsp, cn } from '@/lib/utils'
 
 import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
@@ -11,116 +12,6 @@ import { useInView } from '@/src/hooks/useInView'
 import { useReducedMotion } from '@/src/hooks/useReducedMotion'
 
 import type { CalendarSlot } from './Calendar'
-
-interface CalendarDisplaySlot {
-  time: string
-  available: boolean
-}
-
-interface CalendarDisplayDay {
-  day: string
-  date: string
-  slots: CalendarDisplaySlot[]
-  isToday: boolean
-}
-
-const mapApiDataToDisplay = (apiData?: CalendarSlot[] | unknown): CalendarDisplayDay[] => {
-  let slots: CalendarSlot[] = []
-
-  if (!apiData) {
-    return []
-  }
-
-  if (
-    typeof apiData === 'object' &&
-    apiData !== null &&
-    'data' in apiData &&
-    Array.isArray((apiData as { data: CalendarSlot[] }).data)
-  ) {
-    slots = (apiData as { data: CalendarSlot[] }).data
-  } else if (Array.isArray(apiData)) {
-    slots = apiData
-  } else {
-    return []
-  }
-
-  if (slots.length === 0) {
-    return []
-  }
-
-  const days = siteContent.calendar.dayNames
-
-  const today = new Date()
-  const todayPrague = new Date(today.toLocaleString('en-US', { timeZone: 'Europe/Prague' }))
-  todayPrague.setHours(0, 0, 0, 0)
-
-  const slotsByDay = new Map<string, CalendarSlot[]>()
-
-  slots.forEach((slot) => {
-    const slotDate = slot.date instanceof Date ? slot.date : new Date(slot.date)
-    const slotPrague = new Date(slotDate.toLocaleString('en-US', { timeZone: 'Europe/Prague' }))
-    const dayKey = `${slotPrague.getFullYear()}-${String(slotPrague.getMonth() + 1).padStart(2, '0')}-${String(slotPrague.getDate()).padStart(2, '0')}`
-
-    if (!slotsByDay.has(dayKey)) {
-      slotsByDay.set(dayKey, [])
-    }
-
-    slotsByDay.get(dayKey)?.push(slot)
-  })
-
-  return Array.from(slotsByDay.entries())
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .filter(([, daySlots]) => {
-      const firstSlot = daySlots[0]
-      const slotDate = firstSlot.date instanceof Date ? firstSlot.date : new Date(firstSlot.date)
-      const slotPrague = new Date(slotDate.toLocaleString('en-US', { timeZone: 'Europe/Prague' }))
-      slotPrague.setHours(0, 0, 0, 0)
-
-      return slotPrague >= todayPrague
-    })
-    .map(([, daySlots]) => {
-      const firstSlot = daySlots[0]
-      const slotDate = firstSlot.date instanceof Date ? firstSlot.date : new Date(firstSlot.date)
-      const slotPrague = new Date(slotDate.toLocaleString('en-US', { timeZone: 'Europe/Prague' }))
-
-      const dayIndex = slotPrague.getDay()
-      const dayName = days[dayIndex === 0 ? 6 : dayIndex - 1]
-      const dateStr = `${slotPrague.getDate()}.${slotPrague.getMonth() + 1}.`
-
-      const slotDateOnly = `${slotPrague.getFullYear()}-${String(slotPrague.getMonth() + 1).padStart(2, '0')}-${String(slotPrague.getDate()).padStart(2, '0')}`
-      const todayDateOnly = `${todayPrague.getFullYear()}-${String(todayPrague.getMonth() + 1).padStart(2, '0')}-${String(todayPrague.getDate()).padStart(2, '0')}`
-      const isToday = todayDateOnly === slotDateOnly
-
-      const dayDisplaySlots = daySlots
-        .map((slot) => {
-          const time = slot.date instanceof Date ? slot.date : new Date(slot.date)
-          const timePrague = new Date(time.toLocaleString('en-US', { timeZone: 'Europe/Prague' }))
-          const timeStr = `${String(timePrague.getHours()).padStart(2, '0')}:${String(timePrague.getMinutes()).padStart(2, '0')}`
-
-          return {
-            time: timeStr,
-            available: !slot.reserved,
-          }
-        })
-        .sort((a, b) => {
-          const [aHours, aMinutes] = a.time.split(':').map(Number)
-          const [bHours, bMinutes] = b.time.split(':').map(Number)
-
-          if (aHours !== bHours) {
-            return aHours - bHours
-          }
-
-          return aMinutes - bMinutes
-        })
-
-      return {
-        day: dayName,
-        date: dateStr,
-        slots: dayDisplaySlots,
-        isToday,
-      }
-    })
-}
 
 function GoodToKnow() {
   const { heading, items } = siteContent.calendar.goodToKnow
@@ -159,7 +50,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
   const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
   const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
-  const calendarData = mapApiDataToDisplay(data)
+  const calendarData = mapApiDataToDisplay(data, siteContent.calendar.dayNames)
   const whatsappCtaMessage = selectedService
     ? siteContent.floatingButtons.whatsappSelectedServiceMessage.replace('{service}', selectedService)
     : siteContent.floatingButtons.whatsappDefaultMessage
@@ -236,7 +127,7 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                 key={`${dayData.day}-${dayData.date}`}
                 className={`${fadeIn} ${!carousel.inView ? hidden : ''} ${
                   dayData.isToday
-                    ? 'border-brand-hover bg-paper h-full rounded-2xl border-2 p-3 shadow-[0_8px_26px_rgba(201,123,111,0.18)] md:p-4'
+                    ? 'border-brand-hover bg-paper h-full rounded-2xl border-2 p-3 shadow-[0_8px_26px_var(--color-brand-glow)] md:p-4'
                     : 'border-line h-full rounded-2xl border bg-white p-3 md:p-4'
                 }`}
                 style={{ transitionDelay: carousel.inView ? `${Math.min(dayIndex, 5) * 90}ms` : '0ms' }}
@@ -262,9 +153,10 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
                       <span
                         key={slot.time}
                         aria-disabled='true'
-                        className='text-muted-ink/45 cursor-not-allowed rounded-xl px-3 py-2.5 text-center text-base line-through decoration-1'
+                        className='text-slot-unavailable cursor-not-allowed rounded-xl px-3 py-2.5 text-center text-base line-through decoration-1'
                       >
                         {slot.time}
+                        <span className='sr-only'> obsazeno</span>
                       </span>
                     ),
                   )}

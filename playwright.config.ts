@@ -18,6 +18,10 @@ export default defineConfig({
     timeout: 240000,
     env: {
       SITE_ENV: 'production',
+      REDIS_URL: process.env.REDIS_URL ?? process.env.E2E_REDIS_URL ?? '',
+      AUTH_USERNAME: process.env.AUTH_USERNAME ?? process.env.E2E_ADMIN_USER ?? '',
+      AUTH_PASSWORD: process.env.AUTH_PASSWORD ?? process.env.E2E_ADMIN_PASSWORD ?? '',
+      JWT_SECRET: process.env.JWT_SECRET ?? '',
     },
   },
   projects: [

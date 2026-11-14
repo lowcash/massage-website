@@ -242,17 +242,14 @@ export const siteContent = {
       {
         id: 'studio-1',
         alt: 'Interiér studia – detail',
-        asset: '529868a68c329f2cd79b11f95989565412c07b61',
       },
       {
         id: 'studio-2',
         alt: 'Interiér studia – prostor',
-        asset: '2d115fb3cb1c74e407bde90bbf7d740b4c3604f2',
       },
       {
         id: 'studio-3',
         alt: 'Interiér studia – atmosféra',
-        asset: '669702bfa59a3e8017fcb4cb9cbf4fe49cedcddf',
       },
     ],
   },
@@ -305,7 +302,6 @@ export const siteContent = {
     instagramAriaLabel: 'Instagram',
   },
   floatingButtons: {
-    whatsappLabel: 'Rezervovat termín',
     whatsappDefaultMessage:
       'Dobrý den, chtěl(a) bych se informovat o masáži.\n\nMoje jméno: [Vyplňte prosím]\nTelefon: [Vyplňte prosím]',
     whatsappSelectedServiceMessage:

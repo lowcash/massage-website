@@ -12,12 +12,9 @@ test.describe('A11y smoke', () => {
       (violation) => violation.impact === 'serious' || violation.impact === 'critical',
     )
 
-    // Temporary exception: color contrast is tracked separately until the visual refresh lands.
-    const actionableViolations = seriousOrCritical.filter((violation) => violation.id !== 'color-contrast')
-
     expect(
-      actionableViolations,
-      actionableViolations.map((violation) => `${violation.id}: ${violation.description}`).join('\n'),
+      seriousOrCritical,
+      seriousOrCritical.map((violation) => `${violation.id}: ${violation.description}`).join('\n'),
     ).toEqual([])
   })
 })

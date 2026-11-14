@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import Image from 'next/image'
 
@@ -11,67 +11,46 @@ import { siteContent } from '@/lib/content'
 import studioImage1 from '@/src/assets/gallery-1.jpg'
 import studioImage2 from '@/src/assets/gallery-2.jpg'
 import studioImage3 from '@/src/assets/gallery-3.jpg'
+import { Dialog } from '@/src/components/shared/Dialog'
 import PeekCarousel from '@/src/components/shared/PeekCarousel'
-import { useInView } from '@/src/hooks/useInView'
-import { useReducedMotion } from '@/src/hooks/useReducedMotion'
+import { Reveal } from '@/src/components/shared/Reveal'
+import { useMediaQuery } from '@/src/hooks/useMediaQuery'
 
 const studioImages = [studioImage1, studioImage2, studioImage3]
 
+const TILE_CLASS = 'border-line w-full cursor-pointer overflow-hidden rounded-2xl border bg-white text-left shadow-sm'
+const IMAGE_CLASS = 'object-cover transition duration-700 ease-out hover:scale-[1.03]'
+
 export default function GalleryInteractive() {
-  const shouldReduceMotion = useReducedMotion()
-  const carouselRef = useInView()
-  const gridRef = useInView()
+  // Mount exactly one image tree. SSR / first paint = mobile carousel; desktop grid swaps in after hydration.
+  const isDesktop = useMediaQuery('(min-width: 1024px)')
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null)
-
-  const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
-  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
+  const isOpen = activeImageIndex !== null
 
+  const closeLightbox = useCallback(() => setActiveImageIndex(null), [])
+
+  const showPreviousImage = useCallback(() => {
+    setActiveImageIndex((prev) => (prev === null ? prev : prev === 0 ? studioImages.length - 1 : prev - 1))
+  }, [])
+
+  const showNextImage = useCallback(() => {
+    setActiveImageIndex((prev) => (prev === null ? prev : prev === studioImages.length - 1 ? 0 : prev + 1))
+  }, [])
+
+  // Escape + scroll lock + focus trap are handled by Dialog; only arrow navigation lives here.
   useEffect(() => {
-    if (activeImageIndex === null) {
-      return
-    }
-
-    const previousBodyOverflow = document.body.style.overflow
-    const previousHtmlOverflow = document.documentElement.style.overflow
-
-    document.body.style.overflow = 'hidden'
-    document.documentElement.style.overflow = 'hidden'
-
-    return () => {
-      document.body.style.overflow = previousBodyOverflow
-      document.documentElement.style.overflow = previousHtmlOverflow
-    }
-  }, [activeImageIndex])
-
-  useEffect(() => {
-    if (activeImageIndex === null) {
+    if (!isOpen) {
       return
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setActiveImageIndex(null)
-      }
-
       if (event.key === 'ArrowLeft') {
-        setActiveImageIndex((prev) => {
-          if (prev === null) {
-            return prev
-          }
-
-          return prev === 0 ? studioImages.length - 1 : prev - 1
-        })
+        showPreviousImage()
       }
 
       if (event.key === 'ArrowRight') {
-        setActiveImageIndex((prev) => {
-          if (prev === null) {
-            return prev
-          }
-
-          return prev === studioImages.length - 1 ? 0 : prev + 1
-        })
+        showNextImage()
       }
     }
 
@@ -80,27 +59,7 @@ export default function GalleryInteractive() {
     return () => {
       window.removeEventListener('keydown', onKeyDown)
     }
-  }, [activeImageIndex])
-
-  const showPreviousImage = () => {
-    setActiveImageIndex((prev) => {
-      if (prev === null) {
-        return prev
-      }
-
-      return prev === 0 ? studioImages.length - 1 : prev - 1
-    })
-  }
-
-  const showNextImage = () => {
-    setActiveImageIndex((prev) => {
-      if (prev === null) {
-        return prev
-      }
-
-      return prev === studioImages.length - 1 ? 0 : prev + 1
-    })
-  }
+  }, [isOpen, showPreviousImage, showNextImage])
 
   const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
     const touch = event.touches[0]
@@ -130,77 +89,60 @@ export default function GalleryInteractive() {
     showPreviousImage()
   }
 
+  const renderTile = (image: (typeof siteContent.studio.images)[number], index: number, sizes: string) => (
+    <button
+      key={image.id}
+      type='button'
+      onClick={() => setActiveImageIndex(index)}
+      className={TILE_CLASS}
+      aria-label={`Zobrazit fotografii: ${image.alt}`}
+    >
+      <div className='relative aspect-4/3 w-full'>
+        <Image
+          src={studioImages[index]}
+          alt={image.alt}
+          fill
+          placeholder='blur'
+          className={IMAGE_CLASS}
+          sizes={sizes}
+        />
+      </div>
+    </button>
+  )
+
   return (
     <>
-      <div ref={carouselRef.ref} className={`lg:hidden ${fadeIn} ${!carouselRef.inView ? hidden : ''}`}>
-        <PeekCarousel
-          ariaLabel={siteContent.studio.carouselAriaLabel}
-          mobilePeek={false}
-          itemClassName='w-full sm:w-[46%]'
-          fadeEdges
-        >
-          {siteContent.studio.images.map((image, index) => (
-            <button
-              key={image.id}
-              type='button'
-              onClick={() => setActiveImageIndex(index)}
-              className='border-line w-full cursor-pointer overflow-hidden rounded-2xl border bg-white text-left shadow-sm'
-              aria-label={`Zobrazit fotografii: ${image.alt}`}
-            >
-              <div className='relative aspect-4/3 w-full'>
-                <Image
-                  src={studioImages[index]}
-                  alt={image.alt}
-                  fill
-                  placeholder='blur'
-                  className='object-cover transition duration-700 ease-out hover:scale-[1.03]'
-                  sizes='(min-width: 1024px) 35vw, (min-width: 640px) 46vw, 84vw'
-                />
-              </div>
-            </button>
-          ))}
-        </PeekCarousel>
-      </div>
-
-      <div ref={gridRef.ref} className={`hidden grid-cols-3 gap-4 lg:grid ${fadeIn} ${!gridRef.inView ? hidden : ''}`}>
-        {siteContent.studio.images.map((image, index) => (
-          <button
-            key={image.id}
-            type='button'
-            onClick={() => setActiveImageIndex(index)}
-            className='border-line w-full cursor-pointer overflow-hidden rounded-2xl border bg-white text-left shadow-sm'
-            aria-label={`Zobrazit fotografii: ${image.alt}`}
+      {isDesktop ? (
+        <Reveal className='grid grid-cols-3 gap-4'>
+          {siteContent.studio.images.map((image, index) => renderTile(image, index, '(min-width: 1024px) 31vw, 100vw'))}
+        </Reveal>
+      ) : (
+        <Reveal>
+          <PeekCarousel
+            ariaLabel={siteContent.studio.carouselAriaLabel}
+            mobilePeek={false}
+            itemClassName='w-full sm:w-[46%]'
+            fadeEdges
           >
-            <div className='relative aspect-4/3 w-full'>
-              <Image
-                src={studioImages[index]}
-                alt={image.alt}
-                fill
-                placeholder='blur'
-                className='object-cover transition duration-700 ease-out hover:scale-[1.03]'
-                sizes='(min-width: 1024px) 31vw, 100vw'
-              />
-            </div>
-          </button>
-        ))}
-      </div>
+            {siteContent.studio.images.map((image, index) => renderTile(image, index, '(min-width: 640px) 46vw, 84vw'))}
+          </PeekCarousel>
+        </Reveal>
+      )}
 
-      {/* Lightbox — CSS transitions, no framer-motion */}
-      <div
-        role='dialog'
-        aria-modal='true'
-        aria-label='Náhled fotografie'
-        inert={activeImageIndex === null || undefined}
-        className={`fixed inset-0 z-80 flex cursor-default items-center justify-center bg-black/70 p-4 backdrop-blur-md transition-opacity duration-300 md:p-8 ${activeImageIndex !== null ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
-        onClick={() => setActiveImageIndex(null)}
+      {/* Lightbox — Dialog handles Escape, focus trap, inert background and scroll lock */}
+      <Dialog
+        open={isOpen}
+        onClose={closeLightbox}
+        label='Náhled fotografie'
+        className='z-80 cursor-default md:p-8'
+        backdropClassName='z-80 backdrop-blur-md'
       >
         <div
-          className={`relative flex w-full max-w-5xl cursor-default items-center justify-center transition-[opacity,scale] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${activeImageIndex !== null ? 'scale-100 opacity-100' : 'scale-[0.96] opacity-0'}`}
-          onClick={(event) => event.stopPropagation()}
+          className={`relative flex w-full max-w-5xl cursor-default items-center justify-center transition-[opacity,scale] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? 'scale-100 opacity-100' : 'scale-[0.96] opacity-0'}`}
         >
           <button
             type='button'
-            onClick={() => setActiveImageIndex(null)}
+            onClick={closeLightbox}
             className='absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition-colors duration-300 ease-out hover:bg-black/65'
             aria-label='Zavřít náhled'
           >
@@ -249,7 +191,7 @@ export default function GalleryInteractive() {
             <ChevronRight className='h-5 w-5' />
           </button>
         </div>
-      </div>
+      </Dialog>
     </>
   )
 }

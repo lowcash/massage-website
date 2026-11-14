@@ -1,2 +1,9 @@
 allowBuilds:
   sharp: true
+minimumReleaseAgeExclude:
+  - '@eslint/config-array@0.23.6'
+  - '@playwright/test@1.65.1'
+  - eslint@10.15.0
+  - playwright-core@1.65.1
+  - playwright@1.65.1
+  - lucide-react@1.73.0

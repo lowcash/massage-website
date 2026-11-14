@@ -1,11 +1,4 @@
-export function normalizeHash(rawHash: string) {
-  const cleanedHash = rawHash.startsWith('#') ? rawHash.slice(1) : rawHash
-  const trimmedHash = cleanedHash.trim()
-
-  return trimmedHash.length > 0 ? trimmedHash : null
-}
-
-export function hashForSection(sectionId: string, clearSectionId: string) {
+function hashForSection(sectionId: string, clearSectionId: string) {
   return sectionId === clearSectionId ? '' : `#${sectionId}`
 }
 

@@ -7,12 +7,13 @@ test.describe('Booking flow mobile', () => {
   })
 
   test('service selection is reflected in booking badge and WhatsApp reservation link on mobile', async ({ page }) => {
-    const serviceCard = page.locator('#services button').first()
+    const serviceRow = page.locator('#services li').first()
+    const serviceCard = serviceRow.locator('button')
     await expect(serviceCard).toBeAttached({ timeout: 10000 })
     await serviceCard.scrollIntoViewIfNeeded()
     await expect(serviceCard).toBeVisible()
 
-    const serviceName = ((await serviceCard.locator('h3').textContent()) ?? '').trim()
+    const serviceName = ((await serviceRow.locator('h3').textContent()) ?? '').trim()
     await serviceCard.click()
 
     const selectedServiceBadge = page.locator('#booking span.font-medium').first()

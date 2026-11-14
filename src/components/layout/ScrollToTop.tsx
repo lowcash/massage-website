@@ -8,48 +8,26 @@ import { siteContent } from '@/lib/content'
 import { scrollToSection } from '@/lib/utils'
 
 import { FloatingContainer } from '@/src/components/layout/FloatingContainer'
+import { useFooterVisible } from '@/src/hooks/useFooterVisible'
+import { useRafThrottle } from '@/src/hooks/useRafThrottle'
 
 const SHOW_SCROLL_THRESHOLD = 320
 const HIDE_SCROLL_THRESHOLD = 220
 
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false)
-  const [isFooterVisible, setIsFooterVisible] = useState(false)
+  const isFooterVisible = useFooterVisible()
+
+  const toggleVisibility = useRafThrottle(() => {
+    // Use hysteresis to avoid visibility chattering around a single threshold.
+    setIsVisible((prev) => (prev ? window.scrollY > HIDE_SCROLL_THRESHOLD : window.scrollY > SHOW_SCROLL_THRESHOLD))
+  })
 
   useEffect(() => {
-    const toggleVisibility = () => {
-      // Use hysteresis to avoid visibility chattering around a single threshold.
-      setIsVisible((prev) => (prev ? window.scrollY > HIDE_SCROLL_THRESHOLD : window.scrollY > SHOW_SCROLL_THRESHOLD))
-    }
-
     toggleVisibility()
     window.addEventListener('scroll', toggleVisibility, { passive: true })
     return () => window.removeEventListener('scroll', toggleVisibility)
-  }, [])
-
-  useEffect(() => {
-    const footerElement = document.querySelector('footer')
-
-    if (!footerElement) {
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsFooterVisible(entry.isIntersecting)
-      },
-      {
-        threshold: 0,
-        rootMargin: '0px 0px -20px 0px',
-      },
-    )
-
-    observer.observe(footerElement)
-
-    return () => {
-      observer.disconnect()
-    }
-  }, [])
+  }, [toggleVisibility])
 
   const scrollToTop = () => {
     scrollToSection('hero')
@@ -67,7 +45,6 @@ export default function ScrollToTop() {
           transform: 'translateZ(0)',
           WebkitBackfaceVisibility: 'hidden',
           backfaceVisibility: 'hidden',
-          willChange: 'transform, opacity',
         }}
         aria-label={siteContent.floatingButtons.scrollTopLabel}
         tabIndex={canShowButton ? 0 : -1}

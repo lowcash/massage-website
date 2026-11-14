@@ -27,14 +27,10 @@ function ServiceRow({
 }) {
   return (
     <li
-      className={`py-1.5 ${fadeIn} ${!isVisible ? hidden : ''}`}
+      className={`group relative py-1.5 ${fadeIn} ${!isVisible ? hidden : ''}`}
       style={{ transitionDelay: isVisible ? `${delayMs}ms` : '0ms' }}
     >
-      <button
-        type='button'
-        onClick={onClick}
-        className='group hover:bg-paper focus-visible:bg-paper grid w-full cursor-pointer grid-cols-1 gap-y-1.5 rounded-2xl px-4 py-5 text-left transition-[translate,background-color] duration-360 ease-out hover:translate-x-0.5 md:grid-cols-[1fr_auto] md:gap-x-6 md:px-5'
-      >
+      <div className='group-hover:bg-paper group-has-[button:focus-visible]:bg-paper grid w-full grid-cols-1 gap-y-1.5 rounded-2xl px-4 py-5 text-left transition-[translate,background-color] duration-360 ease-out group-hover:translate-x-0.5 md:grid-cols-[1fr_auto] md:gap-x-6 md:px-5'>
         <h3 className='font-display text-ink text-[1.55rem] leading-[1.15] font-medium md:col-start-1'>
           {applyCzechNbsp(service.name)}
         </h3>
@@ -49,7 +45,14 @@ function ServiceRow({
         <p className='text-body max-w-prose text-base leading-relaxed md:col-start-1'>
           {applyCzechNbsp(service.description)}
         </p>
-      </button>
+      </div>
+
+      <button
+        type='button'
+        onClick={onClick}
+        aria-label={`Vybrat: ${service.name}`}
+        className='absolute inset-x-0 inset-y-1.5 cursor-pointer rounded-2xl'
+      />
     </li>
   )
 }

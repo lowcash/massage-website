@@ -43,14 +43,14 @@ test.describe('Desktop navigation', () => {
       const desktopNav = page.locator('header .hidden.lg\\:flex')
       await expect(desktopNav).toBeVisible()
 
-      const btn = desktopNav.locator('button').filter({ hasText: new RegExp(sectionId, 'i') })
-      const btnCount = await desktopNav.locator('button').count()
+      const btn = desktopNav.locator('a').filter({ hasText: new RegExp(sectionId, 'i') })
+      const btnCount = await desktopNav.locator('a').count()
       const sectionIndex = SECTIONS.indexOf(sectionId)
-      const targetBtn = sectionIndex < btnCount ? desktopNav.locator('button').nth(sectionIndex) : btn
+      const targetBtn = sectionIndex < btnCount ? desktopNav.locator('a').nth(sectionIndex) : btn
 
       await targetBtn.click()
       // Smooth scroll to #contact (and other far sections) can exceed a fixed 1s wait on CI.
-      await expect.poll(async () => targetBtn.getAttribute('aria-current'), { timeout: 8000 }).toBe('page')
+      await expect.poll(async () => targetBtn.getAttribute('aria-current'), { timeout: 8000 }).toBe('location')
       await expectSectionAlignedUnderHeader(page, getScrollTargetSelector(sectionId))
     })
   }
@@ -59,10 +59,10 @@ test.describe('Desktop navigation', () => {
     const desktopNav = page.locator('header .hidden.lg\\:flex')
     await expect(desktopNav).toBeVisible()
 
-    const vouchersButton = desktopNav.locator('button').nth(SECTIONS.indexOf('vouchers'))
+    const vouchersButton = desktopNav.locator('a').nth(SECTIONS.indexOf('vouchers'))
     await vouchersButton.click()
 
-    await expect.poll(async () => vouchersButton.getAttribute('aria-current'), { timeout: 8000 }).toBe('page')
+    await expect.poll(async () => vouchersButton.getAttribute('aria-current'), { timeout: 8000 }).toBe('location')
     await expectSectionAlignedUnderHeader(page, getScrollTargetSelector('vouchers'))
   })
 
@@ -111,13 +111,14 @@ test.describe('Desktop navigation', () => {
   })
 
   test('service card click scrolls to #booking with selected service badge', async ({ page }) => {
-    const serviceCard = page.locator('#services button').first()
+    const serviceRow = page.locator('#services li').first()
+    const serviceCard = serviceRow.locator('button')
     // Wait for the dynamically-imported Services chunk to be fully hydrated
     await expect(serviceCard).toBeAttached({ timeout: 10000 })
     await serviceCard.scrollIntoViewIfNeeded()
     await expect(serviceCard).toBeVisible()
 
-    const serviceName = (await serviceCard.locator('h3').textContent())?.trim()
+    const serviceName = (await serviceRow.locator('h3').textContent())?.trim()
     await serviceCard.click()
 
     await expect(page).toHaveURL(/#booking$/)
@@ -129,7 +130,7 @@ test.describe('Desktop navigation', () => {
     const desktopNav = page.locator('header .hidden.lg\\:flex')
     await expect(desktopNav).toBeVisible()
 
-    await desktopNav.locator('button').nth(SECTIONS.indexOf('about')).click()
+    await desktopNav.locator('a').nth(SECTIONS.indexOf('about')).click()
 
     await expect(page.locator('#about')).toBeInViewport({ ratio: 0.1 })
 
@@ -139,7 +140,7 @@ test.describe('Desktop navigation', () => {
     })
     expect(topPointIsHeader).toBe(true)
 
-    await desktopNav.locator('button').nth(SECTIONS.indexOf('studio')).click()
+    await desktopNav.locator('a').nth(SECTIONS.indexOf('studio')).click()
 
     await expect(page.locator('#studio')).toBeInViewport({ ratio: 0.1 })
 
@@ -179,7 +180,7 @@ test.describe('Desktop navigation', () => {
   })
 
   test('active nav updates correctly during manual scroll', async ({ page }) => {
-    const desktopNavButtons = page.locator('header .hidden.lg\\:flex button')
+    const desktopNavButtons = page.locator('header .hidden.lg\\:flex a')
     await expect(desktopNavButtons.first()).toBeVisible()
 
     for (const sectionId of SECTIONS) {
@@ -203,7 +204,7 @@ test.describe('Desktop navigation', () => {
 
       await expect
         .poll(async () => desktopNavButtons.nth(sectionIndex).getAttribute('aria-current'), { timeout: 3000 })
-        .toBe('page')
+        .toBe('location')
     }
   })
 
