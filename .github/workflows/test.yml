@@ -12,7 +12,18 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
+
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
 
     steps:
       - uses: actions/checkout@v6
@@ -27,14 +38,48 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install Playwright browser
-        run: pnpm exec playwright install --with-deps chromium
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium webkit
 
       - name: Check formatting
         run: pnpm run format:check
 
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Unit tests
+        run: pnpm run test:unit
+
+      - name: Build
+        run: pnpm run build
+        env:
+          AUTH_USERNAME: admin
+          AUTH_PASSWORD: ci-admin-password-not-for-prod
+          JWT_SECRET: ci-jwt-secret-at-least-32-characters-long
+          REDIS_URL: redis://127.0.0.1:6379
+
       - name: Run E2E tests
-        run: pnpm run test:e2e --project=desktop-chrome
+        run: pnpm run test:e2e --project=desktop-chrome --project=mobile-chrome --project=mobile-safari
+        env:
+          E2E_ADMIN: '1'
+          E2E_REDIS_URL: redis://127.0.0.1:6379
+          E2E_ADMIN_USER: admin
+          E2E_ADMIN_PASSWORD: ci-admin-password-not-for-prod
+          AUTH_USERNAME: admin
+          AUTH_PASSWORD: ci-admin-password-not-for-prod
+          JWT_SECRET: ci-jwt-secret-at-least-32-characters-long
+          REDIS_URL: redis://127.0.0.1:6379
+
+      - name: Axe baseline
+        run: pnpm run test:e2e:baseline
+        env:
+          AUTH_USERNAME: admin
+          AUTH_PASSWORD: ci-admin-password-not-for-prod
+          JWT_SECRET: ci-jwt-secret-at-least-32-characters-long
+          REDIS_URL: redis://127.0.0.1:6379
 
       - uses: actions/upload-artifact@v7
         if: failure()

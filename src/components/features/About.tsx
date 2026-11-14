@@ -1,6 +1,6 @@
 'use client'
 
-import { type ReactNode, useEffect, useState } from 'react'
+import { type ReactNode, useCallback, useState } from 'react'
 
 import Image from 'next/image'
 
@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils'
 import profileImage from '@/src/assets/profile.jpg'
 import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
 import CountUpValue from '@/src/components/shared/CountUpValue'
+import { Dialog } from '@/src/components/shared/Dialog'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 import { useInView } from '@/src/hooks/useInView'
 import { useReducedMotion } from '@/src/hooks/useReducedMotion'
@@ -60,31 +61,7 @@ export default function About() {
   const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
   const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
-  useEffect(() => {
-    if (!isPortraitOpen) {
-      return
-    }
-
-    const previousBodyOverflow = document.body.style.overflow
-    const previousHtmlOverflow = document.documentElement.style.overflow
-
-    document.body.style.overflow = 'hidden'
-    document.documentElement.style.overflow = 'hidden'
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsPortraitOpen(false)
-      }
-    }
-
-    window.addEventListener('keydown', onKeyDown)
-
-    return () => {
-      document.body.style.overflow = previousBodyOverflow
-      document.documentElement.style.overflow = previousHtmlOverflow
-      window.removeEventListener('keydown', onKeyDown)
-    }
-  }, [isPortraitOpen])
+  const closePortrait = useCallback(() => setIsPortraitOpen(false), [])
 
   return (
     <section id='about' className='bg-surface px-5 py-16 md:px-8 md:py-24'>
@@ -160,21 +137,19 @@ export default function About() {
         </div>
       </div>
 
-      <div
-        role='dialog'
-        aria-modal='true'
-        aria-label={`Portrét: ${siteContent.brand.therapistName}`}
-        inert={!isPortraitOpen || undefined}
-        className={`fixed inset-0 z-80 flex cursor-default items-center justify-center bg-black/70 p-4 backdrop-blur-md transition-opacity duration-300 md:p-8 ${isPortraitOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
-        onClick={() => setIsPortraitOpen(false)}
+      <Dialog
+        open={isPortraitOpen}
+        onClose={closePortrait}
+        label={`Portrét: ${siteContent.brand.therapistName}`}
+        className='z-80 cursor-default md:p-8'
+        backdropClassName='z-80 backdrop-blur-md'
       >
         <div
           className={`relative flex max-h-[90vh] w-full max-w-lg cursor-default items-center justify-center transition-[opacity,scale] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${isPortraitOpen ? 'scale-100 opacity-100' : 'scale-[0.96] opacity-0'}`}
-          onClick={(event) => event.stopPropagation()}
         >
           <button
             type='button'
-            onClick={() => setIsPortraitOpen(false)}
+            onClick={closePortrait}
             className='absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition-colors duration-300 ease-out hover:bg-black/65'
             aria-label='Zavřít náhled'
           >
@@ -196,7 +171,7 @@ export default function About() {
             )}
           </div>
         </div>
-      </div>
+      </Dialog>
     </section>
   )
 }

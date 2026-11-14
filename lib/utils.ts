@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
+import { pragueFormatDateTime, pragueTimeInput } from '@/lib/prague-time'
 import { applyCzechNbsp } from '@/lib/typography'
 
 import { scrollToSection, setSectionHash } from '@/src/lib/navigation-core-adapter'
@@ -13,22 +14,5 @@ export const updateLocationHash = setSectionHash
 
 export { applyCzechNbsp, scrollToSection }
 
-// Czech timezone formatter
-const PRAGUE_TZ = 'Europe/Prague'
-
-export function timeToInput(date: Date) {
-  // HH:MM v Prague timezone
-  const pragueDate = new Date(date.toLocaleString('en-US', { timeZone: PRAGUE_TZ }))
-  return `${String(pragueDate.getHours()).padStart(2, '0')}:${String(pragueDate.getMinutes()).padStart(2, '0')}`
-}
-
-export function formatDateTime(date: Date) {
-  // dd.MM.yyyy HH:mm v Prague timezone
-  const pragueDate = new Date(date.toLocaleString('en-US', { timeZone: PRAGUE_TZ }))
-  const yyyy = pragueDate.getFullYear()
-  const MM = String(pragueDate.getMonth() + 1).padStart(2, '0')
-  const dd = String(pragueDate.getDate()).padStart(2, '0')
-  const HH = String(pragueDate.getHours()).padStart(2, '0')
-  const mm = String(pragueDate.getMinutes()).padStart(2, '0')
-  return `${dd}.${MM}.${yyyy} ${HH}:${mm}`
-}
+export const timeToInput = pragueTimeInput
+export const formatDateTime = pragueFormatDateTime

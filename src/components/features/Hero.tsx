@@ -45,7 +45,7 @@ export default function Hero() {
       <div className='absolute inset-x-0 bottom-0 h-[42%] bg-linear-to-t from-[rgba(22,12,10,0.72)] via-[rgba(22,12,10,0.28)] to-transparent' />
 
       <div className='hero-content-out relative z-20 w-full'>
-        <div className='animate-in slide-in-from-bottom-4 relative z-20 mx-auto flex w-full max-w-6xl flex-col items-center gap-5 px-6 pt-28 pb-32 text-center text-white duration-700 md:items-start md:gap-6 md:px-10 md:pt-32 md:pb-40 md:text-left lg:px-14 [@media(max-height:520px)]:pt-28 [@media(max-height:520px)]:pb-20'>
+        <div className='motion-safe:animate-in motion-safe:slide-in-from-bottom-4 relative z-20 mx-auto flex w-full max-w-6xl flex-col items-center gap-5 px-6 pt-28 pb-32 text-center text-white duration-700 md:items-start md:gap-6 md:px-10 md:pt-32 md:pb-40 md:text-left lg:px-14 [@media(max-height:520px)]:pt-28 [@media(max-height:520px)]:pb-20'>
           <div
             aria-hidden='true'
             className='pointer-events-none absolute inset-x-4 top-16 bottom-20 -z-10 mx-auto max-w-3xl bg-[radial-gradient(ellipse_closest-side,rgba(22,12,10,0.55),rgba(22,12,10,0.22)_58%,transparent)] [mask-image:radial-gradient(ellipse_closest-side,black_52%,transparent)] backdrop-blur-[14px] [-webkit-mask-image:radial-gradient(ellipse_closest-side,black_52%,transparent)] md:inset-x-0 md:bottom-28 md:mx-0 md:max-w-xl md:bg-[radial-gradient(ellipse_closest-side,rgba(22,12,10,0.5),rgba(22,12,10,0.18)_60%,transparent)] md:[mask-image:radial-gradient(ellipse_at_left,black_48%,transparent_78%)] md:[-webkit-mask-image:radial-gradient(ellipse_at_left,black_48%,transparent_78%)]'

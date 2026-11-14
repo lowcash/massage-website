@@ -1,4 +1,4 @@
-export type MassageSiteConfig = {
+type MassageSiteConfig = {
   readonly site: {
     readonly category: string
     readonly description: string
@@ -63,7 +63,7 @@ export type MassageSiteConfig = {
   }
 }
 
-export const SITE_CONFIG = {
+const SITE_CONFIG = {
   site: {
     url: 'https://pohlazenipoteleadusi.cz',
     name: 'Pohlazení po těle a duši',

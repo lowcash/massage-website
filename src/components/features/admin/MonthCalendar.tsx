@@ -125,7 +125,7 @@ export function MonthCalendar({ items, selectedDay, onSelectDay }: MonthCalendar
               {entry ? (
                 <span className='mt-1 flex gap-0.5' aria-hidden='true'>
                   {entry.free > 0 ? (
-                    <span className={cn('h-1.5 w-1.5 rounded-full', isSelected ? 'bg-white' : 'bg-emerald-500')} />
+                    <span className={cn('h-1.5 w-1.5 rounded-full', isSelected ? 'bg-white' : 'bg-success')} />
                   ) : null}
                   {entry.reserved > 0 ? (
                     <span className={cn('h-1.5 w-1.5 rounded-full', isSelected ? 'bg-white/60' : 'bg-brand')} />
@@ -141,7 +141,7 @@ export function MonthCalendar({ items, selectedDay, onSelectDay }: MonthCalendar
 
       <p className='text-muted-ink mt-3 flex items-center gap-4 text-xs'>
         <span className='flex items-center gap-1.5'>
-          <span className='h-1.5 w-1.5 rounded-full bg-emerald-500' /> volné
+          <span className='h-1.5 w-1.5 rounded-full bg-success' /> volné
         </span>
         <span className='flex items-center gap-1.5'>
           <span className='bg-brand h-1.5 w-1.5 rounded-full' /> rezervované

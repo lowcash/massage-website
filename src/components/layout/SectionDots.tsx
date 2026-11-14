@@ -6,6 +6,7 @@ import { siteContent } from '@/lib/content'
 import { cn, scrollToSection } from '@/lib/utils'
 
 import { FloatingContainer } from '@/src/components/layout/FloatingContainer'
+import { useFooterVisible } from '@/src/hooks/useFooterVisible'
 import { resolveActiveSection } from '@/src/lib/navigation-core-adapter'
 
 const SHOW_AFTER_SCROLL = 360
@@ -22,7 +23,7 @@ const sections = [
 export default function SectionDots() {
   const [activeSection, setActiveSection] = useState('hero')
   const [isVisible, setIsVisible] = useState(false)
-  const [isFooterVisible, setIsFooterVisible] = useState(false)
+  const isFooterVisible = useFooterVisible()
 
   useEffect(() => {
     let frameId: number | null = null
@@ -53,30 +54,6 @@ export default function SectionDots() {
     }
   }, [])
 
-  useEffect(() => {
-    const footerElement = document.querySelector('footer')
-
-    if (!footerElement) {
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsFooterVisible(entry.isIntersecting)
-      },
-      {
-        threshold: 0,
-        rootMargin: '0px 0px -20px 0px',
-      },
-    )
-
-    observer.observe(footerElement)
-
-    return () => {
-      observer.disconnect()
-    }
-  }, [])
-
   const canShowDots = isVisible && !isFooterVisible
 
   return (
@@ -104,7 +81,7 @@ export default function SectionDots() {
                 className={cn(
                   'rounded-full transition-all duration-300',
                   isActive
-                    ? 'bg-brand h-3 w-3 shadow-[0_0_0_4px_rgba(162,77,63,0.16)]'
+                    ? 'bg-brand h-3 w-3 shadow-[0_0_0_4px_var(--color-dot-ring)]'
                     : 'bg-ink/25 group-hover:bg-brand/70 h-2 w-2',
                 )}
               />

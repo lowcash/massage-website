@@ -18,7 +18,6 @@ const Footer = dynamic(() => import('@/src/components/layout/Footer'))
 const SectionDots = dynamic(() => import('@/src/components/layout/SectionDots'))
 const ScrollToTop = dynamic(() => import('@/src/components/layout/ScrollToTop'))
 const WhatsAppButton = dynamic(() => import('@/src/components/shared/WhatsAppButton'))
-const Toaster = dynamic(() => import('@/src/components/ui/sonner').then((module) => module.Toaster))
 
 export const revalidate = 60
 
@@ -35,18 +34,19 @@ export default async function Page() {
   return (
     <>
       <Navigation />
-      <Hero />
-      <Services />
-      <GiftVouchers />
-      <About />
-      <Gallery />
-      <Calendar data={calendarData} />
-      <Contact />
+      <main id='main-content'>
+        <Hero />
+        <Services />
+        <GiftVouchers />
+        <About />
+        <Gallery />
+        <Calendar data={calendarData} />
+        <Contact />
+      </main>
       <Footer />
       <SectionDots />
       <ScrollToTop />
       <WhatsAppButton />
-      <Toaster />
     </>
   )
 }

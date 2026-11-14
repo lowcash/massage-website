@@ -48,14 +48,12 @@ export default function RootLayout({
       <body className={`${dancingScript.variable} ${ebGaramond.variable} ${dmSans.variable} min-h-screen antialiased`}>
         <a
           href='#main-content'
-          className='skip-link bg-night focus:ring-brand sr-only absolute top-4 left-4 z-100 rounded-full px-5 py-2.5 text-sm font-medium text-white focus:not-sr-only focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#f6edeb] focus:outline-none'
+          className='skip-link bg-night focus:ring-brand focus:ring-offset-skip-offset sr-only absolute top-4 left-4 z-100 rounded-full px-5 py-2.5 text-sm font-medium text-white focus:not-sr-only focus:ring-2 focus:ring-offset-2 focus:outline-none'
         >
           Přeskočit na hlavní obsah
         </a>
 
-        <BookingProvider>
-          <main id='main-content'>{children}</main>
-        </BookingProvider>
+        <BookingProvider>{children}</BookingProvider>
 
         {enableVercelAnalytics ? <Analytics /> : null}
       </body>

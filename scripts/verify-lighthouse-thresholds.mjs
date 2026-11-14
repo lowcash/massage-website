@@ -4,18 +4,20 @@ import process from 'node:process'
 
 const outputDir = path.resolve(process.cwd(), 'test-results')
 
+// Floors from measured local runs (2026-11-14): desktop perf 66 / mobile perf 77.
+// Mobile gate set to 70 per Wave 1 brief; other categories keep headroom under 100.
 const thresholds = {
   desktop: {
     performance: 60,
     accessibility: 100,
     bestPractices: 100,
-    seo: 90,
+    seo: 95,
   },
   mobile: {
-    performance: 20,
+    performance: 70,
     accessibility: 100,
     bestPractices: 100,
-    seo: 90,
+    seo: 95,
   },
 }
 

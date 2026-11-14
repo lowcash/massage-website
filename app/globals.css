@@ -1,8 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-@custom-variant dark (&:is(.dark *));
-
 @theme {
   --color-ink: #2b211f;
   --color-body: #54443f;
@@ -14,18 +12,36 @@
   --color-paper: #fffdfb;
   --color-line: #e8d6d0;
   --color-night: #2b1d1a;
+  --color-whatsapp: #1b7a45;
+  --color-whatsapp-hover: #157a3c;
+  --color-slot-unavailable: #816f69;
+  --color-nav-hero-active: #ffe4de;
+  --color-brand-glow: rgb(201 123 111 / 0.18);
+  --color-overlay-nav: rgb(60 35 28 / 0.07);
+  --color-overlay-drawer: rgb(70 40 32 / 0.08);
+  --color-html-chrome: #2c2c2c;
+  --color-skip-offset: #f6edeb;
+  --color-dot-ring: rgb(162 77 63 / 0.16);
+  --color-success: #059669;
+  --color-success-soft: #ecfdf5;
+  --color-success-border: #a7f3d0;
+  --color-success-ink: #065f46;
+  --color-danger-soft: #fef2f2;
+  --color-danger: #b91c1c;
+  --color-hero-wash: rgb(28 16 12 / 0.78);
+  --color-cta-shadow: rgb(0 0 0 / 0.28);
 
   /*
    * Radius scale: buttons and CTAs are pills (rounded-full); chips, inputs and list rows use rounded-xl;
    * tiles, images and inner cards use rounded-2xl; large panels use rounded-3xl. Keep new UI on these four.
    */
 
-  /* Two elevation levels used everywhere: resting cards and lifted/hovered elements. */
+  /* Resting card elevation. */
   --shadow-soft: 0 18px 50px rgb(70 40 32 / 0.07);
-  --shadow-lift: 0 14px 36px rgb(70 40 32 / 0.13);
 
   --font-dancing: 'Dancing Script', cursive;
   --animate-hero-zoom: hero-zoom 28s ease-out forwards;
+  --animate-whatsapp-pulse: whatsapp-pulse 1.8s ease-out 1;
 
   @keyframes hero-zoom {
     from {
@@ -33,6 +49,21 @@
     }
     to {
       scale: 1.14;
+    }
+  }
+
+  @keyframes whatsapp-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    70% {
+      transform: scale(1.35);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1.35);
+      opacity: 0;
     }
   }
 
@@ -186,40 +217,6 @@ button:disabled {
   --foreground: oklch(0.145 0 0);
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -227,7 +224,7 @@ button:disabled {
 
   html {
     scrollbar-width: none;
-    background: #2c2c2c;
+    background: var(--color-html-chrome);
     /* Only on the root scroller — scroll-smooth on * fights iOS momentum and hash navigation. */
     scroll-behavior: smooth;
   }
@@ -245,6 +242,21 @@ button:disabled {
     line-height: 1.65;
     scrollbar-width: none;
     padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/*
+ * Global kill-switch for leftover animations/transitions when the user asks for reduced motion.
+ * Intentional: components should still prefer motion-safe: variants; this catches anything that slips through.
+ * html scroll-behavior is handled separately above.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

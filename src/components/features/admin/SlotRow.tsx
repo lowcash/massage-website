@@ -29,7 +29,7 @@ export function SlotRow({ item, onToggleReserved, onDelete }: SlotRowProps) {
         onClick={onToggleReserved}
         className={cn(
           'focus-visible:ring-brand/40 relative h-7 w-12 shrink-0 cursor-pointer rounded-full transition-colors outline-none focus-visible:ring-2',
-          item.reserved ? 'bg-brand' : 'bg-ink/20',
+          item.reserved ? 'bg-brand' : 'bg-ink/50',
         )}
       >
         <span
@@ -46,7 +46,7 @@ export function SlotRow({ item, onToggleReserved, onDelete }: SlotRowProps) {
         disabled={item.reserved}
         aria-label={`Smazat termín ${time}`}
         title={item.reserved ? 'Rezervovaný termín nejdřív uvolněte' : 'Smazat termín'}
-        className='text-muted-ink focus-visible:ring-brand/40 flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors outline-none hover:bg-red-50 hover:text-red-700 focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-current'
+        className='text-muted-ink focus-visible:ring-brand/40 hover:bg-danger-soft hover:text-danger flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-current'
       >
         <Trash2 className='h-4 w-4' />
       </button>

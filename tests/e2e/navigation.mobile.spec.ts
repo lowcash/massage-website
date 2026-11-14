@@ -43,7 +43,7 @@ test.describe('Mobile menu', () => {
     await expect(hamburger).toBeVisible()
     await hamburger.click()
 
-    const aside = page.locator('aside')
+    const aside = page.locator("aside[role='dialog']")
     await expect(aside).toBeVisible()
   })
 
@@ -51,7 +51,7 @@ test.describe('Mobile menu', () => {
     const hamburger = page.getByRole('button', { name: /otevřít navigaci/i })
     await hamburger.click()
 
-    const aside = page.locator('aside')
+    const aside = page.locator("aside[role='dialog']")
     await expect(aside).toBeVisible()
 
     const closeButton = page.getByRole('button', { name: /zavřít navigaci/i })
@@ -65,7 +65,7 @@ test.describe('Mobile menu', () => {
     const hamburger = page.getByRole('button', { name: /otevřít navigaci/i })
     await hamburger.click()
 
-    const aside = page.locator('aside')
+    const aside = page.locator("aside[role='dialog']")
     await expect(aside).toBeVisible()
 
     await page.mouse.click(20, 400)
@@ -78,10 +78,10 @@ test.describe('Mobile menu', () => {
     const hamburger = page.getByRole('button', { name: /otevřít navigaci/i })
     await hamburger.click()
 
-    const aside = page.locator('aside')
+    const aside = page.locator("aside[role='dialog']")
     await expect(aside).toBeVisible()
 
-    const firstNavButton = aside.locator('div.flex-1 button[type="button"]').first()
+    const firstNavButton = aside.locator('nav a').first()
     await firstNavButton.click()
     await page.waitForTimeout(600)
 
@@ -102,17 +102,17 @@ test.describe('Mobile menu', () => {
     })
 
     await expect
-      .poll(async () => page.locator('aside div.flex-1 button[type="button"]').nth(0).getAttribute('aria-current'), {
+      .poll(async () => page.locator("aside[role='dialog'] nav a").nth(0).getAttribute('aria-current'), {
         timeout: 3000,
       })
-      .toBe('page')
+      .toBe('location')
 
     await page.getByRole('button', { name: /otevřít navigaci/i }).click()
-    const aside = page.locator('aside')
+    const aside = page.locator("aside[role='dialog']")
     await expect(aside).toBeVisible()
 
-    await expect(aside.locator('div.flex-1 button[type="button"]').nth(0)).toHaveAttribute('aria-current', 'page')
-    await expect(aside.locator('div.flex-1 button[type="button"]').nth(5)).not.toHaveAttribute('aria-current', 'page')
+    await expect(aside.locator('nav a').nth(0)).toHaveAttribute('aria-current', 'location')
+    await expect(aside.locator('nav a').nth(5)).not.toHaveAttribute('aria-current', 'location')
   })
 
   test('menu link scrolls from current position not from page top', async ({ page }) => {
@@ -129,11 +129,11 @@ test.describe('Mobile menu', () => {
     expect(startY).toBeGreaterThan(200)
 
     await page.getByRole('button', { name: /otevřít navigaci/i }).click()
-    const aside = page.locator('aside')
+    const aside = page.locator("aside[role='dialog']")
     await expect(aside).toBeVisible()
 
     // Studio is after About — should animate from the mid-page offset, not restart at 0.
-    await aside.locator('div.flex-1 button[type="button"]').nth(3).click()
+    await aside.locator('nav a').nth(3).click()
 
     const minYDuringScroll = await page.evaluate(async () => {
       let minY = window.scrollY
@@ -150,13 +150,14 @@ test.describe('Mobile menu', () => {
   })
 
   test('service card click scrolls to #booking with selected service badge on mobile', async ({ page }) => {
-    const serviceCard = page.locator('#services button').first()
+    const serviceRow = page.locator('#services li').first()
+    const serviceCard = serviceRow.locator('button')
     // Wait for the dynamically-imported Services chunk to be fully hydrated
     await expect(serviceCard).toBeAttached({ timeout: 10000 })
     await serviceCard.scrollIntoViewIfNeeded()
     await expect(serviceCard).toBeVisible()
 
-    const serviceName = (await serviceCard.locator('h3').textContent())?.trim()
+    const serviceName = (await serviceRow.locator('h3').textContent())?.trim()
     await serviceCard.click()
 
     await expect(page).toHaveURL(/#booking$/)
@@ -184,7 +185,7 @@ test.describe('Mobile menu', () => {
   })
 
   test('active nav highlight syncs during scroll on mobile', async ({ page }) => {
-    const mobileNavButtons = page.locator('aside div.flex-1 button[type="button"]')
+    const mobileNavButtons = page.locator("aside[role='dialog'] nav a")
     await expect(mobileNavButtons.first()).toBeAttached()
 
     for (const sectionId of SECTIONS) {
@@ -207,7 +208,7 @@ test.describe('Mobile menu', () => {
 
       await expect
         .poll(async () => mobileNavButtons.nth(sectionIndex).getAttribute('aria-current'), { timeout: 3000 })
-        .toBe('page')
+        .toBe('location')
     }
   })
 
@@ -218,10 +219,10 @@ test.describe('Mobile menu', () => {
       const sectionIndex = SECTIONS.indexOf(sectionId)
 
       await hamburger.click()
-      const aside = page.locator('aside')
+      const aside = page.locator("aside[role='dialog']")
       await expect(aside).toBeVisible()
 
-      const navButton = aside.locator('div.flex-1 button[type="button"]').nth(sectionIndex)
+      const navButton = aside.locator('nav a').nth(sectionIndex)
       await navButton.click()
 
       await expect(aside).toHaveClass(/translate-x-full/)
@@ -229,10 +230,7 @@ test.describe('Mobile menu', () => {
 
       await hamburger.click()
       await expect(aside).toBeVisible()
-      await expect(aside.locator('div.flex-1 button[type="button"]').nth(sectionIndex)).toHaveAttribute(
-        'aria-current',
-        'page',
-      )
+      await expect(aside.locator('nav a').nth(sectionIndex)).toHaveAttribute('aria-current', 'location')
 
       const closeButton = page.getByRole('button', { name: /zavřít navigaci/i })
       await closeButton.click()

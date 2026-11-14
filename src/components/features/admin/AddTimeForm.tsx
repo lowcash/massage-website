@@ -58,7 +58,7 @@ export function AddTimeForm({ dayKey, takenTimes, isLoading, onAdd }: AddTimeFor
               className={cn(
                 'focus-visible:ring-brand/40 flex h-11 cursor-pointer items-center justify-center gap-1 rounded-xl border text-sm tabular-nums transition-colors outline-none focus-visible:ring-2 disabled:cursor-not-allowed',
                 taken
-                  ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+                  ? 'border-success-border bg-success-soft text-success-ink'
                   : past
                     ? 'border-line text-muted-ink/40 bg-white'
                     : 'border-line text-ink hover:border-brand hover:bg-brand/8 bg-white',

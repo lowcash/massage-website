@@ -102,6 +102,6 @@ export const updateCalendar = authActionClient.schema(calendarUpdateInputSchema)
     await redis.set(CALENDAR_KV_KEY, JSON.stringify(parsedInput, null, 2))
   } catch (error) {
     console.error('Redis connection error:', error)
-    throw new Error('Failed to update calendar. Redis connection unavailable.')
+    throw new Error('Failed to update calendar. Redis connection unavailable.', { cause: error })
   }
 })

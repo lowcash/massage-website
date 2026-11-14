@@ -1,18 +1,9 @@
+import { combinePragueDateTime, pragueDayKey } from '@/lib/prague-time'
+
 import { CalendarItem } from '@/types/calendar'
 
 export function combineDateTime(dateStr: string, timeStr: string): Date | null {
-  if (!dateStr || !timeStr) return null
-  const [hours, minutes] = timeStr.split(':').map(Number)
-  const [year, month, day] = dateStr.split('-').map(Number)
-
-  // Vytvoříme datum v Prague timezone a převedeme na UTC
-  // Uživatel zadá např. 15:00 Prague → uloží se jako 14:00 UTC
-  const pragueDate = new Date(year, month - 1, day, hours, minutes)
-  const utcString = pragueDate.toLocaleString('en-US', { timeZone: 'Europe/Prague' })
-  const parsedUtc = new Date(utcString)
-  const offset = pragueDate.getTime() - parsedUtc.getTime()
-
-  return new Date(pragueDate.getTime() + offset)
+  return combinePragueDateTime(dateStr, timeStr)
 }
 
 export function isDateTimeInFuture(dateObj: Date | null): boolean {
@@ -21,22 +12,13 @@ export function isDateTimeInFuture(dateObj: Date | null): boolean {
 }
 
 export function sortCalendarList(input: CalendarItem[]): CalendarItem[] {
-  // Řadí podle Prague timezone
-  return [...input].sort((a, b) => {
-    const aPrague = new Date(a.date.toLocaleString('en-US', { timeZone: 'Europe/Prague' }))
-    const bPrague = new Date(b.date.toLocaleString('en-US', { timeZone: 'Europe/Prague' }))
-    return aPrague.getTime() - bPrague.getTime()
-  })
+  return [...input].sort((a, b) => a.date.getTime() - b.date.getTime())
 }
 
 export function filterFutureCalendarItems(items: CalendarItem[]): CalendarItem[] {
-  // Aktuální datum v Prague timezone (začátek dne)
-  const now = new Date()
-  const nowPrague = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Prague' }))
-  nowPrague.setHours(0, 0, 0, 0)
-
+  const todayKey = pragueDayKey(new Date())
   return items.filter((item) => {
-    const itemPrague = new Date(item.date.toLocaleString('en-US', { timeZone: 'Europe/Prague' }))
-    return itemPrague >= nowPrague
+    if (Number.isNaN(item.date.getTime())) return false
+    return pragueDayKey(item.date) >= todayKey
   })
 }

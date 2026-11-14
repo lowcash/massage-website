@@ -3,6 +3,7 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
+import { resolveScrollBehavior } from '@/packages/navigation-core'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -109,6 +110,7 @@ export default function PeekCarousel({
     }
 
     const { itemOffsets, minScrollLeft, maxScrollLeft } = getScrollBounds(el)
+    const behavior = resolveScrollBehavior('smooth', window.matchMedia('(prefers-reduced-motion: reduce)').matches)
 
     const tolerance = 2
     const step = el.clientWidth * 0.82
@@ -124,7 +126,7 @@ export default function PeekCarousel({
         minScrollLeft,
         maxScrollLeft,
       )
-      el.scrollTo({ left: target, behavior: 'smooth' })
+      el.scrollTo({ left: target, behavior })
       return
     }
 
@@ -135,7 +137,7 @@ export default function PeekCarousel({
       previousOffsets.length > 0 ? previousOffsets[previousOffsets.length - 1] : minScrollLeft
     const targetOffset = candidates.length > 0 ? candidates[candidates.length - 1] : fallbackPreviousOffset
     const target = clampScrollLeft(targetOffset, minScrollLeft, maxScrollLeft)
-    el.scrollTo({ left: target, behavior: 'smooth' })
+    el.scrollTo({ left: target, behavior })
   }
 
   const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -219,6 +221,8 @@ export default function PeekCarousel({
           'border-line text-muted-ink absolute top-1/2 left-2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border bg-white/90 shadow-sm transition-colors duration-300 ease-out hover:bg-white md:flex',
           canScrollLeft ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
+        tabIndex={canScrollLeft ? undefined : -1}
+        aria-hidden={canScrollLeft ? undefined : true}
         aria-label={`Posunout ${ariaLabel} doleva`}
       >
         <ChevronLeft className='h-5 w-5' />
@@ -231,6 +235,8 @@ export default function PeekCarousel({
           'border-line text-muted-ink absolute top-1/2 right-2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border bg-white/90 shadow-sm transition-colors duration-300 ease-out hover:bg-white md:flex',
           canScrollRight ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
+        tabIndex={canScrollRight ? undefined : -1}
+        aria-hidden={canScrollRight ? undefined : true}
         aria-label={`Posunout ${ariaLabel} doprava`}
       >
         <ChevronRight className='h-5 w-5' />
@@ -238,6 +244,9 @@ export default function PeekCarousel({
 
       <div
         ref={containerRef}
+        tabIndex={0}
+        role='region'
+        aria-label={ariaLabel}
         className={cn(
           mobilePeek
             ? 'no-scrollbar flex gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain px-[8%] pb-2 select-none [-webkit-overflow-scrolling:touch] sm:px-0'

@@ -7,59 +7,48 @@ import { applyCzechNbsp, cn } from '@/lib/utils'
 
 import giftVoucherImage from '@/src/assets/voucher.jpg'
 import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
+import { Reveal } from '@/src/components/shared/Reveal'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
-import { useInView } from '@/src/hooks/useInView'
-import { useReducedMotion } from '@/src/hooks/useReducedMotion'
 
 export default function GiftVouchers() {
   const href = `https://wa.me/${siteContent.brand.phoneDigits}?text=${encodeURIComponent(siteContent.vouchers.whatsappMessage)}`
-  const shouldReduceMotion = useReducedMotion()
-  const intro = useInView()
-  const card = useInView()
-
-  const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
-  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
   return (
     <section id='vouchers' className='bg-surface-alt px-5 py-20 md:px-8 md:py-28'>
       <div className={cn(CONTENT_SHELL, 'flex flex-col gap-14')}>
-        <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
+        <Reveal>
           <SectionIntro
             id='vouchers-heading'
             title={siteContent.vouchers.heading}
             subtitle={siteContent.vouchers.subtitle}
           />
-        </div>
+        </Reveal>
 
-        <div
-          ref={card.ref}
-          className={`border-line shadow-soft grid gap-0 overflow-hidden rounded-2xl border bg-white transition-[opacity,translate,box-shadow] duration-500 ease-out md:grid-cols-2 ${!card.inView ? hidden : ''}`}
-          style={{ transitionDelay: card.inView ? '140ms' : '0ms' }}
+        <Reveal
+          delayMs={140}
+          className='border-line shadow-soft grid gap-0 overflow-hidden rounded-2xl border bg-white md:grid-cols-2'
         >
-          <div
-            className={`${fadeIn} bg-surface-alt relative min-h-72 p-10 ${!card.inView ? hidden : ''}`}
-            style={{ transitionDelay: card.inView ? '220ms' : '0ms' }}
-          >
-            <div className='absolute inset-8 rounded-2xl border border-white/50' />
+          <Reveal delayMs={220} className='bg-surface-alt relative min-h-72 p-10'>
+            <div aria-hidden='true' className='absolute inset-8 rounded-2xl border border-white/50' />
             <Image
               src={giftVoucherImage}
-              alt={siteContent.vouchers.imageAlt}
+              alt=''
               fill
               className='object-cover opacity-55'
               sizes='(min-width: 768px) 50vw, 100vw'
             />
-          </div>
+          </Reveal>
 
-          <div
-            className={`flex flex-col gap-6 p-8 ${fadeIn} md:p-10 ${!card.inView ? hidden : ''}`}
-            style={{ transitionDelay: card.inView ? '320ms' : '0ms' }}
-          >
+          <Reveal delayMs={320} className='flex flex-col gap-6 p-8 md:p-10'>
             <p className='text-body text-base leading-relaxed'>{applyCzechNbsp(siteContent.vouchers.description)}</p>
 
             <ul className='text-body flex flex-col gap-3 text-base'>
               {siteContent.vouchers.benefits.map((benefit) => (
                 <li key={benefit} className='flex items-center gap-3'>
-                  <span className='bg-brand inline-flex h-5 w-5 items-center justify-center rounded-full text-xs text-white'>
+                  <span
+                    aria-hidden='true'
+                    className='bg-brand inline-flex h-5 w-5 items-center justify-center rounded-full text-xs text-white'
+                  >
                     ✓
                   </span>
                   <span className='text-balance'>{applyCzechNbsp(benefit)}</span>
@@ -75,8 +64,8 @@ export default function GiftVouchers() {
             >
               {applyCzechNbsp(siteContent.vouchers.cta)}
             </a>
-          </div>
-        </div>
+          </Reveal>
+        </Reveal>
       </div>
     </section>
   )
