@@ -8,8 +8,6 @@ import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
 import PeekCarousel from '@/src/components/shared/PeekCarousel'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 import { useBooking } from '@/src/contexts/BookingContext'
-import { useInView } from '@/src/hooks/useInView'
-import { useReducedMotion } from '@/src/hooks/useReducedMotion'
 
 import type { CalendarSlot } from './Calendar'
 
@@ -17,17 +15,14 @@ function GoodToKnow() {
   const { heading, items } = siteContent.calendar.goodToKnow
 
   return (
-    <aside
-      aria-labelledby='booking-good-to-know-heading'
-      className='border-brand/40 mx-auto w-full max-w-xl border-l-2 pl-5 text-left'
-    >
-      <p id='booking-good-to-know-heading' className='text-brand text-xs font-medium tracking-[0.22em] uppercase'>
+    <aside aria-labelledby='booking-good-to-know-heading' className='grid content-start gap-[var(--spacing-s2)]'>
+      <h3 id='booking-good-to-know-heading' className='text-night-ink text-[length:var(--text-fluid-2)]'>
         {applyCzechNbsp(heading)}
-      </p>
-      <ul className='text-muted-ink mt-3 flex flex-col gap-2.5 text-sm leading-relaxed'>
+      </h3>
+      <ul className='m-0 grid list-none gap-3.5 p-0 text-[length:var(--text-fluid--1)]'>
         {items.map((item) => (
-          <li key={item} className='flex gap-2.5'>
-            <span aria-hidden='true' className='bg-brand/70 mt-2 h-1 w-1 shrink-0 rounded-full' />
+          <li key={item} className='grid grid-cols-[auto_1fr] gap-x-3'>
+            <span aria-hidden='true' className='bg-glow mt-[0.6em] h-[0.45rem] w-[0.45rem] rounded-full' />
             <span>{applyCzechNbsp(item)}</span>
           </li>
         ))}
@@ -36,19 +31,32 @@ function GoodToKnow() {
   )
 }
 
+function SelectedService({ name }: { name: string }) {
+  return (
+    <div className='bg-night-ink/7 text-night-ink rounded-(--radius-md) px-[1.1rem] py-3.5 [view-transition-name:selected-service]'>
+      <small className='text-night-muted block text-[0.6875rem] font-semibold tracking-[0.12em] uppercase'>
+        {applyCzechNbsp(siteContent.calendar.selectedServiceLabel)}
+      </small>
+      <span className='font-display text-[length:var(--text-fluid-1)] font-medium [font-variation-settings:"SOFT"_80,"opsz"_36]'>
+        {applyCzechNbsp(name)}
+      </span>
+    </div>
+  )
+}
+
+const SECTION_CLASS =
+  'night focus-night bg-night text-night-muted relative isolate overflow-hidden py-[var(--spacing-s6)]'
+const GLOW_CLASS =
+  'pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60rem_28rem_at_85%_-10%,color-mix(in_oklab,var(--color-glow)_16%,transparent),transparent_70%)]'
+const PANEL_CLASS =
+  'bg-[color-mix(in_oklab,var(--color-night-ink)_5%,var(--color-night))] border border-night-ink/12 rounded-(--radius-lg) p-[clamp(1.25rem,0.6rem+2.6vw,3rem)]'
+
 interface BookingCalendarProps {
   data?: CalendarSlot[]
 }
 
 export default function BookingCalendar({ data }: BookingCalendarProps) {
-  const shouldReduceMotion = useReducedMotion()
   const { selectedService } = useBooking()
-  const intro = useInView()
-  const carousel = useInView()
-  const cta = useInView()
-
-  const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
-  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
 
   const calendarData = mapApiDataToDisplay(data, siteContent.calendar.dayNames)
   const whatsappCtaMessage = selectedService
@@ -71,118 +79,119 @@ export default function BookingCalendar({ data }: BookingCalendarProps) {
 
   if (calendarData.length === 0) {
     return (
-      <section id='booking' className='bg-surface-alt px-5 py-10 md:px-8 md:py-24'>
-        <div className={cn(CONTENT_SHELL, 'flex flex-col gap-10')}>
+      <section id='booking' aria-labelledby='booking-heading' className={SECTION_CLASS}>
+        <div aria-hidden='true' className={GLOW_CLASS} />
+        <div className={cn(CONTENT_SHELL, 'flex flex-col gap-[var(--spacing-s4)]')}>
           <SectionIntro
             id='booking-heading'
             title={siteContent.calendar.heading}
             subtitle={siteContent.calendar.subtitle}
+            onNight
           />
 
-          {selectedService && (
-            <div className='border-line text-muted-ink mx-auto w-fit rounded-full border bg-white px-5 py-2 text-base'>
-              {applyCzechNbsp(siteContent.calendar.selectedServiceLabel)}:{' '}
-              <span className='text-brand-hover font-medium'>{applyCzechNbsp(selectedService)}</span>
+          <div
+            className={cn(PANEL_CLASS, 'reveal-soft grid gap-[var(--spacing-s4)] min-[62rem]:grid-cols-[1.5fr_1fr]')}
+          >
+            <div className='grid content-start gap-[var(--spacing-s2)]'>
+              {selectedService && <SelectedService name={selectedService} />}
+              <p className='text-night-ink text-[length:var(--text-fluid-1)]'>
+                {applyCzechNbsp(siteContent.calendar.unavailableMessage)}
+              </p>
+              <p>{applyCzechNbsp(siteContent.calendar.unavailableHelp)}</p>
             </div>
-          )}
-
-          <div className='border-line text-body rounded-2xl border bg-white p-10 text-center'>
-            <p className='text-lg'>{applyCzechNbsp(siteContent.calendar.unavailableMessage)}</p>
-            <p className='mt-2 text-base'>{applyCzechNbsp(siteContent.calendar.unavailableHelp)}</p>
+            <GoodToKnow />
           </div>
-
-          <GoodToKnow />
         </div>
       </section>
     )
   }
 
   return (
-    <section id='booking' className='bg-surface-alt px-5 py-10 md:px-8 md:py-24'>
-      <div className={cn(CONTENT_SHELL, 'flex flex-col gap-6 md:gap-12')}>
-        <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
-          <SectionIntro
-            id='booking-heading'
-            title={siteContent.calendar.heading}
-            subtitle={siteContent.calendar.subtitle}
-            description={siteContent.calendar.intro}
-          />
-        </div>
-
-        {selectedService && (
-          <div className='border-line text-muted-ink mx-auto w-fit rounded-full border bg-white px-5 py-2 text-base'>
-            {applyCzechNbsp(siteContent.calendar.selectedServiceLabel)}:{' '}
-            <span className='text-brand-hover font-medium'>{applyCzechNbsp(selectedService)}</span>
-          </div>
-        )}
-
-        <div ref={carousel.ref} className='mx-auto w-full max-w-6xl'>
-          <PeekCarousel
-            ariaLabel={siteContent.calendar.carouselAriaLabel}
-            itemClassName='w-[78%] sm:w-[44%] md:w-[30%] lg:w-[16%]'
-            fadeEdges={true}
-          >
-            {calendarData.map((dayData, dayIndex) => (
-              <article
-                key={`${dayData.day}-${dayData.date}`}
-                className={`${fadeIn} ${!carousel.inView ? hidden : ''} ${
-                  dayData.isToday
-                    ? 'border-brand-hover bg-paper h-full rounded-2xl border-2 p-3 shadow-[0_8px_26px_var(--color-brand-glow)] md:p-4'
-                    : 'border-line h-full rounded-2xl border bg-white p-3 md:p-4'
-                }`}
-                style={{ transitionDelay: carousel.inView ? `${Math.min(dayIndex, 5) * 90}ms` : '0ms' }}
-              >
-                <div className='border-line mb-3 border-b pb-3 text-center md:mb-5 md:pb-4'>
-                  <h3 className='font-display text-ink text-3xl leading-none lg:text-[1.75rem]'>{dayData.day}</h3>
-                  <p className='text-muted-ink mt-2 text-sm tracking-[0.14em] uppercase'>{dayData.date}</p>
-                </div>
-
-                <div className='grid grid-cols-2 gap-2 lg:grid-cols-1'>
-                  {dayData.slots.map((slot) =>
-                    slot.available ? (
-                      <a
-                        key={slot.time}
-                        href={getSlotWhatsAppUrl(dayData.date, slot.time)}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className='border-brand-hover/40 bg-paper text-body hover:border-brand-hover hover:bg-brand-hover rounded-xl border px-3 py-2.5 text-center text-base transition-colors duration-500 ease-out hover:text-white'
-                      >
-                        {slot.time}
-                      </a>
-                    ) : (
-                      <span
-                        key={slot.time}
-                        aria-disabled='true'
-                        className='text-slot-unavailable cursor-not-allowed rounded-xl px-3 py-2.5 text-center text-base line-through decoration-1'
-                      >
-                        {slot.time}
-                        <span className='sr-only'> obsazeno</span>
-                      </span>
-                    ),
-                  )}
-                </div>
-              </article>
-            ))}
-          </PeekCarousel>
-        </div>
+    <section id='booking' aria-labelledby='booking-heading' className={SECTION_CLASS}>
+      <div aria-hidden='true' className={GLOW_CLASS} />
+      <div className={cn(CONTENT_SHELL, 'flex flex-col gap-[var(--spacing-s4)]')}>
+        <SectionIntro
+          id='booking-heading'
+          title={siteContent.calendar.heading}
+          subtitle={siteContent.calendar.subtitle}
+          description={siteContent.calendar.intro}
+          onNight
+        />
 
         <div
-          ref={cta.ref}
-          className={`flex flex-col items-center gap-6 text-center ${fadeIn} ${!cta.inView ? hidden : ''}`}
-          style={{ transitionDelay: cta.inView ? '200ms' : '0ms' }}
+          className={cn(
+            PANEL_CLASS,
+            'reveal-soft grid gap-[var(--spacing-s4)] min-[62rem]:grid-cols-[1.5fr_1fr] min-[62rem]:gap-[var(--spacing-s5)]',
+          )}
         >
-          <p className='text-body text-base leading-relaxed text-balance'>
-            {applyCzechNbsp(siteContent.calendar.flexibilityNote)}
-          </p>
-          <GoodToKnow />
-          <a
-            href={whatsappCtaUrl}
-            target='_blank'
-            rel='noopener noreferrer'
-            className='bg-brand hover:bg-brand-hover inline-flex rounded-full px-7 py-3.5 text-xs tracking-[0.16em] text-white uppercase transition-colors duration-300 ease-out'
-          >
-            {applyCzechNbsp(siteContent.calendar.whatsappCta)}
-          </a>
+          <div className='grid min-w-0 content-start gap-[var(--spacing-s3)]'>
+            {selectedService && <SelectedService name={selectedService} />}
+
+            <PeekCarousel
+              ariaLabel={siteContent.calendar.carouselAriaLabel}
+              itemClassName='w-[78%] sm:w-[44%] md:w-[30%] lg:w-[46%] xl:w-[31%]'
+              fadeEdges={true}
+            >
+              {calendarData.map((dayData) => (
+                <article
+                  key={`${dayData.day}-${dayData.date}`}
+                  className={cn(
+                    'h-full rounded-(--radius-md) border p-3 md:p-4',
+                    dayData.isToday ? 'border-glow bg-night-ink/8' : 'border-night-ink/12 bg-night-ink/4',
+                  )}
+                >
+                  <div className='border-night-ink/12 mb-3 border-b pb-3 md:mb-4'>
+                    <h3 className='text-night-ink font-sans text-[length:var(--text-fluid-0)] leading-tight font-semibold [font-variation-settings:normal]'>
+                      {dayData.day}
+                    </h3>
+                    <p className='text-night-muted text-[length:var(--text-fluid--1)]'>{dayData.date}</p>
+                  </div>
+
+                  <div className='flex flex-wrap gap-2'>
+                    {dayData.slots.map((slot) =>
+                      slot.available ? (
+                        <a
+                          key={slot.time}
+                          href={getSlotWhatsAppUrl(dayData.date, slot.time)}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='slot-lift border-night-ink/28 text-night-ink hover:border-glow hover:bg-glow hover:text-night inline-flex min-h-11 min-w-[4.5rem] items-center justify-center rounded-full border px-4 text-[length:var(--text-fluid--1)] leading-none font-medium tabular-nums transition-[background-color,color,border-color,transform] duration-260 ease-(--ease-out) hover:-translate-y-px'
+                        >
+                          {slot.time}
+                        </a>
+                      ) : (
+                        <span
+                          key={slot.time}
+                          aria-disabled='true'
+                          className='text-slot-unavailable inline-flex min-h-11 min-w-[4.5rem] cursor-not-allowed items-center justify-center rounded-full px-4 text-[length:var(--text-fluid--1)] leading-none line-through decoration-1'
+                        >
+                          {slot.time}
+                          <span className='sr-only'> obsazeno</span>
+                        </span>
+                      ),
+                    )}
+                  </div>
+                </article>
+              ))}
+            </PeekCarousel>
+          </div>
+
+          <div className='grid content-start gap-[var(--spacing-s3)]'>
+            <GoodToKnow />
+            <div className='grid justify-items-start gap-[var(--spacing-s2)]'>
+              <p className='max-w-[34ch] text-[length:var(--text-fluid--1)]'>
+                {applyCzechNbsp(siteContent.calendar.flexibilityNote)}
+              </p>
+              <a
+                href={whatsappCtaUrl}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='btn-lift bg-glow text-night inline-flex min-h-12 items-center justify-center rounded-full px-7 py-3 text-[0.8125rem] leading-none font-semibold tracking-[0.14em] uppercase transition-[background-color,transform] duration-260 ease-(--ease-soft) hover:bg-[color-mix(in_oklab,var(--color-glow)_85%,white)] active:scale-[0.98]'
+              >
+                {applyCzechNbsp(siteContent.calendar.whatsappCta)}
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>

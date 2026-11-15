@@ -13,7 +13,8 @@ test.describe('Booking flow mobile', () => {
     await serviceCard.scrollIntoViewIfNeeded()
     await expect(serviceCard).toBeVisible()
 
-    const serviceName = ((await serviceRow.locator('h3').textContent()) ?? '').trim()
+    // Display text binds words with non-breaking spaces; the WhatsApp message uses plain spaces.
+    const serviceName = ((await serviceRow.locator('h3').textContent()) ?? '').replaceAll('\u00a0', ' ').trim()
     await serviceCard.click()
 
     const selectedServiceBadge = page.locator('#booking span.font-medium').first()

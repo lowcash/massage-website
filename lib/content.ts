@@ -166,6 +166,8 @@ export const siteContent = {
     homeAriaLabel: `${SITE_IDENTITY.name} – úvodní sekce`,
     openMenuAriaLabel: 'Otevřít navigaci',
     closeMenuAriaLabel: 'Zavřít navigaci',
+    bookCta: 'Rezervovat',
+    footerNavLabel: 'Navigace',
     items: [
       { id: 'services', label: 'Služby', href: '#services' },
       { id: 'vouchers', label: 'Poukazy', href: '#vouchers' },
@@ -223,6 +225,7 @@ export const siteContent = {
       { id: 'clients', value: 1500, suffix: '+', label: 'spokojených klientů' },
       { id: 'massages', value: servicesItems.length, suffix: '', label: 'druhů masáží' },
     ] as AboutStat[],
+    credentialsHeading: 'Vzdělání a praxe',
     credentials: [
       'Magisterské studium ošetřovatelství na VŠZaSP sv. Alžbety v Bratislavě',
       'Specializace v oboru geriatrie',

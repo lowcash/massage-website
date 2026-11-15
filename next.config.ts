@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ['localhost', '127.0.0.1'],
   images: {
     formats: ['image/avif', 'image/webp'],
-    qualities: [75, 90],
+    qualities: [75, 80, 90],
   },
 }
 

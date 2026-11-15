@@ -1,10 +1,11 @@
 import Image from 'next/image'
 
 import { siteContent } from '@/lib/content'
-import { applyCzechNbsp } from '@/lib/utils'
+import { findNextFreeSlot } from '@/lib/next-free-slot'
+import { applyCzechNbsp, cn } from '@/lib/utils'
 
-import heroImage from '@/src/assets/hero.jpg'
-import HeroScrollCue from '@/src/components/features/HeroScrollCue'
+import heroImage from '@/src/assets/hero.webp'
+import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
 import SectionAnchor from '@/src/components/shared/SectionAnchor'
 
 const benefits = siteContent.hero.subtitle
@@ -15,87 +16,131 @@ const benefits = siteContent.hero.subtitle
 const [weekdayHours] = siteContent.contact.openingHours
 const [experience] = siteContent.about.stats
 
-const facts = [
-  `${weekdayHours.day} ${weekdayHours.hours}`,
-  `${siteContent.brand.addressLine1}, ${siteContent.footer.cityLabel}`,
-  `${experience.value}${experience.suffix} ${experience.label}`,
-]
+const ACCENT_WORD = 'uleví'
+const [titleBefore, titleAfter] = siteContent.hero.title.includes(ACCENT_WORD)
+  ? siteContent.hero.title.split(ACCENT_WORD)
+  : [siteContent.hero.title, '']
 
-export default function Hero() {
+interface HeroProps {
+  /** Same slot payload the booking calendar receives; drives the "nearest free slot" badge. */
+  calendarData?: unknown
+}
+
+export default function Hero({ calendarData }: HeroProps) {
+  const nextSlot = findNextFreeSlot(calendarData, siteContent.calendar.dayNames)
+
   return (
-    <section id='hero' className='relative flex min-h-svh items-center overflow-hidden'>
-      {/* Taller than the section so it can drift down slower than the page without showing an edge. */}
-      <div className='hero-parallax absolute inset-x-0 -top-[16svh] bottom-0'>
-        <div className='motion-safe:animate-hero-zoom absolute inset-0 scale-[1.06]'>
-          <Image
-            src={heroImage}
-            alt={siteContent.hero.imageAlt}
-            fill
-            priority
-            placeholder='blur'
-            className='object-cover object-[62%_42%] brightness-[0.88] contrast-[0.96] saturate-[0.9] md:object-[68%_40%]'
-            sizes='100vw'
-          />
-        </div>
-      </div>
-
-      {/* Left-weighted wash: keeps the photo alive on the right, darkens the reading zone. */}
-      <div className='absolute inset-0 bg-[linear-gradient(105deg,rgba(28,16,12,0.78)_0%,rgba(28,16,12,0.58)_38%,rgba(28,16,12,0.28)_68%,rgba(28,16,12,0.18)_100%)]' />
-      <div className='absolute inset-0 bg-[radial-gradient(ellipse_80%_70%_at_28%_48%,rgba(22,12,10,0.42),transparent_70%)]' />
-      <div className='absolute inset-x-0 bottom-0 h-[42%] bg-linear-to-t from-[rgba(22,12,10,0.72)] via-[rgba(22,12,10,0.28)] to-transparent' />
-
-      <div className='hero-content-out relative z-20 w-full'>
-        <div className='motion-safe:animate-in motion-safe:slide-in-from-bottom-4 relative z-20 mx-auto flex w-full max-w-6xl flex-col items-center gap-5 px-6 pt-28 pb-32 text-center text-white duration-700 md:items-start md:gap-6 md:px-10 md:pt-32 md:pb-40 md:text-left lg:px-14 [@media(max-height:520px)]:pt-28 [@media(max-height:520px)]:pb-20'>
-          <div
-            aria-hidden='true'
-            className='pointer-events-none absolute inset-x-4 top-16 bottom-20 -z-10 mx-auto max-w-3xl bg-[radial-gradient(ellipse_closest-side,rgba(22,12,10,0.55),rgba(22,12,10,0.22)_58%,transparent)] [mask-image:radial-gradient(ellipse_closest-side,black_52%,transparent)] backdrop-blur-[14px] [-webkit-mask-image:radial-gradient(ellipse_closest-side,black_52%,transparent)] md:inset-x-0 md:bottom-28 md:mx-0 md:max-w-xl md:bg-[radial-gradient(ellipse_closest-side,rgba(22,12,10,0.5),rgba(22,12,10,0.18)_60%,transparent)] md:[mask-image:radial-gradient(ellipse_at_left,black_48%,transparent_78%)] md:[-webkit-mask-image:radial-gradient(ellipse_at_left,black_48%,transparent_78%)]'
-          />
-
-          <p className='font-dancing text-shadow-hero text-3xl text-white/92 md:text-4xl'>
+    <section
+      id='hero'
+      className='pt-[calc(var(--navigation-offset)+var(--spacing-s4))] pb-[var(--spacing-s5)]'
+      aria-labelledby='hero-heading'
+    >
+      <div
+        className={cn(
+          CONTENT_SHELL,
+          'grid items-center gap-[var(--spacing-s4)] min-[56rem]:grid-cols-[1.15fr_0.85fr] min-[56rem]:gap-[var(--spacing-s5)]',
+        )}
+      >
+        <div>
+          <p className='font-dancing text-brand mb-1 block text-[clamp(1.6rem,1.3rem+1.2vw,2.2rem)] leading-tight'>
             {applyCzechNbsp(siteContent.brand.subtitle)}
           </p>
 
-          <div className='flex max-w-xl flex-col gap-4 md:max-w-2xl md:gap-5'>
-            <h1 className='text-shadow-hero font-display text-[clamp(2.55rem,12vw,3.35rem)] leading-[1.04] font-medium md:text-7xl lg:text-8xl [@media(max-height:520px)]:text-5xl'>
-              {applyCzechNbsp(siteContent.hero.title)}
-            </h1>
+          {/* LCP-adjacent text: no animation, no transform. */}
+          <h1
+            id='hero-heading'
+            className='mt-[var(--spacing-s2)] mb-[var(--spacing-s3)] text-[length:var(--text-fluid-hero)] leading-[1.02] font-[380] tracking-[-0.022em] [font-variation-settings:"SOFT"_80,"opsz"_144]'
+          >
+            {applyCzechNbsp(titleBefore)}
+            {titleAfter ? (
+              <em className='text-brand mr-[0.12em] font-[inherit] italic [font-variation-settings:"SOFT"_100,"opsz"_144]'>
+                {ACCENT_WORD}
+              </em>
+            ) : null}
+            {titleAfter ? applyCzechNbsp(titleAfter) : null}
+          </h1>
 
-            <div className='flex flex-col items-center gap-3 md:items-start'>
-              <span aria-hidden='true' className='h-px w-12 bg-white/40' />
-              <p className='text-shadow-hero font-display flex max-w-[17rem] flex-col gap-1.5 text-center text-[1.15rem] leading-snug text-white/86 italic md:max-w-md md:gap-2 md:text-left md:text-[1.35rem]'>
-                {benefits.map((benefit) => (
-                  <span key={benefit}>{applyCzechNbsp(benefit)}</span>
-                ))}
-              </p>
-            </div>
-          </div>
+          <ul
+            aria-label={siteContent.hero.subtitle}
+            className='mb-[var(--spacing-s4)] flex list-none flex-wrap gap-2 p-0'
+          >
+            {benefits.map((benefit) => (
+              <li
+                key={benefit}
+                className='bg-surface-alt text-ink rounded-full px-4 py-1.5 text-[length:var(--text-fluid--1)] font-medium'
+              >
+                {applyCzechNbsp(benefit)}
+              </li>
+            ))}
+          </ul>
 
-          <div className='flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:items-center sm:justify-center md:justify-start md:gap-4'>
+          <div className='flex flex-wrap gap-3'>
             <SectionAnchor
               sectionId='services'
-              className='bg-brand hover:bg-brand-hover rounded-full px-9 py-3.5 text-center text-sm tracking-widest text-white uppercase shadow-[0_10px_30px_rgba(0,0,0,0.28)] transition-colors duration-300 ease-out'
+              className='btn-lift bg-brand text-on-brand hover:bg-brand-hover inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full px-7 py-3 text-[0.8125rem] leading-none font-semibold tracking-[0.14em] uppercase shadow-[0_10px_24px_-8px_rgb(120_50_36/0.45)] transition-[background-color,box-shadow,transform] duration-260 ease-(--ease-soft) hover:-translate-y-px hover:shadow-[0_14px_28px_-8px_rgb(120_50_36/0.5)] active:scale-[0.98]'
             >
               {applyCzechNbsp(siteContent.hero.cta)}
+              <span aria-hidden='true'>→</span>
             </SectionAnchor>
             <SectionAnchor
               sectionId='booking'
-              className='rounded-full border border-white/55 bg-white/8 px-9 py-3.5 text-center text-sm tracking-widest text-white uppercase backdrop-blur-sm transition-colors duration-300 ease-out hover:bg-white/16'
+              className='btn-lift text-ink hover:bg-surface-alt inline-flex min-h-12 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--color-ink)_28%,transparent)] px-7 py-3 text-[0.8125rem] leading-none font-semibold tracking-[0.14em] uppercase transition-[background-color,border-color] duration-260 ease-(--ease-soft) hover:border-transparent'
             >
               {applyCzechNbsp(siteContent.hero.secondaryCta)}
             </SectionAnchor>
           </div>
 
-          <ul className='mt-3 hidden divide-x divide-white/25 text-sm text-white/80 md:flex'>
-            {facts.map((fact) => (
-              <li key={fact} className='px-4 whitespace-nowrap first:pl-0 last:pr-0'>
-                {applyCzechNbsp(fact)}
-              </li>
-            ))}
+          <ul className='border-line text-muted-ink mt-[var(--spacing-s4)] flex list-none flex-wrap gap-x-6 gap-y-2 border-t p-0 pt-[var(--spacing-s3)] text-[length:var(--text-fluid--1)]'>
+            <li>
+              <b className='text-ink font-semibold'>{applyCzechNbsp(weekdayHours.day)}</b>{' '}
+              {applyCzechNbsp(weekdayHours.hours)}
+            </li>
+            <li>{applyCzechNbsp(`${siteContent.brand.addressLine1}, ${siteContent.footer.cityLabel}`)}</li>
+            <li>
+              <b className='text-ink font-semibold'>
+                {experience.value}
+                {experience.suffix}
+              </b>{' '}
+              {applyCzechNbsp(experience.label)}
+            </li>
           </ul>
         </div>
-      </div>
 
-      <HeroScrollCue href='#services' ariaLabel={siteContent.hero.scrollIndicatorAriaLabel} />
+        <figure className='relative order-first m-0 w-full justify-self-center max-[55.99rem]:max-w-[34rem] min-[56rem]:order-none min-[56rem]:justify-self-end'>
+          <div className='bg-surface-alt shadow-lift relative aspect-5/4 overflow-hidden rounded-(--radius-organic) min-[56rem]:aspect-4/5'>
+            {/* LCP element: priority, intrinsic size, no animation or transform. */}
+            <Image
+              src={heroImage}
+              alt={siteContent.hero.imageAlt}
+              fill
+              priority
+              fetchPriority='high'
+              quality={80}
+              placeholder='blur'
+              className='object-cover object-[74%_48%] [filter:saturate(1.06)_contrast(1.05)_brightness(1.02)]'
+              sizes='(min-width: 56rem) 30rem, (min-width: 34rem) 34rem, 100vw'
+            />
+            <div
+              aria-hidden='true'
+              className='absolute inset-0 bg-[radial-gradient(120%_90%_at_100%_0%,transparent_55%,rgb(158_79_60/0.12))]'
+            />
+          </div>
+
+          {nextSlot ? (
+            <p className='bg-paper text-ink shadow-lift absolute bottom-6 left-2 m-0 flex items-center gap-3 rounded-(--radius-md) px-4 py-3 text-[length:var(--text-fluid--1)] leading-snug min-[56rem]:-left-8'>
+              <span
+                aria-hidden='true'
+                className='bg-sage h-2.5 w-2.5 shrink-0 rounded-full shadow-[0_0_0_4px_color-mix(in_oklab,var(--color-sage)_22%,transparent)]'
+              />
+              <span>
+                <b className='font-semibold'>Nejbližší volný termín</b>
+                <br />
+                {applyCzechNbsp(`${nextSlot.day} ${nextSlot.date} v ${nextSlot.time}`)}
+              </span>
+            </p>
+          ) : null}
+        </figure>
+      </div>
     </section>
   )
 }

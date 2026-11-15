@@ -160,7 +160,7 @@ export default function MobileDrawer({ open, activeSection, onClose, onNavigate,
         ref={backdropRef}
         aria-hidden='true'
         onClick={onClose}
-        className={`fixed inset-0 z-50 cursor-pointer bg-black/55 backdrop-blur-sm transition-opacity duration-300 ${open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+        className={`bg-ink/55 fixed inset-0 z-50 cursor-pointer transition-opacity duration-300 ${open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
       />
 
       <aside
@@ -169,14 +169,14 @@ export default function MobileDrawer({ open, activeSection, onClose, onNavigate,
         aria-label={siteContent.navigation.openMenuAriaLabel}
         aria-modal='true'
         inert={!open || undefined}
-        className={`border-line bg-surface/92 fixed top-0 right-0 bottom-0 z-50 flex h-dvh w-[92%] max-w-sm flex-col border-l pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-2xl transition-transform duration-300 ease-out ${open ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`border-line bg-paper fixed top-0 right-0 bottom-0 z-50 flex h-dvh w-[92%] max-w-sm flex-col border-l pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] transition-transform duration-300 ease-out ${open ? 'translate-x-0' : 'translate-x-full'}`}
       >
         {/* Keep the chrome compact so the six links fit without scrolling on common phone heights. */}
         <div className='flex shrink-0 items-center justify-between px-5 py-4 [@media(max-height:700px)]:py-3'>
           <a
             href='#hero'
             onClick={(event) => onNavigate(event, '#hero')}
-            className='font-dancing text-ink text-left text-[1.4rem] leading-none whitespace-nowrap transition-opacity duration-300 ease-out hover:opacity-85 min-[360px]:text-[1.7rem] [@media(max-height:700px)]:min-[360px]:text-[1.5rem]'
+            className='font-display text-ink text-left text-[1.2rem] leading-none font-[450] transition-opacity duration-300 ease-out [font-variation-settings:"SOFT"_100,"opsz"_48] hover:opacity-85'
             aria-label={siteContent.navigation.homeAriaLabel}
           >
             {applyCzechNbsp(siteContent.brand.name)}
@@ -186,7 +186,7 @@ export default function MobileDrawer({ open, activeSection, onClose, onNavigate,
             ref={closeButtonRef}
             type='button'
             onClick={onClose}
-            className='border-line text-muted-ink flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border bg-white/70'
+            className='border-ink/28 text-ink bg-surface flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border'
             aria-label={siteContent.navigation.closeMenuAriaLabel}
           >
             <X className='h-5 w-5' />
@@ -204,7 +204,7 @@ export default function MobileDrawer({ open, activeSection, onClose, onNavigate,
                   href={item.href}
                   onClick={(event) => onNavigate(event, item.href)}
                   aria-current={isActive ? 'location' : undefined}
-                  className={`font-display flex cursor-pointer items-center justify-between rounded-xl px-4 py-2.5 text-left text-[1.35rem] leading-none transition-colors duration-300 ease-out [@media(max-height:700px)]:py-2 [@media(max-height:700px)]:text-[1.25rem] ${isActive ? 'bg-paper text-brand shadow-[0_6px_20px_var(--color-overlay-drawer)]' : 'text-ink hover:bg-white/70'}`}
+                  className={`font-display flex cursor-pointer items-center justify-between rounded-(--radius-md) px-4 py-2.5 text-left text-[1.35rem] leading-none transition-colors duration-300 ease-out [@media(max-height:700px)]:py-2 [@media(max-height:700px)]:text-[1.25rem] ${isActive ? 'bg-brand-soft text-brand-hover' : 'text-ink hover:bg-surface'}`}
                 >
                   {applyCzechNbsp(item.label)}
                   {isActive ? <span aria-hidden='true' className='bg-brand h-2 w-2 rounded-full' /> : null}
@@ -221,13 +221,13 @@ export default function MobileDrawer({ open, activeSection, onClose, onNavigate,
                 <a
                   href={href}
                   {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  className='hover:bg-paper flex items-center gap-3 rounded-xl bg-white/80 px-3 py-2 transition-colors duration-300 ease-out [@media(max-height:700px)]:py-1.5'
+                  className='hover:bg-surface-alt bg-surface flex items-center gap-3 rounded-(--radius-md) px-3 py-2 transition-colors duration-300 ease-out [@media(max-height:700px)]:py-1.5'
                 >
                   <span className='bg-brand/10 text-brand flex h-9 w-9 shrink-0 items-center justify-center rounded-full'>
                     <Icon aria-hidden='true' className='h-4 w-4' />
                   </span>
                   <span className='flex min-w-0 flex-col'>
-                    <span className='text-brand text-[11px] tracking-[0.14em] uppercase'>{label}</span>
+                    <span className='text-brand text-[11px] font-semibold tracking-[0.14em] uppercase'>{label}</span>
                     <span className='text-ink text-sm leading-snug break-words'>
                       {lines.map((line) => (
                         <span key={line} className='block'>

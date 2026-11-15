@@ -141,7 +141,7 @@ export function MonthCalendar({ items, selectedDay, onSelectDay }: MonthCalendar
 
       <p className='text-muted-ink mt-3 flex items-center gap-4 text-xs'>
         <span className='flex items-center gap-1.5'>
-          <span className='h-1.5 w-1.5 rounded-full bg-success' /> volné
+          <span className='bg-success h-1.5 w-1.5 rounded-full' /> volné
         </span>
         <span className='flex items-center gap-1.5'>
           <span className='bg-brand h-1.5 w-1.5 rounded-full' /> rezervované

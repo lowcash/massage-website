@@ -91,43 +91,51 @@ export default function Navigation() {
   return (
     <>
       <header
-        className={`fixed top-0 right-0 left-0 z-50 border-b px-5 pt-[env(safe-area-inset-top,0px)] transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 md:px-8 ${
-          isScrolled
-            ? 'bg-surface/95 border-line/70 shadow-[0_8px_28px_var(--color-overlay-nav)] backdrop-blur-lg'
-            : 'border-transparent bg-transparent'
+        className={`fixed top-0 right-0 left-0 z-50 border-b border-[color-mix(in_oklab,var(--color-line)_70%,transparent)] bg-[color-mix(in_oklab,var(--color-surface)_82%,transparent)] px-[clamp(1.25rem,0.6rem+3vw,3.5rem)] pt-[env(safe-area-inset-top,0px)] [backdrop-filter:blur(16px)_saturate(1.2)] transition-shadow duration-300 ${
+          isScrolled ? 'shadow-[0_8px_28px_var(--color-overlay-nav)]' : ''
         }`}
       >
-        <nav className='mx-auto flex w-full max-w-6xl items-center justify-between py-5'>
+        <nav className='mx-auto flex h-[var(--navigation-bar-height)] w-full max-w-[76rem] items-center justify-between gap-4'>
           <a
             href='#hero'
             onClick={(event) => handleAnchorClick(event, '#hero')}
-            className={
-              isScrolled
-                ? 'font-dancing text-ink text-[1.4rem] leading-none whitespace-nowrap transition-colors duration-300 ease-out min-[360px]:text-[1.7rem] sm:text-[2rem] lg:text-[2.1rem]'
-                : 'font-dancing text-[1.4rem] leading-none whitespace-nowrap text-white transition-colors duration-300 ease-out min-[360px]:text-[1.7rem] sm:text-[2rem] lg:text-[2.1rem]'
-            }
+            className='flex min-w-0 flex-col leading-[1.05] [view-transition-name:logo]'
             aria-label={siteContent.navigation.homeAriaLabel}
           >
-            {applyCzechNbsp(siteContent.brand.name)}
+            <b className='text-ink font-display text-[clamp(1.05rem,0.9rem+0.6vw,1.3rem)] leading-none font-[450] [font-variation-settings:"SOFT"_100,"opsz"_48]'>
+              {applyCzechNbsp(siteContent.brand.name)}
+            </b>
+            <span
+              aria-hidden='true'
+              className='text-muted-ink mt-1.5 text-[0.6875rem] leading-none font-semibold tracking-[0.16em] uppercase'
+            >
+              {applyCzechNbsp(siteContent.brand.subtitle)}
+            </span>
           </a>
 
-          <DesktopNav activeSection={activeSection} isScrolled={isScrolled} onNavigate={handleAnchorClick} />
+          <DesktopNav activeSection={activeSection} onNavigate={handleAnchorClick} />
 
-          <button
-            ref={menuButtonRef}
-            type='button'
-            onClick={() => setIsMobileMenuOpen(true)}
-            className={
-              isScrolled
-                ? 'border-line text-muted-ink flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border bg-white/70 lg:hidden'
-                : 'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/70 bg-white/10 text-white lg:hidden'
-            }
-            aria-label={siteContent.navigation.openMenuAriaLabel}
-            aria-haspopup='dialog'
-            aria-expanded={isMobileMenuOpen}
-          >
-            <Menu className='h-5 w-5' />
-          </button>
+          <div className='flex items-center gap-3'>
+            <a
+              href='#booking'
+              onClick={(event) => handleAnchorClick(event, '#booking')}
+              className='bg-brand text-on-brand hover:bg-brand-hover btn-lift hidden min-h-11 items-center rounded-full px-5 text-xs leading-none font-semibold tracking-[0.14em] uppercase transition-[background-color,box-shadow,transform] duration-260 ease-(--ease-soft) hover:-translate-y-px active:scale-[0.98] min-[30rem]:inline-flex'
+            >
+              {siteContent.navigation.bookCta}
+            </a>
+
+            <button
+              ref={menuButtonRef}
+              type='button'
+              onClick={() => setIsMobileMenuOpen(true)}
+              className='border-ink/28 bg-paper text-ink flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border lg:hidden'
+              aria-label={siteContent.navigation.openMenuAriaLabel}
+              aria-haspopup='dialog'
+              aria-expanded={isMobileMenuOpen}
+            >
+              <Menu className='h-5 w-5' />
+            </button>
+          </div>
         </nav>
 
         <div

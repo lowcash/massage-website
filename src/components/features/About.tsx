@@ -1,22 +1,13 @@
-'use client'
-
-import { type ReactNode, useCallback, useState } from 'react'
-
-import Image from 'next/image'
-
-import { X } from 'lucide-react'
+import type { ReactNode } from 'react'
 
 import { siteContent } from '@/lib/content'
 import { applyCzechNbsp, bindTail } from '@/lib/typography'
 import { cn } from '@/lib/utils'
 
-import profileImage from '@/src/assets/profile.jpg'
+import AboutPortrait from '@/src/components/features/AboutPortrait'
 import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
 import CountUpValue from '@/src/components/shared/CountUpValue'
-import { Dialog } from '@/src/components/shared/Dialog'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
-import { useInView } from '@/src/hooks/useInView'
-import { useReducedMotion } from '@/src/hooks/useReducedMotion'
 
 const ABOUT_PARAGRAPH_EMPHASIS = [
   'vykouzlit druhým na tváři úsměv',
@@ -52,126 +43,76 @@ function renderEmphasizedText(text: string, emphasis?: string): ReactNode {
 }
 
 export default function About() {
-  const shouldReduceMotion = useReducedMotion()
-  const intro = useInView()
-  const content = useInView()
-  const image = useInView()
-  const [isPortraitOpen, setIsPortraitOpen] = useState(false)
-
-  const fadeIn = 'transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]'
-  const hidden = shouldReduceMotion ? '' : 'opacity-0 translate-y-4'
-
-  const closePortrait = useCallback(() => setIsPortraitOpen(false), [])
-
   return (
-    <section id='about' className='bg-surface px-5 py-16 md:px-8 md:py-24'>
-      <div className={cn(CONTENT_SHELL, 'flex flex-col gap-14')}>
-        <div ref={intro.ref} className={`${fadeIn} ${!intro.inView ? hidden : ''}`}>
-          <SectionIntro id='about-heading' title={siteContent.about.heading} subtitle={siteContent.about.subtitle} />
+    <section id='about' className='bg-band py-[var(--spacing-s6)]'>
+      <div
+        className={cn(
+          CONTENT_SHELL,
+          'grid items-start gap-[var(--spacing-s5)] min-[56rem]:grid-cols-[0.8fr_1.2fr] min-[56rem]:gap-[var(--spacing-s6)]',
+        )}
+      >
+        {/* Offset tint block sits behind the portrait; sticky on wide screens. */}
+        <div className='reveal relative isolate max-w-[26rem] min-[56rem]:sticky min-[56rem]:top-[calc(var(--navigation-offset)+2rem)]'>
+          <div
+            aria-hidden='true'
+            className='bg-surface-alt absolute top-5 right-[-1rem] bottom-[-1.25rem] left-5 -z-10 rounded-(--radius-lg)'
+          />
+          <AboutPortrait />
         </div>
 
-        <div className='bg-paper shadow-soft grid items-start gap-7 rounded-3xl p-6 md:p-10 lg:grid-cols-2 lg:items-stretch'>
-          <div
-            ref={content.ref}
-            className={`order-2 flex h-full flex-col gap-7 md:order-2 ${fadeIn} ${!content.inView ? hidden : ''}`}
-            style={{ transitionDelay: content.inView ? '200ms' : '0ms' }}
-          >
-            <div className='flex flex-col gap-1'>
-              <h3 className='font-display text-ink text-[2rem]'>{applyCzechNbsp(siteContent.brand.therapistName)}</h3>
-              <p className='text-brand text-base tracking-[0.12em] uppercase'>
-                {applyCzechNbsp(siteContent.about.role)}
-              </p>
-            </div>
+        <div className='grid gap-[var(--spacing-s3)]'>
+          <SectionIntro id='about-heading' title={siteContent.about.heading} subtitle={siteContent.about.subtitle} />
 
-            <div className='text-body flex flex-col gap-4 text-base leading-relaxed'>
-              {siteContent.about.paragraphs.map((paragraph, index) => (
-                <p key={paragraph}>{renderEmphasizedText(paragraph, ABOUT_PARAGRAPH_EMPHASIS[index])}</p>
-              ))}
-            </div>
+          <div className='reveal-soft flex flex-col gap-1'>
+            <h3 className='text-ink text-[length:var(--text-fluid-2)]'>
+              {applyCzechNbsp(siteContent.brand.therapistName)}
+            </h3>
+            <p className='text-brand text-[length:var(--text-fluid--1)] font-semibold tracking-[0.12em] uppercase'>
+              {applyCzechNbsp(siteContent.about.role)}
+            </p>
+          </div>
 
-            <div className='border-line grid grid-cols-3 gap-2 border-t pt-5 sm:gap-4'>
-              {siteContent.about.stats.map((stat) => (
-                <div key={stat.id} className='flex flex-col items-center text-center'>
-                  <p className='font-dancing text-brand text-4xl sm:text-5xl'>
-                    <CountUpValue value={stat.value} suffix={stat.suffix} />
-                  </p>
-                  <p className='text-body text-xs leading-relaxed uppercase'>{applyCzechNbsp(stat.label)}</p>
-                </div>
-              ))}
-            </div>
+          <div className='reveal-soft text-body flex flex-col gap-4'>
+            {siteContent.about.paragraphs.map((paragraph, index) => (
+              <p key={paragraph}>{renderEmphasizedText(paragraph, ABOUT_PARAGRAPH_EMPHASIS[index])}</p>
+            ))}
+          </div>
 
-            <div className='border-line flex flex-col gap-3 border-t pt-5'>
+          <div className='reveal-soft border-line grid grid-cols-3 gap-[var(--spacing-s2)] border-y py-[var(--spacing-s3)]'>
+            {siteContent.about.stats.map((stat) => (
+              <div key={stat.id}>
+                <p className='font-display text-brand text-[length:var(--text-fluid-3)] leading-none font-[380] whitespace-nowrap [font-variant-numeric:lining-nums] [font-variation-settings:"SOFT"_100,"opsz"_144]'>
+                  <CountUpValue value={stat.value} suffix={stat.suffix} />
+                </p>
+                <p className='text-muted-ink mt-1.5 text-[length:var(--text-fluid--1)] leading-snug'>
+                  {applyCzechNbsp(stat.label)}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <details className='reveal-soft group border-line bg-paper rounded-(--radius-md) border px-5 py-4'>
+            <summary className='text-ink flex min-h-8 cursor-pointer list-none items-center justify-between font-semibold [&::-webkit-details-marker]:hidden'>
+              {siteContent.about.credentialsHeading}
+              <span
+                aria-hidden='true'
+                className='font-display text-brand text-2xl leading-none transition-transform duration-260 ease-(--ease-out) group-open:rotate-45'
+              >
+                +
+              </span>
+            </summary>
+            <ul className='text-body mt-3.5 grid list-disc gap-2 pl-5 text-[length:var(--text-fluid--1)]'>
               {siteContent.about.credentials.map((credential) => (
-                <div key={credential} className='text-body flex items-start gap-3 text-base leading-relaxed'>
-                  <span className='bg-brand mt-2 block h-1.5 w-1.5 shrink-0 rounded-full' />
-                  <span>{renderEmphasizedText(credential, ABOUT_CREDENTIAL_EMPHASIS[credential])}</span>
-                </div>
+                <li key={credential}>{renderEmphasizedText(credential, ABOUT_CREDENTIAL_EMPHASIS[credential])}</li>
               ))}
+            </ul>
+          </details>
 
-              <p className='font-dancing text-brand pt-3 text-3xl leading-snug text-balance'>
-                {bindTail(applyCzechNbsp(siteContent.about.closingLine))}
-              </p>
-            </div>
-          </div>
-
-          <div
-            ref={image.ref}
-            className={`order-1 md:order-1 md:mx-auto md:w-full md:max-w-2xl lg:h-full lg:max-w-none ${fadeIn} ${!image.inView ? hidden : ''}`}
-            style={{ transitionDelay: image.inView ? '300ms' : '0ms' }}
-          >
-            <button
-              type='button'
-              onClick={() => setIsPortraitOpen(true)}
-              aria-label={`Zvětšit portrét: ${siteContent.brand.therapistName}`}
-              className={`bg-surface-alt group block w-full cursor-zoom-in overflow-hidden rounded-3xl text-left transition-[clip-path] duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] lg:h-full lg:max-h-none ${image.inView || shouldReduceMotion ? '[clip-path:inset(0_0_0_0_round_1.5rem)]' : '[clip-path:inset(0_0_100%_0_round_1.5rem)]'}`}
-            >
-              <Image
-                src={profileImage}
-                alt={siteContent.brand.therapistName}
-                className='h-auto w-full object-cover object-top transition-[filter] duration-500 ease-out group-hover:brightness-[1.03] lg:h-full lg:max-h-none'
-                sizes='(min-width: 1024px) 50vw, (min-width: 768px) 42rem, 100vw'
-                priority={false}
-              />
-            </button>
-          </div>
+          <p className='reveal-soft font-dancing text-brand text-[length:var(--text-fluid-2)] leading-tight text-balance'>
+            {bindTail(applyCzechNbsp(siteContent.about.closingLine))}
+          </p>
         </div>
       </div>
-
-      <Dialog
-        open={isPortraitOpen}
-        onClose={closePortrait}
-        label={`Portrét: ${siteContent.brand.therapistName}`}
-        className='z-80 cursor-default md:p-8'
-        backdropClassName='z-80 backdrop-blur-md'
-      >
-        <div
-          className={`relative flex max-h-[90vh] w-full max-w-lg cursor-default items-center justify-center transition-[opacity,scale] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${isPortraitOpen ? 'scale-100 opacity-100' : 'scale-[0.96] opacity-0'}`}
-        >
-          <button
-            type='button'
-            onClick={closePortrait}
-            className='absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition-colors duration-300 ease-out hover:bg-black/65'
-            aria-label='Zavřít náhled'
-          >
-            <X className='h-5 w-5' />
-          </button>
-
-          <div className='relative aspect-3/4 max-h-[90vh] w-full overflow-hidden rounded-2xl'>
-            {isPortraitOpen && (
-              <Image
-                src={profileImage}
-                alt={siteContent.brand.therapistName}
-                fill
-                placeholder='blur'
-                quality={90}
-                className='object-cover object-top'
-                sizes='(min-width: 512px) 32rem, 92vw'
-                priority
-              />
-            )}
-          </div>
-        </div>
-      </Dialog>
     </section>
   )
 }

@@ -62,38 +62,39 @@ test.describe('BookingCalendar carousel', () => {
   })
 })
 
-test.describe('Hero scroll cue', () => {
+test.describe('Hero (redesign)', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
   })
 
-  test('scroll cue is visible on initial load', async ({ page }) => {
-    // Look for the chevron-down anchor in hero
-    const heroCue = page.locator('a[href="#services"] svg').first()
-    await expect(heroCue).toBeVisible()
+  test('hero shows headline, photo and both calls to action without a scroll cue', async ({ page }) => {
+    await expect(page.locator('#hero h1')).toBeVisible()
+    await expect(page.locator('#hero img').first()).toBeVisible()
+    await expect(page.locator('#hero a[href="#services"]')).toBeVisible()
+    await expect(page.locator('#hero a[href="#booking"]')).toBeVisible()
+    // The old full-bleed hero had a bouncing chevron; the split hero fits one screen and has none.
+    await expect(page.locator('#hero a[href="#services"] svg')).toHaveCount(0)
   })
 
-  test('scroll cue leaves the viewport after scrolling past the hero', async ({ page }) => {
-    const cueLink = page.locator('#hero a[href="#services"][aria-label]')
-    await expect(cueLink).toBeVisible()
-
-    // Cue is absolute inside the full-viewport hero — scroll past the hero, not just a few hundred px.
-    // Two-arg scrollTo bypasses html { scroll-behavior: smooth }; options.behavior "instant"/"auto"
-    // still follows CSS smooth scrolling and leaves the cue in view within a short wait.
-    const targetTop = await page.evaluate(() => {
-      const hero = document.getElementById('hero')
-      const top = (hero?.offsetHeight ?? window.innerHeight) + 80
-      window.scrollTo(0, top)
-      return top
+  test('LCP image and headline carry no animation or transform', async ({ page }) => {
+    const state = await page.evaluate(() => {
+      const nodes = [document.querySelector('#hero img'), document.querySelector('#hero h1')]
+      return nodes.map((node) => {
+        const style = getComputedStyle(node as Element)
+        return {
+          animationName: style.animationName,
+          transform: style.transform,
+          translate: style.translate,
+          scale: style.scale,
+        }
+      })
     })
 
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThanOrEqual(targetTop - 1)
-    await expect
-      .poll(async () => {
-        const box = await cueLink.boundingBox()
-        if (!box) return Number.POSITIVE_INFINITY
-        return box.y + box.height
-      })
-      .toBeLessThanOrEqual(0)
+    for (const item of state) {
+      expect(item.animationName).toBe('none')
+      expect(item.transform).toBe('none')
+      expect(item.translate).toBe('none')
+      expect(item.scale).toBe('none')
+    }
   })
 })

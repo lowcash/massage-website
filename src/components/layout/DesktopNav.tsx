@@ -7,13 +7,12 @@ import { applyCzechNbsp } from '@/lib/utils'
 
 interface DesktopNavProps {
   activeSection: string
-  isScrolled: boolean
   onNavigate: (event: MouseEvent<HTMLAnchorElement>, href: string) => void
 }
 
-export default function DesktopNav({ activeSection, isScrolled, onNavigate }: DesktopNavProps) {
+export default function DesktopNav({ activeSection, onNavigate }: DesktopNavProps) {
   return (
-    <div className='hidden items-center gap-5 lg:flex lg:gap-7'>
+    <div className='hidden items-center gap-[clamp(1rem,2vw,2rem)] lg:flex'>
       {siteContent.navigation.items.map((item) => {
         const isActive = activeSection === item.href.replace('#', '')
 
@@ -23,11 +22,7 @@ export default function DesktopNav({ activeSection, isScrolled, onNavigate }: De
             href={item.href}
             onClick={(event) => onNavigate(event, item.href)}
             aria-current={isActive ? 'location' : undefined}
-            className={
-              isScrolled
-                ? `hover:text-brand-hover cursor-pointer text-[13px] tracking-[0.18em] uppercase transition-colors duration-300 ease-out ${isActive ? 'text-brand-hover' : 'text-muted-ink'}`
-                : `cursor-pointer text-[13px] tracking-[0.18em] uppercase transition-colors duration-300 ease-out hover:text-white ${isActive ? 'text-nav-hero-active' : 'text-white'}`
-            }
+            className={`link-wipe hover:text-ink cursor-pointer py-2 text-[0.9375rem] transition-colors duration-300 ease-out ${isActive ? 'text-ink' : 'text-body'}`}
           >
             {applyCzechNbsp(item.label)}
           </a>

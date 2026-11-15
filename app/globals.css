@@ -2,55 +2,74 @@
 @import 'tw-animate-css';
 
 @theme {
-  --color-ink: #2b211f;
-  --color-body: #54443f;
-  --color-muted-ink: #6b554e;
-  --color-brand: #a24d3f;
-  --color-brand-hover: #8a4033;
-  --color-surface: #f8f2ef;
-  --color-surface-alt: #f0e3de;
-  --color-paper: #fffdfb;
-  --color-line: #e8d6d0;
-  --color-night: #2b1d1a;
+  /* Warm Paper palette: OKLCH primary (hex fallbacks below in @supports not). */
+  --color-ink: oklch(0.215 0.02 40);
+  --color-body: oklch(0.38 0.025 42);
+  --color-muted-ink: oklch(0.46 0.03 40);
+  --color-brand: oklch(0.52 0.11 34);
+  --color-brand-hover: oklch(0.45 0.105 34);
+  --color-brand-soft: oklch(0.93 0.03 35);
+  --color-on-brand: oklch(0.99 0.004 60);
+  --color-surface: oklch(0.975 0.008 55);
+  --color-band: oklch(0.955 0.012 50);
+  --color-surface-alt: oklch(0.925 0.025 40);
+  --color-paper: oklch(0.992 0.004 60);
+  --color-line: oklch(0.87 0.02 40);
+  --color-night: oklch(0.22 0.02 35);
+  --color-night-ink: oklch(0.93 0.015 55);
+  --color-night-muted: oklch(0.78 0.02 45);
+  --color-glow: oklch(0.78 0.1 60);
+  --color-sage: oklch(0.5 0.07 150);
   --color-whatsapp: #1b7a45;
   --color-whatsapp-hover: #157a3c;
-  --color-slot-unavailable: #816f69;
-  --color-nav-hero-active: #ffe4de;
-  --color-brand-glow: rgb(201 123 111 / 0.18);
+  --color-slot-unavailable: oklch(0.72 0.02 45);
+  --color-brand-glow: rgb(158 79 60 / 0.18);
   --color-overlay-nav: rgb(60 35 28 / 0.07);
-  --color-overlay-drawer: rgb(70 40 32 / 0.08);
-  --color-html-chrome: #2c2c2c;
   --color-skip-offset: #f6edeb;
-  --color-dot-ring: rgb(162 77 63 / 0.16);
+  --color-dot-ring: rgb(158 79 60 / 0.16);
   --color-success: #059669;
   --color-success-soft: #ecfdf5;
   --color-success-border: #a7f3d0;
   --color-success-ink: #065f46;
   --color-danger-soft: #fef2f2;
   --color-danger: #b91c1c;
-  --color-hero-wash: rgb(28 16 12 / 0.78);
-  --color-cta-shadow: rgb(0 0 0 / 0.28);
 
   /*
-   * Radius scale: buttons and CTAs are pills (rounded-full); chips, inputs and list rows use rounded-xl;
-   * tiles, images and inner cards use rounded-2xl; large panels use rounded-3xl. Keep new UI on these four.
+   * Radius scale: pill (buttons, chips, slots), md 1.25rem (rows, cards, badge), lg 1.75rem (panels, images).
+   * The hero image uses one asymmetric organic curve (--radius-organic), not a symmetric arch.
    */
+  --radius-md: 1.25rem;
+  --radius-lg: 1.75rem;
+  --radius-organic: 1.75rem 11rem 1.75rem 1.75rem / 1.75rem 9rem 1.75rem 1.75rem;
 
-  /* Resting card elevation. */
-  --shadow-soft: 0 18px 50px rgb(70 40 32 / 0.07);
+  --shadow-soft: 0 1px 2px rgb(70 40 32 / 0.05), 0 18px 50px rgb(70 40 32 / 0.07);
+  --shadow-lift: 0 2px 4px rgb(70 40 32 / 0.06), 0 22px 48px rgb(70 40 32 / 0.14);
 
   --font-dancing: 'Dancing Script', cursive;
-  --animate-hero-zoom: hero-zoom 28s ease-out forwards;
-  --animate-whatsapp-pulse: whatsapp-pulse 1.8s ease-out 1;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans-display: 'DM Sans', sans-serif;
 
-  @keyframes hero-zoom {
-    from {
-      scale: 1.06;
-    }
-    to {
-      scale: 1.14;
-    }
-  }
+  /* Fluid type scale (rem clamp, 360 to 1440px). */
+  --text-fluid--1: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --text-fluid-0: clamp(1.0625rem, 1.03rem + 0.15vw, 1.1875rem);
+  --text-fluid-1: clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);
+  --text-fluid-2: clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
+  --text-fluid-3: clamp(1.9rem, 1.5rem + 1.7vw, 2.9rem);
+  --text-fluid-4: clamp(2.4rem, 1.7rem + 3vw, 4.1rem);
+  --text-fluid-hero: clamp(2.85rem, 1.6rem + 5.2vw, 6rem);
+
+  /* Fluid space. */
+  --spacing-s1: clamp(0.5rem, 0.47rem + 0.12vw, 0.625rem);
+  --spacing-s2: clamp(0.875rem, 0.8rem + 0.3vw, 1.125rem);
+  --spacing-s3: clamp(1.25rem, 1.1rem + 0.6vw, 1.75rem);
+  --spacing-s4: clamp(2rem, 1.6rem + 1.6vw, 3rem);
+  --spacing-s5: clamp(3rem, 2.2rem + 3.2vw, 5.5rem);
+  --spacing-s6: clamp(4.5rem, 3rem + 6vw, 9rem);
+
+  --ease-out: cubic-bezier(0.22, 0.7, 0.2, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --animate-whatsapp-pulse: whatsapp-pulse 1.8s ease-out 1;
 
   @keyframes whatsapp-pulse {
     0% {
@@ -66,9 +85,30 @@
       opacity: 0;
     }
   }
+}
 
-  --font-display: 'EB Garamond', Georgia, serif;
-  --font-sans-display: 'DM Sans', sans-serif;
+/* Old browsers without OKLCH get the AA-checked sRGB equivalents. */
+@supports not (color: oklch(0 0 0)) {
+  :root {
+    --color-ink: #221612;
+    --color-body: #4e3e38;
+    --color-muted-ink: #67534c;
+    --color-brand: #9e4f3c;
+    --color-brand-hover: #853c2c;
+    --color-brand-soft: #fbe1db;
+    --color-on-brand: #fefbf9;
+    --color-surface: #fbf5f2;
+    --color-band: #f7eee9;
+    --color-surface-alt: #f6e1da;
+    --color-paper: #fffcfa;
+    --color-line: #e1d0cb;
+    --color-night: #231714;
+    --color-night-ink: #f0e5df;
+    --color-night-muted: #c3b4ad;
+    --color-glow: #e7a875;
+    --color-sage: #456f4e;
+    --color-slot-unavailable: #b3a29b;
+  }
 }
 
 /* Hide native scrollbar globally while keeping scroll enabled */
@@ -132,16 +172,6 @@ button:disabled {
 
 .font-display {
   font-family: var(--font-display);
-}
-
-.text-shadow {
-  text-shadow: 0 2px 12px rgb(0 0 0 / 0.34);
-}
-
-.text-shadow-hero {
-  text-shadow:
-    0 1px 2px rgb(0 0 0 / 0.45),
-    0 6px 28px rgb(0 0 0 / 0.4);
 }
 
 @theme inline {
@@ -224,7 +254,8 @@ button:disabled {
 
   html {
     scrollbar-width: none;
-    background: var(--color-html-chrome);
+    background: var(--color-surface);
+    -webkit-text-size-adjust: 100%;
     /* Only on the root scroller — scroll-smooth on * fights iOS momentum and hash navigation. */
     scroll-behavior: smooth;
   }
@@ -236,9 +267,12 @@ button:disabled {
   }
 
   body {
-    @apply bg-background text-foreground;
+    background: var(--color-surface);
+    color: var(--color-body);
+    overflow-x: clip;
+    text-rendering: optimizeLegibility;
     font-family: var(--font-sans-display);
-    font-size: 1.0625rem;
+    font-size: var(--text-fluid-0);
     line-height: 1.65;
     scrollbar-width: none;
     padding-bottom: env(safe-area-inset-bottom);
@@ -280,22 +314,20 @@ button:disabled {
   }
 }
 
-/*
- * Hero scroll effects, driven by the scroll position (no JavaScript).
- * Use svh everywhere so the range matches min-h-svh and stays stable while the mobile URL bar
- * shows/hides. Skip on coarse pointers: Safari iOS scroll-driven animations are still jittery and
- * were causing the hero to jump / refuse a full scroll back to the top.
- */
-@keyframes hero-parallax {
-  to {
-    translate: 0 16svh;
-  }
-}
-
-@keyframes hero-content-out {
-  to {
-    opacity: 0;
-    translate: 0 -5svh;
+/* Headings: Fraunces with soft optical axes. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-weight: 420;
+    font-variation-settings:
+      'SOFT' 60,
+      'opsz' 96;
+    letter-spacing: -0.012em;
+    line-height: 1.08;
   }
 }
 
@@ -303,18 +335,128 @@ button:disabled {
   overflow-anchor: none;
 }
 
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
-    .hero-parallax {
-      animation: hero-parallax linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 100svh;
+.focus-night :where(a, button):focus-visible {
+  outline-color: var(--color-glow);
+}
+
+/* Soft grain: one tiny static SVG tile, fixed, no JS, no animation. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .2  0 0 0 0 .15  0 0 0 .9 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+}
+
+/*
+ * Motion is opt-in: the default state (no JS, reduced motion, no support) is the final visible state.
+ * Scroll-driven where supported; otherwise RevealFallback adds .in once from an IntersectionObserver.
+ */
+/*
+ * Rise only (no opacity fade): a text node that is half transparent mid-scroll has a transient contrast below
+ * AA, which axe and Lighthouse measure at whatever scroll position they happen to run. Translate keeps the
+ * text at full contrast at every moment.
+ */
+@keyframes rise {
+  from {
+    translate: 0 1.5rem;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes rise-soft {
+  from {
+    translate: 0 0.75rem;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes drift {
+  from {
+    translate: 0 -3%;
+  }
+  to {
+    translate: 0 3%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
     }
 
-    .hero-content-out {
-      animation: hero-content-out linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 55svh;
+    .reveal-soft {
+      animation: rise-soft linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+
+    .drift img {
+      animation: drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+      scale: 1.1;
     }
   }
+
+  @supports not (animation-timeline: view()) {
+    .js .reveal,
+    .js .reveal-soft {
+      translate: 0 1rem;
+      transition: translate 900ms var(--ease-out);
+    }
+
+    .js .reveal.in,
+    .js .reveal-soft.in {
+      translate: 0 0;
+    }
+  }
+
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 480ms;
+    animation-timing-function: var(--ease-soft);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-lift:hover,
+  .row-lift:hover,
+  .slot-lift:hover {
+    transform: none;
+    translate: none;
+  }
+}
+
+/* No hover lift on touch devices. */
+@media (hover: none) {
+  .row-lift:hover {
+    translate: none;
+    box-shadow: none;
+  }
+}
+
+/* Underline wipe for text links (nav, footer). */
+.link-wipe {
+  background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat;
+  transition: background-size 480ms var(--ease-out);
+}
+
+.link-wipe:hover,
+.link-wipe[aria-current='location'] {
+  background-size: 100% 1px;
 }

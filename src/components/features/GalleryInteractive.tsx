@@ -18,8 +18,9 @@ import { useMediaQuery } from '@/src/hooks/useMediaQuery'
 
 const studioImages = [studioImage1, studioImage2, studioImage3]
 
-const TILE_CLASS = 'border-line w-full cursor-pointer overflow-hidden rounded-2xl border bg-white text-left shadow-sm'
-const IMAGE_CLASS = 'object-cover transition duration-700 ease-out hover:scale-[1.03]'
+const TILE_CLASS =
+  'drift shadow-soft bg-surface-alt w-full cursor-pointer overflow-hidden rounded-(--radius-lg) text-left'
+const IMAGE_CLASS = 'object-cover'
 
 export default function GalleryInteractive() {
   // Mount exactly one image tree. SSR / first paint = mobile carousel; desktop grid swaps in after hydration.
@@ -113,11 +114,11 @@ export default function GalleryInteractive() {
   return (
     <>
       {isDesktop ? (
-        <Reveal className='grid grid-cols-3 gap-4'>
+        <Reveal soft className='grid grid-cols-3 gap-[var(--spacing-s2)]'>
           {siteContent.studio.images.map((image, index) => renderTile(image, index, '(min-width: 1024px) 31vw, 100vw'))}
         </Reveal>
       ) : (
-        <Reveal>
+        <Reveal soft>
           <PeekCarousel
             ariaLabel={siteContent.studio.carouselAriaLabel}
             mobilePeek={false}
@@ -135,7 +136,7 @@ export default function GalleryInteractive() {
         onClose={closeLightbox}
         label='Náhled fotografie'
         className='z-80 cursor-default md:p-8'
-        backdropClassName='z-80 backdrop-blur-md'
+        backdropClassName='z-80'
       >
         <div
           className={`relative flex w-full max-w-5xl cursor-default items-center justify-center transition-[opacity,scale] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? 'scale-100 opacity-100' : 'scale-[0.96] opacity-0'}`}
@@ -159,7 +160,7 @@ export default function GalleryInteractive() {
           </button>
 
           <div
-            className='relative w-full overflow-hidden rounded-2xl'
+            className='relative w-full overflow-hidden rounded-(--radius-lg)'
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >

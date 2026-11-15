@@ -1,42 +1,47 @@
 import { applyCzechNbsp, bindTail } from '@/lib/typography'
 import { cn } from '@/lib/utils'
 
-import { DrawnLine } from '@/src/components/shared/DrawnLine'
-
 interface SectionIntroProps {
   id: string
   title: string
   subtitle: string
   description?: string
-  light?: boolean
+  /** Render on the dark (night) panel. */
+  onNight?: boolean
   align?: 'center' | 'left'
 }
 
-export function SectionIntro({ id, title, subtitle, description, light = false, align = 'center' }: SectionIntroProps) {
+export function SectionIntro({ id, title, subtitle, description, onNight = false, align = 'left' }: SectionIntroProps) {
   const isCentered = align === 'center'
 
   return (
     <div
-      className={cn('flex max-w-3xl flex-col gap-4', isCentered ? 'mx-auto items-center text-center' : 'items-start')}
+      className={cn(
+        'reveal flex max-w-3xl flex-col gap-[var(--spacing-s2)]',
+        isCentered ? 'mx-auto items-center text-center' : 'items-start',
+      )}
     >
-      <p className={cn('text-xs tracking-[0.22em] text-balance uppercase', light ? 'text-white/80' : 'text-brand')}>
+      <p
+        className={cn(
+          'flex items-center gap-3 text-[length:var(--text-fluid--1)] leading-snug font-semibold tracking-[0.14em] text-balance uppercase',
+          onNight ? 'text-glow' : 'text-brand',
+        )}
+      >
+        <span aria-hidden='true' className='h-px w-8 bg-current opacity-60' />
         {applyCzechNbsp(subtitle)}
       </p>
 
-      <h2
-        id={id}
-        className={cn(
-          'font-display text-[2.5rem] leading-[1.05] font-medium md:text-5xl',
-          light ? 'text-white' : 'text-ink',
-        )}
-      >
+      <h2 id={id} className={cn('text-[length:var(--text-fluid-4)]', onNight && 'text-night-ink')}>
         {bindTail(applyCzechNbsp(title))}
       </h2>
 
-      <DrawnLine light={light} />
-
       {description ? (
-        <p className={cn('max-w-xl leading-relaxed', light ? 'text-white/90' : 'text-body')}>
+        <p
+          className={cn(
+            'max-w-xl text-[length:var(--text-fluid-1)] leading-snug',
+            onNight ? 'text-night-muted' : 'text-body',
+          )}
+        >
           {applyCzechNbsp(description)}
         </p>
       ) : null}

@@ -1,44 +1,83 @@
 import { Facebook, Instagram } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
-import { applyCzechNbsp } from '@/lib/utils'
+import { applyCzechNbsp, cn } from '@/lib/utils'
+
+import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
+
+const HEADING_CLASS = 'mb-3 text-[length:var(--text-fluid--1)] font-semibold tracking-[0.14em] text-brand uppercase'
+const LINK_CLASS = 'link-wipe'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const contactLabel = siteContent.navigation.items.find((item) => item.id === 'contact')?.label ?? ''
   const brandName = applyCzechNbsp(siteContent.brand.name)
+  const socialClass =
+    'inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink/28 transition-colors duration-300 ease-out hover:bg-paper'
 
   return (
-    <footer className='bg-night text-surface px-5 md:px-8'>
-      <div className='mx-auto flex w-full max-w-6xl flex-col gap-8 py-12'>
-        <div className='flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between'>
-          <div className='flex flex-col gap-1'>
-            <p className='font-dancing text-3xl'>{brandName}</p>
-            <p className='text-base text-white/80'>{applyCzechNbsp(siteContent.footer.description)}</p>
+    <footer className='bg-surface-alt text-body pt-[var(--spacing-s5)] pb-[var(--spacing-s4)]'>
+      <div className={CONTENT_SHELL}>
+        <div className='grid gap-[var(--spacing-s4)] md:grid-cols-[1.4fr_1fr_1fr]'>
+          <div className='flex flex-col gap-3'>
+            <p className='font-display text-ink text-[length:var(--text-fluid-2)] leading-tight font-[420] [font-variation-settings:"SOFT"_100,"opsz"_72]'>
+              {brandName}
+            </p>
+            <p>{applyCzechNbsp(siteContent.footer.description)}</p>
+            <div className='flex items-center gap-3 pt-1'>
+              <a
+                href={siteContent.brand.facebook}
+                target='_blank'
+                rel='noopener noreferrer'
+                className={socialClass}
+                aria-label={siteContent.footer.facebookAriaLabel}
+              >
+                <Facebook className='h-5 w-5' />
+              </a>
+              <a
+                href={siteContent.brand.instagram}
+                target='_blank'
+                rel='noopener noreferrer'
+                className={socialClass}
+                aria-label={siteContent.footer.instagramAriaLabel}
+              >
+                <Instagram className='h-5 w-5' />
+              </a>
+            </div>
           </div>
 
-          <div className='flex items-center gap-3'>
-            <a
-              href={siteContent.brand.facebook}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='rounded-full border border-white/20 p-2.5 transition-colors duration-300 ease-out hover:border-white/40 hover:bg-white/10'
-              aria-label={siteContent.footer.facebookAriaLabel}
-            >
-              <Facebook className='h-5 w-5' />
-            </a>
-            <a
-              href={siteContent.brand.instagram}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='rounded-full border border-white/20 p-2.5 transition-colors duration-300 ease-out hover:border-white/40 hover:bg-white/10'
-              aria-label={siteContent.footer.instagramAriaLabel}
-            >
-              <Instagram className='h-5 w-5' />
-            </a>
+          <div>
+            <p className={HEADING_CLASS}>{contactLabel}</p>
+            <address className='leading-[1.7] not-italic'>
+              {applyCzechNbsp(siteContent.brand.addressLine1)}
+              <br />
+              {applyCzechNbsp(siteContent.brand.addressLine2)}
+              <br />
+              <a href={`tel:+${siteContent.brand.phoneDigits}`} className={LINK_CLASS}>
+                {siteContent.brand.phone}
+              </a>
+              <br />
+              <a href={`mailto:${siteContent.brand.email}`} className={LINK_CLASS}>
+                {siteContent.brand.email}
+              </a>
+            </address>
           </div>
+
+          <nav aria-label={siteContent.navigation.footerNavLabel}>
+            <p className={HEADING_CLASS}>{siteContent.navigation.footerNavLabel}</p>
+            <ul className='m-0 grid list-none gap-1 p-0'>
+              {siteContent.navigation.items.map((item) => (
+                <li key={item.id}>
+                  <a href={item.href} className={cn(LINK_CLASS, 'inline-block py-1')}>
+                    {applyCzechNbsp(item.label)}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
-        <div className='flex flex-col gap-1 border-t border-white/10 pt-6 text-xs leading-relaxed text-white/65 sm:flex-row sm:justify-between sm:gap-6'>
+        <div className='border-ink/14 text-muted-ink mt-[var(--spacing-s4)] flex flex-wrap justify-between gap-x-6 gap-y-2 border-t pt-[var(--spacing-s3)] text-[length:var(--text-fluid--1)] leading-relaxed'>
           <p>
             © {currentYear} {brandName}. {siteContent.footer.icoLabel}&nbsp;{siteContent.footer.ico}.{' '}
             <span className='whitespace-nowrap'>{applyCzechNbsp(siteContent.footer.rights)}</span>

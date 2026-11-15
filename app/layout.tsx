@@ -1,7 +1,8 @@
-import { DM_Sans, Dancing_Script, EB_Garamond } from 'next/font/google'
+import { DM_Sans, Dancing_Script, Fraunces } from 'next/font/google'
 
 import { Analytics } from '@vercel/analytics/next'
 
+import { RevealFallback } from '@/src/components/shared/RevealFallback'
 import { BookingProvider } from '@/src/contexts/BookingContext'
 
 import { LOCAL_BUSINESS_JSON_LD, ROOT_METADATA, ROOT_VIEWPORT } from '@/app/site-metadata'
@@ -10,12 +11,14 @@ import './globals.css'
 
 const dancingScript = Dancing_Script({
   variable: '--font-dancing',
+  weight: '500',
   subsets: ['latin', 'latin-ext'],
   display: 'swap',
 })
 
-const ebGaramond = EB_Garamond({
+const fraunces = Fraunces({
   variable: '--font-display',
+  axes: ['opsz', 'SOFT'],
   subsets: ['latin', 'latin-ext'],
   display: 'swap',
 })
@@ -45,7 +48,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_JSON_LD) }}
         />
       </head>
-      <body className={`${dancingScript.variable} ${ebGaramond.variable} ${dmSans.variable} min-h-screen antialiased`}>
+      <body className={`${dancingScript.variable} ${fraunces.variable} ${dmSans.variable} min-h-screen antialiased`}>
         <a
           href='#main-content'
           className='skip-link bg-night focus:ring-brand focus:ring-offset-skip-offset sr-only absolute top-4 left-4 z-100 rounded-full px-5 py-2.5 text-sm font-medium text-white focus:not-sr-only focus:ring-2 focus:ring-offset-2 focus:outline-none'
@@ -54,6 +57,8 @@ export default function RootLayout({
         </a>
 
         <BookingProvider>{children}</BookingProvider>
+
+        <RevealFallback />
 
         {enableVercelAnalytics ? <Analytics /> : null}
       </body>

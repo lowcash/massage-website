@@ -3,14 +3,19 @@
 import { MessageCircle } from 'lucide-react'
 
 import { siteContent } from '@/lib/content'
+import { cn } from '@/lib/utils'
 
 import { FloatingContainer } from '@/src/components/layout/FloatingContainer'
 import { useBooking } from '@/src/contexts/BookingContext'
 import { useFooterVisible } from '@/src/hooks/useFooterVisible'
+import { useHeroScrolledPast } from '@/src/hooks/useHeroScrolledPast'
+import { useMediaQuery } from '@/src/hooks/useMediaQuery'
 
 export default function WhatsAppButton() {
   const { selectedService } = useBooking()
   const isFooterVisible = useFooterVisible()
+  const isMobile = useMediaQuery('(max-width: 767px)')
+  const heroPast = useHeroScrolledPast()
 
   const getWhatsAppUrl = () => {
     let message = siteContent.floatingButtons.whatsappDefaultMessage
@@ -22,17 +27,24 @@ export default function WhatsAppButton() {
     return `https://wa.me/${siteContent.brand.phoneDigits}?text=${encodeURIComponent(message)}`
   }
 
-  const canShowButton = !isFooterVisible
+  // On mobile, wait until the hero is fully past so the FAB never covers CTAs.
+  const canShowButton = !isFooterVisible && (!isMobile || heroPast)
 
   return (
-    <FloatingContainer className='bottom-6 z-40' innerClassName='justify-start'>
+    <FloatingContainer className='bottom-3 z-40 md:bottom-6' innerClassName='justify-end'>
       <a
         href={getWhatsAppUrl()}
         target='_blank'
         rel='noopener noreferrer'
-        className={`bg-whatsapp hover:bg-whatsapp-hover pointer-events-auto relative flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg transition-all duration-300 ease-out ${canShowButton ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none translate-y-[10px] scale-[0.88] opacity-0'}`}
+        className={cn(
+          'bg-whatsapp hover:bg-whatsapp-hover pointer-events-auto relative flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg',
+          'transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none',
+          canShowButton
+            ? 'translate-y-0 scale-100 opacity-100'
+            : 'pointer-events-none translate-y-[10px] scale-[0.88] opacity-0 motion-reduce:translate-y-0 motion-reduce:scale-100',
+        )}
         style={{
-          marginBottom: 'env(safe-area-inset-bottom)',
+          marginBottom: 'env(safe-area-inset-bottom, 0px)',
           transform: 'translateZ(0)',
           WebkitBackfaceVisibility: 'hidden',
           backfaceVisibility: 'hidden',
@@ -41,7 +53,10 @@ export default function WhatsAppButton() {
         tabIndex={canShowButton ? 0 : -1}
       >
         <span
-          className={`bg-whatsapp absolute inset-0 rounded-full ${canShowButton ? 'motion-safe:animate-whatsapp-pulse' : 'opacity-0'}`}
+          className={cn(
+            'bg-whatsapp absolute inset-0 rounded-full',
+            canShowButton ? 'motion-safe:animate-whatsapp-pulse' : 'opacity-0',
+          )}
           aria-hidden='true'
         />
 

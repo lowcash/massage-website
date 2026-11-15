@@ -91,10 +91,6 @@ export function combinePragueDateTime(dateStr: string, timeStr: string): Date | 
   return new Date(localAsIf.getTime() + offset)
 }
 
-export function isPragueDateOnOrAfter(date: Date, threshold: Date): boolean {
-  return pragueDayKey(date) >= pragueDayKey(threshold)
-}
-
 interface CalendarDisplaySlot {
   time: string
   available: boolean

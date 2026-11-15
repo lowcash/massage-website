@@ -35,7 +35,7 @@ export default async function Page() {
     <>
       <Navigation />
       <main id='main-content'>
-        <Hero />
+        <Hero calendarData={calendarData} />
         <Services />
         <GiftVouchers />
         <About />
