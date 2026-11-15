@@ -119,11 +119,12 @@ test.describe('Desktop navigation', () => {
     await expect(serviceCard).toBeVisible()
 
     const serviceName = (await serviceRow.locator('h3').textContent())?.trim()
+    const plainName = (serviceName ?? '').replaceAll('\u00a0', ' ')
     await serviceCard.click()
 
     await expect(page).toHaveURL(/#booking$/)
     await expectSectionAlignedUnderHeader(page, getScrollTargetSelector('booking'))
-    await expect(page.locator('#booking span.font-medium')).toContainText(serviceName ?? '')
+    await expect(page.locator('#booking select')).toHaveValue(plainName)
   })
 
   test('gallery overlay is above navigation and floating controls when lightbox is open', async ({ page }) => {

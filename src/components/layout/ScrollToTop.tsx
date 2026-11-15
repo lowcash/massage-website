@@ -45,7 +45,7 @@ export default function ScrollToTop() {
       <button
         onClick={scrollToTop}
         className={cn(
-          'bg-brand hover:bg-brand-hover pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg',
+          'bg-brand hover:bg-brand-hover shadow-soft pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full text-white',
           'transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none',
           canShowButton
             ? 'translate-y-0 scale-100 opacity-100'

@@ -23,15 +23,15 @@ export default function Services() {
 
         <div className='grid gap-[var(--spacing-s5)] min-[62rem]:grid-cols-3 min-[62rem]:gap-[var(--spacing-s4)]'>
           {groups.map((group, index) => (
-            <div key={group.id} className='reveal-soft grid content-start gap-[var(--spacing-s2)]'>
+            <div key={group.id} className='reveal-soft grid content-start gap-[var(--spacing-s1)]'>
               <p
                 id={`services-group-${group.id}`}
                 data-no={String(index + 1).padStart(2, '0')}
-                className='font-display text-ink before:text-brand flex items-baseline gap-3.5 pb-2 text-[length:var(--text-fluid-2)] leading-tight font-[420] [font-variation-settings:"SOFT"_60,"opsz"_96] before:font-sans before:text-[length:var(--text-fluid--1)] before:font-semibold before:tracking-[0.14em] before:content-[attr(data-no)]'
+                className='font-display text-ink before:text-brand/80 border-line flex items-baseline gap-3.5 border-b pb-3 text-[length:var(--text-fluid-1)] leading-tight font-[340] [font-variation-settings:"SOFT"_60,"opsz"_96] before:font-sans before:text-[length:var(--text-fluid--1)] before:tracking-[0.14em] before:content-[attr(data-no)]'
               >
                 {applyCzechNbsp(group.title)}
               </p>
-              <ul aria-labelledby={`services-group-${group.id}`} className='m-0 grid list-none gap-2 p-0'>
+              <ul aria-labelledby={`services-group-${group.id}`} className='m-0 grid list-none gap-0 p-0'>
                 {group.items.map((service) => (
                   <ServiceRow key={service.id} service={service} />
                 ))}

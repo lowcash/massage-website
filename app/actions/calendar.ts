@@ -1,6 +1,7 @@
 'use server'
 
 import { CALENDAR_KV_KEY, backupCalendarBeforeWrite } from '@/lib/calendar-backup'
+import { createDemoCalendar, isDemoCalendarEnabled } from '@/lib/demo-calendar'
 import { getRedisClient } from '@/lib/redis'
 import { actionClient, authActionClient } from '@/lib/safe-action'
 import { calendarUpdateInputSchema } from '@/lib/schemas/calendar'
@@ -38,6 +39,11 @@ function createLocalFallbackCalendar() {
 }
 
 export const getCalendar = actionClient.action(async () => {
+  // Preview / explicit demo flag only (see lib/demo-calendar.ts): generated data, Redis is not touched.
+  if (isDemoCalendarEnabled()) {
+    return { success: true, data: createDemoCalendar() }
+  }
+
   try {
     const redis = await getRedisClient()
     const fileContent = await redis.get(CALENDAR_KV_KEY)
@@ -95,6 +101,11 @@ export const getCalendar = actionClient.action(async () => {
 })
 
 export const updateCalendar = authActionClient.schema(calendarUpdateInputSchema).action(async ({ parsedInput }) => {
+  // Demo mode never writes: edits made in a preview admin are simulated by doing nothing.
+  if (isDemoCalendarEnabled()) {
+    return
+  }
+
   try {
     const redis = await getRedisClient()
     // No backup, no overwrite: a failed snapshot throws and leaves the live calendar untouched.

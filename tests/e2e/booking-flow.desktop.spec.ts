@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
 
+import { chooseFirstFreeSlot, chooseFirstService, plain } from './helpers/booking'
+
 test.describe('Booking flow', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 })
@@ -7,40 +9,30 @@ test.describe('Booking flow', () => {
     await expect(page.locator('#hero')).toBeVisible()
   })
 
-  test('service selection is reflected in booking badge and WhatsApp reservation link', async ({ page }) => {
-    const serviceRow = page.locator('#services li').first()
-    const serviceCard = serviceRow.locator('button')
-    await expect(serviceCard).toBeAttached({ timeout: 10000 })
-    await serviceCard.scrollIntoViewIfNeeded()
-    await expect(serviceCard).toBeVisible()
+  test('service, day and time end in a WhatsApp reservation link with all three', async ({ page }) => {
+    const serviceName = await chooseFirstService(page)
+    await expect(page.locator('#booking select')).toHaveValue(serviceName)
 
-    // Display text binds words with non-breaking spaces; the WhatsApp message uses plain spaces.
-    const serviceName = ((await serviceRow.locator('h3').textContent()) ?? '').replaceAll('\u00a0', ' ').trim()
-    await serviceCard.click()
+    const { time } = await chooseFirstFreeSlot(page)
 
-    const selectedServiceBadge = page.locator('#booking span.font-medium').first()
-    await expect(selectedServiceBadge).toContainText(serviceName)
+    const summary = page.getByTestId('booking-summary')
+    await expect(summary).toContainText(serviceName)
+    await expect(summary).toContainText(time)
 
-    const firstAvailableSlot = page.locator('#booking article a[href^="https://wa.me/"]:visible').first()
-    await expect(firstAvailableSlot).toBeVisible()
-    await firstAvailableSlot.scrollIntoViewIfNeeded()
-
-    const time = ((await firstAvailableSlot.textContent()) ?? '').trim()
-    const dayCard = firstAvailableSlot.locator('xpath=ancestor::article[1]')
-    const date = ((await dayCard.locator('p').first().textContent()) ?? '').trim()
+    const cta = summary.getByRole('link', { name: 'Rezervovat přes WhatsApp' })
+    await expect(cta).toBeVisible()
 
     // Verify the link actually opens when clicked (catches pointer-event suppression bugs)
-    const [popup] = await Promise.all([page.waitForEvent('popup'), firstAvailableSlot.click()])
-
+    const [popup] = await Promise.all([page.waitForEvent('popup'), cta.click()])
     const openedUrl = popup.url()
     await popup.close()
 
     // wa.me redirects to api.whatsapp.com — accept either form
     expect(openedUrl).toMatch(/^https:\/\/(wa\.me|api\.whatsapp\.com)\//)
 
-    const message = new URL(openedUrl).searchParams.get('text') ?? ''
+    const message = plain(new URL(openedUrl).searchParams.get('text'))
     expect(message).toContain(serviceName)
-    expect(message).toContain(date)
     expect(message).toContain(time)
+    expect(message).toMatch(/\d{1,2}\.\d{1,2}\./)
   })
 })

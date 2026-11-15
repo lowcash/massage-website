@@ -6,12 +6,10 @@ interface SectionIntroProps {
   title: string
   subtitle: string
   description?: string
-  /** Render on the dark (night) panel. */
-  onNight?: boolean
   align?: 'center' | 'left'
 }
 
-export function SectionIntro({ id, title, subtitle, description, onNight = false, align = 'left' }: SectionIntroProps) {
+export function SectionIntro({ id, title, subtitle, description, align = 'left' }: SectionIntroProps) {
   const isCentered = align === 'center'
 
   return (
@@ -23,25 +21,19 @@ export function SectionIntro({ id, title, subtitle, description, onNight = false
     >
       <p
         className={cn(
-          'flex items-center gap-3 text-[length:var(--text-fluid--1)] leading-snug font-semibold tracking-[0.14em] text-balance uppercase',
-          onNight ? 'text-glow' : 'text-brand',
+          'text-muted-ink flex items-center gap-3 text-[length:var(--text-fluid--1)] leading-snug tracking-[0.16em] text-balance uppercase',
         )}
       >
-        <span aria-hidden='true' className='h-px w-8 bg-current opacity-60' />
+        <span aria-hidden='true' className='bg-brand/60 h-px w-8' />
         {applyCzechNbsp(subtitle)}
       </p>
 
-      <h2 id={id} className={cn('text-[length:var(--text-fluid-4)]', onNight && 'text-night-ink')}>
+      <h2 id={id} className='text-[length:var(--text-fluid-3)]'>
         {bindTail(applyCzechNbsp(title))}
       </h2>
 
       {description ? (
-        <p
-          className={cn(
-            'max-w-xl text-[length:var(--text-fluid-1)] leading-snug',
-            onNight ? 'text-night-muted' : 'text-body',
-          )}
-        >
+        <p className='text-body max-w-xl text-[length:var(--text-fluid-0)] leading-relaxed'>
           {applyCzechNbsp(description)}
         </p>
       ) : null}

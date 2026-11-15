@@ -16,7 +16,7 @@ export function RevealFallback() {
       return
     }
 
-    const targets = Array.from(document.querySelectorAll<HTMLElement>('.reveal, .reveal-soft'))
+    const targets = Array.from(document.querySelectorAll<HTMLElement>('.reveal, .reveal-soft, .reveal-media'))
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {

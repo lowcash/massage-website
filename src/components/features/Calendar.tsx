@@ -7,8 +7,10 @@ export interface CalendarSlot {
 
 interface Props {
   data?: CalendarSlot[]
+  generatedAt?: string
+  demo?: boolean
 }
 
-export default function Calendar({ data }: Props) {
-  return <BookingCalendar data={data} />
+export default function Calendar({ data, generatedAt, demo }: Props) {
+  return <BookingCalendar data={data} generatedAt={generatedAt} demo={demo} />
 }

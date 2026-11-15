@@ -1,5 +1,7 @@
 import dynamic from 'next/dynamic'
 
+import { isDemoCalendarEnabled } from '@/lib/demo-calendar'
+
 import type { CalendarSlot } from '@/src/components/features/Calendar'
 import Hero from '@/src/components/features/Hero'
 import Navigation from '@/src/components/layout/Navigation'
@@ -40,7 +42,7 @@ export default async function Page() {
         <GiftVouchers />
         <About />
         <Gallery />
-        <Calendar data={calendarData} />
+        <Calendar data={calendarData} generatedAt={new Date().toISOString()} demo={isDemoCalendarEnabled()} />
         <Contact />
       </main>
       <Footer />

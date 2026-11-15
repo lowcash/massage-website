@@ -37,7 +37,7 @@ export default function WhatsAppButton() {
         target='_blank'
         rel='noopener noreferrer'
         className={cn(
-          'bg-whatsapp hover:bg-whatsapp-hover pointer-events-auto relative flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg',
+          'bg-whatsapp hover:bg-whatsapp-hover shadow-soft pointer-events-auto relative flex h-11 w-11 items-center justify-center rounded-full text-white',
           'transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none',
           canShowButton
             ? 'translate-y-0 scale-100 opacity-100'

@@ -40,9 +40,14 @@ tests/
 
 ### 1. Booking Flow & Availability
 
-**Implementation**: `src/components/features/BookingCalendar.tsx`, `app/actions/calendar.ts`
+**Implementation**: `src/components/features/BookingCalendar.tsx`, `src/components/features/booking/MonthGrid.tsx`, `lib/booking-days.ts`, `app/actions/calendar.ts`
 
-The booking UI collects slot and date data, then submits through Server Actions that validate inputs and check availability on the server. That keeps the public booking flow and admin-side updates aligned around the same reservation rules.
+The public booking calendar is a three-step picker: (1) service (native `select`, shared with the service rows through `BookingContext`, optional), (2) day in a month grid with availability dots, (3) time chips for the chosen day, followed by a summary (service, date and time range when the service has a fixed length, price) and a WhatsApp link that carries service, date and time. Nothing is written when a visitor books; the reservation is completed in WhatsApp and the therapist marks the slot in `/admin`.
+
+- `lib/booking-days.ts` is the pure data layer (Prague day grouping, today's already started slots dropped, month weeks, Czech date formatting, end time from the service duration). Unit coverage: `tests/unit/booking-days.test.ts`.
+- `MonthGrid` is an ARIA grid with a roving tabindex: Tab enters once, arrows move by day/week, Home/End go to the week edges, PageUp/PageDown switch month. Days announce their state ("pondělí 16. listopadu, 3 volné termíny" / "obsazeno"); days without slots are `aria-disabled`. Fully booked days stay selectable so the visitor sees why nothing is offered.
+- `BookingCalendar` receives `generatedAt` from the server, so the first client render matches the HTML; the clock takes over after mount.
+- Admin-side updates (`updateCalendar`) are unchanged and still back up the calendar before every write.
 
 ### 2. Admin Authentication Boundary
 
@@ -62,14 +67,29 @@ Availability and reservations live in Redis, which fits the slot-oriented data m
 
 `findNextFreeSlot` is a read-only view over the same calendar data the booking panel uses. It returns the first available slot, skipping reserved slots and today's slots that have already started (Prague time). `Hero.tsx` shows the result as the "Nejbližší volný termín" badge; when no slot is free the badge is omitted. Unit coverage: `tests/unit/next-free-slot.test.ts`.
 
-### 5. Warm Paper Visual System
+### 5. Demo Calendar (preview only)
+
+**Implementation**: `lib/demo-calendar.ts`, `app/actions/calendar.ts`, `app/page.tsx`
+
+A preview deployment without Redis would show an empty booking section, so the calendar design could not be reviewed. Demo mode serves a generated, deterministic sample (next four weeks, mixed free/busy slots, fully booked days, one day off, a few Saturdays) instead of Redis.
+
+- **Gate** (`isDemoCalendarEnabled`, fails closed): off when `VERCEL_ENV` is `production` (even if the flag is set by mistake); on when `VERCEL_ENV` is `preview` or `DEMO_CALENDAR` is exactly `1` (local runs, e2e). Unit coverage: `tests/unit/demo-calendar.test.ts`.
+- **No Redis**: `getCalendar` returns the sample before any Redis call; `updateCalendar` returns early, so admin edits in a preview are simulated by doing nothing (nothing is written, the next load shows the sample again).
+- **UI**: a dashed note ("Ukázková data pro náhled") appears above the calendar. The reservation button becomes "Vyzkoušet rezervaci": it marks the slot busy in component state only, never opens WhatsApp. A reload restores the sample.
+- **E2E**: `tests/e2e/demo-calendar.spec.ts` runs in the `demo-chrome` project against a second build (`NEXT_DIST_DIR=.next-demo`, port 3140) whose `REDIS_URL` points at a dead port.
+- Never set `DEMO_CALENDAR` in Vercel Production; the gate ignores it there, but keep the variable out of the Production environment anyway.
+
+### 6. Quiet Salon Visual System
 
 **Implementation**: `app/globals.css` (`@theme`), `app/layout.tsx` (fonts), `src/components/shared/SectionIntro.tsx`, `src/components/shared/RevealFallback.tsx`
 
-- **Design tokens** are OKLCH colour variables under `@theme` in `app/globals.css` (for example `brand`, `ink`, `surface`, `paper`, `night`, `glow`, `sage`), with an sRGB fallback block for browsers without OKLCH support (`@supports not (color: oklch(0 0 0))`). Components use the token utilities (`bg-paper`, `text-ink`, `text-brand`), not raw colours.
-- **Fonts** are loaded with `next/font/google` in `app/layout.tsx`: Fraunces (display headings, variable axes), DM Sans (UI and body text) and Dancing Script (signature accents only). Font families are exposed as `--font-display`, `--font-sans-display` and `--font-dancing`.
+- **Direction**: calm, quiet massage salon. Muted warm neutrals (linen `surface`, stone `band`, sand `surface-alt`), one low-chroma clay accent (`brand`) and a soft `sage` for availability. No dark panels, no shadows on cards, no grain, no pills used as decoration, no loud terracotta blocks. The earlier saturated terracotta and the dark booking panel were dropped because they felt busy.
+- **Design tokens** are OKLCH colour variables under `@theme` in `app/globals.css` (for example `brand`, `ink`, `surface`, `band`, `paper`, `sage`), with an sRGB fallback block for browsers without OKLCH support (`@supports not (color: oklch(0 0 0))`). Components use the token utilities (`bg-paper`, `text-ink`, `text-brand`), not raw colours.
+- **Buttons** come from `src/components/shared/button-styles.ts` (`PRIMARY_BUTTON`, `SECONDARY_BUTTON`): flat, sentence case, colour transitions only.
+- **Photography** gets one soft treatment, the `.photo-soft` class (muted saturation, slightly lifted contrast), so the studio photos sit inside the palette.
+- **Fonts** are loaded with `next/font/google` in `app/layout.tsx`: Fraunces (display headings, light weight 300-360, variable axes), DM Sans (UI and body text) and Dancing Script (signature accents only). Font families are exposed as `--font-display`, `--font-sans-display` and `--font-dancing`.
 - **SectionIntro** renders the shared section header (eyebrow, `h2`, lead text) used by the content sections. It carries the `reveal` class.
-- **Scroll reveal** uses CSS `animation-timeline: view()` (`.reveal`, `.reveal-soft`), gated by `prefers-reduced-motion` and `@supports`. **RevealFallback** is a client component that renders nothing; it only adds the hidden-until-visible state (`.js .reveal`) when the browser has no view timelines and the visitor accepts motion. Content is fully visible without JavaScript and under reduced motion.
+- **Scroll reveal** is slow and quiet: text only rises a few pixels (`.reveal`, `.reveal-soft`; no opacity change, because half transparent text fails axe contrast checks at whatever scroll position they run) and text-free blocks such as the portrait fade in (`.reveal-media`), using CSS `animation-timeline: view()` gated by `prefers-reduced-motion` and `@supports`. **RevealFallback** is a client component that renders nothing; it only adds the hidden-until-visible state (`.js .reveal`) when the browser has no view timelines and the visitor accepts motion. Content is fully visible without JavaScript and under reduced motion.
 
 ## Tech Stack Decisions
 

@@ -36,7 +36,7 @@ function renderEmphasizedText(text: string, emphasis?: string): ReactNode {
   return (
     <>
       {applyCzechNbsp(before)}
-      <strong className='text-ink font-semibold'>{applyCzechNbsp(emphasis)}</strong>
+      <strong className='text-ink font-medium'>{applyCzechNbsp(emphasis)}</strong>
       {applyCzechNbsp(after)}
     </>
   )
@@ -52,11 +52,7 @@ export default function About() {
         )}
       >
         {/* Offset tint block sits behind the portrait; sticky on wide screens. */}
-        <div className='reveal relative isolate max-w-[26rem] min-[56rem]:sticky min-[56rem]:top-[calc(var(--navigation-offset)+2rem)]'>
-          <div
-            aria-hidden='true'
-            className='bg-surface-alt absolute top-5 right-[-1rem] bottom-[-1.25rem] left-5 -z-10 rounded-(--radius-lg)'
-          />
+        <div className='reveal-media max-w-[26rem] min-[56rem]:sticky min-[56rem]:top-[calc(var(--navigation-offset)+2rem)]'>
           <AboutPortrait />
         </div>
 
@@ -67,7 +63,7 @@ export default function About() {
             <h3 className='text-ink text-[length:var(--text-fluid-2)]'>
               {applyCzechNbsp(siteContent.brand.therapistName)}
             </h3>
-            <p className='text-brand text-[length:var(--text-fluid--1)] font-semibold tracking-[0.12em] uppercase'>
+            <p className='text-muted-ink text-[length:var(--text-fluid--1)] tracking-[0.14em] uppercase'>
               {applyCzechNbsp(siteContent.about.role)}
             </p>
           </div>
@@ -81,7 +77,7 @@ export default function About() {
           <div className='reveal-soft border-line grid grid-cols-3 gap-[var(--spacing-s2)] border-y py-[var(--spacing-s3)]'>
             {siteContent.about.stats.map((stat) => (
               <div key={stat.id}>
-                <p className='font-display text-brand text-[length:var(--text-fluid-3)] leading-none font-[380] whitespace-nowrap [font-variant-numeric:lining-nums] [font-variation-settings:"SOFT"_100,"opsz"_144]'>
+                <p className='font-display text-ink text-[length:var(--text-fluid-3)] leading-none font-[300] whitespace-nowrap [font-variant-numeric:lining-nums] [font-variation-settings:"SOFT"_100,"opsz"_144]'>
                   <CountUpValue value={stat.value} suffix={stat.suffix} />
                 </p>
                 <p className='text-muted-ink mt-1.5 text-[length:var(--text-fluid--1)] leading-snug'>
@@ -91,12 +87,12 @@ export default function About() {
             ))}
           </div>
 
-          <details className='reveal-soft group border-line bg-paper rounded-(--radius-md) border px-5 py-4'>
-            <summary className='text-ink flex min-h-8 cursor-pointer list-none items-center justify-between font-semibold [&::-webkit-details-marker]:hidden'>
+          <details className='reveal-soft group border-line rounded-(--radius-md) border px-5 py-4'>
+            <summary className='text-ink flex min-h-8 cursor-pointer list-none items-center justify-between font-medium [&::-webkit-details-marker]:hidden'>
               {siteContent.about.credentialsHeading}
               <span
                 aria-hidden='true'
-                className='font-display text-brand text-2xl leading-none transition-transform duration-260 ease-(--ease-out) group-open:rotate-45'
+                className='font-display text-brand text-2xl leading-none transition-transform duration-480 ease-(--ease-soft) group-open:rotate-45'
               >
                 +
               </span>
@@ -108,7 +104,7 @@ export default function About() {
             </ul>
           </details>
 
-          <p className='reveal-soft font-dancing text-brand text-[length:var(--text-fluid-2)] leading-tight text-balance'>
+          <p className='reveal-soft font-dancing text-brand text-[length:var(--text-fluid-1)] leading-tight text-balance'>
             {bindTail(applyCzechNbsp(siteContent.about.closingLine))}
           </p>
         </div>

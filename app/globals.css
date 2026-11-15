@@ -2,31 +2,31 @@
 @import 'tw-animate-css';
 
 @theme {
-  /* Warm Paper palette: OKLCH primary (hex fallbacks below in @supports not). */
-  --color-ink: oklch(0.215 0.02 40);
-  --color-body: oklch(0.38 0.025 42);
-  --color-muted-ink: oklch(0.46 0.03 40);
-  --color-brand: oklch(0.52 0.11 34);
-  --color-brand-hover: oklch(0.45 0.105 34);
-  --color-brand-soft: oklch(0.93 0.03 35);
-  --color-on-brand: oklch(0.99 0.004 60);
-  --color-surface: oklch(0.975 0.008 55);
-  --color-band: oklch(0.955 0.012 50);
-  --color-surface-alt: oklch(0.925 0.025 40);
-  --color-paper: oklch(0.992 0.004 60);
-  --color-line: oklch(0.87 0.02 40);
-  --color-night: oklch(0.22 0.02 35);
-  --color-night-ink: oklch(0.93 0.015 55);
-  --color-night-muted: oklch(0.78 0.02 45);
-  --color-glow: oklch(0.78 0.1 60);
-  --color-sage: oklch(0.5 0.07 150);
-  --color-whatsapp: #1b7a45;
-  --color-whatsapp-hover: #157a3c;
-  --color-slot-unavailable: oklch(0.72 0.02 45);
-  --color-brand-glow: rgb(158 79 60 / 0.18);
-  --color-overlay-nav: rgb(60 35 28 / 0.07);
-  --color-skip-offset: #f6edeb;
-  --color-dot-ring: rgb(158 79 60 / 0.16);
+  /*
+   * Quiet Salon palette: muted warm neutrals (linen, stone, sand) with one low-chroma clay accent and a soft sage.
+   * OKLCH primary, sRGB fallbacks below. Text pairs are AA on every surface they are used on.
+   */
+  --color-ink: oklch(0.3 0.012 60);
+  --color-body: oklch(0.42 0.012 62);
+  --color-muted-ink: oklch(0.49 0.014 65);
+  --color-brand: oklch(0.5 0.055 48);
+  --color-brand-hover: oklch(0.43 0.05 48);
+  --color-brand-soft: oklch(0.93 0.015 70);
+  --color-on-brand: oklch(0.985 0.005 85);
+  --color-surface: oklch(0.972 0.007 85);
+  --color-band: oklch(0.95 0.01 82);
+  --color-surface-alt: oklch(0.925 0.013 80);
+  --color-paper: oklch(0.988 0.004 85);
+  --color-line: oklch(0.88 0.01 80);
+  --color-night: oklch(0.32 0.012 60);
+  --color-sage: oklch(0.5 0.05 150);
+  --color-whatsapp: oklch(0.47 0.07 155);
+  --color-whatsapp-hover: oklch(0.41 0.065 155);
+  --color-slot-unavailable: oklch(0.66 0.012 70);
+  --color-brand-glow: rgb(138 99 80 / 0.14);
+  --color-overlay-nav: rgb(60 50 40 / 0.06);
+  --color-skip-offset: #f4efe8;
+  --color-dot-ring: rgb(138 99 80 / 0.14);
   --color-success: #059669;
   --color-success-soft: #ecfdf5;
   --color-success-border: #a7f3d0;
@@ -34,16 +34,12 @@
   --color-danger-soft: #fef2f2;
   --color-danger: #b91c1c;
 
-  /*
-   * Radius scale: pill (buttons, chips, slots), md 1.25rem (rows, cards, badge), lg 1.75rem (panels, images).
-   * The hero image uses one asymmetric organic curve (--radius-organic), not a symmetric arch.
-   */
-  --radius-md: 1.25rem;
-  --radius-lg: 1.75rem;
-  --radius-organic: 1.75rem 11rem 1.75rem 1.75rem / 1.75rem 9rem 1.75rem 1.75rem;
+  /* Radius scale: pill (buttons, chips, slots), md 1rem (rows, panels), lg 1.5rem (sections panels, images). */
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
 
-  --shadow-soft: 0 1px 2px rgb(70 40 32 / 0.05), 0 18px 50px rgb(70 40 32 / 0.07);
-  --shadow-lift: 0 2px 4px rgb(70 40 32 / 0.06), 0 22px 48px rgb(70 40 32 / 0.14);
+  --shadow-soft: 0 1px 2px rgb(60 50 40 / 0.04), 0 12px 36px rgb(60 50 40 / 0.05);
+  --shadow-lift: 0 1px 3px rgb(60 50 40 / 0.05), 0 16px 40px rgb(60 50 40 / 0.08);
 
   --font-dancing: 'Dancing Script', cursive;
   --font-display: 'Fraunces', Georgia, serif;
@@ -87,27 +83,26 @@
   }
 }
 
-/* Old browsers without OKLCH get the AA-checked sRGB equivalents. */
+/* Old browsers without OKLCH get the sRGB equivalents. */
 @supports not (color: oklch(0 0 0)) {
   :root {
-    --color-ink: #221612;
-    --color-body: #4e3e38;
-    --color-muted-ink: #67534c;
-    --color-brand: #9e4f3c;
-    --color-brand-hover: #853c2c;
-    --color-brand-soft: #fbe1db;
-    --color-on-brand: #fefbf9;
-    --color-surface: #fbf5f2;
-    --color-band: #f7eee9;
-    --color-surface-alt: #f6e1da;
-    --color-paper: #fffcfa;
-    --color-line: #e1d0cb;
-    --color-night: #231714;
-    --color-night-ink: #f0e5df;
-    --color-night-muted: #c3b4ad;
-    --color-glow: #e7a875;
-    --color-sage: #456f4e;
-    --color-slot-unavailable: #b3a29b;
+    --color-ink: #3a3430;
+    --color-body: #574f49;
+    --color-muted-ink: #6a615a;
+    --color-brand: #835f4d;
+    --color-brand-hover: #6a4b3c;
+    --color-brand-soft: #eee6dc;
+    --color-on-brand: #fcf9f3;
+    --color-surface: #f7f3ec;
+    --color-band: #f1ece3;
+    --color-surface-alt: #e9e3d8;
+    --color-paper: #fcf9f4;
+    --color-line: #dcd6cb;
+    --color-night: #4a433d;
+    --color-sage: #55725a;
+    --color-whatsapp: #3d6e55;
+    --color-whatsapp-hover: #2f5842;
+    --color-slot-unavailable: #a9a299;
   }
 }
 
@@ -314,7 +309,7 @@ button:disabled {
   }
 }
 
-/* Headings: Fraunces with soft optical axes. */
+/* Headings: Fraunces, light weight, soft optical axes. */
 @layer base {
   h1,
   h2,
@@ -322,12 +317,12 @@ button:disabled {
   h4 {
     font-family: var(--font-display);
     color: var(--color-ink);
-    font-weight: 420;
+    font-weight: 340;
     font-variation-settings:
       'SOFT' 60,
       'opsz' 96;
-    letter-spacing: -0.012em;
-    line-height: 1.08;
+    letter-spacing: -0.01em;
+    line-height: 1.12;
   }
 }
 
@@ -335,41 +330,16 @@ button:disabled {
   overflow-anchor: none;
 }
 
-.focus-night :where(a, button):focus-visible {
-  outline-color: var(--color-glow);
-}
-
-/* Soft grain: one tiny static SVG tile, fixed, no JS, no animation. */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 90;
-  opacity: 0.045;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .2  0 0 0 0 .15  0 0 0 .9 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
-}
-
 /*
  * Motion is opt-in: the default state (no JS, reduced motion, no support) is the final visible state.
  * Scroll-driven where supported; otherwise RevealFallback adds .in once from an IntersectionObserver.
  */
 /*
- * Rise only (no opacity fade): a text node that is half transparent mid-scroll has a transient contrast below
- * AA, which axe and Lighthouse measure at whatever scroll position they happen to run. Translate keeps the
- * text at full contrast at every moment.
+ * Slow and quiet. Text only rises a few pixels, it never changes opacity: a half transparent text node has a
+ * transient contrast below AA, which axe and Lighthouse measure at whatever scroll position they run. Images
+ * and other text-free blocks (.reveal-media) do fade in gently.
  */
 @keyframes rise {
-  from {
-    translate: 0 1.5rem;
-  }
-  to {
-    translate: 0 0;
-  }
-}
-
-@keyframes rise-soft {
   from {
     translate: 0 0.75rem;
   }
@@ -378,12 +348,23 @@ body::after {
   }
 }
 
-@keyframes drift {
+@keyframes rise-soft {
   from {
-    translate: 0 -3%;
+    translate: 0 0.5rem;
   }
   to {
-    translate: 0 3%;
+    translate: 0 0;
+  }
+}
+
+@keyframes fade-media {
+  from {
+    opacity: 0.35;
+    translate: 0 0.5rem;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
   }
 }
 
@@ -392,32 +373,41 @@ body::after {
     .reveal {
       animation: rise linear both;
       animation-timeline: view();
-      animation-range: entry 0% entry 55%;
+      animation-range: entry 0% entry 70%;
+    }
+
+    .reveal-media {
+      animation: fade-media linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
     }
 
     .reveal-soft {
       animation: rise-soft linear both;
       animation-timeline: view();
-      animation-range: entry 0% entry 45%;
-    }
-
-    .drift img {
-      animation: drift linear both;
-      animation-timeline: view();
-      animation-range: cover 0% cover 100%;
-      scale: 1.1;
+      animation-range: entry 0% entry 60%;
     }
   }
 
   @supports not (animation-timeline: view()) {
     .js .reveal,
-    .js .reveal-soft {
-      translate: 0 1rem;
-      transition: translate 900ms var(--ease-out);
+    .js .reveal-soft,
+    .js .reveal-media {
+      translate: 0 0.6rem;
+      transition: translate 1400ms var(--ease-soft);
+    }
+
+    .js .reveal-media {
+      opacity: 0.35;
+      transition:
+        opacity 1400ms var(--ease-soft),
+        translate 1400ms var(--ease-soft);
     }
 
     .js .reveal.in,
-    .js .reveal-soft.in {
+    .js .reveal-soft.in,
+    .js .reveal-media.in {
+      opacity: 1;
       translate: 0 0;
     }
   }
@@ -428,16 +418,13 @@ body::after {
 
   ::view-transition-old(root),
   ::view-transition-new(root) {
-    animation-duration: 480ms;
+    animation-duration: 600ms;
     animation-timing-function: var(--ease-soft);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .btn-lift:hover,
-  .row-lift:hover,
-  .slot-lift:hover {
-    transform: none;
+  .row-lift:hover {
     translate: none;
   }
 }
@@ -453,10 +440,15 @@ body::after {
 /* Underline wipe for text links (nav, footer). */
 .link-wipe {
   background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat;
-  transition: background-size 480ms var(--ease-out);
+  transition: background-size 600ms var(--ease-soft);
 }
 
 .link-wipe:hover,
 .link-wipe[aria-current='location'] {
   background-size: 100% 1px;
+}
+
+/* Photography: one soft treatment so the studio photos sit quietly in the palette (muted colour, lifted shadows). */
+.photo-soft {
+  filter: saturate(0.55) sepia(0.12) contrast(0.94) brightness(1.05);
 }

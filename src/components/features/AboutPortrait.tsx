@@ -18,7 +18,7 @@ export default function AboutPortrait() {
 
   return (
     <>
-      <div className='drift bg-surface-alt shadow-soft aspect-4/5 overflow-hidden rounded-(--radius-lg)'>
+      <div className='bg-surface-alt aspect-4/5 overflow-hidden rounded-(--radius-lg)'>
         <button
           type='button'
           onClick={() => setIsPortraitOpen(true)}
@@ -29,7 +29,7 @@ export default function AboutPortrait() {
             src={profileImage}
             alt={siteContent.brand.therapistName}
             fill
-            className='object-cover object-[60%_30%]'
+            className='photo-soft object-cover object-[60%_30%]'
             sizes='(min-width: 56rem) 32vw, (min-width: 34rem) 26rem, 100vw'
           />
         </button>

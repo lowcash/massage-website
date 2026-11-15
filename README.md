@@ -56,6 +56,12 @@ Basic-auth credentials protect `/admin`:
 
 - `REDIS_URL` – Redis connection string (e.g. from Upstash)
 
+### Demo calendar (previews only)
+
+- `DEMO_CALENDAR=1` – serves generated sample slots instead of Redis (no Redis read or write, booking simulated in the
+  browser). It is on automatically for Vercel preview deployments (`VERCEL_ENV=preview`) and is always ignored when
+  `VERCEL_ENV=production`. Use it locally with `DEMO_CALENDAR=1 pnpm run dev` to review the calendar without Redis.
+
 ## Commands
 
 - `pnpm run dev:local` starts the dev server against a throwaway local Redis (safe, recommended).
@@ -69,8 +75,11 @@ For the full script list, see `package.json`.
 
 ## Testing
 
-Three Playwright projects: `desktop-chrome`, `mobile-safari`, `mobile-chrome`.
-Tests run against a production preview build on port 3100 to avoid port conflicts.
+Four Playwright projects: `desktop-chrome`, `mobile-safari`, `mobile-chrome` and `demo-chrome`.
+Tests run against a production build on port 3100 (needs a Redis with calendar data, e.g. the one from
+`pnpm run dev:local` on port 6390). `demo-chrome` runs only `tests/e2e/demo-*.spec.ts` against a second build with
+`DEMO_CALENDAR=1` on port 3140 (own `.next-demo` folder, Redis URL deliberately dead). Unit tests (`pnpm test`)
+cover the Prague time helpers, booking days and the demo-mode gate.
 
 ## Security Baseline
 

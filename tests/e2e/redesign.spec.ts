@@ -19,7 +19,7 @@ test.describe('Redesign interactions', () => {
     await expect(rows.first()).toHaveAttribute('aria-pressed', 'false')
 
     const name = ((await page.locator('#services li').nth(1).locator('h3').textContent()) ?? '').trim()
-    await expect(page.locator('#booking')).toContainText(name)
+    await expect(page.locator('#booking select')).toHaveValue(name.replaceAll('\u00a0', ' '))
   })
 
   test('credentials accordion opens and closes', async ({ page }) => {
@@ -42,7 +42,7 @@ test.describe('Redesign interactions', () => {
     await page.goto('/', { waitUntil: 'networkidle' })
 
     const state = await page.evaluate(() => {
-      const nodes = Array.from(document.querySelectorAll('.reveal, .reveal-soft'))
+      const nodes = Array.from(document.querySelectorAll('.reveal, .reveal-soft, .reveal-media'))
       return {
         count: nodes.length,
         hidden: nodes.filter((node) => {
@@ -58,17 +58,16 @@ test.describe('Redesign interactions', () => {
     expect(state.jsClass).toBe(false)
   })
 
-  test('booking panel is the dark night section with 44px slot targets', async ({ page }) => {
+  test('booking panel is the calm light section with 44px day and time targets', async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle' })
 
     const section = page.locator('#booking')
     await section.scrollIntoViewIfNeeded()
-    await expect(section).toHaveClass(/bg-night/)
+    await expect(section).toHaveClass(/bg-band/)
 
-    const slot = section.locator('article a[href^="https://wa.me/"]').first()
-    await expect(slot).toBeAttached()
-    const box = await slot.boundingBox()
-    expect(box?.height ?? 0).toBeGreaterThanOrEqual(44)
+    const day = section.locator('[data-day]:not([aria-disabled="true"])').first()
+    await expect(day).toBeAttached()
+    expect((await day.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44)
   })
 
   test('no horizontal overflow', async ({ page }) => {

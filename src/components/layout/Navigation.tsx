@@ -102,12 +102,12 @@ export default function Navigation() {
             className='flex min-w-0 flex-col leading-[1.05] [view-transition-name:logo]'
             aria-label={siteContent.navigation.homeAriaLabel}
           >
-            <b className='text-ink font-display text-[clamp(1.05rem,0.9rem+0.6vw,1.3rem)] leading-none font-[450] [font-variation-settings:"SOFT"_100,"opsz"_48]'>
+            <b className='text-ink font-display text-[clamp(1.05rem,0.9rem+0.6vw,1.3rem)] leading-none font-[380] [font-variation-settings:"SOFT"_100,"opsz"_48]'>
               {applyCzechNbsp(siteContent.brand.name)}
             </b>
             <span
               aria-hidden='true'
-              className='text-muted-ink mt-1.5 text-[0.6875rem] leading-none font-semibold tracking-[0.16em] uppercase'
+              className='text-muted-ink mt-1.5 text-[0.6875rem] leading-none tracking-[0.18em] uppercase'
             >
               {applyCzechNbsp(siteContent.brand.subtitle)}
             </span>
@@ -119,7 +119,7 @@ export default function Navigation() {
             <a
               href='#booking'
               onClick={(event) => handleAnchorClick(event, '#booking')}
-              className='bg-brand text-on-brand hover:bg-brand-hover btn-lift hidden min-h-11 items-center rounded-full px-5 text-xs leading-none font-semibold tracking-[0.14em] uppercase transition-[background-color,box-shadow,transform] duration-260 ease-(--ease-soft) hover:-translate-y-px active:scale-[0.98] min-[30rem]:inline-flex'
+              className='bg-brand text-on-brand hover:bg-brand-hover hidden min-h-11 items-center rounded-full px-5 text-sm leading-none font-medium tracking-[0.02em] transition-colors duration-480 ease-(--ease-soft) min-[30rem]:inline-flex'
             >
               {siteContent.navigation.bookCta}
             </a>

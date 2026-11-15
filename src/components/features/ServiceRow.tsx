@@ -35,12 +35,12 @@ export default function ServiceRow({ service }: { service: ServiceItem }) {
   return (
     <li className='group relative'>
       <div
-        className={`row-lift border-line/60 bg-paper group-hover:shadow-lift group-has-[button:focus-visible]:shadow-lift grid grid-cols-[1fr_auto] items-baseline gap-x-5 gap-y-1 rounded-(--radius-md) border px-[1.35rem] py-[1.1rem] text-left transition-[translate,box-shadow,border-color] duration-480 ease-(--ease-out) group-hover:-translate-y-0.5 group-hover:border-transparent ${isSelected ? 'border-brand! shadow-soft' : ''}`}
+        className={`row-lift border-line group-hover:bg-paper group-has-[button:focus-visible]:bg-paper grid grid-cols-[1fr_auto] items-baseline gap-x-5 gap-y-1 rounded-(--radius-md) border-b px-3 py-[1.1rem] text-left transition-[translate,box-shadow,border-color,background-color] duration-480 ease-(--ease-soft) ${isSelected ? 'bg-paper border-brand/50' : ''}`}
       >
-        <h3 className='text-ink text-[length:var(--text-fluid-1)] leading-tight font-[450] [font-variation-settings:"SOFT"_80,"opsz"_36]'>
+        <h3 className='text-ink text-[length:var(--text-fluid-1)] leading-tight font-[360] [font-variation-settings:"SOFT"_80,"opsz"_36]'>
           {bindTail(applyCzechNbsp(service.name))}
         </h3>
-        <span className='text-brand text-[length:var(--text-fluid--1)] font-semibold whitespace-nowrap tabular-nums'>
+        <span className='text-brand text-[length:var(--text-fluid--1)] font-medium whitespace-nowrap tabular-nums'>
           {applyCzechNbsp(service.price)}
         </span>
         {service.duration ? (

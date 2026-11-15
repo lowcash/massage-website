@@ -18,9 +18,8 @@ import { useMediaQuery } from '@/src/hooks/useMediaQuery'
 
 const studioImages = [studioImage1, studioImage2, studioImage3]
 
-const TILE_CLASS =
-  'drift shadow-soft bg-surface-alt w-full cursor-pointer overflow-hidden rounded-(--radius-lg) text-left'
-const IMAGE_CLASS = 'object-cover'
+const TILE_CLASS = 'bg-surface-alt w-full cursor-pointer overflow-hidden rounded-(--radius-lg) text-left'
+const IMAGE_CLASS = 'photo-soft object-cover'
 
 export default function GalleryInteractive() {
   // Mount exactly one image tree. SSR / first paint = mobile carousel; desktop grid swaps in after hydration.

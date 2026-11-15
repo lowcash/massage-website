@@ -7,8 +7,8 @@ import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 
 export default function Contact() {
-  const cardClassName = 'rounded-(--radius-md) bg-paper p-5 text-base leading-relaxed text-body shadow-soft'
-  const linkCardClassName = `${cardClassName} cursor-pointer transition-[translate,box-shadow] duration-480 ease-(--ease-out) hover:shadow-lift hover:-translate-y-0.5`
+  const cardClassName = 'border-line rounded-(--radius-md) border p-5 text-base leading-relaxed text-body'
+  const linkCardClassName = `${cardClassName} cursor-pointer transition-colors duration-480 ease-(--ease-soft) hover:bg-paper`
 
   return (
     <section id='contact' className='py-[var(--spacing-s6)]'>
@@ -24,7 +24,7 @@ export default function Contact() {
             <a href={`tel:+${siteContent.brand.phoneDigits}`} className={linkCardClassName}>
               <div className='text-brand mb-3 flex items-center gap-2'>
                 <Phone className='h-4 w-4' />
-                <p className='text-brand text-xs font-semibold tracking-[0.14em] uppercase'>
+                <p className='text-muted-ink text-xs tracking-[0.14em] uppercase'>
                   {siteContent.contact.cards.phoneLabel}
                 </p>
               </div>
@@ -34,7 +34,7 @@ export default function Contact() {
             <a href={`mailto:${siteContent.brand.email}`} className={linkCardClassName}>
               <div className='text-brand mb-3 flex items-center gap-2'>
                 <Mail className='h-4 w-4' />
-                <p className='text-brand text-xs font-semibold tracking-[0.14em] uppercase'>
+                <p className='text-muted-ink text-xs tracking-[0.14em] uppercase'>
                   {siteContent.contact.cards.emailLabel}
                 </p>
               </div>
@@ -49,7 +49,7 @@ export default function Contact() {
             >
               <div className='text-brand mb-3 flex items-center gap-2'>
                 <MapPin className='h-4 w-4' />
-                <p className='text-brand text-xs font-semibold tracking-[0.14em] uppercase'>
+                <p className='text-muted-ink text-xs tracking-[0.14em] uppercase'>
                   {siteContent.contact.cards.addressLabel}
                 </p>
               </div>
@@ -60,7 +60,7 @@ export default function Contact() {
             <div className={cardClassName}>
               <div className='text-brand mb-3 flex items-center gap-2'>
                 <Clock className='h-4 w-4' />
-                <p className='text-brand text-xs font-semibold tracking-[0.14em] uppercase'>
+                <p className='text-muted-ink text-xs tracking-[0.14em] uppercase'>
                   {siteContent.contact.cards.openingHoursLabel}
                 </p>
               </div>
@@ -77,7 +77,7 @@ export default function Contact() {
           </div>
 
           <div>
-            <div className='bg-paper shadow-soft h-full min-h-[420px] overflow-hidden rounded-(--radius-lg)'>
+            <div className='border-line h-full min-h-[420px] overflow-hidden rounded-(--radius-lg) border'>
               <iframe
                 src={siteContent.brand.mapsEmbed}
                 width='100%'

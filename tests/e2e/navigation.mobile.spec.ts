@@ -162,7 +162,7 @@ test.describe('Mobile menu', () => {
 
     await expect(page).toHaveURL(/#booking$/)
     await expectSectionAlignedUnderHeader(page, getScrollTargetSelector('booking'))
-    await expect(page.locator('#booking span.font-medium')).toContainText(serviceName ?? '')
+    await expect(page.locator('#booking select')).toHaveValue((serviceName ?? '').replaceAll('\u00a0', ' '))
   })
 
   test('mobile navigation offset variable stays in expected range', async ({ page }) => {
