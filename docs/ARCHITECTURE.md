@@ -27,7 +27,11 @@ lib/
 ├── schemas/
 ├── security/
 ├── jwt.ts
-└── safe-action.ts
+├── next-free-slot.ts               # First bookable slot for the hero badge
+├── prague-time.ts                  # Europe/Prague wall-clock helpers for slots
+├── redis.ts
+├── safe-action.ts
+└── typography.ts                   # Czech non-breaking-space helper
 types/
 tests/
 ```
@@ -51,6 +55,21 @@ Admin access is protected by credentials and JWT-backed session state stored in 
 **Implementation**: `app/actions/calendar.ts`, `lib/config/*`
 
 Availability and reservations live in Redis, which fits the slot-oriented data model and keeps reads fast for the booking calendar without introducing a heavier SQL layer.
+
+### 4. Next Free Slot (Hero Badge)
+
+**Implementation**: `lib/next-free-slot.ts`, `src/components/features/Hero.tsx`, `lib/prague-time.ts`
+
+`findNextFreeSlot` is a read-only view over the same calendar data the booking panel uses. It returns the first available slot, skipping reserved slots and today's slots that have already started (Prague time). `Hero.tsx` shows the result as the "Nejbližší volný termín" badge; when no slot is free the badge is omitted. Unit coverage: `tests/unit/next-free-slot.test.ts`.
+
+### 5. Warm Paper Visual System
+
+**Implementation**: `app/globals.css` (`@theme`), `app/layout.tsx` (fonts), `src/components/shared/SectionIntro.tsx`, `src/components/shared/RevealFallback.tsx`
+
+- **Design tokens** are OKLCH colour variables under `@theme` in `app/globals.css` (for example `brand`, `ink`, `surface`, `paper`, `night`, `glow`, `sage`), with an sRGB fallback block for browsers without OKLCH support (`@supports not (color: oklch(0 0 0))`). Components use the token utilities (`bg-paper`, `text-ink`, `text-brand`), not raw colours.
+- **Fonts** are loaded with `next/font/google` in `app/layout.tsx`: Fraunces (display headings, variable axes), DM Sans (UI and body text) and Dancing Script (signature accents only). Font families are exposed as `--font-display`, `--font-sans-display` and `--font-dancing`.
+- **SectionIntro** renders the shared section header (eyebrow, `h2`, lead text) used by the content sections. It carries the `reveal` class.
+- **Scroll reveal** uses CSS `animation-timeline: view()` (`.reveal`, `.reveal-soft`), gated by `prefers-reduced-motion` and `@supports`. **RevealFallback** is a client component that renders nothing; it only adds the hidden-until-visible state (`.js .reveal`) when the browser has no view timelines and the visitor accepts motion. Content is fully visible without JavaScript and under reduced motion.
 
 ## Tech Stack Decisions
 
