@@ -99,7 +99,7 @@ export default function Navigation() {
           <a
             href='#hero'
             onClick={(event) => handleAnchorClick(event, '#hero')}
-            className='flex min-w-0 flex-col leading-[1.05] [view-transition-name:logo]'
+            className='flex min-h-11 min-w-0 flex-col justify-center leading-[1.05] [view-transition-name:logo]'
             aria-label={siteContent.navigation.homeAriaLabel}
           >
             <b className='text-ink font-display text-[clamp(1.05rem,0.9rem+0.6vw,1.3rem)] leading-none font-[380] [font-variation-settings:"SOFT"_100,"opsz"_48]'>
@@ -107,7 +107,7 @@ export default function Navigation() {
             </b>
             <span
               aria-hidden='true'
-              className='text-muted-ink mt-1.5 text-[0.6875rem] leading-none tracking-[0.18em] uppercase'
+              className='text-muted-ink mt-1.5 text-[0.75rem] leading-none tracking-[0.16em] uppercase'
             >
               {applyCzechNbsp(siteContent.brand.subtitle)}
             </span>

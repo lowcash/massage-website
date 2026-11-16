@@ -17,7 +17,12 @@ interface FloatingContainerProps {
  */
 export function FloatingContainer({ children, className, innerClassName }: FloatingContainerProps) {
   return (
-    <div className={cn('pointer-events-none fixed inset-x-0 px-5 md:px-8', className)}>
+    <div
+      className={cn(
+        'pointer-events-none fixed inset-x-0 pr-[max(1.25rem,env(safe-area-inset-right))] pl-[max(1.25rem,env(safe-area-inset-left))] md:px-8',
+        className,
+      )}
+    >
       <div className={cn('mx-auto flex w-full max-w-6xl min-[1440px]:max-w-[calc(76rem+7rem)]', innerClassName)}>
         {children}
       </div>

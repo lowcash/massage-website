@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 
 import { FloatingContainer } from '@/src/components/layout/FloatingContainer'
 import { useBooking } from '@/src/contexts/BookingContext'
+import { useBookingInView } from '@/src/hooks/useBookingInView'
 import { useFooterVisible } from '@/src/hooks/useFooterVisible'
 import { useHeroScrolledPast } from '@/src/hooks/useHeroScrolledPast'
 import { useMediaQuery } from '@/src/hooks/useMediaQuery'
@@ -16,6 +17,7 @@ export default function WhatsAppButton() {
   const isFooterVisible = useFooterVisible()
   const isMobile = useMediaQuery('(max-width: 767px)')
   const heroPast = useHeroScrolledPast()
+  const bookingInView = useBookingInView()
 
   const getWhatsAppUrl = () => {
     let message = siteContent.floatingButtons.whatsappDefaultMessage
@@ -28,7 +30,8 @@ export default function WhatsAppButton() {
   }
 
   // On mobile, wait until the hero is fully past so the FAB never covers CTAs.
-  const canShowButton = !isFooterVisible && (!isMobile || heroPast)
+  // While the booking card is on screen (phone), the slots and CTA need the right edge: the card has its own WhatsApp CTA.
+  const canShowButton = !isFooterVisible && (!isMobile || (heroPast && !bookingInView))
 
   return (
     <FloatingContainer className='bottom-3 z-40 md:bottom-6' innerClassName='justify-end'>

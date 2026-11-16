@@ -204,7 +204,7 @@ export default function MobileDrawer({ open, activeSection, onClose, onNavigate,
                   href={item.href}
                   onClick={(event) => onNavigate(event, item.href)}
                   aria-current={isActive ? 'location' : undefined}
-                  className={`font-display flex cursor-pointer items-center justify-between rounded-(--radius-md) px-4 py-2.5 text-left text-[1.35rem] leading-none transition-colors duration-300 ease-out [@media(max-height:700px)]:py-2 [@media(max-height:700px)]:text-[1.25rem] ${isActive ? 'bg-brand-soft text-brand-hover' : 'text-ink hover:bg-surface'}`}
+                  className={`font-display flex min-h-11 cursor-pointer items-center justify-between rounded-(--radius-md) px-4 py-2.5 text-left text-[1.35rem] leading-none transition-colors duration-300 ease-out [@media(max-height:700px)]:py-2 [@media(max-height:700px)]:text-[1.25rem] ${isActive ? 'bg-brand-soft text-brand-hover' : 'text-ink hover:bg-surface'}`}
                 >
                   {applyCzechNbsp(item.label)}
                   {isActive ? <span aria-hidden='true' className='bg-brand h-2 w-2 rounded-full' /> : null}
@@ -227,7 +227,7 @@ export default function MobileDrawer({ open, activeSection, onClose, onNavigate,
                     <Icon aria-hidden='true' className='h-4 w-4' />
                   </span>
                   <span className='flex min-w-0 flex-col'>
-                    <span className='text-brand text-[11px] font-semibold tracking-[0.14em] uppercase'>{label}</span>
+                    <span className='text-brand text-xs font-semibold tracking-[0.14em] uppercase'>{label}</span>
                     <span className='text-ink text-sm leading-snug break-words'>
                       {lines.map((line) => (
                         <span key={line} className='block'>

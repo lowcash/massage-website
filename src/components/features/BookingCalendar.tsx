@@ -137,6 +137,7 @@ export default function BookingCalendar({ data, generatedAt, demo = false }: Boo
   const [simulated, setSimulated] = useState<ReadonlySet<string>>(new Set())
   const [demoDone, setDemoDone] = useState(false)
   const timesRef = useRef<HTMLDivElement>(null)
+  const summaryRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setNow(new Date())
@@ -225,6 +226,15 @@ export default function BookingCalendar({ data, generatedAt, demo = false }: Boo
     )
   }
 
+  // One-handed on a phone the summary and CTA sit below the slot list: bring them into view once a time is picked.
+  const revealSummary = () => {
+    if (!window.matchMedia('(max-width: 61.99rem)').matches) return
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    requestAnimationFrame(() =>
+      summaryRef.current?.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' }),
+    )
+  }
+
   const chooseNextFree = () => {
     if (!nextFree || !nextFreeTime) return
     setMonthOverride(monthKeyOf(nextFree.key))
@@ -255,7 +265,10 @@ export default function BookingCalendar({ data, generatedAt, demo = false }: Boo
           </p>
         ) : null}
 
-        <div className='bg-paper border-line shadow-soft reveal-soft grid gap-[var(--spacing-s5)] rounded-(--radius-lg) border p-[clamp(1.25rem,0.6rem+2.6vw,3rem)] min-[62rem]:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] min-[62rem]:gap-[var(--spacing-s6)]'>
+        <div
+          data-booking-card
+          className='bg-paper border-line shadow-soft reveal-soft grid gap-[var(--spacing-s5)] rounded-(--radius-lg) border p-[clamp(1rem,0.4rem+2.6vw,3rem)] min-[62rem]:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] min-[62rem]:gap-[var(--spacing-s6)]'
+        >
           <div className='grid min-w-0 content-start gap-[var(--spacing-s4)]'>
             <ServiceSelect />
 
@@ -324,6 +337,7 @@ export default function BookingCalendar({ data, generatedAt, demo = false }: Boo
                                 onClick={() => {
                                   setSelectedTime(slot.time)
                                   setDemoDone(false)
+                                  revealSummary()
                                 }}
                                 className={cn(
                                   'min-h-11 w-full rounded-full border px-3 text-[length:var(--text-fluid--1)] leading-none tabular-nums transition-[background-color,color,border-color] duration-260 ease-(--ease-soft)',
@@ -366,10 +380,11 @@ export default function BookingCalendar({ data, generatedAt, demo = false }: Boo
             </div>
 
             <div
+              ref={summaryRef}
               aria-live='polite'
               data-testid='booking-summary'
               className={cn(
-                'bg-surface border-line rounded-(--radius-md) border p-[clamp(1.1rem,0.8rem+1vw,1.6rem)] transition-colors duration-260',
+                'bg-surface border-line scroll-mb-24 rounded-(--radius-md) border p-[clamp(1.1rem,0.8rem+1vw,1.6rem)] transition-colors duration-260',
                 activeDay && time && 'border-brand/60',
               )}
             >

@@ -48,7 +48,7 @@ export default function AboutPortrait() {
           <button
             type='button'
             onClick={closePortrait}
-            className='absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white transition-colors duration-300 ease-out hover:bg-black/65'
+            className='absolute top-3 right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-black/45 text-white transition-colors duration-300 ease-out hover:bg-black/65'
             aria-label='Zavřít náhled'
           >
             <X className='h-5 w-5' />

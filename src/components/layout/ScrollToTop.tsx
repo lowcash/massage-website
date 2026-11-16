@@ -6,12 +6,16 @@ import { siteContent } from '@/lib/content'
 import { cn, scrollToSection } from '@/lib/utils'
 
 import { FloatingContainer } from '@/src/components/layout/FloatingContainer'
+import { useBookingInView } from '@/src/hooks/useBookingInView'
 import { useFooterVisible } from '@/src/hooks/useFooterVisible'
 import { useHeroScrolledPast } from '@/src/hooks/useHeroScrolledPast'
+import { useMediaQuery } from '@/src/hooks/useMediaQuery'
 
 export default function ScrollToTop() {
   const isFooterVisible = useFooterVisible()
   const heroPast = useHeroScrolledPast()
+  const isMobile = useMediaQuery('(max-width: 767px)')
+  const bookingInView = useBookingInView()
 
   const scrollToTop = () => {
     scrollToSection('hero')
@@ -19,7 +23,7 @@ export default function ScrollToTop() {
 
   // Shown only once the hero is fully scrolled past (a short page needs no way back up). Stacked 12px above the
   // WhatsApp FAB (same 44px size, quieter outline style so the two do not compete).
-  const canShowButton = heroPast && !isFooterVisible
+  const canShowButton = heroPast && !isFooterVisible && !(isMobile && bookingInView)
 
   return (
     <FloatingContainer className='bottom-[4.25rem] z-40 md:bottom-20' innerClassName='justify-end'>

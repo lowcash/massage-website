@@ -53,11 +53,17 @@ export default function Footer() {
               <br />
               {applyCzechNbsp(siteContent.brand.addressLine2)}
               <br />
-              <a href={`tel:+${siteContent.brand.phoneDigits}`} className={LINK_CLASS}>
+              <a
+                href={`tel:+${siteContent.brand.phoneDigits}`}
+                className={cn(LINK_CLASS, 'inline-flex min-h-11 items-center')}
+              >
                 {siteContent.brand.phone}
               </a>
               <br />
-              <a href={`mailto:${siteContent.brand.email}`} className={LINK_CLASS}>
+              <a
+                href={`mailto:${siteContent.brand.email}`}
+                className={cn(LINK_CLASS, 'inline-flex min-h-11 items-center')}
+              >
                 {siteContent.brand.email}
               </a>
             </address>
@@ -68,7 +74,7 @@ export default function Footer() {
             <ul className='m-0 grid list-none gap-1 p-0'>
               {siteContent.navigation.items.map((item) => (
                 <li key={item.id}>
-                  <a href={item.href} className={cn(LINK_CLASS, 'inline-block py-1')}>
+                  <a href={item.href} className={cn(LINK_CLASS, 'inline-flex min-h-11 items-center')}>
                     {applyCzechNbsp(item.label)}
                   </a>
                 </li>
