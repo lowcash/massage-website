@@ -103,12 +103,13 @@ test.describe('WhatsApp button', () => {
 })
 
 /**
- * On wide screens floating chrome shares the nav/footer content column (max-w-6xl = 1152px).
- * Section body content is inset separately (CONTENT_SHELL px-2 md:px-6). Dots share ScrollToTop's center.
+ * On wide screens (1440px and up) floating chrome sits in the page gutter, just outside the 76rem content shell, so
+ * it never covers section copy. Dots share ScrollToTop's center.
  * WhatsApp and ScrollToTop both sit on the trailing edge (bottom-right stack).
  */
 test.describe('Floating elements on wide screens', () => {
-  const CONTENT_COLUMN = 1152
+  // From 1440px the rail is the 76rem content shell plus a 3.5rem outset on each side (FloatingContainer).
+  const CONTENT_COLUMN = 76 * 16 + 2 * 56
 
   for (const width of [1440, 1920, 2560]) {
     test(`align with the nav content column at ${width}px`, async ({ page }) => {
@@ -139,6 +140,11 @@ test.describe('Floating elements on wide screens', () => {
       expect(scrollTop!.y + scrollTop!.height).toBeLessThanOrEqual(whatsapp!.y + tolerance)
       // Left edge unused for FABs on desktop (both trailing)
       expect(whatsapp!.x).toBeGreaterThan(contentLeft + 60)
+
+      // The rail stays outside the content shell (76rem) so it never covers copy.
+      const shellRight = (width + 76 * 16) / 2
+      expect(whatsapp!.x).toBeGreaterThanOrEqual(shellRight)
+      expect(scrollTop!.x).toBeGreaterThanOrEqual(shellRight)
     })
   }
 

@@ -6,6 +6,7 @@ const getScrollTargetSelector = (sectionId: (typeof SECTIONS)[number]) => `#${se
 
 async function gotoHome(page: import('@playwright/test').Page) {
   await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await page.waitForLoadState('networkidle')
   await expect(page.locator('#hero')).toBeVisible()
 }
 

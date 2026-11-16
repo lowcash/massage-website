@@ -283,6 +283,8 @@ export const siteContent = {
     dayFullyBooked: 'Tento den je již obsazený. Zkuste prosím jiný den.',
     dayNoSlots: 'V tento den nejsou vypsané žádné termíny.',
     slotBusy: 'obsazeno',
+    slotLegend: 'Přeškrtnuté časy jsou už obsazené.',
+    nextFreeAction: 'Vybrat',
     summaryHeading: 'Vaše rezervace',
     summaryService: 'Služba',
     summaryWhen: 'Termín',

@@ -57,7 +57,7 @@ export default function SectionDots() {
   const canShowDots = isVisible && !isFooterVisible
 
   return (
-    <FloatingContainer className='top-1/2 z-30 hidden -translate-y-1/2 xl:block' innerClassName='justify-end'>
+    <FloatingContainer className='top-1/2 z-30 hidden -translate-y-1/2 min-[1440px]:block' innerClassName='justify-end'>
       <nav
         aria-hidden='true'
         className={cn(
@@ -81,8 +81,8 @@ export default function SectionDots() {
                 className={cn(
                   'rounded-full transition-all duration-300',
                   isActive
-                    ? 'bg-brand h-3 w-3 shadow-[0_0_0_4px_var(--color-dot-ring)]'
-                    : 'bg-ink/25 group-hover:bg-brand/70 h-2 w-2',
+                    ? 'bg-ink h-3 w-3 shadow-[0_0_0_3px_var(--color-paper)]'
+                    : 'bg-ink/30 group-hover:bg-ink/60 h-2 w-2',
                 )}
               />
               <span className='bg-ink/90 pointer-events-none absolute right-7 rounded-full px-3 py-1 text-xs tracking-wide whitespace-nowrap text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100'>

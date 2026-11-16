@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-import { ChevronDown } from 'lucide-react'
+import { Check, ChevronDown } from 'lucide-react'
 
 import {
   type BookingDay,
@@ -48,11 +48,27 @@ function GoodToKnow() {
   )
 }
 
-function StepLabel({ no, children, id }: { no: number; children: string; id?: string }) {
+type StepState = 'done' | 'active' | 'pending'
+
+function StepLabel({ no, children, id, state }: { no: number; children: string; id?: string; state: StepState }) {
   return (
-    <p id={id} className='text-muted-ink mb-3 flex items-baseline gap-2.5 text-[0.8125rem] tracking-[0.12em] uppercase'>
-      <span aria-hidden='true' className='text-brand font-medium tabular-nums'>
-        {no}
+    <p
+      id={id}
+      className={cn(
+        'mb-3 flex items-center gap-2.5 text-[0.8125rem] font-medium tracking-[0.12em] uppercase',
+        state === 'pending' ? 'text-muted-ink' : 'text-ink',
+      )}
+    >
+      <span
+        aria-hidden='true'
+        className={cn(
+          'flex h-6 w-6 items-center justify-center rounded-full border text-xs tabular-nums',
+          state === 'done' && 'border-brand bg-brand text-on-brand',
+          state === 'active' && 'border-brand text-brand',
+          state === 'pending' && 'border-line text-muted-ink',
+        )}
+      >
+        {state === 'done' ? <Check className='h-3.5 w-3.5' strokeWidth={3} /> : no}
       </span>
       {children}
     </p>
@@ -68,7 +84,7 @@ function ServiceSelect() {
 
   return (
     <div>
-      <StepLabel no={1} id='booking-service-label'>
+      <StepLabel no={1} id='booking-service-label' state={selectedService ? 'done' : 'active'}>
         {copy.steps.service}
       </StepLabel>
       <div className='relative'>
@@ -158,11 +174,11 @@ export default function BookingCalendar({ data, generatedAt, demo = false }: Boo
 
   if (days.length === 0) {
     return (
-      <section id='booking' aria-labelledby='booking-heading' className='bg-band py-[var(--spacing-s6)]'>
+      <section id='booking' aria-labelledby='booking-heading' className='py-[var(--spacing-s6)]'>
         <div className={cn(CONTENT_SHELL, 'flex flex-col gap-[var(--spacing-s4)]')}>
           <SectionIntro id='booking-heading' title={copy.heading} subtitle={copy.subtitle} />
 
-          <div className='bg-paper border-line/70 reveal-soft grid gap-[var(--spacing-s4)] rounded-(--radius-lg) border p-[clamp(1.25rem,0.6rem+2.6vw,3rem)] min-[62rem]:grid-cols-[1.2fr_1fr]'>
+          <div className='bg-paper border-line reveal-soft grid gap-[var(--spacing-s4)] rounded-(--radius-lg) border p-[clamp(1.25rem,0.6rem+2.6vw,3rem)] min-[62rem]:grid-cols-[1.2fr_1fr]'>
             <div className='grid content-start gap-[var(--spacing-s2)]'>
               <ServiceSelect />
               <p className='text-ink text-[length:var(--text-fluid-1)]'>{applyCzechNbsp(copy.unavailableMessage)}</p>
@@ -225,7 +241,7 @@ export default function BookingCalendar({ data, generatedAt, demo = false }: Boo
   }
 
   return (
-    <section id='booking' aria-labelledby='booking-heading' className='bg-band py-[var(--spacing-s6)]'>
+    <section id='booking' aria-labelledby='booking-heading' className='py-[var(--spacing-s6)]'>
       <div className={cn(CONTENT_SHELL, 'flex flex-col gap-[var(--spacing-s4)]')}>
         <SectionIntro id='booking-heading' title={copy.heading} subtitle={copy.subtitle} description={copy.intro} />
 
@@ -239,22 +255,27 @@ export default function BookingCalendar({ data, generatedAt, demo = false }: Boo
           </p>
         ) : null}
 
-        <div className='bg-paper border-line/70 reveal-soft grid gap-[var(--spacing-s5)] rounded-(--radius-lg) border p-[clamp(1.25rem,0.6rem+2.6vw,3rem)] min-[62rem]:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] min-[62rem]:gap-[var(--spacing-s6)]'>
+        <div className='bg-paper border-line shadow-soft reveal-soft grid gap-[var(--spacing-s5)] rounded-(--radius-lg) border p-[clamp(1.25rem,0.6rem+2.6vw,3rem)] min-[62rem]:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] min-[62rem]:gap-[var(--spacing-s6)]'>
           <div className='grid min-w-0 content-start gap-[var(--spacing-s4)]'>
             <ServiceSelect />
 
             <div>
-              <StepLabel no={2}>{copy.steps.day}</StepLabel>
+              <StepLabel no={2} state={activeDay ? 'done' : 'active'}>
+                {copy.steps.day}
+              </StepLabel>
               {nextFree && nextFreeTime ? (
                 <button
                   type='button'
                   onClick={chooseNextFree}
-                  className='text-body hover:text-ink link-wipe mb-2 py-2 text-left text-[length:var(--text-fluid--1)]'
+                  className='border-brand/40 bg-brand-soft text-ink hover:bg-surface-alt mb-3 inline-flex min-h-11 flex-wrap items-center gap-x-2 rounded-full border px-4 py-2 text-left text-[length:var(--text-fluid--1)] leading-snug transition-colors duration-260 ease-(--ease-soft)'
                 >
                   {copy.nextFreeLabel}:{' '}
                   <b className='text-ink font-medium'>
                     {applyCzechNbsp(`${formatDayLong(nextFree.key)} v ${nextFreeTime}`)}
                   </b>
+                  <span aria-hidden='true' className='text-brand font-medium'>
+                    {copy.nextFreeAction} →
+                  </span>
                 </button>
               ) : null}
               <MonthGrid
@@ -272,7 +293,9 @@ export default function BookingCalendar({ data, generatedAt, demo = false }: Boo
 
           <div className='grid min-w-0 content-start gap-[var(--spacing-s4)]'>
             <div ref={timesRef} className='scroll-mt-24'>
-              <StepLabel no={3}>{copy.steps.time}</StepLabel>
+              <StepLabel no={3} state={time ? 'done' : activeDay ? 'active' : 'pending'}>
+                {copy.steps.time}
+              </StepLabel>
 
               <div aria-live='polite' data-testid='booking-times'>
                 {activeDay ? (
@@ -305,16 +328,20 @@ export default function BookingCalendar({ data, generatedAt, demo = false }: Boo
                                 className={cn(
                                   'min-h-11 w-full rounded-full border px-3 text-[length:var(--text-fluid--1)] leading-none tabular-nums transition-[background-color,color,border-color] duration-260 ease-(--ease-soft)',
                                   isSelected
-                                    ? 'border-brand bg-brand text-on-brand'
-                                    : 'border-ink/30 text-ink hover:bg-surface-alt hover:border-ink/55',
+                                    ? 'border-brand bg-brand text-on-brand gap-1.5 font-medium'
+                                    : 'border-ink/45 bg-paper text-ink hover:bg-surface-alt hover:border-ink/70 font-medium',
+                                  'inline-flex items-center justify-center',
                                 )}
                               >
+                                {isSelected ? (
+                                  <Check aria-hidden='true' className='h-3.5 w-3.5' strokeWidth={3} />
+                                ) : null}
                                 {slot.time}
                               </button>
                             ) : (
                               <span
                                 aria-disabled='true'
-                                className='text-slot-unavailable flex min-h-11 w-full items-center justify-center rounded-full px-3 text-[length:var(--text-fluid--1)] leading-none tabular-nums line-through decoration-1'
+                                className='text-slot-unavailable bg-surface-alt/50 flex min-h-11 w-full items-center justify-center rounded-full px-3 text-[length:var(--text-fluid--1)] leading-none tabular-nums line-through decoration-1'
                               >
                                 {slot.time}
                                 <span className='sr-only'> {copy.slotBusy}</span>
@@ -324,9 +351,16 @@ export default function BookingCalendar({ data, generatedAt, demo = false }: Boo
                         )
                       })}
                     </ul>
+                    {activeDay.slots.some((slot) => !slot.available) ? (
+                      <p aria-hidden='true' className='text-muted-ink mt-3 mb-0 text-[0.8125rem]'>
+                        {copy.slotLegend}
+                      </p>
+                    ) : null}
                   </>
                 ) : (
-                  <p className='text-muted-ink m-0 text-[length:var(--text-fluid--1)]'>{copy.pickDayHint}</p>
+                  <p className='text-muted-ink border-line m-0 rounded-(--radius-md) border border-dashed px-4 py-5 text-[length:var(--text-fluid--1)]'>
+                    {copy.pickDayHint}
+                  </p>
                 )}
               </div>
             </div>
@@ -334,7 +368,10 @@ export default function BookingCalendar({ data, generatedAt, demo = false }: Boo
             <div
               aria-live='polite'
               data-testid='booking-summary'
-              className='bg-surface border-line/70 rounded-(--radius-md) border p-[clamp(1.1rem,0.8rem+1vw,1.6rem)]'
+              className={cn(
+                'bg-surface border-line rounded-(--radius-md) border p-[clamp(1.1rem,0.8rem+1vw,1.6rem)] transition-colors duration-260',
+                activeDay && time && 'border-brand/60',
+              )}
             >
               <h3 className='text-ink mb-3 text-[length:var(--text-fluid-1)]'>{copy.summaryHeading}</h3>
 

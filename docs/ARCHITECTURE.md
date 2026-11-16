@@ -83,10 +83,10 @@ A preview deployment without Redis would show an empty booking section, so the c
 
 **Implementation**: `app/globals.css` (`@theme`), `app/layout.tsx` (fonts), `src/components/shared/SectionIntro.tsx`, `src/components/shared/RevealFallback.tsx`
 
-- **Direction**: calm, quiet massage salon. Muted warm neutrals (linen `surface`, stone `band`, sand `surface-alt`), one low-chroma clay accent (`brand`) and a soft `sage` for availability. No dark panels, no shadows on cards, no grain, no pills used as decoration, no loud terracotta blocks. The earlier saturated terracotta and the dark booking panel were dropped because they felt busy.
+- **Direction**: calm but confident salon. Warm linen and sand surfaces that alternate section by section (`surface`, `band`), one saturated-enough clay accent (`brand`, about 6:1 on white), a deep `night` footer as the anchor and one `brand` band (gift vouchers) as the single colour moment. Text pairs are WCAG AA on every surface. Photography is shown in natural colour (no wash, no overlay). No shadows on cards except the booking panel, no grain, no decorative pills.
 - **Design tokens** are OKLCH colour variables under `@theme` in `app/globals.css` (for example `brand`, `ink`, `surface`, `band`, `paper`, `sage`), with an sRGB fallback block for browsers without OKLCH support (`@supports not (color: oklch(0 0 0))`). Components use the token utilities (`bg-paper`, `text-ink`, `text-brand`), not raw colours.
 - **Buttons** come from `src/components/shared/button-styles.ts` (`PRIMARY_BUTTON`, `SECONDARY_BUTTON`): flat, sentence case, colour transitions only.
-- **Photography** gets one soft treatment, the `.photo-soft` class (muted saturation, slightly lifted contrast), so the studio photos sit inside the palette.
+- **Photography** uses `.photo-soft` (saturation 0.88, contrast 1.02): natural colour with a hint of warmth.
 - **Fonts** are loaded with `next/font/google` in `app/layout.tsx`: Fraunces (display headings, light weight 300-360, variable axes), DM Sans (UI and body text) and Dancing Script (signature accents only). Font families are exposed as `--font-display`, `--font-sans-display` and `--font-dancing`.
 - **SectionIntro** renders the shared section header (eyebrow, `h2`, lead text) used by the content sections. It carries the `reveal` class.
 - **Scroll reveal** is slow and quiet: text only rises a few pixels (`.reveal`, `.reveal-soft`; no opacity change, because half transparent text fails axe contrast checks at whatever scroll position they run) and text-free blocks such as the portrait fade in (`.reveal-media`), using CSS `animation-timeline: view()` gated by `prefers-reduced-motion` and `@supports`. **RevealFallback** is a client component that renders nothing; it only adds the hidden-until-visible state (`.js .reveal`) when the browser has no view timelines and the visitor accepts motion. Content is fully visible without JavaScript and under reduced motion.
@@ -97,3 +97,7 @@ A preview deployment without Redis would show an empty booking section, so the c
 - **next-safe-action + Zod** provide typed action boundaries and shared validation for booking and admin input.
 - **Redis** matches appointment and availability data with low operational overhead.
 - **shadcn/ui + Radix** provide accessible interactive primitives without custom widget infrastructure.
+
+### Floating chrome
+
+WhatsApp (44px, bottom right) and the scroll-to-top button (44px, outline style, 12px above WhatsApp) share one rail (`FloatingContainer`). Scroll-to-top appears only after the hero has fully scrolled past and hides with the footer. From 1440px the rail (and the section dots) sit in the gutter just outside the 76rem content shell, below that they use the nav column. `useRafThrottle` resets its frame id on cleanup, otherwise React StrictMode (dev) froze every throttled scroll handler.

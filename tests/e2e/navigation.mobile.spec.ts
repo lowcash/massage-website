@@ -7,6 +7,8 @@ const getScrollTargetSelector = (sectionId: (typeof SECTIONS)[number]) => `#${se
 async function gotoHome(page: import('@playwright/test').Page) {
   await page.goto('/', { waitUntil: 'domcontentloaded' })
   await expect(page.locator('#hero')).toBeVisible()
+  // Clicks before hydration do nothing (flaky under load), so wait for the dynamic chunks to settle.
+  await page.waitForLoadState('networkidle')
 }
 
 async function expectSectionAlignedUnderHeader(page: import('@playwright/test').Page, sectionSelector: string) {

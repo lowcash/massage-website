@@ -11,14 +11,16 @@ interface FloatingContainerProps {
 }
 
 /**
- * Fixed chrome (WhatsApp, scroll-to-top, section dots) uses the same centered column and
- * horizontal padding as the header nav and footer (max-w-6xl). Section bodies use
- * CONTENT_SHELL (fluid gutter, 76rem) so copy clears these controls without shifting the chrome rail.
+ * Fixed chrome (WhatsApp, scroll-to-top, section dots) shares one trailing rail. Up to 1439px it is the nav column
+ * (max-w-6xl); from 1440px it widens to the content shell plus a 3.5rem outset, so the controls sit in the page
+ * gutter and never cover section copy (CONTENT_SHELL is 76rem).
  */
 export function FloatingContainer({ children, className, innerClassName }: FloatingContainerProps) {
   return (
     <div className={cn('pointer-events-none fixed inset-x-0 px-5 md:px-8', className)}>
-      <div className={cn('mx-auto flex w-full max-w-6xl', innerClassName)}>{children}</div>
+      <div className={cn('mx-auto flex w-full max-w-6xl min-[1440px]:max-w-[calc(76rem+7rem)]', innerClassName)}>
+        {children}
+      </div>
     </div>
   )
 }

@@ -5,7 +5,7 @@ import { applyCzechNbsp, cn } from '@/lib/utils'
 
 import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
 
-const HEADING_CLASS = 'mb-3 text-[length:var(--text-fluid--1)] tracking-[0.16em] text-muted-ink uppercase'
+const HEADING_CLASS = 'mb-3 text-[length:var(--text-fluid--1)] tracking-[0.16em] text-on-brand/70 uppercase'
 const LINK_CLASS = 'link-wipe'
 
 export default function Footer() {
@@ -13,14 +13,14 @@ export default function Footer() {
   const contactLabel = siteContent.navigation.items.find((item) => item.id === 'contact')?.label ?? ''
   const brandName = applyCzechNbsp(siteContent.brand.name)
   const socialClass =
-    'inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink/28 transition-colors duration-300 ease-out hover:bg-paper'
+    'inline-flex h-11 w-11 items-center justify-center rounded-full border border-on-brand/40 transition-colors duration-300 ease-out hover:bg-on-brand/12'
 
   return (
-    <footer className='bg-band text-body pt-[var(--spacing-s5)] pb-[var(--spacing-s4)]'>
+    <footer className='bg-night text-on-brand/85 pt-[var(--spacing-s5)] pb-[var(--spacing-s4)]'>
       <div className={CONTENT_SHELL}>
         <div className='grid gap-[var(--spacing-s4)] md:grid-cols-[1.4fr_1fr_1fr]'>
           <div className='flex flex-col gap-3'>
-            <p className='font-display text-ink text-[length:var(--text-fluid-2)] leading-tight font-[340] [font-variation-settings:"SOFT"_100,"opsz"_72]'>
+            <p className='font-display text-on-brand text-[length:var(--text-fluid-2)] leading-tight font-[340] [font-variation-settings:"SOFT"_100,"opsz"_72]'>
               {brandName}
             </p>
             <p>{applyCzechNbsp(siteContent.footer.description)}</p>
@@ -77,7 +77,7 @@ export default function Footer() {
           </nav>
         </div>
 
-        <div className='border-ink/14 text-muted-ink mt-[var(--spacing-s4)] flex flex-wrap justify-between gap-x-6 gap-y-2 border-t pt-[var(--spacing-s3)] text-[length:var(--text-fluid--1)] leading-relaxed'>
+        <div className='border-on-brand/20 text-on-brand/70 mt-[var(--spacing-s4)] flex flex-wrap justify-between gap-x-6 gap-y-2 border-t pt-[var(--spacing-s3)] text-[length:var(--text-fluid--1)] leading-relaxed'>
           <p>
             © {currentYear} {brandName}. {siteContent.footer.icoLabel}&nbsp;{siteContent.footer.ico}.{' '}
             <span className='whitespace-nowrap'>{applyCzechNbsp(siteContent.footer.rights)}</span>

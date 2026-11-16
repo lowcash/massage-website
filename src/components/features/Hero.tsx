@@ -111,7 +111,6 @@ export default function Hero({ calendarData }: HeroProps) {
               className='photo-soft object-cover object-[74%_48%]'
               sizes='(min-width: 56rem) 30rem, (min-width: 34rem) 34rem, 100vw'
             />
-            <div aria-hidden='true' className='bg-surface/12 absolute inset-0' />
           </div>
         </figure>
       </div>

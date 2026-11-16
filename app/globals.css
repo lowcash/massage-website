@@ -3,30 +3,30 @@
 
 @theme {
   /*
-   * Quiet Salon palette: muted warm neutrals (linen, stone, sand) with one low-chroma clay accent and a soft sage.
+   * Quiet Salon palette: warm neutrals (linen, sand) with one confident clay accent (brand), a deep night tone for the footer and a sage for availability.
    * OKLCH primary, sRGB fallbacks below. Text pairs are AA on every surface they are used on.
    */
-  --color-ink: oklch(0.3 0.012 60);
-  --color-body: oklch(0.42 0.012 62);
-  --color-muted-ink: oklch(0.49 0.014 65);
-  --color-brand: oklch(0.5 0.055 48);
-  --color-brand-hover: oklch(0.43 0.05 48);
-  --color-brand-soft: oklch(0.93 0.015 70);
-  --color-on-brand: oklch(0.985 0.005 85);
-  --color-surface: oklch(0.972 0.007 85);
-  --color-band: oklch(0.95 0.01 82);
-  --color-surface-alt: oklch(0.925 0.013 80);
-  --color-paper: oklch(0.988 0.004 85);
-  --color-line: oklch(0.88 0.01 80);
-  --color-night: oklch(0.32 0.012 60);
-  --color-sage: oklch(0.5 0.05 150);
+  --color-ink: oklch(0.25 0.016 55);
+  --color-body: oklch(0.36 0.016 58);
+  --color-muted-ink: oklch(0.44 0.018 60);
+  --color-brand: oklch(0.47 0.1 38);
+  --color-brand-hover: oklch(0.4 0.09 38);
+  --color-brand-soft: oklch(0.92 0.03 55);
+  --color-on-brand: oklch(0.99 0.006 85);
+  --color-surface: oklch(0.978 0.008 82);
+  --color-band: oklch(0.942 0.022 76);
+  --color-surface-alt: oklch(0.91 0.028 72);
+  --color-paper: oklch(0.996 0.003 85);
+  --color-line: oklch(0.84 0.022 72);
+  --color-night: oklch(0.27 0.02 50);
+  --color-sage: oklch(0.46 0.07 150);
   --color-whatsapp: oklch(0.47 0.07 155);
   --color-whatsapp-hover: oklch(0.41 0.065 155);
-  --color-slot-unavailable: oklch(0.66 0.012 70);
-  --color-brand-glow: rgb(138 99 80 / 0.14);
+  --color-slot-unavailable: oklch(0.62 0.012 70);
+  --color-brand-glow: rgb(138 74 56 / 0.16);
   --color-overlay-nav: rgb(60 50 40 / 0.06);
   --color-skip-offset: #f4efe8;
-  --color-dot-ring: rgb(138 99 80 / 0.14);
+  --color-dot-ring: rgb(138 74 56 / 0.16);
   --color-success: #059669;
   --color-success-soft: #ecfdf5;
   --color-success-border: #a7f3d0;
@@ -86,23 +86,23 @@
 /* Old browsers without OKLCH get the sRGB equivalents. */
 @supports not (color: oklch(0 0 0)) {
   :root {
-    --color-ink: #3a3430;
-    --color-body: #574f49;
-    --color-muted-ink: #6a615a;
-    --color-brand: #835f4d;
-    --color-brand-hover: #6a4b3c;
-    --color-brand-soft: #eee6dc;
-    --color-on-brand: #fcf9f3;
-    --color-surface: #f7f3ec;
-    --color-band: #f1ece3;
-    --color-surface-alt: #e9e3d8;
-    --color-paper: #fcf9f4;
-    --color-line: #dcd6cb;
-    --color-night: #4a433d;
-    --color-sage: #55725a;
+    --color-ink: #2e2622;
+    --color-body: #4d433d;
+    --color-muted-ink: #62564f;
+    --color-brand: #8b4a38;
+    --color-brand-hover: #6e3a2b;
+    --color-brand-soft: #f0e0d6;
+    --color-on-brand: #fdfaf4;
+    --color-surface: #faf6ef;
+    --color-band: #f1e9dc;
+    --color-surface-alt: #e8dccb;
+    --color-paper: #fefcf8;
+    --color-line: #d8ccba;
+    --color-night: #34261f;
+    --color-sage: #4a6a4f;
     --color-whatsapp: #3d6e55;
     --color-whatsapp-hover: #2f5842;
-    --color-slot-unavailable: #a9a299;
+    --color-slot-unavailable: #a39b90;
   }
 }
 
@@ -448,7 +448,7 @@ button:disabled {
   background-size: 100% 1px;
 }
 
-/* Photography: one soft treatment so the studio photos sit quietly in the palette (muted colour, lifted shadows). */
+/* Photography: natural colour with only a hint of warmth; no wash, no overlay. */
 .photo-soft {
-  filter: saturate(0.55) sepia(0.12) contrast(0.94) brightness(1.05);
+  filter: saturate(0.88) contrast(1.02);
 }

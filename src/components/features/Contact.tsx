@@ -7,11 +7,11 @@ import { CONTENT_SHELL } from '@/src/components/layout/content-shell'
 import { SectionIntro } from '@/src/components/shared/SectionIntro'
 
 export default function Contact() {
-  const cardClassName = 'border-line rounded-(--radius-md) border p-5 text-base leading-relaxed text-body'
+  const cardClassName = 'border-line bg-paper/60 rounded-(--radius-md) border p-5 text-base leading-relaxed text-body'
   const linkCardClassName = `${cardClassName} cursor-pointer transition-colors duration-480 ease-(--ease-soft) hover:bg-paper`
 
   return (
-    <section id='contact' className='py-[var(--spacing-s6)]'>
+    <section id='contact' className='bg-band py-[var(--spacing-s6)]'>
       <div className={cn(CONTENT_SHELL, 'flex flex-col gap-[var(--spacing-s4)]')}>
         <SectionIntro
           id='contact-heading'

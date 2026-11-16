@@ -12,6 +12,8 @@ export function useRafThrottle(callback: () => void) {
     return () => {
       if (frameRef.current !== null) {
         window.cancelAnimationFrame(frameRef.current)
+        // Reset, or the StrictMode effect re-run (dev) leaves a dead frame id and every later call is ignored.
+        frameRef.current = null
       }
     }
   }, [])

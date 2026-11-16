@@ -63,7 +63,7 @@ test.describe('Redesign interactions', () => {
 
     const section = page.locator('#booking')
     await section.scrollIntoViewIfNeeded()
-    await expect(section).toHaveClass(/bg-band/)
+    await expect(section).not.toHaveClass(/bg-(night|brand)/)
 
     const day = section.locator('[data-day]:not([aria-disabled="true"])').first()
     await expect(day).toBeAttached()

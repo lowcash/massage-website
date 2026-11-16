@@ -44,7 +44,7 @@ function renderEmphasizedText(text: string, emphasis?: string): ReactNode {
 
 export default function About() {
   return (
-    <section id='about' className='bg-band py-[var(--spacing-s6)]'>
+    <section id='about' className='py-[var(--spacing-s6)]'>
       <div
         className={cn(
           CONTENT_SHELL,

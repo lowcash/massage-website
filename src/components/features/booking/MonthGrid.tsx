@@ -216,13 +216,15 @@ export default function MonthGrid({
                     className={cn(
                       'relative mx-auto flex h-11 w-full max-w-[3.25rem] flex-col items-center justify-center gap-[3px] rounded-full text-[length:var(--text-fluid--1)] tabular-nums transition-colors duration-260 ease-(--ease-soft)',
                       isSelected
-                        ? 'bg-brand text-on-brand'
+                        ? 'bg-brand text-on-brand font-medium'
                         : selectable
-                          ? 'text-ink hover:bg-surface-alt'
+                          ? free > 0
+                            ? 'bg-band text-ink hover:bg-surface-alt font-medium'
+                            : 'text-body hover:bg-surface-alt'
                           : isPast || !hasSlots
                             ? 'text-slot-unavailable cursor-default'
                             : 'text-slot-unavailable',
-                      isToday && !isSelected && 'ring-ink/25 ring-1',
+                      isToday && !isSelected && 'ring-ink/40 ring-1',
                     )}
                   >
                     <span className='leading-none'>{day}</span>

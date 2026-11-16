@@ -7,7 +7,7 @@ import { SectionIntro } from '@/src/components/shared/SectionIntro'
 
 export default function Gallery() {
   return (
-    <section id='studio' className='py-[var(--spacing-s5)]'>
+    <section id='studio' className='bg-band py-[var(--spacing-s6)]'>
       <div className={cn(CONTENT_SHELL, 'flex flex-col gap-[var(--spacing-s4)]')}>
         <SectionIntro id='studio-heading' title={siteContent.studio.heading} subtitle={siteContent.studio.subtitle} />
         <GalleryInteractive />
